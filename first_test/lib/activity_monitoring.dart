@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class ActivityMonitoringWidget extends StatefulWidget {
@@ -12,6 +13,8 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String _buttonState = "OFF";
+  String valueText = "";
+  final myController = TextEditingController();
 
   @override
   void dispose() {
@@ -29,9 +32,67 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
       }
     });
   }
+  void atDialog() {
+    showDialog(
+        context: context,
+        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          Future.delayed(Duration(seconds: 1), () {
+            Navigator.pop(context);
+          });
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0)),
+            backgroundColor: Color(0xffffffff),
+            //Dialog Main Title
+            title: Column(
+              children: <Widget>[
+                new Text("AT+START을 보냈습니다."),
+              ],
+            ),
+            //
+          );
+        });
+  }
+
+  void emailDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('login form'),
+            content: TextField(
+              onChanged: (value) {
+                setState(() {
+                  valueText = value;
+                });
+              },
+              controller: myController,
+              decoration: InputDecoration(hintText: "이메일을 입력해주세요"),
+            ),
+            actions: <Widget>[
+
+              TextButton(
+                child: Text('전송'),
+                onPressed: () {
+                  setState(() {
+                    //codeDialog = valueText;
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: scaffoldKey,
       body: SafeArea(
         child: GestureDetector(
@@ -176,7 +237,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                         child: ElevatedButton(
                             child: Text("측정하기"),
-                            onPressed: onClick,
+                            onPressed: () => atDialog(),
                             style: ElevatedButton.styleFrom(
                                 minimumSize:const Size(150, 40),
                                 backgroundColor: Color(0xFFCCCCCC),
@@ -195,7 +256,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                 color: Color(0xFFCCCCCC),
                               ),
                             ),
-                            onPressed: onClick,
+                            onPressed: () => emailDialog(),
                             style: ElevatedButton.styleFrom(
                                 minimumSize:const Size(150, 40),
                                 backgroundColor: Color(0xFFffffff),
