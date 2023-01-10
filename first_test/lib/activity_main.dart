@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'activity_monitoring.dart';
-
+import 'activity_tos.dart';
 class ActivityMainWidget extends StatefulWidget {
   const ActivityMainWidget({Key? key}) : super(key: key);
 
@@ -54,9 +54,10 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
                         child: InkWell(
-                          onTap: () async {
-
-                          },
+                          onTap:(){ Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ActivityTosWidget()),
+                          );},
                           child: Text(
                             '모드 변경',
                             style:
