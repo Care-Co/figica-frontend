@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'activity_select.dart';
 
 class ActivityTosWidget extends StatefulWidget {
   const ActivityTosWidget({Key? key}) : super(key: key);
@@ -13,6 +14,89 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
   bool? checkboxValue3;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  void checktos() {
+    if (checkboxValue1 == true) {
+      checkboxValue2 = true;
+      checkboxValue3 = true;
+    }
+  }
+
+  void tos1Dialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.all(0),
+            insetPadding: EdgeInsets.all(10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: Text(
+              '서비스 이용 약관',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 25,
+                fontFamily: 'Poppins',
+              ),
+            ),
+            actions: <Widget>[
+              Container(
+                width: 500,
+                height: 400,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                        child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(50, 10, 50, 30),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Text(
+                                "서비스 이용 약관 서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관"
+                                "서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관"
+                                "서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관"
+                                "서비스 이용 약관 서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관"
+                                "서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관"
+                                "서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관"
+                                "서비스 이용 약관 서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관"
+                                "서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관"
+                                "서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관서비스 이용 약관",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            )))
+                  ],
+                ),
+              ),
+              InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Ink(
+                    width: double.infinity,
+                    height: 50,
+                    color: Color(0xFFB0FFA3),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '확인',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Color(0xFF000000),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+            ],
+          );
+        });
+  }
 
   @override
   void dispose() {
@@ -135,6 +219,7 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                                     onChanged: (newValue) async {
                                       setState(
                                           () => checkboxValue1 = newValue!);
+                                      checktos();
                                     },
                                     activeColor: Color(0xFFB0FFA3),
                                     checkColor: Colors.black),
@@ -198,9 +283,7 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                                               color: Colors.white,
                                               size: 15,
                                             ),
-                                            onPressed: () {
-                                              print('IconButton pressed ...');
-                                            },
+                                            onPressed: () => tos1Dialog(),
                                           ),
                                         ],
                                       ),
@@ -250,9 +333,7 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                                               color: Colors.white,
                                               size: 15,
                                             ),
-                                            onPressed: () {
-                                              print('IconButton pressed ...');
-                                            },
+                                            onPressed: () => tos1Dialog(),
                                           ),
                                         ],
                                       ),
@@ -275,28 +356,39 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFEBEBEB),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '시작하기',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Color(0xFFA4A4A4),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                  child:Container(
+                      width: double.infinity,
+                      child:Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          ElevatedButton(onPressed:(){ Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ActivitySelectWidget()),
+                          );},
+                              child: Text(
+                                '시작하기',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: (checkboxValue1 == true)
+                                      ? Color(0xFF000000)
+                                      : Color(0xFFA4A4A4),
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize:const Size(double.infinity, 50),
+                                  backgroundColor: (checkboxValue1==true)? Color(0xFFB0FFA3):Color(0xFFEBEBEB),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: new BorderRadius.circular(10.0)) )
+                          )
+                        ],
+                      )
+
+                  )
+
+                )
+
               ],
+
             ),
           ),
         ),

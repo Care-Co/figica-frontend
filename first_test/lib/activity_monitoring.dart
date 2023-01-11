@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-
+import 'activity_main.dart';
 class ActivityMonitoringWidget extends StatefulWidget {
   const ActivityMonitoringWidget({Key? key}) : super(key: key);
 
@@ -106,26 +106,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  decoration: BoxDecoration(),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
-                    child: Text(
-                      '신체 밸런스 측정하기',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ),
-                Divider(
-                  thickness: 1,
-                  color: Colors.black,
-                ),
-                Container(
-                  width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.1,
                   decoration: BoxDecoration(),
                   child: Row(
@@ -179,7 +159,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.37,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   decoration: BoxDecoration(),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -267,28 +247,36 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                     ],
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.10,
-                  decoration: BoxDecoration(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                          child: Text("처음으로"),
-                          onPressed: (){
-                            Navigator.pop(context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                              minimumSize:const Size(130, 30),
-                              backgroundColor: Color(0xFFcccccc),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(30.0)) )
-                      ),
-                    ],
-                  ),
-                ),
+
+                Expanded(
+                    child:Container(
+                        width:  MediaQuery.of(context).size.width * 0.8,
+                        child:Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            ElevatedButton(onPressed:(){ Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ActivityMainWidget()),
+                            );},
+                                child: Text(
+                                  '처음으로',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color:  Color(0xffffffff),
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    minimumSize:const Size(double.infinity, 50),
+                                    backgroundColor: Color(0xFF000000),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: new BorderRadius.circular(10.0)) )
+                            )
+                          ],
+                        )
+
+                    )
+
+                )
               ],
             ),
           ),
