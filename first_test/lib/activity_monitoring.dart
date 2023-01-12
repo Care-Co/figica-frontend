@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'activity_main.dart';
+import 'activity_vision.dart';
 class ActivityMonitoringWidget extends StatefulWidget {
   const ActivityMonitoringWidget({Key? key}) : super(key: key);
 
@@ -213,18 +214,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                        child: ElevatedButton(
-                            child: Text("측정하기"),
-                            onPressed: () => atDialog(),
-                            style: ElevatedButton.styleFrom(
-                                minimumSize:const Size(150, 40),
-                                backgroundColor: Color(0xFFCCCCCC),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(10.0)) )
-                        ),
-                      ),
+
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                         child: ElevatedButton(
@@ -240,6 +230,21 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                             style: ElevatedButton.styleFrom(
                                 minimumSize:const Size(150, 40),
                                 backgroundColor: Color(0xFFffffff),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(10.0)) )
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                        child: ElevatedButton(
+                            child: Text("측정하기"),
+                            onPressed:(){ Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ActivityVisionWidget()),
+                            );},
+                            style: ElevatedButton.styleFrom(
+                                minimumSize:const Size(150, 40),
+                                backgroundColor: Color(0xFFCCCCCC),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: new BorderRadius.circular(10.0)) )
                         ),

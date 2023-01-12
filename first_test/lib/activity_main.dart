@@ -59,7 +59,7 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
                             MaterialPageRoute(builder: (context) => ActivityTosWidget()),
                           );},
                           child: Text(
-                            '모드 변경',
+                            '체험 모드',
                             style:
                             TextStyle(
                               fontFamily: 'Poppins',
