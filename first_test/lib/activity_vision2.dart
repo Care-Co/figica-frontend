@@ -2,16 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'activity_vision2.dart';
+
 import 'dart:io';
-class ActivityVisionWidget extends StatefulWidget {
-  const ActivityVisionWidget({Key? key}) : super(key: key);
+class ActivityVision2Widget extends StatefulWidget {
+  const ActivityVision2Widget({Key? key}) : super(key: key);
 
   @override
-  _ActivityVisionWidgetState createState() => _ActivityVisionWidgetState();
+  _ActivityVision2WidgetState createState() => _ActivityVision2WidgetState();
 }
 
-class _ActivityVisionWidgetState extends State<ActivityVisionWidget> {
+class _ActivityVision2WidgetState extends State<ActivityVision2Widget> {
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   File? _userImage ;
@@ -55,6 +55,10 @@ class _ActivityVisionWidgetState extends State<ActivityVisionWidget> {
             height: double.infinity,
             decoration: BoxDecoration(
               color: Colors.black,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image:  (_userImage == null)? Image.network('https://picsum.photos/seed/858/600',).image:Image.file( _userImage!,).image,
+              ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -78,6 +82,7 @@ class _ActivityVisionWidgetState extends State<ActivityVisionWidget> {
                               padding:
                               EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
                               child: Container(
+
                                 width: 10,
                                 height: 10,
                                 decoration: BoxDecoration(
@@ -92,7 +97,10 @@ class _ActivityVisionWidgetState extends State<ActivityVisionWidget> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.4,
                         height: 100,
-                        decoration: BoxDecoration(),
+
+                        decoration: BoxDecoration(
+
+                        ),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -104,10 +112,9 @@ class _ActivityVisionWidgetState extends State<ActivityVisionWidget> {
                                 width: MediaQuery.of(context).size.width * 0.35,
                                 height: 35,
                                 decoration: BoxDecoration(
+                                  color: Color(0xFF141515),
                                   borderRadius: BorderRadius.circular(30),
-                                  border: Border.all(
-                                    color: Color(0xFF27FF42),
-                                  ),
+
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -137,11 +144,11 @@ class _ActivityVisionWidgetState extends State<ActivityVisionWidget> {
                           children: [
                             IconButton(
 
-                              icon: Icon(
-                                Icons.photo_outlined,
-                                color: Colors.white,
-                                size: 30,
-                              ),
+                                icon: Icon(
+                                  Icons.photo_outlined,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
                                 onPressed: () async {
                                   var picker = ImagePicker();
                                   var image = await picker.pickImage(source: ImageSource.gallery);
@@ -168,42 +175,18 @@ class _ActivityVisionWidgetState extends State<ActivityVisionWidget> {
                     children: [
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
-                        child: (_userImage == null)? Image.network('https://picsum.photos/seed/858/600',):Image.file( _userImage!,
-
+                        child:  Image.network('https://picsum.photos/seed/858/600',
                           width: MediaQuery.of(context).size.width * 0.5,
                           height: MediaQuery.of(context).size.height * 0.5,
                           fit: BoxFit.cover,
+                        ),
 
-                        ),
-                        
-                      ),
-                      Text(
-                        '\"서비스명\" 은 나의 자세가 어떠한지 비전\n기술을 총해 분석하는 서비스입니다.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          color:Colors.white,
-                        ),
+
                       ),
                     ],
                   ),
                 ),
-                ElevatedButton(
-                    child: Text("측정 시작",
-                    style: TextStyle(
-                      color:Colors.black,
-                    ),),
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>ActivityVision2Widget()
-                      ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize:const Size(200, 50),
-                        backgroundColor: Color(0xFFB0FFA3),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0)) )
-                ),
+
               ],
             ),
           ),
