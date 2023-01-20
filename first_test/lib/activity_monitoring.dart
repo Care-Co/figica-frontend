@@ -1,10 +1,13 @@
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'activity_blue.dart';
 import 'activity_main.dart';
 import 'activity_vision.dart';
+import 'package:http/http.dart' as http;
+
 class ActivityMonitoringWidget extends StatefulWidget {
   const ActivityMonitoringWidget({Key? key}) : super(key: key);
-
   @override
   _ActivityMonitoringWidgetState createState() =>
       _ActivityMonitoringWidgetState();
@@ -16,22 +19,13 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   String _buttonState = "OFF";
   String valueText = "";
   final myController = TextEditingController();
+  late String img;
 
   @override
+
   void dispose() {
     _unfocusNode.dispose();
     super.dispose();
-  }
-  void onClick() {
-    print('onClick()');
-    setState(() {
-      if (_buttonState == 'OFF') {
-        _buttonState = 'ON';
-      }
-      else {
-        _buttonState = 'OFF';
-      }
-    });
   }
   void atDialog() {
     showDialog(
@@ -74,7 +68,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
               decoration: InputDecoration(hintText: "이메일을 입력해주세요"),
             ),
             actions: <Widget>[
-
               TextButton(
                 child: Text('전송'),
                 onPressed: () {
@@ -84,7 +77,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                   });
                 },
               ),
-
             ],
           );
         });
@@ -92,6 +84,37 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
 
   @override
   Widget build(BuildContext context) {
+    void _callAPI() async {
+      var url = Uri.parse(
+        'http://35.78.251.14:9080/foot-prints',
+      );
+      Map data = {
+        "email": "njt9905@naver.com",
+        "name": "string",
+        "rawData": "string"
+      };
+      String body = json.encode(data);
+
+      var response = await http.post(url,
+          headers: {"Content-Type": "application/json"}, body: body);
+      print('post Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      String bodydata = '${response.body}';
+
+      Map valueMap = json.decode(bodydata) as Map;
+      Map<String, dynamic> jsonData = jsonDecode('${response.body}');
+      img = valueMap['image'];
+
+      // response = await http.get(url);
+      //
+      // print('get Response status: ${response.statusCode}');
+      // print('Response body: ${response.body}');
+    }
+
+    Future<String> _fetch1() async {
+      return img;
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       key: scaffoldKey,
@@ -132,26 +155,28 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                 ),
                               ),
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    10, 10, 10, 10),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            bluetooth()),
+                                  );
+                                },
                                 child: Text(
-                                  'Scale 1',
-                                  textAlign: TextAlign.center,
+                                  '연결',
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
-                                    color: Colors.white,
+                                    color: Color(0xffffffff),
                                   ),
                                 ),
-                              ),
-                            ),
+                                style: ElevatedButton.styleFrom(
+                                    minimumSize: const Size(160, 40),
+                                    backgroundColor: Color(0xFF000000),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0))))
                           ],
                         ),
                       ),
@@ -168,15 +193,61 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                          EdgeInsetsDirectional.fromSTEB(30, 30, 30, 30),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 1,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFCCCCCC),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                              EdgeInsetsDirectional.fromSTEB(30, 30, 30, 30),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              FutureBuilder(
+                                  future: _fetch1(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    //해당 부분은 data를 아직 받아 오지 못했을때 실행되는 부분을 의미한다.
+                                    if (snapshot.hasData == false) {
+                                      // return CircularProgressIndicator();
+                                      return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: 300,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFFaaaaaa),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ));
+                                    }
+                                    //error가 발생하게 될 경우 반환하게 되는 부분
+                                    else if (snapshot.hasError) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Error: ${snapshot.error}',
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                      );
+                                    }
+                                    // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
+                                    else {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.network(
+                                          snapshot.data.toString(),
+                                        ),
+                                      );
+                                    }
+                                  })
+                            ],
                           ),
+                          // child: Container(
+                          //   width: MediaQuery.of(context).size.width,
+                          //   height: MediaQuery.of(context).size.height * 1,
+                          //   decoration: BoxDecoration(
+                          //     color: Color(0xFFaaaaaa),
+                          //     borderRadius: BorderRadius.circular(10),
+                          //   ),
+                          // ),
                         ),
                       ),
                     ],
@@ -192,7 +263,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                       Expanded(
                         child: Padding(
                           padding:
-                          EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
+                              EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
                           child: Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height * 1,
@@ -214,7 +285,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                         child: ElevatedButton(
@@ -228,60 +298,62 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                             ),
                             onPressed: () => emailDialog(),
                             style: ElevatedButton.styleFrom(
-                                minimumSize:const Size(150, 40),
+                                minimumSize: const Size(150, 40),
                                 backgroundColor: Color(0xFFffffff),
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(10.0)) )
-                        ),
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0)))),
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                         child: ElevatedButton(
                             child: Text("측정하기"),
-                            onPressed:(){ Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ActivityVisionWidget()),
-                            );},
+                            onPressed: _callAPI,
+                            // onPressed:(){ Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => ActivityVisionWidget()),
+                            // );},
                             style: ElevatedButton.styleFrom(
-                                minimumSize:const Size(150, 40),
+                                minimumSize: const Size(150, 40),
                                 backgroundColor: Color(0xFFCCCCCC),
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(10.0)) )
-                        ),
+                                    borderRadius:
+                                        new BorderRadius.circular(10.0)))),
                       ),
                     ],
                   ),
                 ),
-
                 Expanded(
-                    child:Container(
-                        width:  MediaQuery.of(context).size.width * 0.8,
-                        child:Column(
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            ElevatedButton(onPressed:(){ Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ActivityMainWidget()),
-                            );},
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ActivityMainWidget()),
+                                  );
+                                },
                                 child: Text(
                                   '처음으로',
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
-                                    color:  Color(0xffffffff),
+                                    color: Color(0xffffffff),
                                   ),
                                 ),
                                 style: ElevatedButton.styleFrom(
-                                    minimumSize:const Size(double.infinity, 50),
+                                    minimumSize:
+                                        const Size(double.infinity, 50),
                                     backgroundColor: Color(0xFF000000),
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: new BorderRadius.circular(10.0)) )
-                            )
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0))))
                           ],
-                        )
-
-                    )
-
-                )
+                        )))
               ],
             ),
           ),
