@@ -1,17 +1,21 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'activity_blue_device.dart';
 
 class bluetooth extends StatefulWidget {
-
   @override
   _bluetoothState createState() => _bluetoothState();
 }
 
 class _bluetoothState extends State<bluetooth> {
-  FlutterBlue flutterBlue = FlutterBlue.instance;
+  FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
   List<ScanResult> scanResultList = [];
   bool _isScanning = false;
-
+  Map<String, List<int>> notifyDatas = {};
+  List<int> lastvalue = [];
+  List<String> hexvalue = [];
   @override
   initState() {
     super.initState();
@@ -79,12 +83,54 @@ class _bluetoothState extends State<bluetooth> {
     }
     return Text(name);
   }
+  void getdata(ScanResult r) async{
 
-  connectToDevice(ScanResult r) async {
+    List<BluetoothService> bleServices = await r.device.discoverServices();
+
+    for (BluetoothService service in bleServices) {
+      for (BluetoothCharacteristic c in service.characteristics) {
+        if (c.properties.write) {
+          await c.write(utf8.encode("AT+START"));
+          print(utf8.encode("AT+START"));
+        }
+        if (c.isNotifying) {
+          try {
+            await c.setNotifyValue(true);
+            // 받을 데이터 변수 Map 형식으로 키 생성
+            notifyDatas[c.uuid.toString()] = List.empty();
+            c.value.listen((value) {
+              // 데이터 읽기 처리!
+              setState(() {
+                // 받은 데이터 저장 화면 표시용
+                notifyDatas[c.uuid.toString()] = value;
+                lastvalue += value;
+              });
+            });
+
+            // 설정 후 일정시간 지연
+            await Future.delayed(const Duration(milliseconds: 5000));
+          } catch (e) {
+            print('error ${c.uuid} $e');
+          }
+        } else {}
+      }
+    }
+    print('ok\n');
+    print(lastvalue);
+    for (int i in lastvalue){
+      final hexString =  i.toRadixString(16);
+
+      hexvalue.add( hexString.padLeft(2, '0'));
+    }
+    String str = hexvalue.join();
+    print(str);
+  }
+
+  void connectToDevice(ScanResult r) async {
 //flutter_blue makes our life easier
     await r.device.connect();
-//After connection start discovering services
   }
+
   /* BLE 아이콘 위젯 */
   Widget leading(ScanResult r) {
     return CircleAvatar(
@@ -95,27 +141,30 @@ class _bluetoothState extends State<bluetooth> {
       backgroundColor: Colors.cyan,
     );
   }
+
   /* 장치 아이템을 탭 했을때 호출 되는 함수 */
-  void onTap(ScanResult r) {
+  void onTap(ScanResult r) async{
     // 단순히 이름만 출력
     print('${r.device.name}');
-
-    setState(() {
-      //codeDialog = valueText;
-      Navigator.pop(context);
-    });
+    String data = '${r.device.name}';
     connectToDevice(r);
+    await Future.delayed(const Duration(milliseconds: 500));
+    Navigator.pop(context,r);
 
-    }
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => DeviceScreen(device: r.device)),
+    // );
+  }
 
   /* 장치 아이템 위젯 */
   Widget listItem(ScanResult r) {
     return ListTile(
       onTap: () => onTap(r),
-      leading: leading(r),
+      // leading: leading(r),
       title: deviceName(r),
-      subtitle: deviceMacAddress(r),
-      trailing: deviceSignal(r),
+      // subtitle: deviceMacAddress(r),
+      // trailing: deviceSignal(r),
     );
   }
 
