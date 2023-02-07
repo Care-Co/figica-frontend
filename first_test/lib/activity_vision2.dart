@@ -15,6 +15,8 @@ class _ActivityVision2WidgetState extends State<ActivityVision2Widget> {
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   File? _userImage ;
+  double _currentSliderValue = 100;
+  double op = 1;
 
   void fn_cropImage() async {
     if (_userImage != null) {
@@ -179,9 +181,21 @@ class _ActivityVision2WidgetState extends State<ActivityVision2Widget> {
                           width: MediaQuery.of(context).size.width * 0.5,
                           height: MediaQuery.of(context).size.height * 0.5,
                           fit: BoxFit.cover,
+                          opacity: AlwaysStoppedAnimation(op),
                         ),
 
 
+                      ),
+                      Slider(
+                        value: _currentSliderValue,
+                        max: 100,
+                        label: _currentSliderValue.round().toString(),
+                        onChanged: (double value) {
+                          setState(() {
+                            _currentSliderValue = value;
+                            op = value/100;
+                          });
+                        },
                       ),
                     ],
                   ),

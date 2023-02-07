@@ -19,6 +19,10 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
       checkboxValue2 = true;
       checkboxValue3 = true;
     }
+    else if(checkboxValue1 == false) {
+      checkboxValue2 = false;
+      checkboxValue3 = false;
+    }
   }
 
   void tos1Dialog() {
@@ -190,7 +194,6 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                   child: Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
@@ -200,6 +203,7 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(5, 10, 0, 5),
@@ -361,10 +365,10 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                       child:Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          ElevatedButton(onPressed:(){ Navigator.push(
+                          ElevatedButton(onPressed:(checkboxValue1==true)?(){ Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ActivitySelectWidget()),
-                          );},
+                          );}:null,
                               child: Text(
                                 '시작하기',
                                 style: TextStyle(

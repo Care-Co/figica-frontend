@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'activity_main.dart';
 import 'activity_monitoring.dart';
+import 'activity_vision.dart';
 
 class ActivitySelectWidget extends StatefulWidget {
   const ActivitySelectWidget({Key? key}) : super(key: key);
@@ -93,7 +94,7 @@ class _ActivitySelectWidgetState extends State<ActivitySelectWidget> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ActivityMonitoringWidget()),
+                                        ActivityVisionWidget()),
                               );
                             },
                             child: Row(

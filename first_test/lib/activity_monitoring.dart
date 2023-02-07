@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'activity_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'activity_blue.dart' as blue;
 import 'activity_main.dart';
 import 'activity_vision.dart';
 import 'package:http/http.dart' as http;
@@ -20,37 +21,84 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   String valueText = "";
   final myController = TextEditingController();
   late String img;
-
+  late String id;
+  String text = "연결 하기";
+  Map<String, List<int>> notifyDatas = {};
+  List<int> lastvalue = [];
+  List<String> hexvalue = [];
+  ScanResult conct = '' as ScanResult;
+  String hexstring = '';
   @override
-
   void dispose() {
     _unfocusNode.dispose();
     super.dispose();
   }
-  void atDialog() {
-    showDialog(
-        context: context,
-        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          Future.delayed(Duration(seconds: 1), () {
-            Navigator.pop(context);
-          });
-          return AlertDialog(
-            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0)),
-            backgroundColor: Color(0xffffffff),
-            //Dialog Main Title
-            title: Column(
-              children: <Widget>[
-                new Text("AT+START을 보냈습니다."),
-              ],
-            ),
-            //
-          );
-        });
+
+  void getdata(ScanResult r) async {
+    List<BluetoothService> bleServices = await r.device.discoverServices();
+
+    for (BluetoothService service in bleServices) {
+      for (BluetoothCharacteristic c in service.characteristics) {
+        if (c.properties.write) {
+          await c.write(utf8.encode("AT+START"));
+          print(utf8.encode("AT+START"));
+        }
+        if (c.isNotifying) {
+          try {
+            await c.setNotifyValue(true);
+            // 받을 데이터 변수 Map 형식으로 키 생성
+            notifyDatas[c.uuid.toString()] = List.empty();
+            c.value.listen((value) {
+              // 데이터 읽기 처리!
+              setState(() {
+                // 받은 데이터 저장 화면 표시용
+                notifyDatas[c.uuid.toString()] = value;
+                lastvalue += value;
+              });
+            });
+
+            // 설정 후 일정시간 지연
+            await Future.delayed(const Duration(milliseconds: 5000));
+          } catch (e) {
+            print('error ${c.uuid} $e');
+          }
+        } else {}
+      }
+    }
+    print('ok\n');
+    print(lastvalue);
+    for (int i in lastvalue) {
+      final hexString = i.toRadixString(16);
+
+      hexvalue.add(hexString.padLeft(2, '0'));
+    }
+    String str = hexvalue.join();
+    print(str);
   }
+  // void bleDialog() {
+  //   showDialog(
+  //       context: context,
+  //       //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+  //       barrierDismissible: false,
+  //       builder: (BuildContext context) {
+  //         Future.delayed(Duration(seconds: 5), () {
+  //           Navigator.pop(context);
+  //         });
+  //         return AlertDialog(
+  //           // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+  //           shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.circular(30.0)),
+  //           backgroundColor: Color(0xffffffff),
+  //           //Dialog Main Title
+  //           title: Column(
+  //             children: <Widget>[
+  //
+  //             ],
+  //           ),
+  //           //
+  //         );
+  //       });
+  // }
 
   void emailDialog() {
     showDialog(
@@ -85,30 +133,33 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   @override
   Widget build(BuildContext context) {
     void _callAPI() async {
-      var url = Uri.parse(
-        'http://35.78.251.14:9080/foot-prints',
+      var url1 = Uri.parse(
+        'http://35.78.251.14:9080/foot-prints/create',
       );
+
       Map data = {
         "email": "njt9905@naver.com",
         "name": "string",
-        "rawData": "string"
+        "rawData": hexstring
       };
-      String body = json.encode(data);
 
-      var response = await http.post(url,
+      String body = json.encode(data);
+      var response = await http.post(url1,
           headers: {"Content-Type": "application/json"}, body: body);
       print('post Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
+
       String bodydata = '${response.body}';
+      int myJson = jsonDecode(bodydata)['id'];
 
-      Map valueMap = json.decode(bodydata) as Map;
-      Map<String, dynamic> jsonData = jsonDecode('${response.body}');
-      img = valueMap['image'];
-
-      // response = await http.get(url);
-      //
-      // print('get Response status: ${response.statusCode}');
-      // print('Response body: ${response.body}');
+      var url2 = Uri.parse(
+        'http://35.78.251.14:9080/foot-prints/image/' + '$myJson',
+      );
+      var imgresponse = await http.get(url2);
+      String imgdata = '${imgresponse.body}';
+      print('post Response status: ${imgresponse.statusCode}');
+      print('Response body: ${imgresponse.body}');
+      img = jsonDecode(imgdata)['image'];
     }
 
     Future<String> _fetch1() async {
@@ -155,17 +206,22 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                 ),
                               ),
                             ),
+                            //연결하기----------------------------------------------------------------------------
                             ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            bluetooth()),
-                                  );
+                                onPressed: () async {
+                                  conct = (Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              blue.bluetooth()))) as ScanResult;
+                                  print(conct);
+                                  setState(() {
+                                    text = conct.device.name;
+                                    print(text);
+                                  });
                                 },
                                 child: Text(
-                                  '연결',
+                                  (text),
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
                                     color: Color(0xffffffff),
@@ -309,10 +365,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                         child: ElevatedButton(
                             child: Text("측정하기"),
                             onPressed: _callAPI,
-                            // onPressed:(){ Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => ActivityVisionWidget()),
-                            // );},
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(150, 40),
                                 backgroundColor: Color(0xFFCCCCCC),
