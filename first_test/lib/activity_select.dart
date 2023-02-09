@@ -89,14 +89,14 @@ class _ActivitySelectWidgetState extends State<ActivitySelectWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
                         child: Container(
                           child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ActivityVisionWidget()),
-                              );
-                            },
+                            // onTap: () {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             ActivityVisionWidget()),
+                            //   );
+                            // },
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -104,7 +104,7 @@ class _ActivitySelectWidgetState extends State<ActivitySelectWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       10, 0, 0, 0),
                                   child: Text(
-                                    'Vision 자세 분석 >',
+                                    '구현중인 서비스 입니다',
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       color: Color(0xFF141515),
@@ -139,7 +139,7 @@ class _ActivitySelectWidgetState extends State<ActivitySelectWidget> {
                             color: Color(0xFFE2E2E2),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: Color(0xFFC8C8C8),
+                              color: Color(0x33C8C8C8),
                             ),
                           ),
                         ),

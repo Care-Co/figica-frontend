@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'activity_main.dart';
+import 'package:provider/provider.dart';
+import 'activite_state.dart';
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(providers: [ChangeNotifierProvider
+    <isconnectstate>
+    (create: (_)=> isconnectstate())]
+    ,child: const MyApp())
+  );
 
 }
 

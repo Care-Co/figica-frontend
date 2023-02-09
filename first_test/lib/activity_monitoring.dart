@@ -6,6 +6,9 @@ import 'activity_blue.dart' as blue;
 import 'activity_main.dart';
 import 'activity_vision.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'activite_state.dart';
+
 
 class ActivityMonitoringWidget extends StatefulWidget {
   const ActivityMonitoringWidget({Key? key}) : super(key: key);
@@ -21,20 +24,35 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   String valueText = "";
   final myController = TextEditingController();
   late String img;
-  late String id;
+  late String weight;
+  late int id;
+
   String text = "연결 하기";
   Map<String, List<int>> notifyDatas = {};
-  List<int> lastvalue = [];
-  List<String> hexvalue = [];
-  ScanResult conct = '' as ScanResult;
-  String hexstring = '';
+
+  late ScanResult ScanR;
+
   @override
   void dispose() {
     _unfocusNode.dispose();
     super.dispose();
   }
+  bool connectblue(){
+
+    if (text != "연결 하기"){
+      return true;
+    }
+    else{
+      return false;
+    }
+
+
+  }
 
   void getdata(ScanResult r) async {
+    List<int> lastvalue = [];
+    List<String> hexvalue = [];
+    String hexstring = '';
     List<BluetoothService> bleServices = await r.device.discoverServices();
 
     for (BluetoothService service in bleServices) {
@@ -44,6 +62,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
           print(utf8.encode("AT+START"));
         }
         if (c.isNotifying) {
+          print("print\n");
           try {
             await c.setNotifyValue(true);
             // 받을 데이터 변수 Map 형식으로 키 생성
@@ -72,40 +91,79 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
 
       hexvalue.add(hexString.padLeft(2, '0'));
     }
-    String str = hexvalue.join();
-    print(str);
+    hexstring = hexvalue.join();
+    print(hexstring);
+    callAPI(hexstring );
+
   }
-  // void bleDialog() {
-  //   showDialog(
-  //       context: context,
-  //       //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-  //       barrierDismissible: false,
-  //       builder: (BuildContext context) {
-  //         Future.delayed(Duration(seconds: 5), () {
-  //           Navigator.pop(context);
-  //         });
-  //         return AlertDialog(
-  //           // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-  //           shape: RoundedRectangleBorder(
-  //               borderRadius: BorderRadius.circular(30.0)),
-  //           backgroundColor: Color(0xffffffff),
-  //           //Dialog Main Title
-  //           title: Column(
-  //             children: <Widget>[
-  //
-  //             ],
-  //           ),
-  //           //
-  //         );
-  //       });
-  // }
+  void callAPI(String hexdata) async {
+    var url1 = Uri.parse(
+      'http://35.78.251.14:9080/foot-prints/create',
+    );
+    Map data = {
+      "email": "njt9905@naver.com",
+      "name": "string",
+      "rawData": hexdata
+    };
+    String body = json.encode(data);
+    var response = await http.post(url1,
+        headers: {"Content-Type": "application/json"}, body: body);
+    print('post Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    String bodydata = '${response.body}';
+    id = jsonDecode(bodydata)['id'];
+    int setid = id;
+
+    var url2 = Uri.parse(
+      'http://35.78.251.14:9080/foot-prints/image/' + '$setid',
+    );
+    var imgresponse = await http.get(url2);
+    String imgdata = '${imgresponse.body}';
+    print('post Response status: ${imgresponse.statusCode}');
+    print('Response body: ${imgresponse.body}');
+
+
+
+    setState(() {
+      img = jsonDecode(imgdata)['image'];
+      weight = jsonDecode(imgdata)['weight'];
+    });
+  }
+
+  Future<String> _fetch1() async {
+    setState(() {
+      img;
+    });
+    return img;
+  }
+  Future<String> _fetch2() async {
+    setState(() {
+      weight;
+    });
+    return weight;
+  }
+  void callAPIemail(String email) async {
+    var url1 = Uri.parse(
+      'http://35.78.251.14:9080/foot-prints/mail',
+    );
+    Map data = {
+      "email": email,
+      "id" : id,
+    };
+    String body = json.encode(data);
+    var response = await http.post(url1,
+        headers: {"Content-Type": "application/json"}, body: body);
+    print('post Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+  }
 
   void emailDialog() {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('login form'),
+            title: Text('측정 결과 전송'),
             content: TextField(
               onChanged: (value) {
                 setState(() {
@@ -113,17 +171,93 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                 });
               },
               controller: myController,
-              decoration: InputDecoration(hintText: "이메일을 입력해주세요"),
+              decoration: InputDecoration(hintText: "이메일 주소 입력해주세요"),
             ),
             actions: <Widget>[
-              TextButton(
-                child: Text('전송'),
+              ElevatedButton(
+                child: Text('이메일로 전송',
+                ),
                 onPressed: () {
+                  callAPIemail(valueText);
+
                   setState(() {
                     //codeDialog = valueText;
                     Navigator.pop(context);
                   });
                 },
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(400, 70),
+                      backgroundColor: Color(0xFfB0FFA3),
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                          new BorderRadius.circular(40.0)))
+              ),
+            ],
+          );
+        });
+  }
+  void emailok() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Image.network(
+                    img,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                    child: Text(
+                      'Hello World',
+                    ),
+                  ),
+                  ElevatedButton(
+                      child: Text('이메일로 전송',
+                      ),
+                      onPressed: () {
+                        callAPIemail(valueText);
+
+                        setState(() {
+                          //codeDialog = valueText;
+                          Navigator.pop(context);
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(100, 30),
+                          backgroundColor: Color(0xFfB0FFA3),
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              new BorderRadius.circular(30.0)))
+                  ),
+                ],
+              )
+              ,
+
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                  child: Text('이메일로 전송',
+                  ),
+                  onPressed: () {
+                    callAPIemail(valueText);
+
+                    setState(() {
+                      //codeDialog = valueText;
+                      Navigator.pop(context);
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(400, 70),
+                      backgroundColor: Color(0xFfB0FFA3),
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                          new BorderRadius.circular(40.0)))
               ),
             ],
           );
@@ -132,40 +266,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
 
   @override
   Widget build(BuildContext context) {
-    void _callAPI() async {
-      var url1 = Uri.parse(
-        'http://35.78.251.14:9080/foot-prints/create',
-      );
-
-      Map data = {
-        "email": "njt9905@naver.com",
-        "name": "string",
-        "rawData": hexstring
-      };
-
-      String body = json.encode(data);
-      var response = await http.post(url1,
-          headers: {"Content-Type": "application/json"}, body: body);
-      print('post Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
-      String bodydata = '${response.body}';
-      int myJson = jsonDecode(bodydata)['id'];
-
-      var url2 = Uri.parse(
-        'http://35.78.251.14:9080/foot-prints/image/' + '$myJson',
-      );
-      var imgresponse = await http.get(url2);
-      String imgdata = '${imgresponse.body}';
-      print('post Response status: ${imgresponse.statusCode}');
-      print('Response body: ${imgresponse.body}');
-      img = jsonDecode(imgdata)['image'];
-    }
-
-    Future<String> _fetch1() async {
-      return img;
-    }
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       key: scaffoldKey,
@@ -188,54 +288,76 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: 100,
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height * 0.1,
                         decoration: BoxDecoration(),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  10, 10, 10, 10),
-                              child: Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF27FF42),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              height: 100,
+                              decoration: BoxDecoration(),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
+                                    child: Container(
+                                      width: 10,
+                                      height: 10,
+                                      decoration: BoxDecoration(
+                                        color: Color( connectblue()? 0xFF27FF42: 0xffF45B5A),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            //연결하기----------------------------------------------------------------------------
-                            ElevatedButton(
-                                onPressed: () async {
-                                  conct = (Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              blue.bluetooth()))) as ScanResult;
-                                  print(conct);
-                                  setState(() {
-                                    text = conct.device.name;
-                                    print(text);
-                                  });
-                                },
-                                child: Text(
-                                  (text),
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    color: Color(0xffffffff),
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    minimumSize: const Size(160, 40),
-                                    backgroundColor: Color(0xFF000000),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0))))
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              height: 100,
+                              decoration: BoxDecoration(),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                        final conct = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    blue.bluetooth( ))) as ScanResult;
+                                        setState(() {
+                                          text = conct.device.name;
+                                          ScanR = conct;
+                                          print(text);
+                                        });
+                                      },
+                                      child: Text(
+                                        (text),
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          color: Color(0xffffffff),
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          minimumSize: const Size(160, 40),
+                                          backgroundColor: Color(0xFF000000),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                              new BorderRadius.circular(30.0))))
+
+
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -263,12 +385,10 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                       return Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: 300,
+                                            width: 400,
+                                            height:400,
                                             decoration: BoxDecoration(
-                                              color: Color(0xFFaaaaaa),
+                                              color: Color(0xFFEBEBEB),
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
@@ -287,23 +407,22 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                     // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
                                     else {
                                       return Padding(
+
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Image.network(
-                                          snapshot.data.toString(),
+                                        child:ClipRRect(
+                                          borderRadius: BorderRadius.circular(10),
+                                          child:  Image.network(
+                                            snapshot.data.toString(),
+                                            width: 400,
+                                            height: 400,
+                                          ), // Text(key['title']),
                                         ),
+
                                       );
                                     }
                                   })
                             ],
                           ),
-                          // child: Container(
-                          //   width: MediaQuery.of(context).size.width,
-                          //   height: MediaQuery.of(context).size.height * 1,
-                          //   decoration: BoxDecoration(
-                          //     color: Color(0xFFaaaaaa),
-                          //     borderRadius: BorderRadius.circular(10),
-                          //   ),
-                          // ),
                         ),
                       ),
                     ],
@@ -320,14 +439,64 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                         child: Padding(
                           padding:
                               EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 1,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFCCCCCC),
-                              borderRadius: BorderRadius.circular(10),
+
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:  <Widget>[
+                                FutureBuilder(
+                                    future: _fetch2(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot snapshot) {
+                                      //해당 부분은 data를 아직 받아 오지 못했을때 실행되는 부분을 의미한다.
+                                      if (snapshot.hasData == false) {
+                                        // return CircularProgressIndicator();
+                                        return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: 400,
+                                              height:200,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFFEBEBEB),
+                                                borderRadius:
+                                                BorderRadius.circular(10),
+                                              ),
+                                              child: Text(
+                                                "체중 정보"
+                                              ),
+                                            ));
+                                      }
+                                      //error가 발생하게 될 경우 반환하게 되는 부분
+                                      else if (snapshot.hasError) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Error: ${snapshot.error}',
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        );
+                                      }
+                                      // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
+                                      else {
+                                        return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              width: 400,
+                                              height:200,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xEBEBEB),
+                                                borderRadius:
+                                                BorderRadius.circular(10),
+                                              ),
+                                              child: Text(
+                                                  snapshot.data.toString()
+                                              ),
+                                            ));
+                                      }
+                                    })
+                              ],
                             ),
-                          ),
+
                         ),
                       ),
                     ],
@@ -364,13 +533,17 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                         child: ElevatedButton(
                             child: Text("측정하기"),
-                            onPressed: _callAPI,
+                            onPressed: () => {getdata(ScanR)},
+
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(150, 40),
                                 backgroundColor: Color(0xFFCCCCCC),
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
-                                        new BorderRadius.circular(10.0)))),
+                                        new BorderRadius.circular(10.0)
+                                )
+                            )
+                        ),
                       ),
                     ],
                   ),

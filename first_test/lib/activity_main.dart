@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'activity_monitoring.dart';
 import 'activity_tos.dart';
+
+
 
 class ActivityMainWidget extends StatefulWidget {
   const ActivityMainWidget({Key? key}) : super(key: key);
@@ -83,13 +86,18 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
                       Container(
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height * 0.1,
+
                       ),
-                      Image.network(
-                        'https://picsum.photos/seed/858/600',
-                        width: 200,
-                        height: 200,
-                        fit: BoxFit.cover,
-                      ),
+                      Container(
+                        width: 100,
+                        height: 100,
+                        child: SvgPicture.asset(
+                          'symbol.svg',
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.fill,
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -167,7 +175,7 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
                                 ),
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
-                                        new BorderRadius.circular(30.0)))),
+                                        new BorderRadius.circular(40.0)))),
                       ),
                       // Container(
                       //   width: double.infinity,
