@@ -15,7 +15,6 @@ class ActivityMainWidget extends StatefulWidget {
 class _ActivityMainWidgetState extends State<ActivityMainWidget> {
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  String _buttonState = "OFF";
 
   @override
   void dispose() {
@@ -23,16 +22,6 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
     super.dispose();
   }
 
-  void onClick() {
-    print('onClick()');
-    setState(() {
-      if (_buttonState == 'OFF') {
-        _buttonState = 'ON';
-      } else {
-        _buttonState = 'OFF';
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,16 +74,17 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
                     children: [
                       Container(
                         width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        height: MediaQuery.of(context).size.height * 0.2,
 
                       ),
                       Container(
                         width: 100,
-                        height: 100,
+                        height: 95,
+
                         child: SvgPicture.asset(
-                          'symbol.svg',
-                          width: 100,
-                          height: 100,
+                          'assets/symbol.svg',
+                          width: 80,
+                          height: 80,
                           fit: BoxFit.fill,
                         ),
                       )
@@ -158,7 +148,7 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
                         child: ElevatedButton(
                             child: Text(
                               "체험 하기",
-                              style: TextStyle(color: Colors.black),
+                              style: Theme.of(context).textTheme.subtitle1,
                             ),
                             onPressed: () {
                               Navigator.push(
@@ -168,7 +158,7 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(400, 70),
+                                minimumSize: const Size(320, 48),
                                 backgroundColor: Color(0xFfffffff),
                                 side: const BorderSide(
                                   color: Colors.black,
