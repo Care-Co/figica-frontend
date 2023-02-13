@@ -41,54 +41,69 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.subtitle1,
             ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: 500,
+                  width: 400,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                          child: Padding(
+                              padding:
+                              EdgeInsetsDirectional.fromSTEB(50, 10, 50, 30),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: Text(
+                                  "외부 측정기기를 통해 측정되고 분석된 정보(체중, 체지방률, 체지방량, 제지방량, 근육량, 체수분량, 체수분율, 기초대사량, 추정골량, BMI, 내장지방레벨, 복부비만정보, 심박, 수면, 혈압, 혈당, 측정일자, 수축기 혈압, 이완기 혈압, 공복혈당, 식후혈당, 걸음수, 칼로리 소모량, 보행 거리, 보행 시간, 보행수 랭킹 등), 건강질환정보, 고혈압 유무, 당뇨유무, 투약여부 및 복약정보 등",
+                                  style: TextStyle(
+                                    fontFamily: 'Pretendard',
+                                    color: Color(0xff000000),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              )))
+                    ],
+
+                  ),
+                ),
+              ],
+            ),
+
             actions: <Widget>[
               Container(
-                width: 500,
-                height: 400,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Expanded(
-                        child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(50, 10, 50, 30),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: Text(
-                                "외부 측정기기를 통해 측정되고 분석된 정보(체중, 체지방률, 체지방량, 제지방량, 근육량, 체수분량, 체수분율, 기초대사량, 추정골량, BMI, 내장지방레벨, 복부비만정보, 심박, 수면, 혈압, 혈당, 측정일자, 수축기 혈압, 이완기 혈압, 공복혈당, 식후혈당, 걸음수, 칼로리 소모량, 보행 거리, 보행 시간, 보행수 랭킹 등), 건강질환정보, 고혈압 유무, 당뇨유무, 투약여부 및 복약정보 등",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                            )))
+                    ElevatedButton(
+                        child: Text(
+                          '확인',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.pop(context);
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(400, 40),
+                            backgroundColor: Color(0xFfB0FFA3),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                new BorderRadius.circular(40.0)
+                            )
+                        )
+                    ),
                   ],
                 ),
               ),
-              InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Ink(
-                    width: double.infinity,
-                    height: 50,
-                    color: Color(0xFFB0FFA3),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '확인',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )),
             ],
           );
         });
   }
-/* 이용약관동의 1*/
   void tos1Dialog() {
     showDialog(
         context: context,
@@ -104,54 +119,71 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.subtitle1,
             ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: 500,
+                  width: 400,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                          child: Padding(
+                              padding:
+                              EdgeInsetsDirectional.fromSTEB(50, 10, 50, 30),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: Text(
+                                  "성명, 생년월일, 족저압 측정정보, 체중, 비전 모드 사용 시 촬영 되는 이미지, 휴대폰번호, 이메일 주소, ID(간편가입 시 연동계정 ID 및 연동 정보), 국가코드, 언어코드, 기기정보: 스마트폰 기기의 OS버전, 모델명, 기기고유식별정보(IMEI, 시리얼넘버, Mac address), 위치정보, USIM 번호, 사업자코드, 국가코드, 앱 및 앱내 서비스 이용시 자동적으로 생성되는 정보 (서비스 이용기록), 소프트웨어 플랫폼 버전, 서비스를 위한 registration ID, 접속 로그, 외부기기의 device id 등",
+                                  style: TextStyle(
+                                    fontFamily: 'Pretendard',
+                                    color: Color(0xff000000),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              )))
+                    ],
+
+                  ),
+                ),
+              ],
+            ),
+
             actions: <Widget>[
               Container(
-                width: 500,
-                height: 400,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Expanded(
-                        child: Padding(
-                            padding:
-                            EdgeInsetsDirectional.fromSTEB(50, 10, 50, 30),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: Text(
-                                "성명, 생년월일, 족저압 측정정보, 체중, 비전 모드 사용 시 촬영 되는 이미지, 휴대폰번호, 이메일 주소, ID(간편가입 시 연동계정 ID 및 연동 정보), 국가코드, 언어코드, 기기정보: 스마트폰 기기의 OS버전, 모델명, 기기고유식별정보(IMEI, 시리얼넘버, Mac address), 위치정보, USIM 번호, 사업자코드, 국가코드, 앱 및 앱내 서비스 이용시 자동적으로 생성되는 정보 (서비스 이용기록), 소프트웨어 플랫폼 버전, 서비스를 위한 registration ID, 접속 로그, 외부기기의 device id 등",
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                            )))
+                    ElevatedButton(
+                        child: Text(
+                          '확인',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.pop(context);
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(400, 40),
+                            backgroundColor: Color(0xFfB0FFA3),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                new BorderRadius.circular(40.0)
+                            )
+                        )
+                    ),
                   ],
                 ),
               ),
-              InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Ink(
-                    width: 100,
-                    height: 50,
-                    color: Color(0xFFB0FFA3),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-
-                      children: [
-                        Text(
-                          '확인',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )),
             ],
           );
         });
   }
+/* 이용약관동의 1*/
+
 
   @override
   void dispose() {
@@ -378,7 +410,7 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                                               color: Colors.white,
                                               size: 15,
                                             ),
-                                            onPressed: () => tos1Dialog(),
+                                            onPressed: () => tos2Dialog(),
                                           ),
                                         ],
                                       ),

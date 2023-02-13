@@ -28,6 +28,7 @@ class _bluetoothState extends State<bluetooth> {
     // 블루투스 초기화
     initBle();
     scan();
+    setState(() {});
   }
 
   void initBle() {
@@ -146,7 +147,7 @@ class _bluetoothState extends State<bluetooth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffB0B0B0),
+      backgroundColor: Color(0xffdddddd),
       appBar: PreferredSize(
         preferredSize:
         Size.fromHeight(MediaQuery.of(context).size.height * 0.1),

@@ -45,13 +45,13 @@ class _DeviceScreenState extends State<DeviceScreen> {
   }
 
   @override
-  // void dispose() {
-  //   // 상태 리스터 해제
-  //   _stateListener?.cancel();
-  //   // 연결 해제
-  //   disconnect();
-  //   super.dispose();
-  // }
+  void dispose() {
+    // 상태 리스터 해제
+    _stateListener?.cancel();
+    // 연결 해제
+    disconnect();
+    super.dispose();
+  }
 
   @override
   void setState(VoidCallback fn) {
