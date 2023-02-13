@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_svg/svg.dart';
 import 'activity_blue.dart' as blue;
 import 'activity_main.dart';
 import 'activity_vision.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'activite_state.dart';
-
 
 class ActivityMonitoringWidget extends StatefulWidget {
   const ActivityMonitoringWidget({Key? key}) : super(key: key);
@@ -26,6 +26,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   late String img;
   late String weight;
   late int id;
+  late bool isloading ;
 
   String text = "연결 하기";
   Map<String, List<int>> notifyDatas = {};
@@ -37,16 +38,13 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     _unfocusNode.dispose();
     super.dispose();
   }
-  bool connectblue(){
 
-    if (text != "연결 하기"){
+  bool connectblue() {
+    if (text != "연결 하기") {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
-
-
   }
 
   void getdata(ScanResult r) async {
@@ -54,7 +52,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     List<String> hexvalue = [];
     String hexstring = '';
     List<BluetoothService> bleServices = await r.device.discoverServices();
-
+    loading();
     for (BluetoothService service in bleServices) {
       for (BluetoothCharacteristic c in service.characteristics) {
         if (c.properties.write) {
@@ -93,9 +91,9 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     }
     hexstring = hexvalue.join();
     print(hexstring);
-    callAPI(hexstring );
-
+    callAPI(hexstring);
   }
+
   void callAPI(String hexdata) async {
     var url1 = Uri.parse(
       'http://35.78.251.14:9080/foot-prints/create',
@@ -123,11 +121,10 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     print('post Response status: ${imgresponse.statusCode}');
     print('Response body: ${imgresponse.body}');
 
-
-
     setState(() {
       img = jsonDecode(imgdata)['image'];
       weight = jsonDecode(imgdata)['weight'];
+      isloading = false;
     });
   }
 
@@ -137,25 +134,28 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     });
     return img;
   }
+
   Future<String> _fetch2() async {
     setState(() {
       weight;
     });
     return weight;
   }
+
   void callAPIemail(String email) async {
     var url1 = Uri.parse(
       'http://35.78.251.14:9080/foot-prints/mail',
     );
     Map data = {
       "email": email,
-      "id" : id,
+      "id": id,
     };
     String body = json.encode(data);
     var response = await http.post(url1,
         headers: {"Content-Type": "application/json"}, body: body);
     print('post Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
+    emailok();
   }
 
   void emailDialog() {
@@ -163,6 +163,9 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
         context: context,
         builder: (context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)
+            ),
             title: Text('측정 결과 전송'),
             content: TextField(
               onChanged: (value) {
@@ -174,96 +177,115 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
               decoration: InputDecoration(hintText: "이메일 주소 입력해주세요"),
             ),
             actions: <Widget>[
-              ElevatedButton(
-                child: Text('이메일로 전송',
+              Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    ElevatedButton(
+                        child: Text(
+                          '이메일로 전송',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        onPressed: () {
+                          callAPIemail(valueText);
+                          setState(() {
+                            //codeDialog = valueText;
+                            Navigator.pop(context);
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(300, 40),
+                            backgroundColor: Color(0xFfB0FFA3),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    new BorderRadius.circular(40.0)
+                            )
+                        )
+                    ),
+                  ],
                 ),
-                onPressed: () {
-                  callAPIemail(valueText);
-
-                  setState(() {
-                    //codeDialog = valueText;
-                    Navigator.pop(context);
-                  });
-                },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(400, 70),
-                      backgroundColor: Color(0xFfB0FFA3),
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                          new BorderRadius.circular(40.0)))
               ),
             ],
           );
         });
   }
+
   void emailok() {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            content: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Image.network(
-                    img,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
-                    child: Text(
-                      'Hello World',
-                    ),
-                  ),
-                  ElevatedButton(
-                      child: Text('이메일로 전송',
-                      ),
-                      onPressed: () {
-                        callAPIemail(valueText);
-
-                        setState(() {
-                          //codeDialog = valueText;
-                          Navigator.pop(context);
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(100, 30),
-                          backgroundColor: Color(0xFfB0FFA3),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                              new BorderRadius.circular(30.0)))
-                  ),
-                ],
-              )
-              ,
-
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)
             ),
-            actions: <Widget>[
-              ElevatedButton(
-                  child: Text('이메일로 전송',
+            title: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SvgPicture.asset(
+                  'assets/send.svg',
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.contain,
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                  child: Text(
+                    '측정 결과 전송을 완료하였습니.\n 작성하신 메일을 확인해주세요.',
+                    style: Theme.of(context).textTheme.bodyText1,
                   ),
-                  onPressed: () {
-                    callAPIemail(valueText);
+                ),
+                ElevatedButton(
+                    child: Text(
+                      '확인',
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 30),
+                        backgroundColor: Color(0xFf141514),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0)))),
+              ],
+            ),
 
-                    setState(() {
-                      //codeDialog = valueText;
-                      Navigator.pop(context);
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(400, 70),
-                      backgroundColor: Color(0xFfB0FFA3),
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                          new BorderRadius.circular(40.0)))
-              ),
-            ],
           );
         });
   }
+  void loading() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          Future.delayed(Duration(seconds: 7), () {
+            Navigator.pop(context);
+          });
 
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)
+            ),
+            content: SizedBox(
+              height: 200,
+              child: Center(
+                  child:SizedBox(
+                    child:
+                    new CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation(Color(0xffB0FFA3)),
+                        strokeWidth: 5.0
+                    ),
+                    height: 50.0,
+                    width: 50.0,
+                  )
+              ),
+            ),
+          );
+
+        });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -303,12 +325,15 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        5, 5, 5, 5),
                                     child: Container(
                                       width: 10,
                                       height: 10,
                                       decoration: BoxDecoration(
-                                        color: Color( connectblue()? 0xFF27FF42: 0xffF45B5A),
+                                        color: Color(connectblue()
+                                            ? 0xFF27FF42
+                                            : 0xffF45B5A),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -327,10 +352,11 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                   ElevatedButton(
                                       onPressed: () async {
                                         final conct = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    blue.bluetooth( ))) as ScanResult;
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        blue.bluetooth()))
+                                            as ScanResult;
                                         setState(() {
                                           text = conct.device.name;
                                           ScanR = conct;
@@ -339,19 +365,17 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                       },
                                       child: Text(
                                         (text),
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          color: Color(0xffffffff),
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle2,
                                       ),
                                       style: ElevatedButton.styleFrom(
                                           minimumSize: const Size(160, 40),
                                           backgroundColor: Color(0xFF000000),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              new BorderRadius.circular(30.0))))
-
-
+                                                  new BorderRadius.circular(
+                                                      30.0))))
                                 ],
                               ),
                             ),
@@ -385,14 +409,39 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                       return Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                            width: 400,
-                                            height:400,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFFEBEBEB),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                          ));
+                                              width: 400,
+                                              height: 400,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFFEBEBEB),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 30, 0, 10),
+                                                    child: SvgPicture.asset(
+                                                      'assets/body.svg',
+                                                      width: 300,
+                                                      height: 300,
+                                                      fit: BoxFit.cover,
+                                                      color: Color(0xffcccccc),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '디바이스에 올라선후 측정하기를 눌러주세요',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Pretendard',
+                                                      color: Color(0xffcccccc),
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ],
+                                              )));
                                     }
                                     //error가 발생하게 될 경우 반환하게 되는 부분
                                     else if (snapshot.hasError) {
@@ -407,17 +456,16 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                     // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
                                     else {
                                       return Padding(
-
                                         padding: const EdgeInsets.all(8.0),
-                                        child:ClipRRect(
-                                          borderRadius: BorderRadius.circular(10),
-                                          child:  Image.network(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
                                             snapshot.data.toString(),
                                             width: 400,
                                             height: 400,
                                           ), // Text(key['title']),
                                         ),
-
                                       );
                                     }
                                   })
@@ -439,64 +487,136 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                         child: Padding(
                           padding:
                               EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
-
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children:  <Widget>[
-                                FutureBuilder(
-                                    future: _fetch2(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot snapshot) {
-                                      //해당 부분은 data를 아직 받아 오지 못했을때 실행되는 부분을 의미한다.
-                                      if (snapshot.hasData == false) {
-                                        // return CircularProgressIndicator();
-                                        return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              FutureBuilder(
+                                  future: _fetch2(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    //해당 부분은 data를 아직 받아 오지 못했을때 실행되는 부분을 의미한다.
+                                    if (snapshot.hasData == false) {
+                                      // return CircularProgressIndicator();
+                                      return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
                                               width: 400,
-                                              height:200,
+                                              height: 200,
                                               decoration: BoxDecoration(
                                                 color: Color(0xFFEBEBEB),
                                                 borderRadius:
-                                                BorderRadius.circular(10),
+                                                    BorderRadius.circular(10),
                                               ),
-                                              child: Text(
-                                                "체중 정보"
-                                              ),
-                                            ));
-                                      }
-                                      //error가 발생하게 될 경우 반환하게 되는 부분
-                                      else if (snapshot.hasError) {
-                                        return Padding(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                30, 0, 0, 0),
+                                                    child: Text(
+                                                      '체중 정보',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle1,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(0,
+                                                                      0, 30, 0),
+                                                          child: Text(
+                                                            'kg',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .subtitle1,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              )));
+                                    }
+                                    //error가 발생하게 될 경우 반환하게 되는 부분
+                                    else if (snapshot.hasError) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Error: ${snapshot.error}',
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                      );
+                                    }
+                                    // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
+                                    else {
+                                      return Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Error: ${snapshot.error}',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        );
-                                      }
-                                      // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 것이다.
-                                      else {
-                                        return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
+                                          child: Container(
                                               width: 400,
-                                              height:200,
+                                              height: 200,
                                               decoration: BoxDecoration(
-                                                color: Color(0xEBEBEB),
+                                                color: Color(0xFFEBEBEB),
                                                 borderRadius:
-                                                BorderRadius.circular(10),
+                                                    BorderRadius.circular(10),
                                               ),
-                                              child: Text(
-                                                  snapshot.data.toString()
-                                              ),
-                                            ));
-                                      }
-                                    })
-                              ],
-                            ),
-
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                30, 0, 0, 0),
+                                                    child: Text(
+                                                      '체중 정보',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle1,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(0,
+                                                                      0, 30, 0),
+                                                          child: Text(
+                                                            snapshot.data
+                                                                    .toString() +
+                                                                '      kg',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .headline1,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              )));
+                                    }
+                                  })
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -511,39 +631,39 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 10),
                         child: ElevatedButton(
                             child: Text(
                               '나에게 보내기',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Color(0xFFCCCCCC),
-                              ),
+                              style: Theme.of(context).textTheme.subtitle1,
                             ),
                             onPressed: () => emailDialog(),
                             style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(150, 40),
-                                backgroundColor: Color(0xFFffffff),
+                                side: const BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xff141514),
+                                ),
+                                minimumSize: const Size(190, 50),
+                                backgroundColor: Color(0xFFF7F8FA),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(10.0),
+                                ))),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+                        child: ElevatedButton(
+                            child: Text(
+                              "측정하기",
+                              style: Theme.of(context).textTheme.subtitle2,
+                            ),
+                            onPressed: () => {getdata(ScanR)},
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(190, 50),
+                                backgroundColor: Color(0xFF141514),
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
                                         new BorderRadius.circular(10.0)))),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                        child: ElevatedButton(
-                            child: Text("측정하기"),
-                            onPressed: () => {getdata(ScanR)},
-
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(150, 40),
-                                backgroundColor: Color(0xFFCCCCCC),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0)
-                                )
-                            )
-                        ),
                       ),
                     ],
                   ),
@@ -565,10 +685,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                 },
                                 child: Text(
                                   '처음으로',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    color: Color(0xffffffff),
-                                  ),
+                                  style: Theme.of(context).textTheme.subtitle2,
                                 ),
                                 style: ElevatedButton.styleFrom(
                                     minimumSize:

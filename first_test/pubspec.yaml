@@ -73,7 +73,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-assets:
+  assets:
      - assets/
 
 
@@ -88,17 +88,19 @@ assets:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Pretendard
+      fonts:
+        - asset: assets/font/Pretendard-1.3.6/public/static/alternative/Pretendard-ExtraLight.ttf
+          weight: 200
+        - asset: assets/font/Pretendard-1.3.6/public/static/alternative/Pretendard-Light.ttf
+          weight: 300
+        - asset: assets/font/Pretendard-1.3.6/public/static/alternative/Pretendard-Regular.ttf
+          weight: 400
+        - asset: assets/font/Pretendard-1.3.6/public/static/alternative/Pretendard-Medium.ttf
+          weight: 500
+
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -19,11 +19,15 @@ class _bluetoothState extends State<bluetooth> {
   Map<String, List<int>> notifyDatas = {};
   List<int> lastvalue = [];
   List<String> hexvalue = [];
+  final String targetDeviceName = 'Care&Co. 1';
+
+
   @override
   initState() {
     super.initState();
     // 블루투스 초기화
     initBle();
+    scan();
   }
 
   void initBle() {
@@ -46,8 +50,20 @@ class _bluetoothState extends State<bluetooth> {
       flutterBlue.startScan(timeout: Duration(seconds: 4));
       // 스캔 결과 리스너
       flutterBlue.scanResults.listen((results) {
-        // List<ScanResult> 형태의 results 값을 scanResultList에 복사
-        scanResultList = results;
+        // 결과 값을 루프로 돌림
+        results.forEach((element) {
+          //찾는 장치명인지 확인
+          if (element.device.name == targetDeviceName) {
+            // 장치의 ID를 비교해 이미 등록된 장치인지 확인
+            if (scanResultList
+                .indexWhere((e) => e.device.id == element.device.id) <
+                0) {
+              // 찾는 장치명이고 scanResultList에 등록된적이 없는 장치라면 리스트에 추가
+              scanResultList.add(element);
+            }
+          }
+        });
+
         // UI 갱신
         setState(() {});
       });
@@ -56,6 +72,8 @@ class _bluetoothState extends State<bluetooth> {
       flutterBlue.stopScan();
     }
   }
+
+
 
   /*  장치의 신호값 위젯  */
   Widget deviceSignal(ScanResult r) {
@@ -109,6 +127,13 @@ class _bluetoothState extends State<bluetooth> {
   /* 장치 아이템 위젯 */
   Widget listItem(ScanResult r) {
     return ListTile(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
+
+
+      tileColor: Colors.white,
+      textColor: Color(0xffB0B0B0),
+
       onTap: () => onTap(r),
       // leading: leading(r),
       title: deviceName(r),
@@ -121,17 +146,84 @@ class _bluetoothState extends State<bluetooth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        /* 장치 리스트 출력 */
-        child: ListView.separated(
-          itemCount: scanResultList.length,
-          itemBuilder: (context, index) {
-            return listItem(scanResultList[index]);
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return Divider();
-          },
+      backgroundColor: Color(0xffB0B0B0),
+      appBar: PreferredSize(
+        preferredSize:
+        Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          iconTheme: IconThemeData(color: Color(0xFF141515)),
+          automaticallyImplyLeading: true,
+          centerTitle: true,
+          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+          elevation: 0,
         ),
+      ),
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          child:Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                child: Text(
+                  '블루투스 연결하기',
+                  style: TextStyle(
+                    fontFamily: 'Pretendard',
+                    color: Color(0xFF282828),
+                    fontSize: 18,
+                  ),
+
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                child: Text(
+                  '제품의 전원을 켜고 스마트폰 설정에서 블루투스, GPS 연결을 켜주세요',
+                  style: TextStyle(
+                    fontFamily: 'Pretendard',
+                    color: Color(0xFF909090),
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                height: 100,
+              ),
+              Container(
+                width: 400,
+                height: 400,
+                child: ListView.separated(
+                  itemCount: scanResultList.length,
+                  itemBuilder: (context, index) {
+                    return listItem(scanResultList[index]);
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider();
+                  },
+                ),
+
+              ),
+            ],
+          )
+
+          ,
+        ),
+        // child: ListView.separated(
+        //   itemCount: scanResultList.length,
+        //   itemBuilder: (context, index) {
+        //     return listItem(scanResultList[index]);
+        //   },
+        //   separatorBuilder: (BuildContext context, int index) {
+        //     return Divider();
+        //   },
+        // ),
+        //
+        // /* 장치 리스트 출력 */
+
       ),
       /* 장치 검색 or 검색 중지  */
       floatingActionButton: FloatingActionButton(
