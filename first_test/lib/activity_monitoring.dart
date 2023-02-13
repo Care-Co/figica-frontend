@@ -27,15 +27,18 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   late String weight;
   late int id;
   late bool isloading ;
-
   String text = "연결 하기";
   Map<String, List<int>> notifyDatas = {};
-
   late ScanResult ScanR;
+
+
+
+
 
   @override
   void dispose() {
     _unfocusNode.dispose();
+
     super.dispose();
   }
 
@@ -45,6 +48,14 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     } else {
       return false;
     }
+  }
+  void disconnect(ScanResult r) {
+    try {
+      // setState(() {
+      //   stateText = 'Disconnecting';
+      // });
+      r.device.disconnect();
+    } catch (e) {}
   }
 
   void getdata(ScanResult r) async {
@@ -57,10 +68,12 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
       for (BluetoothCharacteristic c in service.characteristics) {
         if (c.properties.write) {
           await c.write(utf8.encode("AT+START"));
-          print(utf8.encode("AT+START"));
+          print("AT+START\n");
+
         }
+        //c.isNotifying
         if (c.isNotifying) {
-          print("print\n");
+          print("listen\n");
           try {
             await c.setNotifyValue(true);
             // 받을 데이터 변수 Map 형식으로 키 생성
@@ -73,13 +86,14 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                 lastvalue += value;
               });
             });
-
-            // 설정 후 일정시간 지연
             await Future.delayed(const Duration(milliseconds: 5000));
+            // 설정 후 일정시간 지연
+
           } catch (e) {
             print('error ${c.uuid} $e');
           }
         } else {}
+
       }
     }
     print('ok\n');
@@ -163,6 +177,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
         context: context,
         builder: (context) {
           return AlertDialog(
+
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)
             ),
@@ -226,11 +241,12 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                   width: 80,
                   height: 80,
                   fit: BoxFit.contain,
+                  color: Color(0xFFB0FFA3),
                 ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
                   child: Text(
-                    '측정 결과 전송을 완료하였습니.\n 작성하신 메일을 확인해주세요.',
+                    '측정 결과 전송을 완료하였습니다.\n 작성하신 메일을 확인해주세요.',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
@@ -433,7 +449,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    '디바이스에 올라선후 측정하기를 눌러주세요',
+                                                    '디바이스에 올라선 후 측정하기를 눌러주세요',
                                                     style: TextStyle(
                                                       fontFamily: 'Pretendard',
                                                       color: Color(0xffcccccc),
@@ -631,7 +647,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 10),
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
                         child: ElevatedButton(
                             child: Text(
                               '나에게 보내기',
@@ -676,6 +692,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                           children: [
                             ElevatedButton(
                                 onPressed: () {
+                                  disconnect(ScanR);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
