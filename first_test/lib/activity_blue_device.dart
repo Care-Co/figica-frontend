@@ -62,29 +62,29 @@ class _DeviceScreenState extends State<DeviceScreen> {
   }
 
   /* 연결 상태 갱신 */
-  // setBleConnectionState(BluetoothDeviceState event) {
-  //   switch (event) {
-  //     case BluetoothDeviceState.disconnected:
-  //       stateText = 'Disconnected';
-  //       // 버튼 상태 변경
-  //       connectButtonText = 'Connect';
-  //       break;
-  //     case BluetoothDeviceState.disconnecting:
-  //       stateText = 'Disconnecting';
-  //       break;
-  //     case BluetoothDeviceState.connected:
-  //       stateText = 'Connected';
-  //       // 버튼 상태 변경
-  //       connectButtonText = 'Disconnect';
-  //       break;
-  //     case BluetoothDeviceState.connecting:
-  //       stateText = 'Connecting';
-  //       break;
-  //   }
-  //   //이전 상태 이벤트 저장
-  //   deviceState = event;
-  //   setState(() {});
-  // }
+  setBleConnectionState(BluetoothDeviceState event) {
+    switch (event) {
+      case BluetoothDeviceState.disconnected:
+        stateText = 'Disconnected';
+        // 버튼 상태 변경
+        connectButtonText = 'Connect';
+        break;
+      case BluetoothDeviceState.disconnecting:
+        stateText = 'Disconnecting';
+        break;
+      case BluetoothDeviceState.connected:
+        stateText = 'Connected';
+        // 버튼 상태 변경
+        connectButtonText = 'Disconnect';
+        break;
+      case BluetoothDeviceState.connecting:
+        stateText = 'Connecting';
+        break;
+    }
+    //이전 상태 이벤트 저장
+    deviceState = event;
+    setState(() {});
+  }
 
   /* 연결 시작 */
   Future<bool> connect() async {

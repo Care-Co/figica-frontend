@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -30,37 +31,78 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   String text = "연결 하기";
   Map<String, List<int>> notifyDatas = {};
   late ScanResult ScanR;
-
-
-
+  // 연결 상태 표시 문자열
+  String stateText = 'Connecting';
+  // 연결 버튼 문자열
+  String connectButtonText = 'Disconnect';
+  // 현재 연결 상태 저장용
+  BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
+  // 연결 상태 리스너 핸들 화면 종료시 리스너 해제를 위함
+  StreamSubscription<BluetoothDeviceState>? _stateListener;
 
 
   @override
   void dispose() {
     _unfocusNode.dispose();
-
     super.dispose();
+  }
+  setBleConnectionState(BluetoothDeviceState event) {
+    switch (event) {
+      case BluetoothDeviceState.disconnected:
+        stateText = 'Disconnected';
+        connectButtonText = 'Connect';
+        break;
+      case BluetoothDeviceState.disconnecting:
+        stateText = 'Disconnecting';
+        break;
+      case BluetoothDeviceState.connected:
+        stateText = 'Connected';
+        connectButtonText = 'Disconnect';
+        break;
+      case BluetoothDeviceState.connecting:
+        stateText = 'Connecting';
+        break;
+    }
+    //이전 상태 이벤트 저장
+    deviceState = event;
+    setState(() {});
+  }
+  void bluestate(){
+    _stateListener = ScanR.device.state.listen((event) {
+      debugPrint('event :  $event');
+      if (deviceState == event) {
+        // 상태가 동일하다면 무시
+        return;
+      }
+      // // 연결 상태 정보 변경
+      setBleConnectionState(event);
+    });
   }
 
   bool connectblue() {
     if (text != "연결 하기") {
+      setState(() {
+        /* 상태 표시를 Connecting으로 변경 */
+        stateText = 'Connecting';
+      });
       return true;
     } else {
+
       return false;
     }
   }
   void disconnect(ScanResult r) {
     try {
-      // setState(() {
-      //   stateText = 'Disconnecting';
-      // });
+      setState(() {
+        stateText = 'Disconnecting';
+      });
       r.device.disconnect();
     } catch (e) {}
   }
-
   void getdata(ScanResult r) async {
     List<int> lastvalue = [];
     List<String> hexvalue = [];
+    int i = 0;
     String hexstring = '';
     List<BluetoothService> bleServices = await r.device.discoverServices();
     loading();
@@ -83,7 +125,11 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
               setState(() {
                 // 받은 데이터 저장 화면 표시용
                 notifyDatas[c.uuid.toString()] = value;
+                print(value);
+                print('\n');
                 lastvalue += value;
+                print(i++);
+                print('\n');
               });
             });
             await Future.delayed(const Duration(milliseconds: 5000));
@@ -103,11 +149,11 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
 
       hexvalue.add(hexString.padLeft(2, '0'));
     }
+    print(hexvalue);
     hexstring = hexvalue.join();
     print(hexstring);
     callAPI(hexstring);
   }
-
   void callAPI(String hexdata) async {
     var url1 = Uri.parse(
       'http://35.78.251.14:9080/foot-prints/create',
@@ -141,21 +187,18 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
       isloading = false;
     });
   }
-
   Future<String> _fetch1() async {
     setState(() {
       img;
     });
     return img;
   }
-
   Future<String> _fetch2() async {
     setState(() {
       weight;
     });
     return weight;
   }
-
   void callAPIemail(String email) async {
     var url1 = Uri.parse(
       'http://35.78.251.14:9080/foot-prints/mail',
@@ -171,7 +214,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     print('Response body: ${response.body}');
     emailok();
   }
-
   void emailDialog() {
     showDialog(
         context: context,
@@ -224,7 +266,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
           );
         });
   }
-
   void emailok() {
     showDialog(
         context: context,
@@ -302,6 +343,43 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
 
         });
   }
+  String KgPrint(kg){
+    String kgprint = kg.substring(0, 5);
+    return kgprint;
+
+  }
+
+  void connecterror() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          Future.delayed(Duration(seconds: 2), () {
+            Navigator.pop(context);
+          });
+
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)
+            ),
+            title: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                  child: Text(
+                    '블루투스 연결을 확인해 주세요',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                ),
+              ],
+            ),
+
+          );
+
+        });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -348,8 +426,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                       height: 10,
                                       decoration: BoxDecoration(
                                         color: Color(connectblue()
-                                            ? 0xFF27FF42
-                                            : 0xffF45B5A),
+                                            ? 0xFF27FF42 : 0xffF45B5A),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -615,8 +692,9 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                                                   .fromSTEB(0,
                                                                       0, 30, 0),
                                                           child: Text(
-                                                            snapshot.data
-                                                                    .toString() +
+                                                              KgPrint(snapshot.data
+                                                                  .toString())
+                                                             +
                                                                 '      kg',
                                                             style: Theme.of(
                                                                     context)
