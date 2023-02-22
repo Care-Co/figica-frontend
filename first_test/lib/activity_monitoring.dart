@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:first_test/provider/myProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +10,6 @@ import 'activity_main.dart';
 import 'activity_vision.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'activite_state.dart';
 
 class ActivityMonitoringWidget extends StatefulWidget {
   const ActivityMonitoringWidget({Key? key}) : super(key: key);
@@ -21,7 +21,6 @@ class ActivityMonitoringWidget extends StatefulWidget {
 class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  String _buttonState = "OFF";
   String valueText = "";
   final myController = TextEditingController();
   late String img;
@@ -31,14 +30,8 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   String text = "연결 하기";
   Map<String, List<int>> notifyDatas = {};
   late ScanResult ScanR;
-  // 연결 상태 표시 문자열
   String stateText = 'Connecting';
-  // 연결 버튼 문자열
   String connectButtonText = 'Disconnect';
-  // 현재 연결 상태 저장용
-  BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
-  // 연결 상태 리스너 핸들 화면 종료시 리스너 해제를 위함
-  StreamSubscription<BluetoothDeviceState>? _stateListener;
 
 
   @override
@@ -46,56 +39,11 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     _unfocusNode.dispose();
     super.dispose();
   }
-  setBleConnectionState(BluetoothDeviceState event) {
-    switch (event) {
-      case BluetoothDeviceState.disconnected:
-        stateText = 'Disconnected';
-        connectButtonText = 'Connect';
-        break;
-      case BluetoothDeviceState.disconnecting:
-        stateText = 'Disconnecting';
-        break;
-      case BluetoothDeviceState.connected:
-        stateText = 'Connected';
-        connectButtonText = 'Disconnect';
-        break;
-      case BluetoothDeviceState.connecting:
-        stateText = 'Connecting';
-        break;
-    }
-    //이전 상태 이벤트 저장
-    deviceState = event;
-    setState(() {});
-  }
-  void bluestate(){
-    _stateListener = ScanR.device.state.listen((event) {
-      debugPrint('event :  $event');
-      if (deviceState == event) {
-        // 상태가 동일하다면 무시
-        return;
-      }
-      // // 연결 상태 정보 변경
-      setBleConnectionState(event);
-    });
-  }
 
-  bool connectblue() {
-    if (text != "연결 하기") {
-      setState(() {
-        /* 상태 표시를 Connecting으로 변경 */
-        stateText = 'Connecting';
-      });
-      return true;
-    } else {
 
-      return false;
-    }
-  }
   void disconnect(ScanResult r) {
     try {
-      setState(() {
-        stateText = 'Disconnecting';
-      });
+      context.read<BlueState>().changeColor('Disconnect');
       r.device.disconnect();
     } catch (e) {}
   }
@@ -125,11 +73,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
               setState(() {
                 // 받은 데이터 저장 화면 표시용
                 notifyDatas[c.uuid.toString()] = value;
-                print(value);
-                print('\n');
                 lastvalue += value;
-                print(i++);
-                print('\n');
               });
             });
             await Future.delayed(const Duration(milliseconds: 5000));
@@ -142,14 +86,11 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
 
       }
     }
-    print('ok\n');
-    print(lastvalue);
     for (int i in lastvalue) {
       final hexString = i.toRadixString(16);
 
       hexvalue.add(hexString.padLeft(2, '0'));
     }
-    print(hexvalue);
     hexstring = hexvalue.join();
     print(hexstring);
     callAPI(hexstring);
@@ -357,7 +298,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
           Future.delayed(Duration(seconds: 2), () {
             Navigator.pop(context);
           });
-
           return AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)
@@ -425,8 +365,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                       width: 10,
                                       height: 10,
                                       decoration: BoxDecoration(
-                                        color: Color(connectblue()
-                                            ? 0xFF27FF42 : 0xffF45B5A),
+                                        color: context.watch<BlueState>().state,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -455,6 +394,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                           ScanR = conct;
                                           print(text);
                                         });
+                                        context.read<BlueState>().changeColor('Connect');
                                       },
                                       child: Text(
                                         (text),

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:first_test/provider/myProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
-import 'activite_state.dart';
 import 'activity_blue_device.dart';
 import 'activity_monitoring.dart' as monitoring;
 
@@ -106,9 +106,11 @@ class _bluetoothState extends State<bluetooth> {
   void connectToDevice(ScanResult r) async {
 //flutter_blue makes our life easier
     await r.device.connect();
+    context.read<BlueState>().changeColor('Connect');
     await Future.delayed(const Duration(milliseconds: 500));
-    context.read<isconnectstate>().changebool(true);
+
   }
+
 
   /* 장치 아이템을 탭 했을때 호출 되는 함수 */
   void onTap(ScanResult r) {

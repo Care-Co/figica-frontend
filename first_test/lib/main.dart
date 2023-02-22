@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'activity_main.dart';
 import 'package:provider/provider.dart';
-import 'activite_state.dart';
 import 'activity_MyPage.dart';
+import 'provider/myProvider.dart';
 
 void main() {
   runApp(
     MultiProvider(providers: [ChangeNotifierProvider
-    <isconnectstate>
-    (create: (_)=> isconnectstate())]
+    <BlueState>
+    (create: (_)=> BlueState())]
     ,child: const MyApp())
   );
 

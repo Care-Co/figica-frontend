@@ -40,31 +40,31 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
                 Container(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.10,
-                  // child: Row(
-                  //   mainAxisSize: MainAxisSize.max,
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Padding(
-                  //       padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
-                  //       child: InkWell(
-                  //         onTap: () {
-                  //           Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //                 builder: (context) => ActivityTosWidget()),
-                  //           );
-                  //         },
-                  //         child: Text(
-                  //           '체험 모드',
-                  //           style: TextStyle(
-                  //             fontFamily: 'Poppins',
-                  //             fontSize: 18,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ActivityTosWidget()),
+                            );
+                          },
+                          child: Text(
+                            '체험 모드',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
                   width: double.infinity,
@@ -97,76 +97,76 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      // Padding(
-                      //   padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 10),
-                      //   child: ElevatedButton(
-                      //       child: Text(
-                      //         "이메일로 가입",
-                      //       ),
-                      //       onPressed: () {
-                      //         Navigator.push(
-                      //           context,
-                      //           MaterialPageRoute(
-                      //               builder: (context) =>
-                      //                   ActivityMonitoringWidget()),
-                      //         );
-                      //       },
-                      //       style: ElevatedButton.styleFrom(
-                      //           minimumSize: const Size(400, 50),
-                      //           backgroundColor: Color(0xFF000000),
-                      //           shape: RoundedRectangleBorder(
-                      //               borderRadius:
-                      //                   new BorderRadius.circular(30.0)))),
-                      // ),
-                      // Padding(
-                      //   padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 20),
-                      //   child: ElevatedButton(
-                      //       child: Text(
-                      //         "이메일로 로그인",
-                      //         style: TextStyle(color: Colors.black),
-                      //       ),
-                      //       onPressed: () {
-                      //         Navigator.push(
-                      //           context,
-                      //           MaterialPageRoute(
-                      //               builder: (context) =>
-                      //                   ActivityMonitoringWidget()),
-                      //         );
-                      //       },
-                      //       style: ElevatedButton.styleFrom(
-                      //           minimumSize: const Size(400, 50),
-                      //           backgroundColor: Color(0xFfffffff),
-                      //           side: const BorderSide(
-                      //             color: Colors.black,
-                      //           ),
-                      //           shape: RoundedRectangleBorder(
-                      //               borderRadius:
-                      //                   new BorderRadius.circular(30.0)))),
-                      // ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 70, 20, 20),
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 10),
                         child: ElevatedButton(
                             child: Text(
-                              "체험 하기",
-                              style: Theme.of(context).textTheme.subtitle1,
+                              "이메일로 가입",
                             ),
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ActivityTosWidget()),
+                                    builder: (context) =>
+                                        ActivityMonitoringWidget()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(320, 48),
+                                minimumSize: const Size(400, 50),
+                                backgroundColor: Color(0xFF000000),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0)))),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 20),
+                        child: ElevatedButton(
+                            child: Text(
+                              "이메일로 로그인",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ActivityMonitoringWidget()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(400, 50),
                                 backgroundColor: Color(0xFfffffff),
                                 side: const BorderSide(
                                   color: Colors.black,
                                 ),
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
-                                        new BorderRadius.circular(40.0)))),
+                                        new BorderRadius.circular(30.0)))),
                       ),
+                      // Padding(
+                      //   padding: EdgeInsetsDirectional.fromSTEB(20, 70, 20, 20),
+                      //   child: ElevatedButton(
+                      //       child: Text(
+                      //         "체험 하기",
+                      //         style: Theme.of(context).textTheme.subtitle1,
+                      //       ),
+                      //       onPressed: () {
+                      //         Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //               builder: (context) => ActivityTosWidget()),
+                      //         );
+                      //       },
+                      //       style: ElevatedButton.styleFrom(
+                      //           minimumSize: const Size(320, 48),
+                      //           backgroundColor: Color(0xFfffffff),
+                      //           side: const BorderSide(
+                      //             color: Colors.black,
+                      //           ),
+                      //           shape: RoundedRectangleBorder(
+                      //               borderRadius:
+                      //                   new BorderRadius.circular(40.0)))),
+                      // ),
                       // Container(
                       //   width: double.infinity,
                       //   height: 100,

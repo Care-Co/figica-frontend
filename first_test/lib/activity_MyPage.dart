@@ -13,6 +13,8 @@ class _ActivitMyPageWidgetState extends State<ActivitMyPageWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _unfocusNode = FocusNode();
+  double _currentSliderValue = 100;
+  double op = 1;
 
   @override
   void initState() {
@@ -25,7 +27,168 @@ class _ActivitMyPageWidgetState extends State<ActivitMyPageWidget> {
     _unfocusNode.dispose();
     super.dispose();
   }
+  void report1() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)
+            ),
+            title: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        'My avartor',
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.close_rounded,
+                                color: Colors.black,
+                                size: 15,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  Navigator.pop(context);
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Image.network('https://picsum.photos/seed/858/600'),
 
+                ElevatedButton(
+                    child: Text(
+                      '비교해 보세요',
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                        report2();
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 30),
+                        backgroundColor: Color(0xFf141514),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0)))),
+              ],
+            ),
+
+          );
+        });
+  }
+  void report2() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)
+            ),
+            title: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        'My avartor',
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.close_rounded,
+                                color: Colors.black,
+                                size: 15,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  Navigator.pop(context);
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  decoration: BoxDecoration(),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
+                        child:  Image.network('https://picsum.photos/seed/858/600',
+                          // width: MediaQuery.of(context).size.width * 0.5,
+                          // height: MediaQuery.of(context).size.height * 0.5,
+                          // fit: BoxFit.cover,
+                          opacity: AlwaysStoppedAnimation(op),
+                        ),
+
+
+                      ),
+                      Slider(
+                        value: _currentSliderValue,
+                        max: 100,
+                        label: _currentSliderValue.round().toString(),
+                        onChanged: (double value) {
+                          setState(() {
+                            _currentSliderValue = value;
+                            op = value/100;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                    child: Text(
+                      '원본 보기',
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                        report1();
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 30),
+                        backgroundColor: Color(0xFf141514),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0)))),
+              ],
+            ),
+
+          );
+        });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,6 +297,7 @@ class _ActivitMyPageWidgetState extends State<ActivitMyPageWidget> {
                                         ),
                                         onPressed: () {
                                           print('IconButton pressed ...');
+                                          report1();
                                         },
                                       ),
                                     ],
