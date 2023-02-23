@@ -24,14 +24,17 @@ class _bluetoothState extends State<bluetooth> {
 
   @override
   initState() {
-    super.initState();
-    // 블루투스 초기화
-    initBle();
+    super.setState(() {});
     scan();
+    flutterBlue.stopScan();
+    initBle();
     setState(() {});
   }
+  void dispose() {
+    super.dispose();
+  }
 
-  void initBle() {
+  void initBle() async{
     // BLE 스캔 상태 얻기 위한 리스너
     flutterBlue.isScanning.listen((isScanning) {
       _isScanning = isScanning;
@@ -50,20 +53,27 @@ class _bluetoothState extends State<bluetooth> {
       // 스캔 시작, 제한 시간 4초
       flutterBlue.startScan(timeout: Duration(seconds: 4));
       // 스캔 결과 리스너
+
       flutterBlue.scanResults.listen((results) {
-        // 결과 값을 루프로 돌림
-        results.forEach((element) {
-          //찾는 장치명인지 확인
-          if (element.device.name == targetDeviceName) {
-            // 장치의 ID를 비교해 이미 등록된 장치인지 확인
-            if (scanResultList
-                .indexWhere((e) => e.device.id == element.device.id) <
-                0) {
-              // 찾는 장치명이고 scanResultList에 등록된적이 없는 장치라면 리스트에 추가
-              scanResultList.add(element);
+
+        try {
+          results.forEach((element) {
+            //찾는 장치명인지 확인
+            if (element.device.name == targetDeviceName) {
+              // 장치의 ID를 비교해 이미 등록된 장치인지 확인
+              if (scanResultList
+                  .indexWhere((e) => e.device.id == element.device.id) <
+                  0) {
+                // 찾는 장치명이고 scanResultList에 등록된적이 없는 장치라면 리스트에 추가
+                scanResultList.add(element);
+              }
             }
-          }
-        });
+          });
+        }
+        catch(e){
+          print('error');
+
+        }
 
         // UI 갱신
         setState(() {});
@@ -106,20 +116,25 @@ class _bluetoothState extends State<bluetooth> {
   void connectToDevice(ScanResult r) async {
 //flutter_blue makes our life easier
     await r.device.connect();
-    context.read<BlueState>().changeColor('Connect');
+    context.read<BlueState>().connectstate(r);
+    context.read<BlueState>().getscan(r);
+    context.read<BlueState>().changeState(BluetoothDeviceState.connected);
+    print('===============================');
+    print(context.watch<BlueState>().connecttext);
     await Future.delayed(const Duration(milliseconds: 500));
 
   }
 
 
   /* 장치 아이템을 탭 했을때 호출 되는 함수 */
-  void onTap(ScanResult r) {
+  void onTap(ScanResult r) async{
     // 단순히 이름만 출력
     print('${r.device.name}');
-    String data = '${r.device.name}';
     connectToDevice(r);
+    await Future.delayed(const Duration(milliseconds: 500));
+    Navigator.pop(context);
 
-    Navigator.pop(context,r);
+    // Navigator.pop(context,r);
 
     // Navigator.push(
     //   context,

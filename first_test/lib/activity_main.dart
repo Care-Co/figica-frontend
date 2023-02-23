@@ -59,6 +59,7 @@ class _ActivityMainWidgetState extends State<ActivityMainWidget> {
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 18,
+                              color: Colors.black,
                             ),
                           ),
                         ),
