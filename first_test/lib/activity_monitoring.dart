@@ -26,12 +26,12 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   late String img;
   late String weight;
   late int id;
-  late bool isloading ;
+  late bool isloading;
   String text = "연결 하기";
   Map<String, List<int>> notifyDatas = {};
   late ScanResult ScanR;
-  String stateText = 'Connecting';
-  String connectButtonText = 'Disconnect';
+  StreamSubscription<BluetoothDeviceState>? _stateListener;
+  BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
 
 
   @override
@@ -40,13 +40,12 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     super.dispose();
   }
 
-
   void disconnect(ScanResult r) {
     try {
-      context.read<BlueState>().changeColor('Disconnect');
       r.device.disconnect();
     } catch (e) {}
   }
+
   void getdata(ScanResult r) async {
     List<int> lastvalue = [];
     List<String> hexvalue = [];
@@ -59,7 +58,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
         if (c.properties.write) {
           await c.write(utf8.encode("AT+START"));
           print("AT+START\n");
-
         }
         //c.isNotifying
         if (c.isNotifying) {
@@ -83,7 +81,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
             print('error ${c.uuid} $e');
           }
         } else {}
-
       }
     }
     for (int i in lastvalue) {
@@ -95,6 +92,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     print(hexstring);
     callAPI(hexstring);
   }
+
   void callAPI(String hexdata) async {
     var url1 = Uri.parse(
       'http://35.78.251.14:9080/foot-prints/create',
@@ -128,18 +126,21 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
       isloading = false;
     });
   }
+
   Future<String> _fetch1() async {
     setState(() {
       img;
     });
     return img;
   }
+
   Future<String> _fetch2() async {
     setState(() {
       weight;
     });
     return weight;
   }
+
   void callAPIemail(String email) async {
     var url1 = Uri.parse(
       'http://35.78.251.14:9080/foot-prints/mail',
@@ -155,15 +156,14 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     print('Response body: ${response.body}');
     emailok();
   }
+
   void emailDialog() {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)
-            ),
+                borderRadius: BorderRadius.circular(10.0)),
             title: Text('측정 결과 전송'),
             content: TextField(
               onChanged: (value) {
@@ -196,10 +196,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                             backgroundColor: Color(0xFfB0FFA3),
                             shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    new BorderRadius.circular(40.0)
-                            )
-                        )
-                    ),
+                                    new BorderRadius.circular(40.0)))),
                   ],
                 ),
               ),
@@ -207,14 +204,14 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
           );
         });
   }
+
   void emailok() {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)
-            ),
+                borderRadius: BorderRadius.circular(10.0)),
             title: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -249,10 +246,10 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                             borderRadius: new BorderRadius.circular(30.0)))),
               ],
             ),
-
           );
         });
   }
+
   void loading() {
     showDialog(
         context: context,
@@ -264,30 +261,25 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
 
           return AlertDialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0)
-            ),
+                borderRadius: BorderRadius.circular(8.0)),
             content: SizedBox(
               height: 200,
               child: Center(
-                  child:SizedBox(
-                    child:
-                    new CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation(Color(0xffB0FFA3)),
-                        strokeWidth: 5.0
-                    ),
-                    height: 50.0,
-                    width: 50.0,
-                  )
-              ),
+                  child: SizedBox(
+                child: new CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation(Color(0xffB0FFA3)),
+                    strokeWidth: 5.0),
+                height: 50.0,
+                width: 50.0,
+              )),
             ),
           );
-
         });
   }
-  String KgPrint(kg){
+
+  String KgPrint(kg) {
     String kgprint = kg.substring(0, 5);
     return kgprint;
-
   }
 
   void connecterror() {
@@ -300,12 +292,10 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
           });
           return AlertDialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)
-            ),
+                borderRadius: BorderRadius.circular(10.0)),
             title: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
                   child: Text(
@@ -315,11 +305,10 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                 ),
               ],
             ),
-
           );
-
         });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -365,7 +354,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                       width: 10,
                                       height: 10,
                                       decoration: BoxDecoration(
-                                        color: context.watch<BlueState>().state,
+                                        color: context.watch<BlueState>().color,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -382,22 +371,37 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   ElevatedButton(
-                                      onPressed: () async {
-                                        final conct = await Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        blue.bluetooth()))
-                                            as ScanResult;
+                                      // onPressed: () async {
+                                      //   final conct = await Navigator.push(
+                                      //           context,
+                                      //           MaterialPageRoute(
+                                      //               builder: (context) =>
+                                      //                   blue.bluetooth()))
+                                      //       as ScanResult;
+                                      //   setState(() {
+                                      //     text = conct.device.name;
+                                      //     ScanR = conct;
+                                      //     //연결상태 검사 시작
+                                      //     connectstate();
+                                      //   });
+                                      // },
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    blue.bluetooth()));
+
                                         setState(() {
-                                          text = conct.device.name;
-                                          ScanR = conct;
-                                          print(text);
+                                          ScanR = context
+                                              .watch<BlueState>()
+                                              .scanresult;
                                         });
-                                        context.read<BlueState>().changeColor('Connect');
                                       },
                                       child: Text(
-                                        (text),
+                                        (context
+                                            .watch<BlueState>()
+                                            .connecttext),
                                         style: Theme.of(context)
                                             .textTheme
                                             .subtitle2,
@@ -632,9 +636,9 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                                                   .fromSTEB(0,
                                                                       0, 30, 0),
                                                           child: Text(
-                                                              KgPrint(snapshot.data
-                                                                  .toString())
-                                                             +
+                                                            KgPrint(snapshot
+                                                                    .data
+                                                                    .toString()) +
                                                                 '      kg',
                                                             style: Theme.of(
                                                                     context)
