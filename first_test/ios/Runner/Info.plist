@@ -26,12 +26,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>블루투스 장비에서 데이터를 불러올기 위한 권한 요청</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>블루투스 장비에서 데이터를 불러올기 위한 권한 요청(항상)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>앱이 사진첩에 접근하는것을 허용하시겠습니까.</string>
+	<string>앱 내부의 사진첩에 접근하기 위한 권한 요청</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Our app uses bluetooth to find, connect and transfer data between different devices</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
