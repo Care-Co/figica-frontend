@@ -24,15 +24,13 @@ class _bluetoothState extends State<bluetooth> {
 
   @override
   initState() {
-    super.setState(() {});
+    super.initState();
     scan();
     flutterBlue.stopScan();
     initBle();
     setState(() {});
   }
-  void dispose() {
-    super.dispose();
-  }
+
 
   void initBle() async{
     // BLE 스캔 상태 얻기 위한 리스너
@@ -56,7 +54,7 @@ class _bluetoothState extends State<bluetooth> {
 
       flutterBlue.scanResults.listen((results) {
 
-        try {
+
           results.forEach((element) {
             //찾는 장치명인지 확인
             if (element.device.name == targetDeviceName) {
@@ -69,12 +67,6 @@ class _bluetoothState extends State<bluetooth> {
               }
             }
           });
-        }
-        catch(e){
-          print('error');
-
-        }
-
         // UI 갱신
         setState(() {});
       });
@@ -121,7 +113,7 @@ class _bluetoothState extends State<bluetooth> {
     context.read<BlueState>().changeState(BluetoothDeviceState.connected);
     print('===============================');
     print(context.watch<BlueState>().connecttext);
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 1000));
 
   }
 

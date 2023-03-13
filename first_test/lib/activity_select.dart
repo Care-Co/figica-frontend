@@ -82,14 +82,14 @@ class _ActivitySelectWidgetState extends State<ActivitySelectWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
                         child: Container(
                           child: InkWell(
-                            // onTap: () {
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             ActivityVisionWidget()),
-                            //   );
-                            // },
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ActivityVisionWidget()),
+                              );
+                            },
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [

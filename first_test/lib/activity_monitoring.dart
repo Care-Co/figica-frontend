@@ -47,9 +47,10 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   }
 
   void getdata(ScanResult r) async {
+
     List<int> lastvalue = [];
     List<String> hexvalue = [];
-    int i = 0;
+    int i = 1;
     String hexstring = '';
     List<BluetoothService> bleServices = await r.device.discoverServices();
     loading();
@@ -66,13 +67,17 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
             await c.setNotifyValue(true);
             // 받을 데이터 변수 Map 형식으로 키 생성
             notifyDatas[c.uuid.toString()] = List.empty();
+
+
             c.value.listen((value) {
               // 데이터 읽기 처리!
               setState(() {
                 // 받은 데이터 저장 화면 표시용
                 notifyDatas[c.uuid.toString()] = value;
+                print(i);
                 lastvalue += value;
               });
+              i++;
             });
             await Future.delayed(const Duration(milliseconds: 5000));
             // 설정 후 일정시간 지연
@@ -91,6 +96,8 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
     hexstring = hexvalue.join();
     print(hexstring);
     callAPI(hexstring);
+    hexvalue = [];
+    hexstring = '';
   }
 
   void callAPI(String hexdata) async {
@@ -393,9 +400,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                                     blue.bluetooth()));
 
                                         setState(() {
-                                          ScanR = context
-                                              .watch<BlueState>()
-                                              .scanresult;
+                                          ScanR = context.watch<BlueState>().scanresult;
                                         });
                                       },
                                       child: Text(
@@ -695,7 +700,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                               "측정하기",
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
-                            onPressed: () => {getdata(ScanR)},
+                            onPressed: () => {getdata(context.watch<BlueState>().scanresult)},
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(190, 50),
                                 backgroundColor: Color(0xFF141514),
@@ -714,7 +719,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                           children: [
                             ElevatedButton(
                                 onPressed: () {
-                                  disconnect(ScanR);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
