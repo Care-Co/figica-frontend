@@ -42,6 +42,7 @@ class _MainLoginWidgetState extends State<MainLoginWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       appBar: PreferredSize(
@@ -245,7 +246,7 @@ class _MainLoginWidgetState extends State<MainLoginWidget> {
                                       autofocus: true,
                                       obscureText: !_model.passwordVisibility,
                                       decoration: InputDecoration(
-                                        hintText: '비밀번호\n',
+                                        hintText: '비밀번호',
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .bodyText2,
                                         enabledBorder: UnderlineInputBorder(

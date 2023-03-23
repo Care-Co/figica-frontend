@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class TosPageModel extends FlutterFlowModel {
   ///  Local state fields for this page.
 
-  bool? allagree = true;
+  bool? allagree = false;
 
   ///  State fields for stateful widgets in this page.
 
