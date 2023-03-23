@@ -16,7 +16,7 @@ class SignupPageModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? emailControllerValidator;
   String? _emailControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Field is required';
+      return '이메일을 @까지 정확히 입력해 주세요';
     }
 
     if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
@@ -35,7 +35,7 @@ class SignupPageModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? passwordcheckControllerValidator;
   String? _passwordcheckControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Field is required';
+      return '비밀번호를 한번더 입력해 주세요';
     }
 
     return null;

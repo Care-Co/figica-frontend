@@ -202,10 +202,14 @@ class _TosPageWidgetState extends State<TosPageWidget> {
                                         _model.checkboxValue1 = newValue!);
                                     if (newValue!) {
                                       setState(() {
+                                        _model.checkboxValue2 = true;
+                                        _model.checkboxValue3 = true;
                                         _model.allagree = true;
                                       });
                                     } else {
                                       setState(() {
+                                        _model.checkboxValue2 = false;
+                                        _model.checkboxValue3 = false;
                                         _model.allagree = false;
                                       });
                                     }
@@ -260,6 +264,17 @@ class _TosPageWidgetState extends State<TosPageWidget> {
                                 onChanged: (newValue) async {
                                   setState(
                                       () => _model.checkboxValue2 = newValue!);
+                                  if (newValue! && _model.checkboxValue3!) {
+                                    setState(() {
+                                      _model.allagree = true;
+                                      _model.checkboxValue1 = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _model.allagree = false;
+                                      _model.checkboxValue1 = false;
+                                    });
+                                  }
                                 },
                                 activeColor:
                                     FlutterFlowTheme.of(context).primaryColor,
@@ -303,11 +318,27 @@ class _TosPageWidgetState extends State<TosPageWidget> {
                                                               false),
                                                       child: Text('취소'),
                                                     ),
+
                                                     TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              alertDialogContext,
-                                                              true),
+                                                      onPressed: () => {
+                                                        setState(() {
+                                                          _model.checkboxValue2 = true;
+                                                          if (_model.checkboxValue2! && _model.checkboxValue3!) {
+                                                            setState(() {
+                                                              _model.allagree = true;
+                                                              _model.checkboxValue1 = true;
+                                                            });
+                                                          } else {
+                                                            setState(() {
+                                                              _model.allagree = false;
+                                                              _model.checkboxValue1 = false;
+                                                            });
+                                                          }
+                                                        }),
+                                                        Navigator.pop(
+                                                            alertDialogContext,
+                                                            true),
+                                                      },
                                                       child: Text('동의'),
                                                     ),
                                                   ],
@@ -345,6 +376,17 @@ class _TosPageWidgetState extends State<TosPageWidget> {
                                 onChanged: (newValue) async {
                                   setState(
                                       () => _model.checkboxValue3 = newValue!);
+                                  if (newValue! && _model.checkboxValue2!) {
+                                    setState(() {
+                                      _model.allagree = true;
+                                      _model.checkboxValue1 = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _model.allagree = false;
+                                      _model.checkboxValue1 = false;
+                                    });
+                                  }
                                 },
                                 activeColor:
                                     FlutterFlowTheme.of(context).primaryColor,
@@ -372,8 +414,51 @@ class _TosPageWidgetState extends State<TosPageWidget> {
                                         .primaryText,
                                     size: 20.0,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    var confirmDialogResponse =
+                                        await showDialog<bool>(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return AlertDialog(
+                                                  title:
+                                                      Text('개인정보 수집 및 이용 동의'),
+                                                  content:
+                                                      Text('개인정보 수집 및 이용 동의'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext,
+                                                              false),
+                                                      child: Text('취소'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () => {
+                                                        setState(() {
+                                                          _model.checkboxValue3 = true;
+                                                          if (_model.checkboxValue2! && _model.checkboxValue3!) {
+                                                            setState(() {
+                                                              _model.allagree = true;
+                                                              _model.checkboxValue1 = true;
+                                                            });
+                                                          } else {
+                                                            setState(() {
+                                                              _model.allagree = false;
+                                                              _model.checkboxValue1 = false;
+                                                            });
+                                                          }
+                                                        }),
+                                                        Navigator.pop(
+                                                            alertDialogContext,
+                                                            true),
+                                                      },
+                                                      child: Text('동의'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ) ??
+                                            false;
                                   },
                                 ),
                               ],

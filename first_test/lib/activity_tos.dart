@@ -19,12 +19,12 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
     if (checkboxValue1 == true) {
       checkboxValue2 = true;
       checkboxValue3 = true;
-    }
-    else if(checkboxValue1 == false) {
+    } else if (checkboxValue1 == false) {
       checkboxValue2 = false;
       checkboxValue3 = false;
     }
   }
+
 /* 이용약관동의 2*/
   void tos2Dialog() {
     showDialog(
@@ -53,8 +53,8 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                     children: [
                       Expanded(
                           child: Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(50, 10, 50, 30),
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  50, 10, 50, 30),
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
                                 child: Text(
@@ -67,12 +67,10 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                                 ),
                               )))
                     ],
-
                   ),
                 ),
               ],
             ),
-
             actions: <Widget>[
               Container(
                 child: Column(
@@ -93,10 +91,7 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                             backgroundColor: Color(0xFfB0FFA3),
                             shape: RoundedRectangleBorder(
                                 borderRadius:
-                                new BorderRadius.circular(40.0)
-                            )
-                        )
-                    ),
+                                    new BorderRadius.circular(40.0)))),
                   ],
                 ),
               ),
@@ -104,6 +99,7 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
           );
         });
   }
+
   void tos1Dialog() {
     showDialog(
         context: context,
@@ -131,8 +127,8 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                     children: [
                       Expanded(
                           child: Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(50, 10, 50, 30),
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  50, 10, 50, 30),
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
                                 child: Text(
@@ -145,12 +141,10 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                                 ),
                               )))
                     ],
-
                   ),
                 ),
               ],
             ),
-
             actions: <Widget>[
               Container(
                 child: Column(
@@ -171,10 +165,7 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                             backgroundColor: Color(0xFfB0FFA3),
                             shape: RoundedRectangleBorder(
                                 borderRadius:
-                                new BorderRadius.circular(40.0)
-                            )
-                        )
-                    ),
+                                    new BorderRadius.circular(40.0)))),
                   ],
                 ),
               ),
@@ -183,7 +174,6 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
         });
   }
 /* 이용약관동의 1*/
-
 
   @override
   void dispose() {
@@ -201,15 +191,11 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
             Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
         child: AppBar(
           backgroundColor: Colors.black,
-
           automaticallyImplyLeading: true,
-
-
           title: Text(
             '약관 동의',
             style: Theme.of(context).textTheme.subtitle2,
           ),
-
           centerTitle: true,
           toolbarHeight: MediaQuery.of(context).size.height * 0.1,
           elevation: 0,
@@ -238,7 +224,7 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SvgPicture.asset(
-                            'assets/symbol.svg',
+                          'assets/symbol.svg',
                           width: 70,
                           height: 70,
                           color: Colors.white,
@@ -249,7 +235,6 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                           child: Text(
                             '환영합니다!',
                             style: Theme.of(context).textTheme.headline2,
-
                           ),
                         ),
                         Text(
@@ -347,8 +332,8 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                                     ),
                                     Text(
                                       '이용 약관 동의(필수)',
-                                      style: Theme.of(context).textTheme.bodyText2,
-
+                                      style:
+                                          Theme.of(context).textTheme.bodyText2,
                                     ),
                                     Expanded(
                                       child: Row(
@@ -396,7 +381,8 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                                     ),
                                     Text(
                                       '개인정보 수집 및 이용동의(필수)',
-                                      style: Theme.of(context).textTheme.bodyText2,
+                                      style:
+                                          Theme.of(context).textTheme.bodyText2,
                                     ),
                                     Expanded(
                                       child: Row(
@@ -433,41 +419,45 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                   ),
                 ),
                 Expanded(
-                  child:Container(
-                      width: double.infinity,
-                      child:Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          ElevatedButton(onPressed:(checkboxValue1==true)?(){ Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ActivitySelectWidget()),
-                          );}:null,
-                              child: Text(
-                                '시작하기',
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard',
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: (checkboxValue1 == true)
-                                      ? Color(0xFF000000)
-                                      : Color(0xFFA4A4A4),
+                    child: Container(
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            ElevatedButton(
+                                onPressed: (checkboxValue1 == true)
+                                    ? () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ActivitySelectWidget()),
+                                        );
+                                      }
+                                    : null,
+                                child: Text(
+                                  '시작하기',
+                                  style: TextStyle(
+                                    fontFamily: 'Pretendard',
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: (checkboxValue1 == true)
+                                        ? Color(0xFF000000)
+                                        : Color(0xFFA4A4A4),
+                                  ),
                                 ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  minimumSize:const Size(double.infinity, 50),
-                                  backgroundColor: (checkboxValue1==true)? Color(0xFFB0FFA3):Color(0xFFEBEBEB),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: new BorderRadius.circular(10.0)) )
-                          )
-                        ],
-                      )
-
-                  )
-
-                )
-
+                                style: ElevatedButton.styleFrom(
+                                    minimumSize:
+                                        const Size(double.infinity, 50),
+                                    backgroundColor: (checkboxValue1 == true)
+                                        ? Color(0xFFB0FFA3)
+                                        : Color(0xFFEBEBEB),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0))))
+                          ],
+                        )))
               ],
-
             ),
           ),
         ),
