@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'tos_page_model.dart';
 export 'tos_page_model.dart';
 
+
+
 class TosPageWidget extends StatefulWidget {
   const TosPageWidget({Key? key}) : super(key: key);
 

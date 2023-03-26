@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../pass_page/pass_page_widget.dart';
 import '../../signup/interest/interest_widget.dart';
+import '../../trial_version/activity_main.dart';
+import '../../trial_version/activity_tos.dart';
 import '../flutter_flow_theme.dart';
 import '../../backend/backend.dart';
 
@@ -93,6 +95,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'TosPage',
           path: 'tosPage',
           builder: (context, params) => TosPageWidget(),
+        ),
+        FFRoute(
+          name: 'TrialTos',
+          path: 'trialtos',
+          builder: (context, params) => ActivityTosWidget(),
         ),
         FFRoute(
           name: 'SignupPage',

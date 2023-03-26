@@ -1,3 +1,4 @@
+import '../../trial_version/activity_tos.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -74,7 +75,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   10.0, 10.0, 10.0, 10.0),
                               child: FFButtonWidget(
                                 onPressed: () {
-                                  context.pushNamed('Interest');
+                                  {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ActivityTosWidget()),
+                                    );
+                                  }
                                 },
                                 text: '체험 모드',
                                 options: FFButtonOptions(
