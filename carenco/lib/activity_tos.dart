@@ -308,11 +308,13 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                               ),
                               Text(
                                 '약관 전체 동의',
-                                style: FlutterFlowTheme.of(context).title3.override(
+                                style: FlutterFlowTheme.of(context)
+                                    .subtitle1
+                                    .override(
                                   fontFamily: 'Pretendard',
+                                  color: FlutterFlowTheme.of(context).white,
                                   fontWeight: FontWeight.w600,
                                   useGoogleFonts: false,
-                                  color:Colors.white,
                                 ),
                               ),
                             ],
@@ -353,11 +355,13 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                                     ),
                                     Text(
                                       '이용 약관 동의(필수)',
-                                      style: FlutterFlowTheme.of(context).title3.override(
+                                      style: FlutterFlowTheme.of(context)
+                                          .subtitle1
+                                          .override(
                                         fontFamily: 'Pretendard',
+                                        color: FlutterFlowTheme.of(context).white,
                                         fontWeight: FontWeight.w600,
                                         useGoogleFonts: false,
-                                        color:Colors.white,
                                       ),
                                     ),
                                     Expanded(
@@ -406,11 +410,13 @@ class _ActivityTosWidgetState extends State<ActivityTosWidget> {
                                     ),
                                     Text(
                                       '개인정보 수집 및 이용동의(필수)',
-                                      style: FlutterFlowTheme.of(context).title3.override(
+                                      style: FlutterFlowTheme.of(context)
+                                          .subtitle1
+                                          .override(
                                         fontFamily: 'Pretendard',
+                                        color: FlutterFlowTheme.of(context).white,
                                         fontWeight: FontWeight.w600,
                                         useGoogleFonts: false,
-                                        color:Colors.white,
                                       ),
                                     ),
                                     Expanded(

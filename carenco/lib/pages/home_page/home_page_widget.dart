@@ -171,85 +171,85 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
-                        child: InkWell(
-                          onTap: () async {
-                            context.pushNamed('HomePage');
-                          },
-                          child: Container(
-                            width: 327.0,
-                            height: 56.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              borderRadius: BorderRadius.circular(0.0),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12.0),
-                              child: Image.network(
-                                'https://picsum.photos/seed/406/600',
-                                width: 100.0,
-                                height: 100.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
-                        child: InkWell(
-                          onTap: () async {
-                            context.pushNamed('HomePage');
-                          },
-                          child: Container(
-                            width: 327.0,
-                            height: 56.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              borderRadius: BorderRadius.circular(0.0),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12.0),
-                              child: Image.network(
-                                'https://picsum.photos/seed/406/600',
-                                width: 100.0,
-                                height: 100.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          context.pushNamed('HomePage');
-                        },
-                        child: Container(
-                          width: 327.0,
-                          height: 56.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            borderRadius: BorderRadius.circular(0.0),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/406/600',
-                              width: 100.0,
-                              height: 100.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    // children: [
+                    //   Padding(
+                    //     padding:
+                    //         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                    //     child: InkWell(
+                    //       onTap: () async {
+                    //         context.pushNamed('HomePage');
+                    //       },
+                    //       child: Container(
+                    //         width: 327.0,
+                    //         height: 56.0,
+                    //         decoration: BoxDecoration(
+                    //           color: FlutterFlowTheme.of(context)
+                    //               .secondaryBackground,
+                    //           borderRadius: BorderRadius.circular(0.0),
+                    //         ),
+                    //         child: ClipRRect(
+                    //           borderRadius: BorderRadius.circular(12.0),
+                    //           child: Image.network(
+                    //             'https://picsum.photos/seed/406/600',
+                    //             width: 100.0,
+                    //             height: 100.0,
+                    //             fit: BoxFit.cover,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   Padding(
+                    //     padding:
+                    //         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+                    //     child: InkWell(
+                    //       onTap: () async {
+                    //         context.pushNamed('HomePage');
+                    //       },
+                    //       child: Container(
+                    //         width: 327.0,
+                    //         height: 56.0,
+                    //         decoration: BoxDecoration(
+                    //           color: FlutterFlowTheme.of(context)
+                    //               .secondaryBackground,
+                    //           borderRadius: BorderRadius.circular(0.0),
+                    //         ),
+                    //         child: ClipRRect(
+                    //           borderRadius: BorderRadius.circular(12.0),
+                    //           child: Image.network(
+                    //             'https://picsum.photos/seed/406/600',
+                    //             width: 100.0,
+                    //             height: 100.0,
+                    //             fit: BoxFit.cover,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   InkWell(
+                    //     onTap: () async {
+                    //       context.pushNamed('HomePage');
+                    //     },
+                    //     child: Container(
+                    //       width: 327.0,
+                    //       height: 56.0,
+                    //       decoration: BoxDecoration(
+                    //         color: FlutterFlowTheme.of(context)
+                    //             .secondaryBackground,
+                    //         borderRadius: BorderRadius.circular(0.0),
+                    //       ),
+                    //       child: ClipRRect(
+                    //         borderRadius: BorderRadius.circular(12.0),
+                    //         child: Image.network(
+                    //           'https://picsum.photos/seed/406/600',
+                    //           width: 100.0,
+                    //           height: 100.0,
+                    //           fit: BoxFit.cover,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ],
                   ),
                 ),
               ),
@@ -271,7 +271,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
                         child: InkWell(
                           onTap: () async {
-                            context.pushNamed('Main_login');
+                            //context.pushNamed('Main_login');
                           },
                           child: Container(
                             width: 327.0,
@@ -305,7 +305,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                       InkWell(
                         onTap: () async {
-                          context.pushNamed('TosPage');
+                          //context.pushNamed('TosPage');
                         },
                         child: Container(
                           width: 327.0,

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:carenco/flutter_flow/flutter_flow_util.dart';
 import 'package:carenco/provider/myProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -35,7 +36,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   StreamSubscription<BluetoothDeviceState>? _stateListener;
   BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
 
-
   @override
   void dispose() {
     _unfocusNode.dispose();
@@ -47,7 +47,8 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
       r.device.disconnect();
     } catch (e) {}
   }
-  void conn(ScanResult r) async{
+
+  void conn(ScanResult r) async {
     List<BluetoothService> bleServices = await r.device.discoverServices();
     for (BluetoothService service in bleServices) {
       for (BluetoothCharacteristic c in service.characteristics) {
@@ -63,7 +64,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
             // 받을 데이터 변수 Map 형식으로 키 생성
             notifyDatas[c.uuid.toString()] = List.empty();
 
-
             c.value.listen((value) {
               // 데이터 읽기 처리!
               setState(() {
@@ -81,7 +81,8 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
       }
     }
   }
-  void mode(ScanResult r) async{
+
+  void mode(ScanResult r) async {
     List<BluetoothService> bleServices = await r.device.discoverServices();
     for (BluetoothService service in bleServices) {
       for (BluetoothCharacteristic c in service.characteristics) {
@@ -97,7 +98,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
             // 받을 데이터 변수 Map 형식으로 키 생성
             notifyDatas[c.uuid.toString()] = List.empty();
 
-
             c.value.listen((value) {
               // 데이터 읽기 처리!
               setState(() {
@@ -115,7 +115,8 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
       }
     }
   }
-  void stop(ScanResult r) async{
+
+  void stop(ScanResult r) async {
     List<BluetoothService> bleServices = await r.device.discoverServices();
     for (BluetoothService service in bleServices) {
       for (BluetoothCharacteristic c in service.characteristics) {
@@ -128,7 +129,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
   }
 
   void getdata(ScanResult r) async {
-
     conn(r);
     mode(r);
 
@@ -152,7 +152,6 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
             // 받을 데이터 변수 Map 형식으로 키 생성
             notifyDatas[c.uuid.toString()] = List.empty();
 
-
             c.value.listen((value) {
               // 데이터 읽기 처리!
               setState(() {
@@ -163,15 +162,13 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
               });
               i++;
               print("------------------------------------------------\n");
-              if (i == 35){
+              if (i == 35) {
                 stop(r);
               }
-
             });
             print(lastvalue);
             await Future.delayed(const Duration(milliseconds: 5000));
             // 설정 후 일정시간 지연
-
           } catch (e) {
             print('error ${c.uuid} $e');
           }
@@ -490,7 +487,9 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                                     blue.bluetooth()));
 
                                         setState(() {
-                                          ScanR = context.watch<BlueState>().scanresult;
+                                          ScanR = context
+                                              .watch<BlueState>()
+                                              .scanresult;
                                         });
                                       },
                                       child: Text(
@@ -500,11 +499,13 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .subtitle1
                                             .override(
-                                          fontFamily: 'Pretendard',
-                                          color: FlutterFlowTheme.of(context).white,
-                                          fontWeight: FontWeight.w600,
-                                          useGoogleFonts: false,
-                                        ),
+                                              fontFamily: 'Pretendard',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .white,
+                                              fontWeight: FontWeight.w600,
+                                              useGoogleFonts: false,
+                                            ),
                                       ),
                                       style: ElevatedButton.styleFrom(
                                           minimumSize: const Size(160, 40),
@@ -512,8 +513,7 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   new BorderRadius.circular(
-                                                      30.0)))
-                                  )
+                                                      30.0))))
                                 ],
                               ),
                             ),
@@ -639,8 +639,8 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                                       return Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
-                                              width: 400,
-                                              height: 200,
+                                              width: 300,
+                                              height: double.infinity,
                                               decoration: BoxDecoration(
                                                 color: Color(0xFFEBEBEB),
                                                 borderRadius:
@@ -761,50 +761,74 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                     ],
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  decoration: BoxDecoration(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(30, 10, 10, 0),
-                        child: ElevatedButton(
-                            child: Text(
-                              '나에게 보내기',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                            onPressed: () => emailDialog(),
-                            style: ElevatedButton.styleFrom(
-                                side: const BorderSide(
-                                  width: 1.0,
-                                  color: Color(0xff141514),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                  child: Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    decoration: BoxDecoration(),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
+                            child: ElevatedButton(
+                                child: Text(
+                                  '나에게 보내기',
+                                  textAlign: TextAlign.center,
+                                  style: FlutterFlowTheme.of(context)
+                                      .subtitle2
+                                      .override(
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w600,
+                                        useGoogleFonts: false,
+                                      ),
                                 ),
-                                minimumSize: const Size(190, 50),
-                                backgroundColor: Color(0xFFF7F8FA),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0),
-                                ))),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 30, 0),
-                        child: ElevatedButton(
-                            child: Text(
-                              "측정하기",
-                              style: Theme.of(context).textTheme.subtitle2,
-                            ),
-                            onPressed: () => {getdata(context.watch<BlueState>().scanresult)},
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(190, 50),
-                                backgroundColor: Color(0xFF141514),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0)))),
-                      ),
-                    ],
+                                onPressed: () => emailDialog(),
+                                style: ElevatedButton.styleFrom(
+                                    side: const BorderSide(
+                                      width: 1.0,
+                                      color: Color(0xff141514),
+                                    ),
+                                    backgroundColor: Color(0xFFF7F8FA),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                    ))),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+                            child: ElevatedButton(
+                                child: Text(
+                                  "측정하기",
+                                  style: FlutterFlowTheme.of(context)
+                                      .subtitle2
+                                      .override(
+                                        fontFamily: 'Pretendard',
+                                        fontWeight: FontWeight.w600,
+                                        useGoogleFonts: false,
+                                        color: Colors.white,
+                                      ),
+                                ),
+                                onPressed: () => {
+                                      getdata(
+                                          context.watch<BlueState>().scanresult)
+                                    },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xff141514),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(10.0)))),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
@@ -815,21 +839,23 @@ class _ActivityMonitoringWidgetState extends State<ActivityMonitoringWidget> {
                           children: [
                             ElevatedButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ActivityMainWidget()),
-                                  );
+                                  context.pushNamed('HomePage');
                                 },
                                 child: Text(
                                   '처음으로',
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: FlutterFlowTheme.of(context)
+                                      .subtitle1
+                                      .override(
+                                    fontFamily: 'Pretendard',
+                                    color: FlutterFlowTheme.of(context).black,
+                                    fontWeight: FontWeight.w600,
+                                    useGoogleFonts: false,
+                                  ),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                     minimumSize:
                                         const Size(double.infinity, 50),
-                                    backgroundColor: Color(0xFF000000),
+                                    backgroundColor: Color(0xFFF7F8FA),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             new BorderRadius.circular(10.0))))
