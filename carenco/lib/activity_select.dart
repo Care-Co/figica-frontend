@@ -1,3 +1,4 @@
+import 'package:carenco/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
@@ -222,16 +223,11 @@ class _ActivitySelectWidgetState extends State<ActivitySelectWidget> {
                           children: [
                             ElevatedButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ActivityMainWidget()),
-                                  );
+                                  context.pushNamed('HomePage');
                                 },
                                 child: Text(
                                   '처음으로',
-                                  style: FlutterFlowTheme.of(context).title3.override(
+                                  style: FlutterFlowTheme.of(context).subtitle2.override(
                                     fontFamily: 'Pretendard',
                                     fontWeight: FontWeight.w600,
                                     useGoogleFonts: false,
