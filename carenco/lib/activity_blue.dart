@@ -7,6 +7,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
 import 'activity_blue_device.dart';
 import 'activity_monitoring.dart' as monitoring;
+import 'flutter_flow/flutter_flow_theme.dart';
 
 class bluetooth extends StatefulWidget {
   @override
@@ -177,33 +178,29 @@ class _bluetoothState extends State<bluetooth> {
           child:Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                child: Text(
-                  '블루투스 연결하기',
-                  style: TextStyle(
+            Container(
+            width: 380,
+            height: 380,
+            decoration: BoxDecoration(
+              color: FlutterFlowTheme.of(context).secondaryBackground,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Hello World',
+                  style: FlutterFlowTheme.of(context).subtitle1.override(
                     fontFamily: 'Pretendard',
-                    color: Color(0xFF282828),
-                    fontSize: 18,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    useGoogleFonts: false,
                   ),
+                ),
+              ],
+            ),
+            ),
 
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                child: Text(
-                  '제품의 전원을 켜고 스마트폰 설정에서 블루투스, GPS 연결을 켜주세요',
-                  style: TextStyle(
-                    fontFamily: 'Pretendard',
-                    color: Color(0xFF909090),
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 100,
-              ),
               Container(
                 width: 400,
                 height: 400,

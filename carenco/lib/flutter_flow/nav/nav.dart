@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../guest/guest_widget.dart';
+import '../../newscan/newscan_widget.dart';
+//import '../../newhome/newhome_widget.dart';
+
 import '../../pass_page/pass_page_widget.dart';
 import '../../signup/interest/interest_widget.dart';
 import '../../activity_main.dart';
@@ -73,13 +77,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
   debugLogDiagnostics: true,
   refreshListenable: appStateNotifier,
   errorBuilder: (context, _) =>
-  appStateNotifier.loggedIn ? MainPageWidget() : HomePageWidget(),
+  appStateNotifier.loggedIn ? MainPageWidget() : GusetWidget(),//시작경로
   routes: [
     FFRoute(
       name: '_initialize',
       path: '/',
       builder: (context, _) =>
-      appStateNotifier.loggedIn ? MainPageWidget() : HomePageWidget(),
+      appStateNotifier.loggedIn ? MainPageWidget() : GusetWidget(),//시작경로
       routes: [
         FFRoute(
           name: 'HomePage',
@@ -96,6 +100,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: 'tosPage',
           builder: (context, params) => TosPageWidget(),
         ),
+        FFRoute(
+          name: 'Newscan',
+          path: 'newscan',
+          builder: (context, params) => NewscanWidget(),
+        ),
+        // FFRoute(
+        //   name: 'Newhome',
+        //   path: 'newhome',
+        //   builder: (context, params) => NewhomeWidget(),
+        // ),
         FFRoute(
           name: 'TrialTos',
           path: 'trialtos',

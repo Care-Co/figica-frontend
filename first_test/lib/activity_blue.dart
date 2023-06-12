@@ -57,7 +57,7 @@ class _bluetoothState extends State<bluetooth> {
 
           results.forEach((element) {
             //찾는 장치명인지 확인
-            if (element.device.name == targetDeviceName) {
+            // if (element.device.name == targetDeviceName) {
               // 장치의 ID를 비교해 이미 등록된 장치인지 확인
               if (scanResultList
                   .indexWhere((e) => e.device.id == element.device.id) <
@@ -65,7 +65,7 @@ class _bluetoothState extends State<bluetooth> {
                 // 찾는 장치명이고 scanResultList에 등록된적이 없는 장치라면 리스트에 추가
                 scanResultList.add(element);
               }
-            }
+            // }
           });
         // UI 갱신
         setState(() {});
