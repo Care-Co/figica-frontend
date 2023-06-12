@@ -88,7 +88,7 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color grey100 = Color(0xFFEDEEF1);
   late Color figicoGreen = Color(0xFFCCFF8D);
   late Color black = Color(0xFF1A1C21);
-  late Color darkenGreen = Color(0xFFC3F483);
+  late Color darkenGreen = Color(0xffaefa4e);
   late Color bluegrey = Color(0xFFB4BED9);
   late Color figicoRed = Color(0xFFE95958);
   late Color alertGreen = Color(0xFF00DE16);

@@ -60,6 +60,17 @@
 	<string>앱 내부의 사진첩에 접근하기 위한 권한 요청</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>io.flutter.embedded_views_preview</key>
+    <true/>
+    <key>NSBonjourServices</key>
+    	<array>
+    		<string>_dartobservatory._tcp</string>
+    	</array>
+    <key>NSAppTransportSecurity</key>
+    <true/>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+
 
 
 
