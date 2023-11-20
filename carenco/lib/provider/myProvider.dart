@@ -12,6 +12,7 @@ class BlueState with ChangeNotifier {
   String notconnetc = "연결하기";
   String ingconnetc = "연결중";
   String disingconnetc = "연결해제중";
+  bool stopcheck = false;
 
   BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
 

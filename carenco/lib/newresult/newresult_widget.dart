@@ -122,6 +122,10 @@ class _NewresultWidgetState extends State<NewresultWidget> {
         ),
         body: SlidingUpPanel(
           maxHeight: 700,
+          borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+    topRight: Radius.circular(20),),
+
 
           panel: Center(
             child: Padding(

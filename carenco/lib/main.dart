@@ -14,6 +14,7 @@ import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
 import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
+import 'dart:async';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,9 +22,7 @@ void main() async {
 
   await FlutterFlowTheme.initialize();
 
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<BlueState>(create: (_) => BlueState())
-  ], child: MyApp()));
+  runApp(MultiProvider(providers: [ChangeNotifierProvider<BlueState>(create: (_) => BlueState())], child: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -31,8 +30,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>()!;
+  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>()!;
 }
 
 class _MyAppState extends State<MyApp> {
@@ -47,11 +45,11 @@ class _MyAppState extends State<MyApp> {
   final authUserSub = authenticatedUserStream.listen((_) {});
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     _appStateNotifier = AppStateNotifier();
-    _router = createRouter(_appStateNotifier);
-    userStream = carencoFirebaseUserStream()
+    _router = await createRouter(_appStateNotifier);
+    userStream = await carencoFirebaseUserStream()
       ..listen((user) => _appStateNotifier.update(user));
     jwtTokenStream.listen((_) {});
     Future.delayed(

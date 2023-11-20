@@ -91,7 +91,7 @@ class _GusetWidgetState extends State<GusetWidget> {
                         borderRadius: BorderRadius.circular(8),
                         child: SvgPicture.asset(
                           'assets/images/symbol.svg',
-                          width: 200,
+                          width: 210,
                           height: 200,
                           color: Colors.white,
                           fit: BoxFit.cover,

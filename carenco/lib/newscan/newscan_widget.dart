@@ -36,6 +36,7 @@ class _NewscanWidgetState extends State<NewscanWidget> {
   late String weight;
   late int id;
   late bool isloading;
+  int testcount = 52;
   String text = "연결 하기";
   String bodydata = "";
   Map<String, List<int>> notifyDatas = {};
@@ -173,14 +174,17 @@ class _NewscanWidgetState extends State<NewscanWidget> {
         });
   }
 
+
   void getdata(ScanResult r) async {
+    List<int> lastvalue = [];
+    List<int> lastvalue2 = [];
+    List<String> hexvalue = [];
+    String hexstring = '';
     conn(r);
     mode(r);
-
-    List<int> lastvalue = [];
-    List<String> hexvalue = [];
+    DateTime start = DateTime.now();
     int i = 1;
-    String hexstring = '';
+
     List<BluetoothService> bleServices = await r.device.discoverServices();
     loading();
     for (BluetoothService service in bleServices) {
@@ -196,7 +200,6 @@ class _NewscanWidgetState extends State<NewscanWidget> {
             await c.setNotifyValue(true);
             // 받을 데이터 변수 Map 형식으로 키 생성
             notifyDatas[c.uuid.toString()] = List.empty();
-
             c.value.listen((value) {
               // 데이터 읽기 처리!
               setState(() {
@@ -211,35 +214,73 @@ class _NewscanWidgetState extends State<NewscanWidget> {
               }
             });
             print("===========lastvalue");
-            print(lastvalue);
-            await Future.delayed(const Duration(milliseconds: 5000));
+
+            await Future.delayed(const Duration(milliseconds: 3000));
             // 설정 후 일정시간 지연
           } catch (e) {
             print('error ${c.uuid} $e');
           }
         } else {}
       }
-    }
-    for (int i in lastvalue) {
-      final hexString = i.toRadixString(16);
 
-      hexvalue.add(hexString.padLeft(2, '0'));
     }
+    print(lastvalue);
+    for (int i in lastvalue) {
+      if ( i != 0){
+        if (i >= 225 ){
+          lastvalue2.add( 255 );
+        }
+        else{
+          lastvalue2.add( i + 30);
+        }
+
+      }
+      else{
+        lastvalue2.add( i );
+      }
+    }
+    print(lastvalue2);
+    int j = 0;
+    for (int i in lastvalue2) {
+      if ( i != 0 && j < 10){
+      }
+      else{
+        final hexString = i.toRadixString(16) ;
+        hexvalue.add(hexString.padLeft(2, '0'));
+      }
+      j++;
+
+    }
+    DateTime end = DateTime.now();
+    print("소요시간: ${end.difference(start)}");
     hexstring = hexvalue.join();
+
     print(hexstring);
     callAPI(hexstring);
+    testcount += 1;
+    print("===========================");
+    print(testcount);
+    //logAPI(hexstring, start, end);
 
   }
-
-  void callAPI(String hexdata) async {
+  void logAPI(String hexdata,DateTime start, DateTime end) async {
     var url1 = Uri.parse(
-      'http://ecs-loadbalancer-1692201378.ap-northeast-1.elb.amazonaws.com/foot-prints/create'
-      ,
+      'http://54.238.73.13:8080/log/performanceTest/save'
     );
+    DateTime now = DateTime.now();
+    String nowDate = DateFormat('yyyy-MM-dd –kk:mm').format(now);
+    String enddata = DateFormat('yyyy-MM-dd –kk:mm').format(end);
+    String startdata = DateFormat('yyyy-MM-dd –kk:mm').format(start);
+    Duration speed = end.difference(start);
     Map data = {
-      "rawData": hexdata
+      "data": 0,
+      "endTime": enddata,
+      "remark": "string",
+      "startTime": startdata,
+      "testCount": testcount,
+      "transmissionSpeed": speed.toString()
     };
-
+    print(data);
     String body = json.encode(data);
     var response = await http.post(url1,
         headers: {"Content-Type": "application/json"}, body: body);
@@ -249,6 +290,38 @@ class _NewscanWidgetState extends State<NewscanWidget> {
       bodydata = '${response.body}';
     });
     print (bodydata);
+    DateTime dt = DateTime.now();
+    print(dt);
+  }
+
+  void callAPI(String hexdata) async {
+    DateTime start = DateTime.now();
+    var url1 = Uri.parse(
+      'http://ecs-spring-alb-637551136.ap-northeast-2.elb.amazonaws.com/foot-prints/create'
+      ,
+    );
+    Map data = {
+      "id":0,
+      "rawData": hexdata
+    };
+
+    String body = json.encode(data);
+
+    var response = await http.post(url1,
+        headers: {"Content-Type": "application/json"}, body: body);
+
+    DateTime end = DateTime.now();
+
+    logAPI("0", start, end);
+    print('post Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    setState(() {
+      bodydata = '${response.body}';
+
+    });
+    print (bodydata);
+    DateTime dt = DateTime.now();
+    print(dt);
   }
 
   @override
