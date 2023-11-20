@@ -142,6 +142,8 @@ class _NewhomeWidgetState extends State<NewhomeWidget> {
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
             children: [
               Container(
                 width: double.infinity,
@@ -209,15 +211,15 @@ class _NewhomeWidgetState extends State<NewhomeWidget> {
                 ),
               ),
               Container(
-                width: double.infinity,
-                height: 600,
+                width: 400,
+                height: 560,
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
                 child: Stack(
                   children: [
                     Align(
-                      alignment: AlignmentDirectional(1, 0.8),
+                      alignment: AlignmentDirectional(1.4, 0.8),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: SvgPicture.asset(
@@ -228,32 +230,23 @@ class _NewhomeWidgetState extends State<NewhomeWidget> {
                         ),
                       ),
                     ),
-
-
-
-
-                    Align(
-                      alignment: AlignmentDirectional(2, -0.6),
-                      child: Container(
-                        child: ModelViewer(
-                          disableZoom: true,
-                          disablePan: true,
-                          disableTap: true,
-                          backgroundColor: Colors.transparent,
-                          src: abt(jsonDecode(widget.bodydata)['type']), // a bundled asset file
+                    AbsorbPointer(
+                      child:  Align(
+                        alignment: AlignmentDirectional(2, -0.6),
+                        child: Container(
+                          child: ModelViewer(
+                            backgroundColor: Colors.transparent,
+                            src: abt(jsonDecode(widget.bodydata)['type']), // a bundled asset file
+                          ),
+                          width: 300,
+                          height: 526,
                         ),
-                        width: 300,
-                        height: 526,
                       ),
                     ),
-
-
-
                     Align(
-                      alignment: AlignmentDirectional(-0.7, -0.6),
+                      alignment: AlignmentDirectional(-0.7, -0.4),
                       child: Container(
                         width: 172,
-                        height: 140,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [Color(0x14FCFCFF), Color(0x7AFCFDFF)],
@@ -266,13 +259,13 @@ class _NewhomeWidgetState extends State<NewhomeWidget> {
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
                           child: Row(
-                            mainAxisSize: MainAxisSize.max,
+                            mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(0, 0, 14, 0),
                                 child: Column(
-                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
@@ -314,14 +307,20 @@ class _NewhomeWidgetState extends State<NewhomeWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-                                      child: Text(
-                                        headline(jsonDecode(widget.bodydata)['type']),
-                                        style:
-                                        FlutterFlowTheme.of(context).subtitle1.override(
-                                          fontFamily: 'Pretendard',
-                                          color: FlutterFlowTheme.of(context).white,
-                                          useGoogleFonts: false,
+                                      padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 12),
+                                      child: Container(
+                                        width: 140,
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context).secondaryBackground,
+                                        ),
+                                        child: Text(
+                                          headline(jsonDecode(widget.bodydata)['type']),
+                                          style:
+                                          FlutterFlowTheme.of(context).subtitle1.override(
+                                            fontFamily: 'Pretendard',
+                                            color: FlutterFlowTheme.of(context).white,
+                                            useGoogleFonts: false,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -426,131 +425,134 @@ class _NewhomeWidgetState extends State<NewhomeWidget> {
                   ],
                 ),
               ),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                  ),
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: AlignmentDirectional(0, 1),
-                        child: Container(
-                          width: double.infinity,
-                          height: 00,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).grey850,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                height: 200,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 16, 0, 0),
-                                      child: Icon(
-                                        Icons.home_filled,
-                                        color:
-                                        FlutterFlowTheme.of(context).white,
-                                        size: 24,
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: AlignmentDirectional(0, 1),
+                          child: Container(
+                            width: double.infinity,
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).grey850,
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                                        child: Icon(
+                                          Icons.home_filled,
+                                          color: FlutterFlowTheme.of(context).white,
+                                          size: 24,
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 4, 0, 0),
-                                      child: Text(
-                                        'Home',
-                                        style: FlutterFlowTheme.of(context)
-                                            .subtitle1
-                                            .override(
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                                        child: Text(
+                                          'Home',
+                                          style: FlutterFlowTheme.of(context).subtitle1.override(
+                                            fontFamily: 'Pretendard',
+                                            color: FlutterFlowTheme.of(context).white,
+                                            useGoogleFonts: false,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                                        child: Icon(
+                                          Icons.perm_identity,
+                                          color: FlutterFlowTheme.of(context).grey500,
+                                          size: 24,
+                                        ),
+                                      ),
+                                      Text(
+                                        'MY',
+                                        style: FlutterFlowTheme.of(context).subtitle1.override(
                                           fontFamily: 'Pretendard',
-                                          color:
-                                          FlutterFlowTheme.of(context)
-                                              .white,
+                                          color: FlutterFlowTheme.of(context).grey500,
                                           useGoogleFonts: false,
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 16, 0, 0),
-                                      child: Icon(
-                                        Icons.perm_identity,
-                                        color: FlutterFlowTheme.of(context)
-                                            .grey500,
-                                        size: 24,
-                                      ),
-                                    ),
-                                    Text(
-                                      'MY',
-                                      style: FlutterFlowTheme.of(context)
-                                          .subtitle1
-                                          .override(
-                                        fontFamily: 'Pretendard',
-                                        color: FlutterFlowTheme.of(context)
-                                            .grey500,
-                                        useGoogleFonts: false,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
+
                           ),
                         ),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional(0, -0.8),
-                        child: Container(
-                          width: 64,
-                          height: 64,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).darkenGreen,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.accessibility,
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            size: 24,
+                        Align(
+                          alignment: AlignmentDirectional(0, -1),
+                          child: Container(
+                            width: 64,
+                            height: 64,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).darkenGreen,
+                              shape: BoxShape.circle,
+                            ),
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed('newscan');
+                              },
+                              child: Icon(
+                                Icons.accessibility,
+                                color: FlutterFlowTheme.of(context).secondaryText,
+                                size: 24,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+                ],
               ),
+
             ],
           ),
         ),

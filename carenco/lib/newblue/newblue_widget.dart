@@ -22,7 +22,7 @@ class _bluetoothState extends State<bluetooth> {
   Map<String, List<int>> notifyDatas = {};
   List<int> lastvalue = [];
   List<String> hexvalue = [];
-  final String targetDeviceName = 'Care&Co. 1';
+  final String targetDeviceName = 'Scale2';
 
   @override
   initState() {
@@ -56,7 +56,7 @@ class _bluetoothState extends State<bluetooth> {
       flutterBlue.scanResults.listen((results) {
         results.forEach((element) {
           //찾는 장치명인지 확인
-          // if (element.device.name == targetDeviceName) {
+           if (element.device.name == targetDeviceName) {
           //   // 장치의 ID를 비교해 이미 등록된 장치인지 확인
           if (scanResultList
                   .indexWhere((e) => e.device.id == element.device.id) <
@@ -64,7 +64,7 @@ class _bluetoothState extends State<bluetooth> {
             // 찾는 장치명이고 scanResultList에 등록된적이 없는 장치라면 리스트에 추가
             scanResultList.add(element);
           }
-          // }
+           }
         });
         // UI 갱신
         setState(() {});
@@ -262,8 +262,10 @@ class _bluetoothState extends State<bluetooth> {
           preferredSize:
               Size.fromHeight(MediaQuery.of(context).size.height * 0.1),
           child: AppBar(
+            title: Text("디바이스 등록",
+            style: TextStyle(color: Color(0xFFFCFDFF)),),
             backgroundColor: Colors.transparent,
-            iconTheme: IconThemeData(color: Color(0xFF141515)),
+            iconTheme: IconThemeData(color: Color(0xFFFCFDFF)),
             automaticallyImplyLeading: true,
             centerTitle: true,
             toolbarHeight: MediaQuery.of(context).size.height * 0.1,
@@ -272,7 +274,6 @@ class _bluetoothState extends State<bluetooth> {
         ),
         body: SafeArea(
           top: true,
-
           child: Container(
             decoration: const BoxDecoration(
               image: DecorationImage(image: AssetImage('assets/images/notext.png') ,
