@@ -445,12 +445,28 @@ class _GetidWidgetState extends State<GetidWidget> {
                           decoration: BoxDecoration(),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              String email = _model.phoneController.text;
+                              String input = _model.phoneController.text;
+                              if (inputType == 'email') {
+                                context.pushNamed(
+                                  'Set_pw',
+                                  queryParameters: {'email': input}.withoutNulls,
+                                );
+                              }
+                              if (inputType == 'phone') {
+                                final phoneNumberVal = _model.dropDownValueController2!.value.toString() + input;
 
-                              context.pushNamed(
-                                'Set_pw',
-                                queryParameters: {'email': email}.withoutNulls,
-                              );
+                                await authManager.beginPhoneAuth(
+                                  context: context,
+                                  phoneNumber: phoneNumberVal,
+                                  onCodeSent: (context) async {
+                                    context.goNamedAuth(
+                                      'certify',
+                                      context.mounted,
+                                      ignoreRedirect: true,
+                                    );
+                                  },
+                                );
+                              }
                             },
                             text: SetLocalizations.of(context).getText(
                               '0sekgm29' /* 다음 */,

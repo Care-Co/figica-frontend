@@ -1,9 +1,14 @@
+import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:figica/group/group.dart';
+import 'package:figica/plan/plan.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'auth/firebase_auth/firebase_user_provider.dart';
 import 'auth/firebase_auth/auth_util.dart';
 
@@ -20,7 +25,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
   await initFirebase();
-
+  await FirebaseAppCheck.instance.activate(
+    webRecaptchaSiteKey: '6LfvOBgpAAAAAO6Sk8m65hEr8CKAelzcdbx9MxLT',
+  );
   await SetLocalizations.initialize();
 
   runApp(MyApp());
@@ -115,115 +122,89 @@ class NavBarPage extends StatefulWidget {
 /// This is the private State class that goes with NavBarPage.
 class _NavBarPageState extends State<NavBarPage> {
   String _currentPageName = 'homePage';
-  late Widget? _currentPage;
+  late PersistentTabController _controller;
+
+  List<Widget> _buildScreens() {
+    return [
+      HomePageWidget(),
+      groupWidget(),
+      ScanpageWidget(),
+      planWidget(),
+      MypageWidget(),
+      // Add more screens here
+    ];
+  }
+
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.home),
+        title: ".",
+        activeColorPrimary: AppColors.primaryBackground,
+        inactiveColorPrimary: AppColors.Gray500,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.people_alt),
+        title: ".",
+        activeColorPrimary: AppColors.primaryBackground,
+        inactiveColorPrimary: AppColors.Gray500,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.search),
+        activeColorPrimary: AppColors.primary,
+        inactiveColorPrimary: AppColors.Gray500,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.search),
+        title: ".",
+        activeColorPrimary: AppColors.primaryBackground,
+        inactiveColorPrimary: AppColors.Gray500,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.person),
+        title: ".",
+        activeColorPrimary: AppColors.primaryBackground,
+        inactiveColorPrimary: AppColors.Gray500,
+      ),
+      // Add more nav items here
+    ];
+  }
 
   @override
   void initState() {
     super.initState();
     _currentPageName = widget.initialPage ?? _currentPageName;
-    _currentPage = widget.page;
+    _controller = PersistentTabController();
   }
 
   @override
   Widget build(BuildContext context) {
-    final tabs = {
-      'homePage': HomePageWidget(),
-      'scanpage': ScanpageWidget(),
-      'mypage': MypageWidget(),
-    };
-    final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
-
-    final MediaQueryData queryData = MediaQuery.of(context);
-
-    return Scaffold(
-      body: MediaQuery(
-          data: queryData.removeViewInsets(removeBottom: true).removeViewPadding(removeBottom: true), child: _currentPage ?? tabs[_currentPageName]!),
-      extendBody: true,
-      bottomNavigationBar: FloatingNavbar(
-        currentIndex: currentIndex,
-        onTap: (i) => setState(() {
-          _currentPage = null;
-          _currentPageName = tabs.keys.toList()[i];
-        }),
-        backgroundColor: Color(0xFF2F3135),
-        selectedItemColor: FlutterFlowTheme.of(context).secondaryBackground,
-        unselectedItemColor: Color(0xFF7C7F84),
-        selectedBackgroundColor: Color(0x00000000),
-        borderRadius: 8.0,
-        itemBorderRadius: 8.0,
-        margin: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-        padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-        width: double.infinity,
-        elevation: 0.0,
-        items: [
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.home_filled,
-                  color: currentIndex == 0 ? FlutterFlowTheme.of(context).secondaryBackground : Color(0xFF7C7F84),
-                  size: 24.0,
-                ),
-                Text(
-                  SetLocalizations.of(context).getText(
-                    's0rjpssz' /* Home */,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: currentIndex == 0 ? FlutterFlowTheme.of(context).secondaryBackground : Color(0xFF7C7F84),
-                    fontSize: 11.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.document_scanner_sharp,
-                  color: currentIndex == 1 ? FlutterFlowTheme.of(context).secondaryBackground : Color(0xFF7C7F84),
-                  size: 24.0,
-                ),
-                Text(
-                  SetLocalizations.of(context).getText(
-                    '3x7ltwpw' /* scan */,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: currentIndex == 1 ? FlutterFlowTheme.of(context).secondaryBackground : Color(0xFF7C7F84),
-                    fontSize: 11.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.person,
-                  color: currentIndex == 2 ? FlutterFlowTheme.of(context).secondaryBackground : Color(0xFF7C7F84),
-                  size: 24.0,
-                ),
-                Text(
-                  SetLocalizations.of(context).getText(
-                    '0v83hnie' /* MY */,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: currentIndex == 2 ? FlutterFlowTheme.of(context).secondaryBackground : Color(0xFF7C7F84),
-                    fontSize: 11.0,
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
+    return PersistentTabView(
+      context,
+      controller: _controller,
+      screens: _buildScreens(),
+      items: _navBarsItems(),
+      confineInSafeArea: true,
+      backgroundColor: AppColors.Gray850,
+      handleAndroidBackButtonPress: true,
+      resizeToAvoidBottomInset: true,
+      stateManagement: true,
+      hideNavigationBarWhenKeyboardShows: true,
+      decoration: NavBarDecoration(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
       ),
+      popAllScreensOnTapOfSelectedTab: true,
+      popActionScreens: PopActionScreensType.all,
+      itemAnimationProperties: ItemAnimationProperties(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.ease,
+      ),
+      screenTransitionAnimation: ScreenTransitionAnimation(
+        animateTabTransition: true,
+        curve: Curves.ease,
+        duration: Duration(milliseconds: 200),
+      ),
+      navBarStyle: NavBarStyle.style15, // Choose the nav bar style with this property.
     );
   }
 }

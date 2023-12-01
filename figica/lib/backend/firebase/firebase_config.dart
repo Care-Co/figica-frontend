@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
@@ -12,7 +13,15 @@ Future initFirebase() async {
             messagingSenderId: "1070443989491",
             appId: "1:1070443989491:web:cf88120bfbc85eee2aea86",
             measurementId: "G-VZHK2G2CP1"));
+    await FirebaseAppCheck.instance.activate(
+      webRecaptchaSiteKey: '6LfvOBgpAAAAAO6Sk8m65hEr8CKAelzcdbx9MxLT',
+      androidProvider: AndroidProvider.debug,
+    );
   } else {
     await Firebase.initializeApp();
+    await FirebaseAppCheck.instance.activate(
+      webRecaptchaSiteKey: '6LfvOBgpAAAAAO6Sk8m65hEr8CKAelzcdbx9MxLT',
+      androidProvider: AndroidProvider.debug,
+    );
   }
 }

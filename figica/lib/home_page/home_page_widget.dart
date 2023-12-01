@@ -109,10 +109,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     ),
                               ),
                               Text(
-                                SetLocalizations.of(context).getText(
-                                  '0kseg516' /* Hello World */,
-                                ),
-                                style: FlutterFlowTheme.of(context).titleMedium,
+                                currentUserDisplayName,
+                                style: AppFont.b24.overrides(color: AppColors.Gray200),
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
