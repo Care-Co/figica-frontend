@@ -248,6 +248,7 @@ class FirebaseAuthManager extends AuthManager
     required String smsCode,
   }) {
     if (kIsWeb) {
+      print('web');
       return _signInOrCreateAccount(
         context,
         () => phoneAuthManager.webPhoneAuthConfirmationResult!.confirm(smsCode),

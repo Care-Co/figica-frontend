@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:figica/agree_tos/agree_tos_widget.dart';
+import 'package:figica/login/certify.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
@@ -111,9 +112,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => GetidWidget(),
         ),
         FFRoute(
+          name: 'certify',
+          path: '/certify',
+          builder: (context, params) => certifyWidget(),
+        ),
+        FFRoute(
           name: 'check_email',
           path: '/check_email',
           builder: (context, params) => checkemailWidget(),
+        ),
+        FFRoute(
+          name: 'userinfo',
+          path: '/userinfo',
+          builder: (context, params) => UserInfoWidget(),
         ),
         FFRoute(
           name: 'Set_pw',
@@ -133,6 +144,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'config',
           path: '/config',
           builder: (context, params) => ConfigWidget(),
+        ),
+        FFRoute(
+          name: 'groupCreate',
+          path: '/groupCreate',
+          builder: (context, params) => CreategroupWidget(),
         ),
         FFRoute(
           name: 'mypage',

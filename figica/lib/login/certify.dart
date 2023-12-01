@@ -1,3 +1,5 @@
+import 'package:aligned_dialog/aligned_dialog.dart';
+import 'package:figica/components/Login_Fail.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,16 +18,14 @@ import 'login_model.dart';
 export 'login_model.dart';
 import '../backend/backend.dart';
 
-class SetPwWidget extends StatefulWidget {
-  final String email;
-
-  const SetPwWidget({Key? key, required this.email}) : super(key: key);
+class certifyWidget extends StatefulWidget {
+  const certifyWidget({Key? key}) : super(key: key);
 
   @override
-  _SetPwWidgetState createState() => _SetPwWidgetState();
+  _certifyWidgetState createState() => _certifyWidgetState();
 }
 
-class _SetPwWidgetState extends State<SetPwWidget> {
+class _certifyWidgetState extends State<certifyWidget> {
   late LoginModel _model;
   String inputType = 'none'; // 'email', 'phone', 'none'
   String? selectedDropdownValue;
@@ -39,27 +39,19 @@ class _SetPwWidgetState extends State<SetPwWidget> {
     _model.pwController ??= TextEditingController();
     _model.pwFocusNode ??= FocusNode();
 
-    _model.pw2Controller ??= TextEditingController();
-    _model.pw2FocusNode ??= FocusNode();
-
     _model.pwController!.addListener(() {
       if (_isValidPassword(_model.pwController!.text)) {
       } else {}
       setState(() {});
     });
-
-    // 비밀번호 확인 텍스트필드의 리스너 추가
-    _model.pw2Controller!.addListener(() {
-      if (_model.pw2Controller!.text == _model.pwController!.text) {
-      } else {}
-      setState(() {});
-    });
-
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
+  // bool _isValidPassword(String password) {
+  //   return password.length >= 8 && password.length <= 24 && RegExp(r'^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).+$').hasMatch(password);
+  // }
   bool _isValidPassword(String password) {
-    return password.length >= 8 && password.length <= 24 && RegExp(r'^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).+$').hasMatch(password);
+    return password.length >= 6;
   }
 
   @override
@@ -74,18 +66,6 @@ class _SetPwWidgetState extends State<SetPwWidget> {
     if (!_isValidPassword(text)) {
       return SetLocalizations.of(context).getText(
         '8u5gojhte' /* 8 - 24자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요 */,
-      );
-    }
-    return null;
-  }
-
-  String? get _errorText2 {
-    final text = _model.pw2Controller!.text;
-    final originalPassword = _model.pwController!.text;
-    if (text != originalPassword) {
-      setState(() {});
-      return SetLocalizations.of(context).getText(
-        '8u5gojhch' /* 입력한 비밀번호가 일치하지 않습니다. */,
       );
     }
     return null;
@@ -125,7 +105,7 @@ class _SetPwWidgetState extends State<SetPwWidget> {
           ),
           title: Text(
               SetLocalizations.of(context).getText(
-                'tetwnipp' /* 계정 생성 */,
+                '20tycjvp' /* 로그인 */,
               ),
               style: AppFont.s18.overrides(color: AppColors.Gray700)),
           actions: [],
@@ -150,7 +130,7 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                       padding: EdgeInsetsDirectional.fromSTEB(0.0, 22.0, 0.0, 0.0),
                       child: Text(
                           SetLocalizations.of(context).getText(
-                            '3787orpp' /* 만나서 반가워요! */,
+                            '378s7orpp' /* 만나서 반가워요! */,
                           ),
                           style: AppFont.b24),
                     ),
@@ -170,17 +150,6 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                           autofocus: false,
                           obscureText: !_model.pwVisibility,
                           decoration: InputDecoration(
-                            suffixIcon: InkWell(
-                              onTap: () => setState(
-                                () => _model.pwVisibility = !_model.pwVisibility,
-                              ),
-                              focusNode: FocusNode(skipTraversal: true),
-                              child: Icon(
-                                _model.pwVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                                color: Color(0xFF757575),
-                                size: 15,
-                              ),
-                            ),
                             hintText: SetLocalizations.of(context).getText(
                               '0sekgmpp', /* password */
                             ),
@@ -194,7 +163,7 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                             ),
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: AppColors.Gray200,
+                                color: AppColors.primary,
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
@@ -213,73 +182,9 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            errorText: _errorText1,
                           ),
                           style: AppFont.r16.overrides(color: AppColors.Gray700),
                           validator: _model.pwControllerValidator.asValidator(context),
-                        ),
-                        /*-----------------------비밀번호 확인-----------------------------*/
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
-                          child: Text(
-                              SetLocalizations.of(context).getText(
-                                'soukj6pp' /* 비밀번호 확인 */,
-                              ),
-                              style: AppFont.s12),
-                        ),
-                        TextFormField(
-                          controller: _model.pw2Controller,
-                          focusNode: _model.pw2FocusNode,
-                          autofocus: false,
-                          obscureText: !_model.pw2Visibility,
-                          decoration: InputDecoration(
-                            suffixIcon: InkWell(
-                              onTap: () => setState(
-                                () => _model.pw2Visibility = !_model.pw2Visibility,
-                              ),
-                              focusNode: FocusNode(skipTraversal: true),
-                              child: Icon(
-                                _model.pw2Visibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                                color: Color(0xFF757575),
-                                size: 15,
-                              ),
-                            ),
-                            hintText: SetLocalizations.of(context).getText(
-                              '0sekgmpp', /* password */
-                            ),
-                            hintStyle: AppFont.r16.overrides(color: AppColors.Gray300),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.Gray200,
-                                width: 2.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.Gray200,
-                                width: 2.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.red,
-                                width: 2.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            focusedErrorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.red,
-                                width: 2.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            errorText: _errorText2,
-                          ),
-                          style: AppFont.r16.overrides(color: AppColors.Gray700),
-                          validator: _model.pw2ControllerValidator.asValidator(context),
                         ),
                       ]),
                     ),
@@ -287,7 +192,22 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                       padding: EdgeInsets.fromLTRB(0, 94, 0, 0),
                       child: Column(
                         children: [
-                          if (_errorText1 != null || _errorText2 != null)
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: InkWell(
+                              child: Text(
+                                style: AppFont.r16.overrides(
+                                  fontSize: 12,
+                                  color: AppColors.Gray500,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                SetLocalizations.of(context).getText(
+                                  '3787ocsp' /* 비밀번호 찾기 */,
+                                ),
+                              ),
+                            ),
+                          ),
+                          if (_errorText1 != null)
                             Padding(
                               padding: const EdgeInsets.only(bottom: 40),
                               child: Container(
@@ -295,10 +215,10 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                                 height: 56.0,
                                 child: FFButtonWidget(
                                   onPressed: () {
-                                    context.goNamedAuth('userinfo', context.mounted);
+                                    print('Button pressed ...');
                                   },
                                   text: SetLocalizations.of(context).getText(
-                                    'c8ovbs6n' /* 다음 */,
+                                    '20tycjvp' /* 다음 */,
                                   ),
                                   options: FFButtonOptions(
                                     height: 40.0,
@@ -316,7 +236,7 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                                 ),
                               ),
                             ),
-                          if (_errorText1 == null && _errorText2 == null)
+                          if (_errorText1 == null)
                             Padding(
                               padding: const EdgeInsets.only(bottom: 40),
                               child: Container(
@@ -326,25 +246,19 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                                 child: FFButtonWidget(
                                   onPressed: () async {
                                     GoRouter.of(context).prepareAuthEvent();
+                                    final smsCodeVal = _model.pwController.text;
 
-                                    try {
-                                      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                        email: widget.email,
-                                        password: _model.pwController.text,
-                                      );
-                                      context.goNamedAuth('userinfo', context.mounted);
-                                    } on FirebaseAuthException catch (e) {
-                                      if (e.code == 'weak-password') {
-                                        print('The password provided is too weak.');
-                                      } else if (e.code == 'email-already-in-use') {
-                                        print('The account already exists for that email.');
-                                      }
-                                    } catch (e) {
-                                      print(e);
+                                    final phoneVerifiedUser = await authManager.verifySmsCode(
+                                      context: context,
+                                      smsCode: smsCodeVal,
+                                    );
+                                    if (phoneVerifiedUser == null) {
+                                      return;
                                     }
+                                    context.goNamedAuth('homePage', context.mounted);
                                   },
                                   text: SetLocalizations.of(context).getText(
-                                    '0sekgm29' /* 다음 */,
+                                    '20tycjvp' /* 다음 */,
                                   ),
                                   options: FFButtonOptions(
                                     height: 40.0,

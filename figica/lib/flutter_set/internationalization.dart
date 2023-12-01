@@ -100,6 +100,106 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
+    'ze1uteze': {
+      'ko': '그룹',
+      'en': '',
+      'ja': '',
+    },
+    'ckadue1uteze': {
+      'ko': '참여하고 있는 그룹이 없네요!',
+      'en': '',
+      'ja': '',
+    },
+    'ckadurmfnqteze': {
+      'ko': '그룹을 생성하여 우리 가족, 회원을 관리하거나, 이미 생성되어 있는 그룹에 들어가 건강 정보를 공유할 수 있어요.',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqtodtjd': {
+      'ko': '그룹 생성하기',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqdlfma': {
+      'ko': '그룹 이름을 입력해주세요',
+      'en': '',
+      'ja': '',
+    },
+    'mglc61fj': {
+      'ko': '회원 정보 입력',
+      'en': '',
+      'ja': '',
+    },
+    'mglttt': {
+      'ko': '원활한 서비스 이용을 위해 회원 정보를 입력해 주세요',
+      'en': '',
+      'ja': '',
+    },
+    'ty7h9c9n': {
+      'ko': '성',
+      'en': '',
+      'ja': '',
+    },
+    'p9l0jbdf': {
+      'ko': '이름',
+      'en': '',
+      'ja': '',
+    },
+    'cho9jtn4': {
+      'ko': '생년월일',
+      'en': '',
+      'ja': '',
+    },
+    'tjdquf': {
+      'ko': '성별',
+      'en': '',
+      'ja': '',
+    },
+    'b6pt2wpc': {
+      'ko': '남성',
+      'en': '',
+      'ja': '',
+    },
+    'wyai5zsz': {
+      'ko': '여성',
+      'en': '',
+      'ja': '',
+    },
+    'dqi4qlg7': {
+      'ko': '신장(키)',
+      'en': '',
+      'ja': '',
+    },
+    'a45ghbyh': {
+      'ko': '체중(몸무게)',
+      'en': '',
+      'ja': '',
+    },
+    'mht88zbc': {
+      'ko': '완료',
+      'en': '',
+      'ja': '',
+    },
+    'ghldnjrk': {
+      'ko': '회원 가입을 취소할까요?',
+      'en': '',
+      'ja': '',
+    },
+    'cjtghkaus': {
+      'ko': '회원 가입을 취소하고\n첫 화면으로 돌아갑니다',
+      'en': '',
+      'ja': '',
+    },
+    'cnlthgkrl': {
+      'ko': '회원 가입 취소하기',
+      'en': '',
+      'ja': '',
+    },
+    'rPthrwkrtjd': {
+      'ko': '계속 작성하기',
+      'en': '',
+      'ja': '',
+    },
   },
   // login
   {
@@ -306,6 +406,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     '952lmtxg': {
       'ko': '인증번호',
+      'en': '',
+      'ja': '',
+    },
+    'wowjsthd': {
+      'ko': '인증번호 재전송',
       'en': '',
       'ja': '',
     },

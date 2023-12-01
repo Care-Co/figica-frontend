@@ -100,7 +100,7 @@ class _UptosWidgetState extends State<UptosWidget> {
                           height: 40.0,
                           padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                          color: AppColors.Gray200,
+                          color: AppColors.Black,
                           textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
                           elevation: 3.0,
                           borderSide: BorderSide(

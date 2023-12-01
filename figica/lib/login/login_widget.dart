@@ -138,7 +138,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           child: SingleChildScrollView(
             child: Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height * 0.97,
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(24.0, 30.0, 24.0, 0.0),
                 child: Column(
@@ -372,7 +372,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     child: Column(
                                       children: [
                                         FlutterDropDown<String>(
-                                          controller: _model.dropDownValueController2 ??= FormFieldController<String>(null),
+                                          controller: _model.dropDownValueController2 ??= FormFieldController<String>("+82"),
                                           hintText: '+82',
                                           options: ['+1', '+91', '+82', '+81'],
                                           onChanged: (String? newValue) {
@@ -477,45 +477,62 @@ class _LoginWidgetState extends State<LoginWidget> {
                             height: 56.0,
                             child: FFButtonWidget(
                               onPressed: () async {
-                                String id = _model.phoneController.text; // 전화번호 입력 필드에서 번호 가져오기
-                                bool exists = await userExists(id);
-                                if (!exists) {
-                                  String email = _model.phoneController.text;
-                                  // 로그인 화면으로 이동
-                                  context.pushNamed(
-                                    'Input_pw',
-                                    queryParameters: {'email': email}.withoutNulls,
-                                  );
-                                } else {
-                                  // 회원가입 화면으로 이동
-                                  await showAlignedDialog(
+                                if (inputType == 'none') {
+                                } else if (inputType == 'phone') {
+                                  String id = _model.phoneController.text.substring(1);
+                                  final phoneNumberVal = _model.dropDownValueController2!.value.toString() + id;
+                                  print(phoneNumberVal.toString());
+                                  await authManager.beginPhoneAuth(
                                     context: context,
-                                    isGlobal: true,
-                                    avoidOverflow: false,
-                                    targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                    followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                    builder: (dialogContext) {
-                                      return Material(
-                                        color: Colors.transparent,
-                                        child: GestureDetector(
-                                          onTap: () => _model.unfocusNode.canRequestFocus
-                                              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                              : FocusScope.of(context).unfocus(),
-                                          child: Container(
-                                            height: 432,
-                                            width: 327,
-                                            child: LoginFailWidget(
-                                                onConfirmed: () {
-                                                  setState(() {
-                                                    _model.phoneController?.clear(); // 텍스트 필드 초기화
-                                                  });
-                                                },
-                                                message: inputType),
-                                          ),
-                                        ),
+                                    phoneNumber: phoneNumberVal,
+                                    onCodeSent: (context) async {
+                                      context.goNamedAuth(
+                                        'smscode',
+                                        context.mounted,
+                                        ignoreRedirect: true,
                                       );
                                     },
-                                  ).then((value) => setState(() {}));
+                                  );
+                                } else if (inputType == 'email') {
+                                  String id = _model.phoneController.text;
+                                  bool exists = await userExists(id);
+                                  if (exists) {
+                                    FocusScope.of(context).unfocus();
+                                    await showAlignedDialog(
+                                      context: context,
+                                      isGlobal: true,
+                                      avoidOverflow: false,
+                                      targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                      followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                      builder: (dialogContext) {
+                                        return Material(
+                                          color: Colors.transparent,
+                                          child: GestureDetector(
+                                            onTap: () => _model.unfocusNode.canRequestFocus
+                                                ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                                                : FocusScope.of(context).unfocus(),
+                                            child: Container(
+                                              height: 432,
+                                              width: 327,
+                                              child: LoginFailWidget(
+                                                  onConfirmed: () {
+                                                    setState(() {
+                                                      _model.phoneController?.clear(); // 텍스트 필드 초기화
+                                                    });
+                                                  },
+                                                  message: inputType),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
+                                  } else if (!exists) {
+                                    FocusScope.of(context).unfocus();
+                                    context.pushNamed(
+                                      'Input_pw',
+                                      queryParameters: {'email': id}.withoutNulls,
+                                    );
+                                  }
                                 }
                               },
                               text: SetLocalizations.of(context).getText(
