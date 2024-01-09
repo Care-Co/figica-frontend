@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
 import '../flutter_set/App_icon_button.dart';
@@ -15,7 +16,9 @@ import 'smscode_model.dart';
 export 'smscode_model.dart';
 
 class SmscodeWidget extends StatefulWidget {
-  const SmscodeWidget({Key? key}) : super(key: key);
+  final String verificationId;
+  final String phone;
+  const SmscodeWidget({Key? key, required this.verificationId, required this.phone}) : super(key: key);
 
   @override
   _SmscodeWidgetState createState() => _SmscodeWidgetState();
@@ -190,6 +193,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                               focusNode: FocusNode(skipTraversal: true),
                               onTap: () {
                                 _resetTimer();
+
                                 _startTimer();
                               },
                               child: Column(
@@ -197,7 +201,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                                 children: [
                                   Text(
                                     SetLocalizations.of(context).getText(
-                                      'wowjsthd' /* 인증번호 */,
+                                      'wowjsthd' /* 인증번호 재전송*/,
                                     ),
                                   ),
                                 ],
@@ -218,18 +222,23 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                       height: 56.0,
                       child: FFButtonWidget(
                         onPressed: () async {
-                          GoRouter.of(context).prepareAuthEvent();
-                          final smsCodeVal = _model.textController.text;
-
-                          final phoneVerifiedUser = await authManager.verifySmsCode(
-                            context: context,
-                            smsCode: smsCodeVal,
-                          );
-                          if (phoneVerifiedUser == null) {
-                            return;
+                          PhoneAuthCredential credential =
+                              PhoneAuthProvider.credential(verificationId: widget.verificationId, smsCode: _model.textController.text);
+                          try {
+                            await FirebaseAuth.instance.signInWithCredential(credential);
+                            context.goNamedAuth('homePage', context.mounted);
+                          } on FirebaseAuthException catch (e) {
+                            print(e.code);
+                            if (e.code == 'invalid-verification-code') {
+                              print('틀림');
+                              return false;
+                            }
+                          } catch (e) {
+                            print(e);
                           }
+                          return true;
 
-                          context.goNamedAuth('homePage', context.mounted);
+                          //context.goNamedAuth('homePage', context.mounted);
                         },
                         text: SetLocalizations.of(context).getText(
                           't0ydhdm1' /* 인증하기 */,
@@ -258,18 +267,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                       height: 56.0,
                       child: FFButtonWidget(
                         onPressed: () async {
-                          GoRouter.of(context).prepareAuthEvent();
-                          final smsCodeVal = _model.textController.text;
-
-                          final phoneVerifiedUser = await authManager.verifySmsCode(
-                            context: context,
-                            smsCode: smsCodeVal,
-                          );
-                          if (phoneVerifiedUser == null) {
-                            return;
-                          }
-
-                          context.goNamedAuth('homePage', context.mounted);
+                          print('no');
                         },
                         text: SetLocalizations.of(context).getText(
                           't0ydhdm1' /* 인증하기 */,

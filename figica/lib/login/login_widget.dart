@@ -1,8 +1,9 @@
 import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:figica/components/Login_Fail.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:figica/login/custom_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:http/http.dart' as http;
 import '/auth/firebase_auth/auth_util.dart';
 import '../flutter_set/flutter_drop_down.dart';
 import '../flutter_set/flutter_flow_theme.dart';
@@ -13,8 +14,6 @@ import '../flutter_set/internationalization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'login_model.dart';
-export 'login_model.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -24,70 +23,51 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
-  late LoginModel _model;
-  String inputType = 'none'; // 'email', 'phone', 'none'
+  final TextEditingController myController = TextEditingController();
+  String inputType = 'none';
+  TextInputType keyboardType = TextInputType.text;
   String? selectedDropdownValue;
+  late String _verificationId;
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => LoginModel());
-
-    _model.phoneController ??= TextEditingController();
-    _model.phoneFocusNode ??= FocusNode();
-
-    _model.phoneController!.addListener(_onTextChanged);
 
     authManager.handlePhoneAuthStateChanges(context);
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
-  void _onTextChanged() {
-    String input = _model.phoneController!.text;
-    if (input.length >= 2) {
-      if (isNumeric(input.substring(0, 2))) {
-        setState(() {
-          inputType = 'phone';
-        });
-      } else if (isAlphabet(input.substring(0, 2))) {
-        setState(() {
-          inputType = 'email';
-        });
-      } else {
-        setState(() {
-          inputType = 'none';
-        });
-      }
-    } else {
-      setState(() {
-        inputType = 'none';
-      });
-    }
-  }
-
-  String? get _errorText1 {
-    final text = _model.phoneController!.text;
-    if (!text.contains('@')) {
-      return SetLocalizations.of(context).getText(
-        '8u5gojh7' /* @를 포함한 정확한 이메일을 입력해 주세요 */,
-      );
-    }
-    return null;
-  }
-
-  String? get _errorText2 {
-    final text = _model.phoneController!.text;
-    if (!text.startsWith('010')) {
-      return SetLocalizations.of(context).getText(
-        '8u5gojhdg' /* @를 포함한 정확한 이메일을 입력해 주세요 */,
-      );
-    }
-    return null;
-  }
-
   Future<bool> userExists(String phoneNumber) async {
-    final text = _model.phoneController!.text;
+    final text = myController.text;
+
+    var url = Uri.parse('http://203.232.210.68:8080/api/user/validate');
+    var headers = {'accept': '*/*', 'Content-Type': 'application/json'};
+    var body = jsonEncode({'email': text});
+
+    try {
+      var response = await http.post(url, headers: headers, body: body);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return false;
+    }
+  }
+
+  void _updateInputType(String status) {
+    setState(() {
+      inputType = status;
+    });
+  }
+
+  Future<bool> userExistsphone(String phoneNumber) async {
+    final text = myController.text;
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: text, password: "!");
     } on FirebaseAuthException catch (e) {
@@ -102,17 +82,9 @@ class _LoginWidgetState extends State<LoginWidget> {
     return true;
   }
 
-  bool isNumeric(String s) {
-    return double.tryParse(s) != null;
-  }
-
-  bool isAlphabet(String s) {
-    return RegExp(r'^[a-zA-Z]+$').hasMatch(s);
-  }
-
   @override
   void dispose() {
-    _model.dispose();
+    dispose();
 
     super.dispose();
   }
@@ -129,7 +101,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     }
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: AppColors.primaryBackground,
@@ -192,7 +164,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                             child: FlutterDropDown<String>(
-                              controller: _model.dropDownValueController ??= FormFieldController<String>(null),
+                              controller: dropDownValueController ??= FormFieldController<String>(null),
                               options: [
                                 SetLocalizations.of(context).getText(
                                   'cghjktxl' /* 한국어(Korea) */,
@@ -204,7 +176,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   'hnwpccrg' /* 일본어 */,
                                 )
                               ],
-                              onChanged: (val) => setState(() => _model.dropDownValue = val),
+                              onChanged: (val) => setState(() => dropDownValue = val),
                               width: double.infinity,
                               height: 38.0,
                               textStyle: AppFont.r16.overrides(color: AppColors.Gray500),
@@ -235,236 +207,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 ),
                                 style: AppFont.s12),
                           ),
-                          if (inputType == 'none')
-                            TextFormField(
-                              controller: _model.phoneController,
-                              focusNode: _model.phoneFocusNode,
-                              autofocus: false,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                hintText: SetLocalizations.of(context).getText(
-                                  'n7oaur8tc',
-                                ),
-                                hintStyle: AppFont.r16.overrides(color: AppColors.Gray300),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppColors.Gray200,
-                                    width: 2.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppColors.Gray200,
-                                    width: 2.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                errorBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppColors.Gray200,
-                                    width: 2.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedErrorBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppColors.Gray200,
-                                    width: 2.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                suffixIcon: _model.phoneController.text.isNotEmpty
-                                    ? InkWell(
-                                        child: Container(
-                                          height: 10,
-                                          width: 10,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.Gray100, // 연한 회색 배경
-                                            shape: BoxShape.circle,
-                                          ),
-                                          margin: EdgeInsets.all(14),
-                                          child: Icon(
-                                            Icons.clear, // 취소 아이콘 사용
-                                            color: AppColors.Gray500, size: 10,
-                                          ),
-                                        ),
-                                        onTap: () {
-                                          _model.phoneController?.clear();
-                                        },
-                                      )
-                                    : null,
-                              ),
-                              style: AppFont.r16.overrides(color: AppColors.Gray700),
-                              validator: _model.phoneControllerValidator.asValidator(context),
-                            ),
-                          if (inputType == 'email')
-                            TextFormField(
-                              controller: _model.phoneController,
-                              focusNode: _model.phoneFocusNode,
-                              autofocus: true,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                labelStyle: AppFont.r16.overrides(color: AppColors.Gray500),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppColors.Gray200,
-                                    width: 2.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppColors.Gray200,
-                                    width: 2.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                errorBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppColors.Gray200,
-                                    width: 2.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedErrorBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppColors.Gray200,
-                                    width: 2.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                suffixIcon: _model.phoneController.text.isNotEmpty
-                                    ? InkWell(
-                                        child: Container(
-                                          height: 10,
-                                          width: 10,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.Gray100, // 연한 회색 배경
-                                            shape: BoxShape.circle,
-                                          ),
-                                          margin: EdgeInsets.all(14),
-                                          child: Icon(
-                                            Icons.clear, // 취소 아이콘 사용
-                                            color: AppColors.Gray500, size: 10,
-                                          ),
-                                        ),
-                                        onTap: () {
-                                          _model.phoneController?.clear();
-                                        },
-                                      )
-                                    : null,
-                                errorText: _errorText1,
-                              ),
-                              style: AppFont.r16.overrides(color: AppColors.Gray700),
-                              keyboardType: TextInputType.emailAddress,
-                              validator: _model.phoneControllerValidator.asValidator(context),
-                            ),
-                          if (inputType == 'phone')
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10.5, 0, 0),
-                                    child: Column(
-                                      children: [
-                                        FlutterDropDown<String>(
-                                          controller: _model.dropDownValueController2 ??= FormFieldController<String>("+82"),
-                                          hintText: '+82',
-                                          options: ['+1', '+91', '+82', '+81'],
-                                          onChanged: (String? newValue) {
-                                            setState(() {
-                                              selectedDropdownValue = newValue;
-                                            });
-                                          },
-                                          height: 38.0,
-                                          textStyle: AppFont.r16.overrides(color: AppColors.Gray500),
-                                          icon: Icon(
-                                            Icons.keyboard_arrow_down_rounded,
-                                            color: AppColors.Gray500,
-                                            size: 20.0,
-                                          ),
-                                          elevation: 2.0,
-                                          borderColor: AppColors.Gray200,
-                                          borderWidth: 1.0,
-                                          borderRadius: 8.0,
-                                          borderStyle: 'bottom',
-                                          margin: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 4.0),
-                                          hidesUnderline: true,
-                                          isSearchable: false,
-                                          isMultiSelect: false,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: TextFormField(
-                                    controller: _model.phoneController,
-                                    focusNode: _model.phoneFocusNode,
-                                    autofocus: true,
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      labelStyle: AppFont.r16,
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.Gray200,
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.Gray200,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8.0),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.Gray200,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8.0),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.Gray200,
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      suffixIcon: _model.phoneController.text.isNotEmpty
-                                          ? InkWell(
-                                              child: Container(
-                                                height: 10,
-                                                width: 10,
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.Gray100, // 연한 회색 배경
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                margin: EdgeInsets.all(14),
-                                                child: Icon(
-                                                  Icons.clear, // 취소 아이콘 사용
-                                                  color: AppColors.Gray500, size: 10,
-                                                ),
-                                              ),
-                                              onTap: () {
-                                                _model.phoneController?.clear();
-                                              },
-                                            )
-                                          : null,
-                                      errorText: _errorText2,
-                                    ),
-                                    style: AppFont.r16.overrides(color: AppColors.Gray700),
-                                    keyboardType: TextInputType.phone,
-                                    validator: _model.phoneControllerValidator.asValidator(context),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          CustomInputField(
+                            controller: myController,
+                            onStatusChanged: _updateInputType,
+                          )
                         ],
                       ),
                     ),
@@ -478,23 +224,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                             child: FFButtonWidget(
                               onPressed: () async {
                                 if (inputType == 'none') {
+                                  print('none');
                                 } else if (inputType == 'phone') {
-                                  String id = _model.phoneController.text.substring(1);
-                                  final phoneNumberVal = _model.dropDownValueController2!.value.toString() + id;
-                                  print(phoneNumberVal.toString());
-                                  await authManager.beginPhoneAuth(
-                                    context: context,
-                                    phoneNumber: phoneNumberVal,
-                                    onCodeSent: (context) async {
-                                      context.goNamedAuth(
-                                        'smscode',
-                                        context.mounted,
-                                        ignoreRedirect: true,
-                                      );
-                                    },
-                                  );
-                                } else if (inputType == 'email') {
-                                  String id = _model.phoneController.text;
+                                  String id = myController.text;
                                   bool exists = await userExists(id);
                                   if (exists) {
                                     FocusScope.of(context).unfocus();
@@ -508,16 +240,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         return Material(
                                           color: Colors.transparent,
                                           child: GestureDetector(
-                                            onTap: () => _model.unfocusNode.canRequestFocus
-                                                ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                : FocusScope.of(context).unfocus(),
                                             child: Container(
                                               height: 432,
                                               width: 327,
                                               child: LoginFailWidget(
                                                   onConfirmed: () {
                                                     setState(() {
-                                                      _model.phoneController?.clear(); // 텍스트 필드 초기화
+                                                      myController.clear(); // 텍스트 필드 초기화
                                                     });
                                                   },
                                                   message: inputType),
@@ -528,10 +257,68 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     ).then((value) => setState(() {}));
                                   } else if (!exists) {
                                     FocusScope.of(context).unfocus();
+                                    String id = myController.text.substring(1);
+                                    final phoneNumberVal = id;
+                                    print(phoneNumberVal.toString());
+                                    FirebaseAuth _auth = FirebaseAuth.instance;
+                                    await _auth.verifyPhoneNumber(
+                                        phoneNumber: phoneNumberVal,
+                                        //timeout: const Duration(minutes: 5),
+                                        verificationCompleted: (PhoneAuthCredential credential) async {
+                                          print('인증 문자 수신');
+                                        },
+                                        verificationFailed: (FirebaseAuthException e) {
+                                          print('인증 문자 전송 실패');
+                                        },
+                                        codeSent: (String verificationId, int? resendToken) async {
+                                          print('인증 문자 전송');
+                                          _verificationId = verificationId;
+                                          context.pushNamed(
+                                            'smscode',
+                                            queryParameters: {
+                                              'verificationId': _verificationId,
+                                              'phone': phoneNumberVal,
+                                            }.withoutNulls,
+                                          );
+                                        },
+                                        codeAutoRetrievalTimeout: (String verificationId) {});
+                                  }
+                                } else if (inputType == 'email') {
+                                  String id = myController.text;
+                                  bool exists = await userExists(id);
+                                  if (exists) {
+                                    FocusScope.of(context).unfocus();
+                                    await showAlignedDialog(
+                                      context: context,
+                                      isGlobal: true,
+                                      avoidOverflow: false,
+                                      targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                      followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                      builder: (dialogContext) {
+                                        return Material(
+                                          color: Colors.transparent,
+                                          child: GestureDetector(
+                                            child: Container(
+                                              height: 432,
+                                              width: 327,
+                                              child: LoginFailWidget(
+                                                  onConfirmed: () {
+                                                    setState(() {
+                                                      myController?.clear(); // 텍스트 필드 초기화
+                                                    });
+                                                  },
+                                                  message: inputType),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ).then((value) => setState(() {}));
+                                  } else if (!exists) {
                                     context.pushNamed(
                                       'Input_pw',
                                       queryParameters: {'email': id}.withoutNulls,
                                     );
+                                    FocusScope.of(context).unfocus();
                                   }
                                 }
                               },
@@ -556,7 +343,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 print('object');
                                 context.pushNamed('check_email');
                               },

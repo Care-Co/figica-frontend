@@ -7,36 +7,28 @@ import 'package:figica/group/group_invitation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'creategroup_model.dart';
-export 'creategroup_model.dart';
-
-class CreategroupWidget extends StatefulWidget {
-  const CreategroupWidget({Key? key}) : super(key: key);
+class JoingroupWidget extends StatefulWidget {
+  const JoingroupWidget({Key? key}) : super(key: key);
 
   @override
-  _CreategroupWidgetState createState() => _CreategroupWidgetState();
+  _JoingroupWidgetState createState() => _JoingroupWidgetState();
 }
 
-class _CreategroupWidgetState extends State<CreategroupWidget> {
-  late CreategroupModel _model;
+class _JoingroupWidgetState extends State<JoingroupWidget> {
+  final TextEditingController myController = TextEditingController();
+  FocusNode? textFieldFocusNode;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CreategroupModel());
-
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
-    _model.dispose();
-
     super.dispose();
   }
 
@@ -75,7 +67,7 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
           ),
           title: Text(
             SetLocalizations.of(context).getText(
-              'rmfnqtodtjd' /* Page Title */,
+              'rmfnqckadu' /* Page Title */,
             ),
             style: AppFont.s18,
           ),
@@ -98,15 +90,15 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
                   children: [
                     Text(
                       SetLocalizations.of(context).getText(
-                        'rmfnqdlfma' /* 구릅이름 입력 */,
+                        'cheozhemdlqfur' /* 초대코드 입력 */,
                       ),
                       style: AppFont.r16.overrides(color: AppColors.primaryBackground),
                     ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(8, 10, 8, 0),
                       child: TextFormField(
-                        controller: _model.textController,
-                        focusNode: _model.textFieldFocusNode,
+                        controller: myController,
+                        focusNode: textFieldFocusNode,
                         autofocus: true,
                         obscureText: false,
                         decoration: InputDecoration(
@@ -143,7 +135,6 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
                             filled: true,
                             fillColor: AppColors.Gray850),
                         style: AppFont.r16.overrides(color: AppColors.primaryBackground),
-                        validator: _model.textControllerValidator.asValidator(context),
                       ),
                     ),
                   ],
@@ -155,7 +146,7 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
                     height: 56.0,
                     child: FFButtonWidget(
                       onPressed: () async {
-                        String invitationCode = await GroupApi.createGroup(_model.textController.text);
+                        String invitationCode = await GroupApi.createGroup(myController.text);
                         if (invitationCode != 'none') {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => GroupInvitationScreen(invitationCode: invitationCode),
@@ -165,7 +156,7 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
                         }
                       },
                       text: SetLocalizations.of(context).getText(
-                        'ze1u6oze' /* 확인 */,
+                        'rmfqnckqrl' /* 그룹찾기 */,
                       ),
                       options: FFButtonOptions(
                         height: 40.0,

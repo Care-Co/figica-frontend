@@ -1,6 +1,7 @@
 import 'package:figica/auth/firebase_auth/auth_util.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/internationalization.dart';
+import 'package:figica/login/token.dart';
 
 import '../flutter_set/App_icon_button.dart';
 import '../flutter_set/flutter_flow_theme.dart';
@@ -94,10 +95,16 @@ class _MypageWidgetState extends State<MypageWidget> {
             children: [
               ElevatedButton(
                 onPressed: () async {
-                  await authManager.signOut();
+                  await AuthStorage.removeToken();
                   context.goNamedAuth('login', context.mounted);
                 },
                 child: Text('로그아웃'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  print(await AuthStorage.getsavedToken());
+                },
+                child: Text('token'),
               )
             ],
           ),

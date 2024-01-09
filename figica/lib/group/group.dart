@@ -1,15 +1,9 @@
 import 'package:figica/flutter_set/figica_theme.dart';
 
 import '../flutter_set/App_icon_button.dart';
-import '../flutter_set/flutter_flow_theme.dart';
 import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'group_model.dart';
-export 'group_model.dart';
 
 class groupWidget extends StatefulWidget {
   const groupWidget({Key? key}) : super(key: key);
@@ -19,22 +13,17 @@ class groupWidget extends StatefulWidget {
 }
 
 class _groupWidgetState extends State<groupWidget> {
-  late ScanpageModel _model;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ScanpageModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
-    _model.dispose();
-
     super.dispose();
   }
 
@@ -50,27 +39,13 @@ class _groupWidgetState extends State<groupWidget> {
     }
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: AppColors.Black,
         appBar: AppBar(
           backgroundColor: Color(0x00CCFF8B),
           automaticallyImplyLeading: false,
-          leading: AppIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 30.0,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
-            icon: Icon(
-              Icons.chevron_left,
-              color: AppColors.primaryBackground,
-              size: 30.0,
-            ),
-            onPressed: () async {
-              context.pop();
-            },
-          ),
           title: Text(
               SetLocalizations.of(context).getText(
                 'ze1uteze' /* 그룹   */,
@@ -88,7 +63,7 @@ class _groupWidgetState extends State<groupWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 42, 0, 123),
+                  padding: const EdgeInsets.fromLTRB(0, 42, 0, 83),
                   child: Row(
                     children: [
                       Expanded(
@@ -149,11 +124,16 @@ class _groupWidgetState extends State<groupWidget> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        child: Container(
-                          height: 232,
-                          decoration: BoxDecoration(
-                            color: AppColors.Gray850,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: InkWell(
+                          onTap: () {
+                            context.pushNamed('groupJoin');
+                          },
+                          child: Container(
+                            height: 232,
+                            decoration: BoxDecoration(
+                              color: AppColors.Gray850,
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                            ),
                           ),
                         ),
                       ),

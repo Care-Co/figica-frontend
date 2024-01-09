@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:figica/agree_tos/agree_tos_widget.dart';
+import 'package:figica/group/join_group.dart';
 import 'package:figica/login/certify.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -30,9 +31,9 @@ class AppStateNotifier extends ChangeNotifier {
   static AppStateNotifier get instance => _instance ??= AppStateNotifier._();
 
   BaseAuthUser? initialUser;
-  BaseAuthUser? user;
   bool showSplashImage = true;
   String? _redirectLocation;
+  String? _apiToken; // API 토큰을 저장할 새로운 필드
 
   /// Determines whether the app will refresh and build again when a sign
   /// in or sign out happens. This is useful when the app is launched or
@@ -40,9 +41,9 @@ class AppStateNotifier extends ChangeNotifier {
   /// intend to sign in/out and then navigate or perform any actions after.
   /// Otherwise, this will trigger a refresh and interrupt the action(s).
   bool notifyOnAuthChange = true;
-
-  bool get loading => user == null || showSplashImage;
-  bool get loggedIn => user?.loggedIn ?? false;
+  String? get apiToken => _apiToken;
+  bool get loading => _apiToken == null || showSplashImage;
+  bool get loggedIn => _apiToken != null && _apiToken != 'Null';
   bool get initiallyLoggedIn => initialUser?.loggedIn ?? false;
   bool get shouldRedirect => loggedIn && _redirectLocation != null;
 
@@ -55,18 +56,12 @@ class AppStateNotifier extends ChangeNotifier {
   /// to perform subsequent actions (such as navigation) afterwards.
   void updateNotifyOnAuthChange(bool notify) => notifyOnAuthChange = notify;
 
-  void update(BaseAuthUser newUser) {
-    final shouldUpdate = user?.uid == null || newUser.uid == null || user?.uid != newUser.uid;
-    initialUser ??= newUser;
-    user = newUser;
-    // Refresh the app on auth change unless explicitly marked otherwise.
-    // No need to update unless the user has changed.
-    if (notifyOnAuthChange && shouldUpdate) {
-      notifyListeners();
+  void update(String? newToken) {
+    if (_apiToken != newToken) {
+      _apiToken = newToken;
+      print('update $_apiToken');
+      notifyListeners(); // 상태가 변경되었으므로 리스너들에게 알림
     }
-    // Once again mark the notifier as needing to update on auth change
-    // (in order to catch sign in / out events).
-    updateNotifyOnAuthChange(true);
   }
 
   void stopShowingSplashImage() {
@@ -99,7 +94,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'smscode',
           path: '/smscode',
-          builder: (context, params) => SmscodeWidget(),
+          builder: (context, params) => SmscodeWidget(
+            verificationId: params.getParam(
+              'verificationId',
+              ParamType.String,
+            ),
+            phone: params.getParam(
+              'phone',
+              ParamType.String,
+            ),
+          ),
         ),
         FFRoute(
           name: 'agree_tos',
@@ -149,6 +153,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'groupCreate',
           path: '/groupCreate',
           builder: (context, params) => CreategroupWidget(),
+        ),
+        FFRoute(
+          name: 'groupJoin',
+          path: '/groupJoin',
+          builder: (context, params) => JoingroupWidget(),
         ),
         FFRoute(
           name: 'mypage',

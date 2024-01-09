@@ -125,6 +125,41 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
+    'rmfnqdhksfy': {
+      'ko': '그룹 생성이\n완료되었습니다',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqt': {
+      'ko': '그룹 생성 완료',
+      'en': '',
+      'ja': '',
+    },
+    '초대코드': {
+      'ko': '초대코드',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqckadu': {
+      'ko': '그룹 참여 신청하기',
+      'en': '',
+      'ja': '',
+    },
+    'cheozhemdlqfur': {
+      'ko': '초대 코드를 입력해주세요',
+      'en': '',
+      'ja': '',
+    },
+    'rmfqnckqrl': {
+      'ko': '그룹 찾기',
+      'en': '',
+      'ja': '',
+    },
+    '바로공유': {
+      'ko': '바로 공유하기',
+      'en': '',
+      'ja': '',
+    },
     'mglc61fj': {
       'ko': '회원 정보 입력',
       'en': '',
@@ -477,6 +512,26 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
+    'dlaltkdydwjs': {
+      'ko': '이미 사용중인 전화번호입니다',
+      'en': '',
+      'ja': '',
+    },
+    'dlaltkdydvel': {
+      'ko': '이미 사용중인 E-mail 입니다',
+      'en': '',
+      'ja': '',
+    },
+    'rlwhsrowjd': {
+      'ko': '기존 계정으로 로그인하거나,\n다른 전화번호 혹은 E-mail로 회원 가입을 진행해 주세요.',
+      'en': '',
+      'ja': '',
+    },
+    'fhrmdls': {
+      'ko': '로그인으로 돌아가기',
+      'en': '',
+      'ja': '',
+    },
   },
   // Get id
   {
@@ -550,6 +605,26 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     '9r46fvpp': {
       'ko': 'Home',
+      'en': '',
+      'ja': '',
+    },
+    'souektlwjsthd': {
+      'ko': '다시 전송하기',
+      'en': '',
+      'ja': '',
+    },
+    'cjdmadmfh': {
+      'ko': '처음으로 돌아가기',
+      'en': '',
+      'ja': '',
+    },
+    'dlswmdfldzm': {
+      'ko': '계정 E-mail로\n인증링크 전송 완료',
+      'en': '',
+      'ja': '',
+    },
+    'qhsans': {
+      'ko': '비밀번호 변경을 위해 해당 계정의 \nE-mail로 인증링크를 전송하였습니다.\n본인 인증 후 비밀번호를 변경하세요!',
       'en': '',
       'ja': '',
     },

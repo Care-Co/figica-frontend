@@ -16,14 +16,17 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   FormFieldController<String>? dropDownValueController;
   FormFieldController<String>? dropDownValueController2;
 
+  FocusNode? noneFocusNode;
+  TextEditingController? noneController;
+  String? Function(BuildContext, String?)? noneControllerValidator;
   FocusNode? phoneFocusNode;
-  TextEditingController? phoneController;
-  String? Function(BuildContext, String?)? phoneControllerValidator;
+  FocusNode? emailFocusNode;
 
   FocusNode? pwFocusNode;
   TextEditingController? pwController;
   late bool pwVisibility;
   String? Function(BuildContext, String?)? pwControllerValidator;
+
   FocusNode? pw2FocusNode;
   TextEditingController? pw2Controller;
   late bool pw2Visibility;
@@ -38,11 +41,12 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
 
   void dispose() {
     unfocusNode.dispose();
+    noneFocusNode?.dispose();
     phoneFocusNode?.dispose();
-    phoneController?.dispose();
+    emailFocusNode?.dispose();
+    noneController?.dispose();
     pwFocusNode?.dispose();
     pwController?.dispose();
-
     pw2FocusNode?.dispose();
     pw2Controller?.dispose();
   }

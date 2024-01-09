@@ -16,7 +16,6 @@ export 'home_page_model.dart';
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({Key? key}) : super(key: key);
-
   @override
   _HomePageWidgetState createState() => _HomePageWidgetState();
 }
