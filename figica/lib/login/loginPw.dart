@@ -1,26 +1,23 @@
 import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:figica/components/Login_Fail.dart';
+import 'package:figica/components/resetPw.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:figica/login/token.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '/auth/firebase_auth/auth_util.dart';
-import '../flutter_set/flutter_drop_down.dart';
-import '../flutter_set/flutter_flow_theme.dart';
 import '../flutter_set/flutter_flow_util.dart';
 import '../flutter_set/flutter_flow_widgets.dart';
-import '../flutter_set/form_field_controller.dart';
 import '../flutter_set/internationalization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'login_model.dart';
 export 'login_model.dart';
 import '../backend/backend.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InputPwWidget extends StatefulWidget {
   final String email;
-
   const InputPwWidget({Key? key, required this.email}) : super(key: key);
 
   @override
@@ -29,8 +26,6 @@ class InputPwWidget extends StatefulWidget {
 
 class _InputPwWidgetState extends State<InputPwWidget> {
   late LoginModel _model;
-  String inputType = 'none'; // 'email', 'phone', 'none'
-  String? selectedDropdownValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -46,12 +41,13 @@ class _InputPwWidgetState extends State<InputPwWidget> {
       } else {}
       setState(() {});
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).unfocus();
+      FocusScope.of(context).requestFocus(_model.pwFocusNode);
+    });
   }
 
-  // bool _isValidPassword(String password) {
-  //   return password.length >= 8 && password.length <= 24 && RegExp(r'^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).+$').hasMatch(password);
-  // }
   bool _isValidPassword(String password) {
     return password.length >= 6;
   }
@@ -62,6 +58,10 @@ class _InputPwWidgetState extends State<InputPwWidget> {
     print(pw);
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: widget.email, password: pw);
+      final String? token = await userCredential.user?.getIdToken();
+      print("Token: $token");
+      await AuthStorage.getapiToken(token!);
+
       context.goNamedAuth('HomePage', context.mounted);
     } on FirebaseAuthException catch (e) {
       print(e.code);
@@ -84,7 +84,8 @@ class _InputPwWidgetState extends State<InputPwWidget> {
                   child: LoginFailWidget(
                       onConfirmed: () {
                         setState(() {
-                          _model.phoneController?.clear(); // 텍스트 필드 초기화
+                          _model.pwController?.clear();
+                          findPw();
                         });
                       },
                       message: "pwfail"),
@@ -94,6 +95,41 @@ class _InputPwWidgetState extends State<InputPwWidget> {
           },
         ).then((value) => setState(() {}));
       }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void findPw() async {
+    print(widget.email);
+    try {
+      await authManager.resetPassword(
+        email: widget.email,
+        context: context,
+      );
+      await showAlignedDialog(
+        context: context,
+        isGlobal: true,
+        avoidOverflow: false,
+        targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+        followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+        builder: (dialogContext) {
+          return Material(
+            color: Colors.transparent,
+            child: GestureDetector(
+              onTap: () =>
+                  _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+              child: Container(
+                height: 432,
+                width: 327,
+                child: resetPwWidget(email: widget.email),
+              ),
+            ),
+          );
+        },
+      ).then((value) => setState(() {}));
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
     } catch (e) {
       print(e);
     }
@@ -251,6 +287,10 @@ class _InputPwWidgetState extends State<InputPwWidget> {
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: InkWell(
+                              onTap: () async {
+                                findPw();
+                                print('pw');
+                              },
                               child: Text(
                                 style: AppFont.r16.overrides(
                                   fontSize: 12,

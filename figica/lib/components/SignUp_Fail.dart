@@ -10,16 +10,16 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class LoginFailWidget extends StatefulWidget {
+class SignupFailWidget extends StatefulWidget {
   final VoidCallback onConfirmed;
   final String message;
-  const LoginFailWidget({Key? key, required this.onConfirmed, required this.message}) : super(key: key);
+  const SignupFailWidget({Key? key, required this.onConfirmed, required this.message}) : super(key: key);
 
   @override
-  _LoginFailWidgetState createState() => _LoginFailWidgetState();
+  _SignupFailWidgetState createState() => _SignupFailWidgetState();
 }
 
-class _LoginFailWidgetState extends State<LoginFailWidget> {
+class _SignupFailWidgetState extends State<SignupFailWidget> {
   @override
   void setState(VoidCallback callback) {
     super.setState(callback);
@@ -55,42 +55,49 @@ class _LoginFailWidgetState extends State<LoginFailWidget> {
               padding: EdgeInsetsDirectional.fromSTEB(0, 77, 0, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.check_circle_outline_rounded,
-                    color: AppColors.red,
-                    size: 16,
-                  ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
-                    child: Text(
-                      SetLocalizations.of(context).getText(
-                        'l7iyr39a' /* Hello World */,
-                      ),
-                      style: AppFont.s18,
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.check_circle_outline_rounded,
+                      color: AppColors.red,
+                      size: 16,
                     ),
                   ),
                   if (widget.message == "phone")
                     Text(
                       SetLocalizations.of(context).getText(
-                        'onxlo4te' /* Hello World */,
+                        'dlaltkdydwjs' /* Hello World */,
                       ),
-                      style: AppFont.r16.overrides(color: AppColors.Gray500),
+                      style: AppFont.s18,
                     ),
                   if (widget.message == "email")
                     Text(
                       SetLocalizations.of(context).getText(
-                        'onxlo41w' /* Hello World */,
+                        'dlaltkdydvel' /* Hello World */,
                       ),
-                      style: AppFont.r16.overrides(color: AppColors.Gray500),
+                      style: AppFont.s18,
                     ),
                   if (widget.message == "pwfail")
                     Text(
                       SetLocalizations.of(context).getText(
                         'onxtso41w' /* Hello World */,
                       ),
-                      style: AppFont.r16.overrides(color: AppColors.Gray500),
+                      style: AppFont.s18,
                     ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 50, 0, 20),
+                    child: Center(
+                      child: Text(
+                          SetLocalizations.of(context).getText(
+                            'rlwhsrowjd' /* Hello World */,
+                          ),
+                          style: AppFont.r16.overrides(color: AppColors.Gray500),
+                          textAlign: TextAlign.center),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -100,30 +107,6 @@ class _LoginFailWidgetState extends State<LoginFailWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    children: [
-                      if (widget.message == "email" || widget.message == "phone")
-                        Container(
-                          width: 140,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                SetLocalizations.of(context).getText(
-                                  'onxlo4sfhw' /* 아직 회원이 아니라면 */,
-                                ),
-                                style: AppFont.s12,
-                              ),
-                            ],
-                          ),
-                        ),
-                    ],
-                  ),
                   if (widget.message == "email" || widget.message == "phone")
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 3, 0, 12),
@@ -132,10 +115,10 @@ class _LoginFailWidgetState extends State<LoginFailWidget> {
                         height: 56.0,
                         child: FFButtonWidget(
                           onPressed: () async {
-                            context.pushNamed('agree_tos');
+                            context.pushNamed('login');
                           },
                           text: SetLocalizations.of(context).getText(
-                            'f1vk38nh' /* 회원 가입하기 */,
+                            'fhrmdls' /* 로그인으로 돌아가기*/,
                           ),
                           options: FFButtonOptions(
                             height: 40.0,

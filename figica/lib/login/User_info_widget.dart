@@ -8,6 +8,7 @@ import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/flutter_flow_model.dart';
 import 'package:figica/flutter_set/flutter_flow_util.dart';
 import 'package:figica/flutter_set/flutter_flow_widgets.dart';
+import 'package:figica/login/token.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,12 +25,10 @@ class UserInfoWidget extends StatefulWidget {
   _UserInfoWidgetState createState() => _UserInfoWidgetState();
 }
 
-enum Gender { male, female }
-
 class _UserInfoWidgetState extends State<UserInfoWidget> {
   late UserInfoModel _model;
   DateTime? selectedDate;
-  Gender? selectedGender;
+  String selectedGender = 'none';
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -53,19 +52,6 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
     _model.weFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
-  }
-
-  Future<void> updateuser() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final uid = user.uid;
-      final name = user.displayName;
-      await user.updateDisplayName(_model.fiController.text + _model.namController.text);
-      setState(() {
-        print(name.toString());
-        print(uid.toString());
-      });
-    }
   }
 
   void _showDatePicker() {
@@ -410,7 +396,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                 child: FFButtonWidget(
                                   onPressed: () {
                                     setState(() {
-                                      selectedGender = Gender.male;
+                                      selectedGender = 'male';
                                     });
                                   },
                                   text: SetLocalizations.of(context).getText(
@@ -420,8 +406,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                     height: 40,
                                     padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                    color: selectedGender == Gender.male ? Colors.black : AppColors.primaryBackground,
-                                    textStyle: AppFont.s12.overrides(color: selectedGender == Gender.male ? Colors.white : AppColors.Gray300),
+                                    color: selectedGender == 'male' ? Colors.black : AppColors.primaryBackground,
+                                    textStyle: AppFont.s12.overrides(color: selectedGender == 'male' ? Colors.white : AppColors.Gray300),
                                     elevation: 0,
                                     borderSide: BorderSide(
                                       color: AppColors.Gray300,
@@ -438,7 +424,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                 child: FFButtonWidget(
                                   onPressed: () {
                                     setState(() {
-                                      selectedGender = Gender.female;
+                                      selectedGender = 'female';
                                     });
                                   },
                                   text: SetLocalizations.of(context).getText(
@@ -448,8 +434,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                     height: 40,
                                     padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                    color: selectedGender == Gender.female ? Colors.black : AppColors.primaryBackground,
-                                    textStyle: AppFont.s12.overrides(color: selectedGender == Gender.female ? Colors.white : AppColors.Gray300),
+                                    color: selectedGender == 'female' ? Colors.black : AppColors.primaryBackground,
+                                    textStyle: AppFont.s12.overrides(color: selectedGender == 'female' ? Colors.white : AppColors.Gray300),
                                     elevation: 0,
                                     borderSide: BorderSide(
                                       color: AppColors.Gray300,
@@ -507,7 +493,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                           'Cm',
                                           style: AppFont.r16.overrides(color: AppColors.Gray200),
                                         )),
-                                    keyboardType: TextInputType.phone,
+                                    keyboardType: TextInputType.number,
                                     style: AppFont.r16),
                               ),
                             ),
@@ -554,7 +540,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                         style: AppFont.r16.overrides(color: AppColors.Gray200),
                                       )),
                                   style: AppFont.r16,
-                                  keyboardType: TextInputType.phone,
+                                  keyboardType: TextInputType.number,
                                   validator: _model.weControllerValidator.asValidator(context),
                                 ),
                               ),
@@ -571,9 +557,14 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                           child: FFButtonWidget(
                             onPressed: () async {
                               if (areFieldsValid) {
-                                await updateuser();
-                                setState(() {});
-                                print(currentUserDisplayName);
+                                String data = selectedDate != null
+                                    ? "${selectedDate!.year}/${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.day.toString().padLeft(2, '0')}"
+                                    : "0000/00/00";
+                                String name = _model.fiController.text + _model.namController.text;
+                                double height = _model.heController.text.isEmpty ? 0.0 : double.parse(_model.heController.text);
+                                double weight = _model.weController.text.isEmpty ? 0.0 : double.parse(_model.weController.text);
+                                await AuthStorage.updateProfile(data, name, selectedGender, height, weight);
+
                                 context.pushNamed('homePage');
                               }
                             },

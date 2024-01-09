@@ -1,30 +1,25 @@
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/group/group.dart';
-import 'package:figica/plan/plan.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:figica/group/group.dart';
+import 'package:figica/login/token.dart';
+import 'package:figica/plan/plan.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'auth/firebase_auth/firebase_user_provider.dart';
 import 'auth/firebase_auth/auth_util.dart';
-
-import 'backend/firebase/firebase_config.dart';
-import 'flutter_set/flutter_flow_theme.dart';
 import 'flutter_set/flutter_flow_util.dart';
 import 'flutter_set/internationalization.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'flutter_set/nav/nav.dart';
 import 'index.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
-  await initFirebase();
+
+  await Firebase.initializeApp();
   await FirebaseAppCheck.instance.activate(
     webRecaptchaSiteKey: '6LfvOBgpAAAAAO6Sk8m65hEr8CKAelzcdbx9MxLT',
   );
@@ -55,13 +50,16 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
-    userStream = figicaFirebaseUserStream()..listen((user) => _appStateNotifier.update(user));
-    jwtTokenStream.listen((_) {});
+    AuthStorage.getsavedToken().then((userData) {
+      _appStateNotifier.update(userData);
+    }).catchError((error) {
+      print('Error fetching user data: $error');
+    });
+
     Future.delayed(
-      Duration(milliseconds: 1000),
+      Duration(milliseconds: 500),
       () => _appStateNotifier.stopShowingSplashImage(),
     );
   }
@@ -69,7 +67,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     authUserSub.cancel();
-
     super.dispose();
   }
 

@@ -1,5 +1,6 @@
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:figica/login/token.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
@@ -34,6 +35,7 @@ class _SetPwWidgetState extends State<SetPwWidget> {
   @override
   void initState() {
     super.initState();
+    print(widget.email);
     _model = createModel(context, () => LoginModel());
 
     _model.pwController ??= TextEditingController();
@@ -332,6 +334,11 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                                         email: widget.email,
                                         password: _model.pwController.text,
                                       );
+                                      print(widget.email);
+                                      final String? token = await credential.user?.getIdToken();
+                                      print("Token: $token");
+                                      await AuthStorage.getapiToken(token!);
+
                                       context.goNamedAuth('userinfo', context.mounted);
                                     } on FirebaseAuthException catch (e) {
                                       if (e.code == 'weak-password') {
