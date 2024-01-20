@@ -3,23 +3,19 @@ import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/flutter_flow_util.dart';
 import 'package:figica/flutter_set/internationalization.dart';
 
-import '/auth/firebase_auth/auth_util.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-class SignUpCancelWidget extends StatefulWidget {
-  const SignUpCancelWidget({
+class CodeError extends StatefulWidget {
+  const CodeError({
     Key? key,
   }) : super(key: key);
 
   @override
-  _SignUpCancelWidgetState createState() => _SignUpCancelWidgetState();
+  _CodeErrorState createState() => _CodeErrorState();
 }
 
-class _SignUpCancelWidgetState extends State<SignUpCancelWidget> {
+class _CodeErrorState extends State<CodeError> {
   @override
   void setState(VoidCallback callback) {
     super.setState(callback);
@@ -42,7 +38,7 @@ class _SignUpCancelWidgetState extends State<SignUpCancelWidget> {
       width: 327,
       height: 432,
       decoration: BoxDecoration(
-        color: AppColors.primaryBackground,
+        color: AppColors.Gray850,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
@@ -55,6 +51,8 @@ class _SignUpCancelWidgetState extends State<SignUpCancelWidget> {
               padding: EdgeInsetsDirectional.fromSTEB(0, 77, 0, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.check_circle_outline_rounded,
@@ -65,16 +63,17 @@ class _SignUpCancelWidgetState extends State<SignUpCancelWidget> {
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
                     child: Text(
                       SetLocalizations.of(context).getText(
-                        'ghldnjrk' /* Hello World */,
+                        'cheozhemdhfb' /* Hello World */,
                       ),
-                      style: AppFont.s18,
+                      style: AppFont.s18.overrides(color: AppColors.primaryBackground),
                     ),
                   ),
                   Text(
                     SetLocalizations.of(context).getText(
-                      'cjtghkaus' /* Hello World */,
+                      'ckwdmftndjqtdm' /* Hello World */,
                     ),
-                    style: AppFont.r16.overrides(color: AppColors.Gray500),
+                    style: AppFont.r16.overrides(color: AppColors.Gray300),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -92,21 +91,19 @@ class _SignUpCancelWidgetState extends State<SignUpCancelWidget> {
                       height: 56.0,
                       child: LodingButtonWidget(
                         onPressed: () async {
-                          await authManager.deleteUser(context);
-                          context.goNamedAuth('login', context.mounted);
+                          context.pushNamed('HomePage');
                         },
-                        text: SetLocalizations.of(context).getText(
-                          'cnlthgkrl' /* 회원 가입취소하기 */,
-                        ),
+                        text: SetLocalizations.of(context).getText('ghadmfhdlehd' /* 홈으로 이동 */
+                            ),
                         options: LodingButtonOptions(
                           height: 40.0,
                           padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                          color: AppColors.primaryBackground,
-                          textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.Black),
+                          color: Colors.transparent,
+                          textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
                           elevation: 0,
                           borderSide: BorderSide(
-                            color: AppColors.Black,
+                            color: AppColors.primaryBackground,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
@@ -122,14 +119,14 @@ class _SignUpCancelWidgetState extends State<SignUpCancelWidget> {
                         context.safePop();
                       },
                       text: SetLocalizations.of(context).getText(
-                        'rPthrwkrtjd' /* 계속 작성하기 */,
+                        'ektldlqfur' /* 다시입력 */,
                       ),
                       options: LodingButtonOptions(
                         height: 40.0,
                         padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                         iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: AppColors.Black,
-                        textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                        color: AppColors.primaryBackground,
+                        textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.Black),
                         elevation: 0,
                         borderSide: BorderSide(
                           color: Colors.transparent,

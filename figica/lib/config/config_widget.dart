@@ -1,7 +1,8 @@
+import 'package:figica/flutter_set/figica_theme.dart';
+
 import '../flutter_set/App_icon_button.dart';
-import '../flutter_set/flutter_flow_theme.dart';
 import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/flutter_flow_widgets.dart';
+import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -51,7 +52,7 @@ class _ConfigWidgetState extends State<ConfigWidget> {
       onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: AppColors.primaryBackground,
         appBar: AppBar(
           backgroundColor: Color(0x00CCFF8B),
           automaticallyImplyLeading: false,
@@ -70,15 +71,10 @@ class _ConfigWidgetState extends State<ConfigWidget> {
             },
           ),
           title: Text(
-            SetLocalizations.of(context).getText(
-              '3giq6j9z' /* 본인 인증 */,
-            ),
-            style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Outfit',
-                  color: Colors.black,
-                  fontSize: 22.0,
-                ),
-          ),
+              SetLocalizations.of(context).getText(
+                '3giq6j9z' /* 본인 인증 */,
+              ),
+              style: AppFont.s12),
           actions: [],
           centerTitle: false,
           elevation: 0.0,

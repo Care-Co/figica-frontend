@@ -3,7 +3,7 @@ import 'package:figica/flutter_set/figica_theme.dart';
 import '/components/uptos_widget.dart';
 import '../flutter_set/App_icon_button.dart';
 import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/flutter_flow_widgets.dart';
+import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -376,14 +376,14 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                         Container(
                           width: double.infinity,
                           height: 56.0,
-                          child: FFButtonWidget(
+                          child: LodingButtonWidget(
                             onPressed: () {
                               print('Button pressed ...');
                             },
                             text: SetLocalizations.of(context).getText(
                               'c8ovbs6n' /* 다음 */,
                             ),
-                            options: FFButtonOptions(
+                            options: LodingButtonOptions(
                               height: 40.0,
                               padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                               iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -403,14 +403,14 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                           width: double.infinity,
                           height: 56.0,
                           decoration: BoxDecoration(),
-                          child: FFButtonWidget(
+                          child: LodingButtonWidget(
                             onPressed: () async {
                               context.pushNamed('Get_id');
                             },
                             text: SetLocalizations.of(context).getText(
                               '0sekgm29' /* 다음 */,
                             ),
-                            options: FFButtonOptions(
+                            options: LodingButtonOptions(
                               height: 40.0,
                               padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                               iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

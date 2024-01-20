@@ -1,17 +1,20 @@
+import 'package:figica/User_Controller.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/flutter_flow_util.dart';
-import 'package:figica/flutter_set/flutter_flow_widgets.dart';
+import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/group/group_api.dart';
 import 'package:figica/group/group_invitation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import 'creategroup_model.dart';
 export 'creategroup_model.dart';
 
 class CreategroupWidget extends StatefulWidget {
-  const CreategroupWidget({Key? key}) : super(key: key);
+  final VoidCallback updateCounter;
+  const CreategroupWidget({Key? key, required this.updateCounter}) : super(key: key);
 
   @override
   _CreategroupWidgetState createState() => _CreategroupWidgetState();
@@ -153,21 +156,28 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
                   child: Container(
                     width: double.infinity,
                     height: 56.0,
-                    child: FFButtonWidget(
+                    child: LodingButtonWidget(
                       onPressed: () async {
-                        String invitationCode = await GroupApi.createGroup(_model.textController.text);
-                        if (invitationCode != 'none') {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => GroupInvitationScreen(invitationCode: invitationCode),
-                          ));
-                        } else {
-                          // 실패 처리, 예를 들어 오류 메시지 표시
-                        }
+                        try {
+                          bool groupCreated = await GroupApi.createGroup(_model.textController.text);
+
+                          if (groupCreated) {
+                            FocusScope.of(context).unfocus();
+                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                              context,
+                              settings: RouteSettings(name: '/group/CreategroupWidget/GroupInvitationScreen'),
+                              screen: GroupInvitationScreen(updateCounter: widget.updateCounter),
+                              withNavBar: false,
+                            );
+                          } else {
+                            print('Failed to create group');
+                          }
+                        } catch (e) {}
                       },
                       text: SetLocalizations.of(context).getText(
                         'ze1u6oze' /* 확인 */,
                       ),
-                      options: FFButtonOptions(
+                      options: LodingButtonOptions(
                         height: 40.0,
                         padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                         iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

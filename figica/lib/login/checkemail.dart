@@ -6,9 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
 import '../flutter_set/flutter_drop_down.dart';
-import '../flutter_set/flutter_flow_theme.dart';
 import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/flutter_flow_widgets.dart';
+import '../flutter_set/Loding_button_widget.dart';
 import '../flutter_set/form_field_controller.dart';
 import '../flutter_set/internationalization.dart';
 import 'package:flutter/material.dart';
@@ -211,14 +210,14 @@ class _checkemailWidgetState extends State<checkemailWidget> {
                               child: Container(
                                 width: double.infinity,
                                 height: 56.0,
-                                child: FFButtonWidget(
+                                child: LodingButtonWidget(
                                   onPressed: () {
                                     print('Button pressed ...');
                                   },
                                   text: SetLocalizations.of(context).getText(
                                     'ze1u6oze' /* 다음 */,
                                   ),
-                                  options: FFButtonOptions(
+                                  options: LodingButtonOptions(
                                     height: 40.0,
                                     padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                                     iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -241,12 +240,12 @@ class _checkemailWidgetState extends State<checkemailWidget> {
                                 width: double.infinity,
                                 height: 56.0,
                                 decoration: BoxDecoration(),
-                                child: FFButtonWidget(
+                                child: LodingButtonWidget(
                                   onPressed: () async {},
                                   text: SetLocalizations.of(context).getText(
                                     'ze1u6oze' /* 다음 */,
                                   ),
-                                  options: FFButtonOptions(
+                                  options: LodingButtonOptions(
                                     height: 40.0,
                                     padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                                     iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

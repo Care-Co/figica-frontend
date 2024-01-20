@@ -1,22 +1,14 @@
-import 'package:aligned_dialog/aligned_dialog.dart';
-import 'package:figica/components/Login_Fail.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
-import '../flutter_set/flutter_drop_down.dart';
-import '../flutter_set/flutter_flow_theme.dart';
+
 import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/flutter_flow_widgets.dart';
-import '../flutter_set/form_field_controller.dart';
-import '../flutter_set/internationalization.dart';
+import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'login_model.dart';
 export 'login_model.dart';
-import '../backend/backend.dart';
 
 class certifyWidget extends StatefulWidget {
   const certifyWidget({Key? key}) : super(key: key);
@@ -213,14 +205,14 @@ class _certifyWidgetState extends State<certifyWidget> {
                               child: Container(
                                 width: double.infinity,
                                 height: 56.0,
-                                child: FFButtonWidget(
+                                child: LodingButtonWidget(
                                   onPressed: () {
                                     print('Button pressed ...');
                                   },
                                   text: SetLocalizations.of(context).getText(
                                     '20tycjvp' /* 다음 */,
                                   ),
-                                  options: FFButtonOptions(
+                                  options: LodingButtonOptions(
                                     height: 40.0,
                                     padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                                     iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -243,7 +235,7 @@ class _certifyWidgetState extends State<certifyWidget> {
                                 width: double.infinity,
                                 height: 56.0,
                                 decoration: BoxDecoration(),
-                                child: FFButtonWidget(
+                                child: LodingButtonWidget(
                                   onPressed: () async {
                                     GoRouter.of(context).prepareAuthEvent();
                                     final smsCodeVal = _model.pwController.text;
@@ -260,7 +252,7 @@ class _certifyWidgetState extends State<certifyWidget> {
                                   text: SetLocalizations.of(context).getText(
                                     '20tycjvp' /* 다음 */,
                                   ),
-                                  options: FFButtonOptions(
+                                  options: LodingButtonOptions(
                                     height: 40.0,
                                     padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                                     iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

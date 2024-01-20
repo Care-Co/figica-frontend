@@ -1,19 +1,10 @@
-import 'package:aligned_dialog/aligned_dialog.dart';
-import 'package:figica/components/Login_Fail.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/login/custom_input_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
-import '/auth/firebase_auth/auth_util.dart';
 import '../flutter_set/flutter_drop_down.dart';
-import '../flutter_set/flutter_flow_theme.dart';
-import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/flutter_flow_widgets.dart';
+import '../flutter_set/Loding_button_widget.dart';
 import '../flutter_set/form_field_controller.dart';
-import '../flutter_set/internationalization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+
+import '/index.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -26,7 +17,8 @@ class _LoginWidgetState extends State<LoginWidget> {
   final TextEditingController myController = TextEditingController();
   String inputType = 'none';
   TextInputType keyboardType = TextInputType.text;
-  String? selectedDropdownValue;
+  String selectedValue = '+82';
+
   late String _verificationId;
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;
@@ -40,52 +32,15 @@ class _LoginWidgetState extends State<LoginWidget> {
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
-  Future<bool> userExists(String phoneNumber) async {
-    final text = myController.text;
-
-    var url = Uri.parse('http://203.232.210.68:8080/api/user/validate');
-    var headers = {'accept': '*/*', 'Content-Type': 'application/json'};
-    var body = jsonEncode({'email': text});
-
-    try {
-      var response = await http.post(url, headers: headers, body: body);
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      print('Error: $e');
-      return false;
-    }
-  }
-
   void _updateInputType(String status) {
     setState(() {
       inputType = status;
     });
   }
 
-  Future<bool> userExistsphone(String phoneNumber) async {
-    final text = myController.text;
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: text, password: "!");
-    } on FirebaseAuthException catch (e) {
-      print(e.code);
-      if (e.code == 'wrong-password') {
-        print('중복');
-        return false;
-      }
-    } catch (e) {
-      print(e);
-    }
-    return true;
-  }
-
   @override
   void dispose() {
-    dispose();
-
+    myController.dispose();
     super.dispose();
   }
 
@@ -166,23 +121,24 @@ class _LoginWidgetState extends State<LoginWidget> {
                             child: FlutterDropDown<String>(
                               controller: dropDownValueController ??= FormFieldController<String>(null),
                               options: [
-                                SetLocalizations.of(context).getText(
-                                  'cghjktxl' /* 한국어(Korea) */,
-                                ),
-                                SetLocalizations.of(context).getText(
-                                  'b6fc2qid' /* 영어 */,
-                                ),
-                                SetLocalizations.of(context).getText(
-                                  'hnwpccrg' /* 일본어 */,
-                                )
+                                '한국어',
+                                'English',
+                                '日本語',
                               ],
-                              onChanged: (val) => setState(() => dropDownValue = val),
+                              onChanged: (val) async {
+                                setState(() => dropDownValue = val);
+                                if (val == '한국어') {
+                                  setAppLanguage(context, 'ko');
+                                } else if (val == 'English') {
+                                  setAppLanguage(context, 'en');
+                                } else if (val == '日本語') {
+                                  setAppLanguage(context, 'ja');
+                                }
+                              },
                               width: double.infinity,
                               height: 38.0,
                               textStyle: AppFont.r16.overrides(color: AppColors.Gray500),
-                              hintText: SetLocalizations.of(context).getText(
-                                'o2i52qph' /* 한국어 */,
-                              ),
+                              hintText: '한국어',
                               icon: Icon(
                                 Icons.keyboard_arrow_down_rounded,
                                 color: AppColors.Gray500,
@@ -207,9 +163,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 ),
                                 style: AppFont.s12),
                           ),
+                          //입력 필드
                           CustomInputField(
                             controller: myController,
                             onStatusChanged: _updateInputType,
+                            onSelected: (value) {
+                              selectedValue = value;
+                              print("Selected value: $selectedValue");
+                            },
                           )
                         ],
                       ),
@@ -221,13 +182,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                           Container(
                             width: double.infinity,
                             height: 56.0,
-                            child: FFButtonWidget(
+                            child: LodingButtonWidget(
                               onPressed: () async {
                                 if (inputType == 'none') {
-                                  print('none');
                                 } else if (inputType == 'phone') {
-                                  String id = myController.text;
-                                  bool exists = await userExists(id);
+                                  String id = selectedValue + myController.text.substring(1);
+                                  bool exists = await UserController.validate(id, inputType);
+                                  //계정이 있으면
                                   if (exists) {
                                     FocusScope.of(context).unfocus();
                                     await showAlignedDialog(
@@ -256,13 +217,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       },
                                     ).then((value) => setState(() {}));
                                   } else if (!exists) {
-                                    FocusScope.of(context).unfocus();
-                                    String id = myController.text.substring(1);
-                                    final phoneNumberVal = id;
-                                    print(phoneNumberVal.toString());
                                     FirebaseAuth _auth = FirebaseAuth.instance;
                                     await _auth.verifyPhoneNumber(
-                                        phoneNumber: phoneNumberVal,
+                                        phoneNumber: id,
                                         //timeout: const Duration(minutes: 5),
                                         verificationCompleted: (PhoneAuthCredential credential) async {
                                           print('인증 문자 수신');
@@ -277,15 +234,16 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             'smscode',
                                             queryParameters: {
                                               'verificationId': _verificationId,
-                                              'phone': phoneNumberVal,
+                                              'phone': id,
                                             }.withoutNulls,
                                           );
+                                          setState(() {});
                                         },
                                         codeAutoRetrievalTimeout: (String verificationId) {});
                                   }
                                 } else if (inputType == 'email') {
                                   String id = myController.text;
-                                  bool exists = await userExists(id);
+                                  bool exists = await UserController.validate(id, inputType);
                                   if (exists) {
                                     FocusScope.of(context).unfocus();
                                     await showAlignedDialog(
@@ -304,7 +262,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               child: LoginFailWidget(
                                                   onConfirmed: () {
                                                     setState(() {
-                                                      myController?.clear(); // 텍스트 필드 초기화
+                                                      myController.clear(); // 텍스트 필드 초기화
                                                     });
                                                   },
                                                   message: inputType),
@@ -325,7 +283,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                               text: SetLocalizations.of(context).getText(
                                 '20tycjvp' /* 로그인 */,
                               ),
-                              options: FFButtonOptions(
+                              options: LodingButtonOptions(
                                 height: 40.0,
                                 padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                                 iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -384,14 +342,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                             child: Container(
                               width: double.infinity,
                               height: 56.0,
-                              child: FFButtonWidget(
+                              child: LodingButtonWidget(
                                 onPressed: () async {
                                   context.pushNamed('agree_tos');
                                 },
                                 text: SetLocalizations.of(context).getText(
                                   'f1vk38nh' /* 회원 가입하기 */,
                                 ),
-                                options: FFButtonOptions(
+                                options: LodingButtonOptions(
                                   height: 40.0,
                                   padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                                   iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

@@ -1,14 +1,12 @@
+import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/flutter_flow_util.dart';
-import 'package:figica/flutter_set/flutter_flow_widgets.dart';
 import 'package:figica/flutter_set/internationalization.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class resetPwWidget extends StatefulWidget {
   final String email;
@@ -89,7 +87,7 @@ class _resetPwWidgetState extends State<resetPwWidget> {
                     child: Container(
                       width: double.infinity,
                       height: 56.0,
-                      child: FFButtonWidget(
+                      child: LodingButtonWidget(
                         onPressed: () async {
                           await authManager.resetPassword(
                             email: widget.email,
@@ -99,7 +97,7 @@ class _resetPwWidgetState extends State<resetPwWidget> {
                         text: SetLocalizations.of(context).getText(
                           'souektlwjsthd' /* 다시 전송하기 */,
                         ),
-                        options: FFButtonOptions(
+                        options: LodingButtonOptions(
                           height: 40.0,
                           padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -118,14 +116,14 @@ class _resetPwWidgetState extends State<resetPwWidget> {
                   Container(
                     width: double.infinity,
                     height: 56.0,
-                    child: FFButtonWidget(
+                    child: LodingButtonWidget(
                       onPressed: () async {
                         context.pushNamed('login');
                       },
                       text: SetLocalizations.of(context).getText(
                         'cjdmadmfh' /*처음으로 돌아가기 */,
                       ),
-                      options: FFButtonOptions(
+                      options: LodingButtonOptions(
                         height: 40.0,
                         padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                         iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

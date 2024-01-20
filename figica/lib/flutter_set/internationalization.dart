@@ -24,16 +24,13 @@ class SetLocalizations {
   String get languageCode => locale.toString();
   String? get languageShortCode => _languagesWithShortCode.contains(locale.toString()) ? '${locale.toString()}_short' : null;
   int get languageIndex => languages().contains(languageCode) ? languages().indexOf(languageCode) : 0;
-
   String getText(String key) => (kTranslationsMap[key] ?? {})[locale.toString()] ?? '';
-
   String getVariableText({
     String? koText = '',
     String? enText = '',
     String? jaText = '',
   }) =>
       [koText, enText, jaText][languageIndex] ?? '';
-
   static const Set<String> _languagesWithShortCode = {
     'ar',
     'az',
@@ -130,13 +127,23 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
+    'tofhqkfrmf': {
+      'ko': '초대 코드는 3일(72시간)동안 지속됩니다.\n유효 기간이 지나면 새로운 초대코드를 발급받아 주세요!',
+      'en': '',
+      'ja': '',
+    },
     'rmfnqt': {
       'ko': '그룹 생성 완료',
       'en': '',
       'ja': '',
     },
-    '초대코드': {
+    'cheo': {
       'ko': '초대코드',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqghq': {
+      'ko': '그룹 홈으로 이동하기',
       'en': '',
       'ja': '',
     },
@@ -210,6 +217,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
+    'rnrrk': {
+      'ko': '국가',
+      'en': '',
+      'ja': '',
+    },
     'mht88zbc': {
       'ko': '완료',
       'en': '',
@@ -232,6 +244,71 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'rPthrwkrtjd': {
       'ko': '계속 작성하기',
+      'en': '',
+      'ja': '',
+    },
+    'cheozhemdhfb': {
+      'ko': '초대 코드 오류',
+      'en': '',
+      'ja': '',
+    },
+    'ckwdmftndjqtdm': {
+      'ko': '해당 초대코드를 가진 그룹을\n찾을 수 없습니다',
+      'en': '',
+      'ja': '',
+    },
+    'ghadmfhdlehd': {
+      'ko': '홈으로 이동하기',
+      'en': '',
+      'ja': '',
+    },
+    'ektldlqfur': {
+      'ko': '초대코드 다시 입력하기',
+      'en': '',
+      'ja': '',
+    },
+    'ckadutlscj': {
+      'ko': '그룹 참여 신청하기',
+      'en': '',
+      'ja': '',
+    },
+    'tlvskdy': {
+      'ko': '님의 그룹에\n함께하고 싶나요?',
+      'en': '',
+      'ja': '',
+    },
+    'dmlrnfnq': {
+      'ko': '의 그룹',
+      'en': '',
+      'ja': '',
+    },
+    'dho': {
+      'ko': '외',
+      'en': '',
+      'ja': '',
+    },
+    'auddmlao': {
+      'ko': '명의 멤버',
+      'en': '',
+      'ja': '',
+    },
+    'wodlqdur': {
+      'ko': '초대 코드 재입력',
+      'en': '',
+      'ja': '',
+    },
+    'tlscud': {
+      'ko': '참여 신청하기',
+      'en': '',
+      'ja': '',
+    },
+    'tlscjddhksfy': {
+      'ko': '참여 신청 완료',
+      'en': '',
+      'ja': '',
+    },
+    'dhksfy': {
+      'ko': '의 그룹’에\n그룹 참여 신청을 전달했습니다!\n초대가 수락되면 다시 알려드릴게요',
       'en': '',
       'ja': '',
     },

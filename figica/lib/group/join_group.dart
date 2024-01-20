@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:aligned_dialog/aligned_dialog.dart';
+import 'package:figica/backend/backend.dart';
+import 'package:figica/components/invitation_codeError.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/flutter_flow_util.dart';
-import 'package:figica/flutter_set/flutter_flow_widgets.dart';
+import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/group/group_api.dart';
 import 'package:figica/group/group_invitation_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,18 +22,71 @@ class JoingroupWidget extends StatefulWidget {
 class _JoingroupWidgetState extends State<JoingroupWidget> {
   final TextEditingController myController = TextEditingController();
   FocusNode? textFieldFocusNode;
+  bool isButtonEnabled = false;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-
+    myController.addListener(_isValidLong);
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  void _isValidLong() {
+    if (myController.text.length >= 4) {
+      setState(() {
+        isButtonEnabled = true;
+      });
+    } else if (myController.text.length < 4) {
+      setState(() {
+        isButtonEnabled = false;
+      });
+    }
+  }
+
+  void _handleFetchGroupInfo() async {
+    String invitationCode = myController.text;
+    try {
+      Map<String, dynamic> groupData = await GroupApi.fetchGroupByInvitationCode(invitationCode);
+      String data = json.encode(groupData);
+      print(data);
+
+      context.pushNamed(
+        'groupInfo',
+        queryParameters: {'data': data, 'code': invitationCode},
+      );
+    } catch (e) {
+      if (e is Exception) {
+        print('Exception occurred: $e');
+      } else {
+        print('Unknown error occurred: $e');
+      }
+      await showAlignedDialog(
+        context: context,
+        isGlobal: true,
+        avoidOverflow: false,
+        targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+        followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+        builder: (dialogContext) {
+          return Material(
+            color: Colors.transparent,
+            child: GestureDetector(
+              child: Container(
+                height: 432,
+                width: 327,
+                child: CodeError(),
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 
   @override
   void dispose() {
+    myController.removeListener(_isValidLong);
     super.dispose();
   }
 
@@ -144,26 +202,21 @@ class _JoingroupWidgetState extends State<JoingroupWidget> {
                   child: Container(
                     width: double.infinity,
                     height: 56.0,
-                    child: FFButtonWidget(
-                      onPressed: () async {
-                        String invitationCode = await GroupApi.createGroup(myController.text);
-                        if (invitationCode != 'none') {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => GroupInvitationScreen(invitationCode: invitationCode),
-                          ));
-                        } else {
-                          // 실패 처리, 예를 들어 오류 메시지 표시
-                        }
-                      },
+                    child: LodingButtonWidget(
+                      onPressed: isButtonEnabled
+                          ? () async {
+                              _handleFetchGroupInfo();
+                            }
+                          : null,
                       text: SetLocalizations.of(context).getText(
                         'rmfqnckqrl' /* 그룹찾기 */,
                       ),
-                      options: FFButtonOptions(
+                      options: LodingButtonOptions(
                         height: 40.0,
                         padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                         iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: AppColors.primaryBackground,
-                        textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.Black),
+                        color: isButtonEnabled ? AppColors.primaryBackground : AppColors.Gray200,
+                        textStyle: AppFont.s18.overrides(fontSize: 16, color: isButtonEnabled ? AppColors.Black : AppColors.primaryBackground),
                         elevation: 0,
                         borderSide: BorderSide(
                           color: AppColors.Black,

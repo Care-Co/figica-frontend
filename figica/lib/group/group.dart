@@ -1,6 +1,12 @@
+import 'package:figica/User_Controller.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:figica/group/creategroup_widget.dart';
+import 'package:figica/group/group_api.dart';
+import 'package:figica/group/group_no.dart';
+import 'package:figica/group/group_yes.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../flutter_set/App_icon_button.dart';
 import '../flutter_set/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,11 +20,25 @@ class groupWidget extends StatefulWidget {
 
 class _groupWidgetState extends State<groupWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+  String groupStatus = "loading";
+
+  void updateCounter() {
+    setState(() {
+      groupStatus = 'success';
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-
+    GroupApi.findGroup().then((status) {
+      setState(() {
+        groupStatus = status;
+        print(groupStatus);
+      });
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -40,109 +60,57 @@ class _groupWidgetState extends State<groupWidget> {
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: AppColors.Black,
-        appBar: AppBar(
-          backgroundColor: Color(0x00CCFF8B),
-          automaticallyImplyLeading: false,
-          title: Text(
-              SetLocalizations.of(context).getText(
-                'ze1uteze' /* 그룹   */,
-              ),
-              style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
-          actions: [],
-          centerTitle: false,
-          elevation: 0.0,
-        ),
-        body: SafeArea(
-          top: true,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 42, 0, 83),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                              color: AppColors.Gray850,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                    child: Text(
-                                        SetLocalizations.of(context).getText(
-                                          'ckadue1uteze' /* 그룹이 없네요! */,
-                                        ),
-                                        style: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                                    child: Text(
-                                        SetLocalizations.of(context).getText(
-                                          'ckadurmfnqteze' /* 를 공유할 수 있 */,
-                                        ),
-                                        style: AppFont.r16.overrides(fontSize: 12, color: AppColors.Gray300)),
-                                  ),
-                                ],
-                              ),
-                            )),
-                      )
-                    ],
-                  ),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: (groupStatus == "fail") ? AppColors.Black : AppColors.Gray850,
+          appBar: AppBar(
+            backgroundColor: Color(0x00CCFF8B),
+            automaticallyImplyLeading: false,
+            title: Text(
+                SetLocalizations.of(context).getText(
+                  'ze1uteze' /* 그룹   */,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                        child: InkWell(
-                          onTap: () {
-                            context.pushNamed('groupCreate');
-                          },
-                          child: Container(
-                            height: 232,
-                            decoration: BoxDecoration(
-                              color: AppColors.Gray850,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        child: InkWell(
-                          onTap: () {
-                            context.pushNamed('groupJoin');
-                          },
-                          child: Container(
-                            height: 232,
-                            decoration: BoxDecoration(
-                              color: AppColors.Gray850,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
+                style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
+            actions: [],
+            centerTitle: false,
+            elevation: 0.0,
           ),
+          body: SmartRefresher(
+              header: const ClassicHeader(
+                spacing: 0,
+                releaseText: '',
+                completeText: '',
+              ),
+              footer: const ClassicFooter(
+                spacing: 0,
+                loadingText: '',
+                canLoadingText: '',
+                idleText: '',
+              ),
+              enablePullDown: true,
+              enablePullUp: true,
+              onRefresh: () {
+                GroupApi.findGroup().then((status) {
+                  setState(() {
+                    groupStatus = status;
+                    print(groupStatus);
+                  });
+                });
+                _refreshController.refreshCompleted();
+              },
+              onLoading: () {
+                _refreshController.loadComplete();
+              },
+              controller: _refreshController,
+              child: (groupStatus == "loading")
+                  ? CircularProgressIndicator()
+                  : (groupStatus == "fail")
+                      ? GroupScreen1(updateCounter: updateCounter)
+                      : GroupScreen2(
+                          histories: GroupApi.parseHistories(groupStatus),
+                        )),
         ),
       ),
     );

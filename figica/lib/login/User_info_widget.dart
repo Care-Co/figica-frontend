@@ -1,20 +1,16 @@
 import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:bottom_picker/bottom_picker.dart';
-import 'package:bottom_picker/widgets/date_picker.dart';
-import 'package:figica/auth/firebase_auth/auth_util.dart';
+
 import 'package:figica/components/SignUP_Cancel.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/flutter_flow_model.dart';
+import 'package:figica/flutter_set/flutter_drop_down.dart';
 import 'package:figica/flutter_set/flutter_flow_util.dart';
-import 'package:figica/flutter_set/flutter_flow_widgets.dart';
-import 'package:figica/login/token.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:figica/flutter_set/Loding_button_widget.dart';
+import 'package:figica/User_Controller.dart';
+import 'package:figica/flutter_set/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-
 import 'User_info_model.dart';
 export 'User_info_model.dart';
 
@@ -29,6 +25,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
   late UserInfoModel _model;
   DateTime? selectedDate;
   String selectedGender = 'none';
+  String dropDownValue = 'KR';
+  FormFieldController<String>? dropDownValueController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -351,14 +349,13 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                       child: InkWell(
                                         onTap: _showDatePicker,
                                         child: Container(
-                                            // Add horizontal padding
                                             width: double.infinity,
-                                            height: 20, // Set the height of the container
+                                            height: 20,
                                             decoration: BoxDecoration(
                                               border: Border(
                                                 bottom: BorderSide(
-                                                  color: AppColors.Gray200, // Color of the underscore (bottom border)
-                                                  width: 1.0, // Thickness of the underscore (bottom border)
+                                                  color: AppColors.Gray200,
+                                                  width: 1.0,
                                                 ),
                                               ),
                                             ),
@@ -366,7 +363,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                               selectedDate != null
                                                   ? "${selectedDate!.year}/${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.day.toString().padLeft(2, '0')}"
                                                   : "00/00/00",
-                                              style: TextStyle(fontSize: 16), // Replace with your text style
+                                              style: TextStyle(fontSize: 16),
                                             )),
                                       ),
                                     )
@@ -393,7 +390,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                child: FFButtonWidget(
+                                child: LodingButtonWidget(
                                   onPressed: () {
                                     setState(() {
                                       selectedGender = 'male';
@@ -402,7 +399,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                   text: SetLocalizations.of(context).getText(
                                     'b6pt2wpc' /* 남성 */,
                                   ),
-                                  options: FFButtonOptions(
+                                  options: LodingButtonOptions(
                                     height: 40,
                                     padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
@@ -421,7 +418,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                child: FFButtonWidget(
+                                child: LodingButtonWidget(
                                   onPressed: () {
                                     setState(() {
                                       selectedGender = 'female';
@@ -430,7 +427,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                   text: SetLocalizations.of(context).getText(
                                     'wyai5zsz' /* 여성 */,
                                   ),
-                                  options: FFButtonOptions(
+                                  options: LodingButtonOptions(
                                     height: 40,
                                     padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                                     iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
@@ -547,6 +544,61 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                             ),
                           ],
                         ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 32, 0, 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                child: Text(
+                                    SetLocalizations.of(context).getText(
+                                      'rnrrk' /* 국가 */,
+                                    ),
+                                    style: AppFont.s12),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                                child: FlutterDropDown<String>(
+                                  controller: dropDownValueController ??= FormFieldController<String>(null),
+                                  options: [
+                                    'KR',
+                                    'EN',
+                                    'JA',
+                                  ],
+                                  onChanged: (val) async {
+                                    setState(() => dropDownValue = val!);
+                                    if (val == 'KR') {
+                                      setAppLanguage(context, 'ko');
+                                    } else if (val == 'EN') {
+                                      setAppLanguage(context, 'en');
+                                    } else if (val == 'JA') {
+                                      setAppLanguage(context, 'ja');
+                                    }
+                                  },
+                                  width: double.infinity,
+                                  height: 38.0,
+                                  textStyle: AppFont.r16.overrides(color: AppColors.Gray500),
+                                  hintText: SetLocalizations.of(context).languageCode,
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: AppColors.Gray500,
+                                    size: 20.0,
+                                  ),
+                                  elevation: 2.0,
+                                  borderColor: AppColors.Gray200,
+                                  borderWidth: 1.0,
+                                  borderRadius: 8.0,
+                                  borderStyle: 'all',
+                                  margin: EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 4.0),
+                                  hidesUnderline: true,
+                                  isSearchable: false,
+                                  isMultiSelect: false,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                     Padding(
@@ -554,7 +606,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                       child: Container(
                           width: double.infinity,
                           height: 56.0,
-                          child: FFButtonWidget(
+                          child: LodingButtonWidget(
                             onPressed: () async {
                               if (areFieldsValid) {
                                 String data = selectedDate != null
@@ -563,7 +615,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                 String name = _model.fiController.text + _model.namController.text;
                                 double height = _model.heController.text.isEmpty ? 0.0 : double.parse(_model.heController.text);
                                 double weight = _model.weController.text.isEmpty ? 0.0 : double.parse(_model.weController.text);
-                                await AuthStorage.updateProfile(data, name, selectedGender, height, weight);
+                                await UserController.updateProfile(data, name, selectedGender, height, weight, dropDownValue);
 
                                 context.pushNamed('homePage');
                               }
@@ -571,7 +623,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                             text: SetLocalizations.of(context).getText(
                               'mht88zbc' /* 완료 */,
                             ),
-                            options: FFButtonOptions(
+                            options: LodingButtonOptions(
                               height: 40.0,
                               padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                               iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

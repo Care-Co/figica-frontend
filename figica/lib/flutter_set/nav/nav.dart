@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:figica/agree_tos/agree_tos_widget.dart';
+import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:figica/group/group_info_screen.dart';
+import 'package:figica/group/group_invitation_screen.dart';
 import 'package:figica/group/join_group.dart';
 import 'package:figica/login/certify.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +16,7 @@ import '/auth/base_auth_user_provider.dart';
 
 import '/index.dart';
 import '/main.dart';
-import '/flutter_set/flutter_flow_theme.dart';
-import '/flutter_set/lat_lng.dart';
-import '/flutter_set/place.dart';
+
 import '/flutter_set/flutter_flow_util.dart';
 import 'serialization_util.dart';
 
@@ -145,15 +146,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
+          name: 'groupInfo',
+          path: '/groupInfo',
+          builder: (context, params) => GroupInfoScreen(
+            data: params.getParam('data', ParamType.String),
+            code: params.getParam('code', ParamType.String),
+          ),
+        ),
+        FFRoute(
           name: 'config',
           path: '/config',
           builder: (context, params) => ConfigWidget(),
         ),
-        FFRoute(
-          name: 'groupCreate',
-          path: '/groupCreate',
-          builder: (context, params) => CreategroupWidget(),
-        ),
+        FFRoute(name: 'group', path: '/group', builder: (context, params) => NavBarPage(initialPage: 'group')),
         FFRoute(
           name: 'groupJoin',
           path: '/groupJoin',
@@ -169,16 +174,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/scanpage',
           builder: (context, params) => params.isEmpty ? NavBarPage(initialPage: 'scanpage') : ScanpageWidget(),
         ),
-        FFRoute(
-          name: 'expfirstpage',
-          path: '/expfirstpage',
-          builder: (context, params) => ExpfirstpageWidget(),
-        ),
-        FFRoute(
-          name: 'expscan',
-          path: '/expscan',
-          builder: (context, params) => ExpscanWidget(),
-        )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
 
@@ -348,7 +343,7 @@ class FFRoute {
                     height: 50.0,
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
+                        AppColors.primaryBackground,
                       ),
                     ),
                   ),

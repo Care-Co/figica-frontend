@@ -1,12 +1,13 @@
 import 'package:aligned_dialog/aligned_dialog.dart';
+import 'package:figica/User_Controller.dart';
 import 'package:figica/components/SignUp_Fail.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/login/custom_input_field.dart';
-import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/flutter_flow_widgets.dart';
+import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,9 +21,10 @@ class GetidWidget extends StatefulWidget {
 class _GetidWidgetState extends State<GetidWidget> {
   final TextEditingController myController = TextEditingController();
   TextInputType keyboardType = TextInputType.text;
+  String selectedValue = '+82';
+  late String _verificationId;
 
   String inputType = 'none'; // 'email', 'phone', 'none'
-  String? selectedDropdownValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -31,26 +33,6 @@ class _GetidWidgetState extends State<GetidWidget> {
 
     authManager.handlePhoneAuthStateChanges(context);
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
-  }
-
-  Future<bool> userExists(String phoneNumber) async {
-    final text = myController.text;
-
-    var url = Uri.parse('http://203.232.210.68:8080/api/user/validate');
-    var headers = {'accept': '*/*', 'Content-Type': 'application/json'};
-    var body = jsonEncode({'email': text});
-
-    try {
-      var response = await http.post(url, headers: headers, body: body);
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      print('Error: $e');
-      return false;
-    }
   }
 
   @override
@@ -171,6 +153,10 @@ class _GetidWidgetState extends State<GetidWidget> {
                                 child: CustomInputField(
                                   controller: myController,
                                   onStatusChanged: _updateInputType,
+                                  onSelected: (value) {
+                                    selectedValue = value;
+                                    print("Selected value: $selectedValue");
+                                  },
                                 ),
                               ),
                               if (_emailValidator != null && _phoneValidator != null)
@@ -179,14 +165,14 @@ class _GetidWidgetState extends State<GetidWidget> {
                                   child: Container(
                                     width: double.infinity,
                                     height: 56.0,
-                                    child: FFButtonWidget(
+                                    child: LodingButtonWidget(
                                       onPressed: () {
                                         print('Button pressed ...');
                                       },
                                       text: SetLocalizations.of(context).getText(
                                         'c8ovbs6n' /* 다음 */,
                                       ),
-                                      options: FFButtonOptions(
+                                      options: LodingButtonOptions(
                                         height: 40.0,
                                         padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                                         iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -209,66 +195,108 @@ class _GetidWidgetState extends State<GetidWidget> {
                                     width: double.infinity,
                                     height: 56.0,
                                     decoration: BoxDecoration(),
-                                    child: FFButtonWidget(
+                                    child: LodingButtonWidget(
                                       onPressed: () async {
                                         String input = myController.text;
-                                        bool exists = await userExists(input);
 
-                                        if (!exists) {
-                                          FocusScope.of(context).unfocus();
-                                          await showAlignedDialog(
-                                            context: context,
-                                            isGlobal: true,
-                                            avoidOverflow: false,
-                                            targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                            followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                            builder: (dialogContext) {
-                                              return Material(
-                                                color: Colors.transparent,
-                                                child: GestureDetector(
-                                                  child: Container(
-                                                    height: 432,
-                                                    width: 327,
-                                                    child: SignupFailWidget(
-                                                        onConfirmed: () {
-                                                          setState(() {
-                                                            myController.clear(); // 텍스트 필드 초기화
-                                                          });
-                                                        },
-                                                        message: inputType),
+                                        if (inputType == 'email') {
+                                          bool exists = await UserController.validate(input, inputType);
+                                          if (!exists) {
+                                            FocusScope.of(context).unfocus();
+                                            await showAlignedDialog(
+                                              context: context,
+                                              isGlobal: true,
+                                              avoidOverflow: false,
+                                              targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                              followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                              builder: (dialogContext) {
+                                                return Material(
+                                                  color: Colors.transparent,
+                                                  child: GestureDetector(
+                                                    child: Container(
+                                                      height: 432,
+                                                      width: 327,
+                                                      child: SignupFailWidget(
+                                                          onConfirmed: () {
+                                                            setState(() {
+                                                              myController.clear(); // 텍스트 필드 초기화
+                                                            });
+                                                          },
+                                                          message: inputType),
+                                                    ),
                                                   ),
-                                                ),
-                                              );
-                                            },
-                                          ).then((value) => setState(() {}));
-                                        } else {
-                                          if (inputType == 'email') {
+                                                );
+                                              },
+                                            ).then((value) => setState(() {}));
+                                          } else {
                                             context.pushNamed(
                                               'Set_pw',
                                               queryParameters: {'email': input}.withoutNulls,
                                             );
                                           }
-                                          if (inputType == 'phone') {
-                                            final phoneNumberVal = input;
+                                        }
+                                        if (inputType == 'phone') {
+                                          final phoneNumberVal = selectedValue + myController.text.substring(1);
 
-                                            await authManager.beginPhoneAuth(
+                                          bool exists = await UserController.validate(phoneNumberVal, inputType);
+                                          if (!exists) {
+                                            FocusScope.of(context).unfocus();
+                                            await showAlignedDialog(
                                               context: context,
-                                              phoneNumber: phoneNumberVal,
-                                              onCodeSent: (context) async {
-                                                context.goNamedAuth(
-                                                  'certify',
-                                                  context.mounted,
-                                                  ignoreRedirect: true,
+                                              isGlobal: true,
+                                              avoidOverflow: false,
+                                              targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                              followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                              builder: (dialogContext) {
+                                                return Material(
+                                                  color: Colors.transparent,
+                                                  child: GestureDetector(
+                                                    child: Container(
+                                                      height: 432,
+                                                      width: 327,
+                                                      child: SignupFailWidget(
+                                                          onConfirmed: () {
+                                                            setState(() {
+                                                              myController.clear(); // 텍스트 필드 초기화
+                                                            });
+                                                          },
+                                                          message: inputType),
+                                                    ),
+                                                  ),
                                                 );
                                               },
-                                            );
+                                            ).then((value) => setState(() {}));
+                                          } else {
+                                            FirebaseAuth _auth = FirebaseAuth.instance;
+                                            await _auth.verifyPhoneNumber(
+                                                phoneNumber: phoneNumberVal,
+                                                //timeout: const Duration(minutes: 5),
+                                                verificationCompleted: (PhoneAuthCredential credential) async {
+                                                  print('인증 문자 수신');
+                                                },
+                                                verificationFailed: (FirebaseAuthException e) {
+                                                  print(e);
+                                                  print('인증 문자 전송 실패');
+                                                },
+                                                codeSent: (String verificationId, int? resendToken) async {
+                                                  print('인증 문자 전송');
+                                                  _verificationId = verificationId;
+                                                  context.pushNamed(
+                                                    'smscode',
+                                                    queryParameters: {
+                                                      'verificationId': _verificationId,
+                                                      'phone': phoneNumberVal,
+                                                    }.withoutNulls,
+                                                  );
+                                                },
+                                                codeAutoRetrievalTimeout: (String verificationId) {});
                                           }
                                         }
                                       },
                                       text: SetLocalizations.of(context).getText(
                                         '0sekgm29' /* 다음 */,
                                       ),
-                                      options: FFButtonOptions(
+                                      options: LodingButtonOptions(
                                         height: 40.0,
                                         padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                                         iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

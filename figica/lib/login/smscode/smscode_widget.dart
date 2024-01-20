@@ -1,17 +1,14 @@
 import 'dart:async';
 
+import 'package:figica/User_Controller.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '/auth/firebase_auth/auth_util.dart';
-import '../flutter_set/App_icon_button.dart';
-import '../flutter_set/flutter_flow_theme.dart';
-import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/flutter_flow_widgets.dart';
+import '../../../flutter_set/App_icon_button.dart';
+import '../../../flutter_set/flutter_flow_util.dart';
+import '../../../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'smscode_model.dart';
 export 'smscode_model.dart';
 
@@ -220,13 +217,17 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                     child: Container(
                       width: double.infinity,
                       height: 56.0,
-                      child: FFButtonWidget(
+                      child: LodingButtonWidget(
                         onPressed: () async {
                           PhoneAuthCredential credential =
                               PhoneAuthProvider.credential(verificationId: widget.verificationId, smsCode: _model.textController.text);
                           try {
-                            await FirebaseAuth.instance.signInWithCredential(credential);
-                            context.goNamedAuth('homePage', context.mounted);
+                            final getfiretoken = await FirebaseAuth.instance.signInWithCredential(credential);
+                            final String? token = await getfiretoken.user?.getIdToken();
+                            print("Token: $token");
+                            await UserController.signUpWithPhone(token!, widget.phone);
+
+                            context.goNamedAuth('userinfo', context.mounted);
                           } on FirebaseAuthException catch (e) {
                             print(e.code);
                             if (e.code == 'invalid-verification-code') {
@@ -243,7 +244,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                         text: SetLocalizations.of(context).getText(
                           't0ydhdm1' /* 인증하기 */,
                         ),
-                        options: FFButtonOptions(
+                        options: LodingButtonOptions(
                           height: 40.0,
                           padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -265,14 +266,14 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                     child: Container(
                       width: double.infinity,
                       height: 56.0,
-                      child: FFButtonWidget(
+                      child: LodingButtonWidget(
                         onPressed: () async {
                           print('no');
                         },
                         text: SetLocalizations.of(context).getText(
                           't0ydhdm1' /* 인증하기 */,
                         ),
-                        options: FFButtonOptions(
+                        options: LodingButtonOptions(
                           height: 40.0,
                           padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
