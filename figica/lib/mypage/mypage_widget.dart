@@ -1,16 +1,10 @@
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/internationalization.dart';
-import 'package:figica/User_Controller.dart';
-import 'package:figica/group/group_api.dart';
-import 'package:figica/group/group_invitation_screen.dart';
-
 import '../flutter_set/App_icon_button.dart';
-import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'mypage_model.dart';
 export 'mypage_model.dart';
+
+import 'package:figica/index.dart';
 
 class MypageWidget extends StatefulWidget {
   const MypageWidget({Key? key}) : super(key: key);

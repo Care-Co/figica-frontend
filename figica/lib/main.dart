@@ -1,3 +1,4 @@
+import 'package:figica/flutter_set/nav/nav.dart';
 import 'package:flutter/material.dart';
 
 import 'index.dart';
@@ -111,11 +112,10 @@ class _NavBarPageState extends State<NavBarPage> {
   List<Widget> _buildScreens() {
     return [
       HomePageWidget(),
-      groupWidget(),
+      GroupWidget(),
       ScanpageWidget(),
       planWidget(),
       MypageWidget(),
-      // Add more screens here
     ];
   }
 

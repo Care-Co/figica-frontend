@@ -4,8 +4,7 @@ import 'package:figica/flutter_set/App_icon_button.dart';
 import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'login_model.dart';
-export 'login_model.dart';
+
 import '/index.dart';
 
 class InputPwWidget extends StatefulWidget {
@@ -17,26 +16,25 @@ class InputPwWidget extends StatefulWidget {
 }
 
 class _InputPwWidgetState extends State<InputPwWidget> {
-  late LoginModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController pwController = TextEditingController();
+  final pwFocusNode = FocusNode();
+  bool pwVisibility = true;
+  String? Function(BuildContext, String?)? pwControllerValidator;
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => LoginModel());
 
-    _model.pwController ??= TextEditingController();
-    _model.pwFocusNode ??= FocusNode();
-
-    _model.pwController!.addListener(() {
-      if (_isValidPassword(_model.pwController!.text)) {
+    pwController.addListener(() {
+      if (_isValidPassword(pwController.text)) {
       } else {}
       setState(() {});
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).unfocus();
-      FocusScope.of(context).requestFocus(_model.pwFocusNode);
+      FocusScope.of(context).requestFocus(pwFocusNode);
     });
   }
 
@@ -45,7 +43,7 @@ class _InputPwWidgetState extends State<InputPwWidget> {
   }
 
   void userExists() async {
-    final pw = _model.pwController!.text;
+    final pw = pwController.text;
     print(widget.email);
     print(pw);
     try {
@@ -68,15 +66,13 @@ class _InputPwWidgetState extends State<InputPwWidget> {
             return Material(
               color: Colors.transparent,
               child: GestureDetector(
-                onTap: () =>
-                    _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
                 child: Container(
                   height: 432,
                   width: 327,
                   child: LoginFailWidget(
                       onConfirmed: () {
                         setState(() {
-                          _model.pwController?.clear();
+                          pwController.clear();
                           findPw();
                         });
                       },
@@ -109,8 +105,6 @@ class _InputPwWidgetState extends State<InputPwWidget> {
           return Material(
             color: Colors.transparent,
             child: GestureDetector(
-              onTap: () =>
-                  _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
               child: Container(
                 height: 432,
                 width: 327,
@@ -129,13 +123,11 @@ class _InputPwWidgetState extends State<InputPwWidget> {
 
   @override
   void dispose() {
-    _model.dispose();
-
     super.dispose();
   }
 
   String? get _errorText1 {
-    final text = _model.pwController!.text;
+    final text = pwController.text;
     if (!_isValidPassword(text)) {
       return SetLocalizations.of(context).getText(
         '8u5gojhte' /* 8 - 24자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요 */,
@@ -156,7 +148,7 @@ class _InputPwWidgetState extends State<InputPwWidget> {
     }
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
@@ -218,18 +210,18 @@ class _InputPwWidgetState extends State<InputPwWidget> {
                               style: AppFont.s12),
                         ),
                         TextFormField(
-                          controller: _model.pwController,
-                          focusNode: _model.pwFocusNode,
+                          controller: pwController,
+                          focusNode: pwFocusNode,
                           autofocus: false,
-                          obscureText: !_model.pwVisibility,
+                          obscureText: pwVisibility,
                           decoration: InputDecoration(
                             suffixIcon: InkWell(
                               onTap: () => setState(
-                                () => _model.pwVisibility = !_model.pwVisibility,
+                                () => pwVisibility = !pwVisibility,
                               ),
                               focusNode: FocusNode(skipTraversal: true),
                               child: Icon(
-                                _model.pwVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                pwVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                                 color: Color(0xFF757575),
                                 size: 15,
                               ),
@@ -268,7 +260,6 @@ class _InputPwWidgetState extends State<InputPwWidget> {
                             ),
                           ),
                           style: AppFont.r16.overrides(color: AppColors.Gray700),
-                          validator: _model.pwControllerValidator.asValidator(context),
                         ),
                       ]),
                     ),

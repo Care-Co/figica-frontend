@@ -1,8 +1,9 @@
 import 'package:aligned_dialog/aligned_dialog.dart';
+import 'package:figica/components/invitation_codeError.dart';
 import 'package:figica/components/success_Join.dart';
 import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/flutter_flow_util.dart';
+import 'package:figica/flutter_set/flutter_util.dart';
 import 'package:figica/flutter_set/internationalization.dart';
 import 'package:figica/group/group_api.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,6 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
 
   @override
   void initState() {
-    print(widget.data);
     groupData = json.decode(widget.data);
     print(groupData);
     super.initState();
@@ -198,9 +198,7 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
                                       child: Container(
                                         height: 366,
                                         width: 327,
-                                        child: SuccessJoin(
-                                          name: groupLeaderName,
-                                        ),
+                                        child: CodeError(),
                                       ),
                                     ),
                                   );

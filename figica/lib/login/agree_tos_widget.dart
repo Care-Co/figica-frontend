@@ -2,13 +2,10 @@ import 'package:figica/flutter_set/figica_theme.dart';
 
 import '/components/uptos_widget.dart';
 import '../flutter_set/App_icon_button.dart';
-import '../flutter_set/flutter_flow_util.dart';
+import '../flutter_set/flutter_util.dart';
 import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'agree_tos_model.dart';
-export 'agree_tos_model.dart';
 
 class AgreeTosWidget extends StatefulWidget {
   const AgreeTosWidget({Key? key}) : super(key: key);
@@ -18,7 +15,7 @@ class AgreeTosWidget extends StatefulWidget {
 }
 
 class _AgreeTosWidgetState extends State<AgreeTosWidget> {
-  late AgreeTosModel _model;
+  final unfocusNode = FocusNode();
 
   bool selectAll = false;
   bool agree1 = false;
@@ -28,15 +25,13 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => AgreeTosModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
-    _model.dispose();
-
+    unfocusNode.dispose();
     super.dispose();
   }
 
@@ -74,7 +69,6 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
     }
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: AppColors.primaryBackground,
         key: scaffoldKey,
@@ -258,8 +252,8 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                                     context: context,
                                     builder: (context) {
                                       return GestureDetector(
-                                        onTap: () => _model.unfocusNode.canRequestFocus
-                                            ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                                        onTap: () => unfocusNode.canRequestFocus
+                                            ? FocusScope.of(context).requestFocus(unfocusNode)
                                             : FocusScope.of(context).unfocus(),
                                         child: Padding(
                                           padding: MediaQuery.viewInsetsOf(context),
@@ -347,8 +341,8 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                                       context: context,
                                       builder: (context) {
                                         return GestureDetector(
-                                          onTap: () => _model.unfocusNode.canRequestFocus
-                                              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                                          onTap: () => unfocusNode.canRequestFocus
+                                              ? FocusScope.of(context).requestFocus(unfocusNode)
                                               : FocusScope.of(context).unfocus(),
                                           child: Padding(
                                             padding: MediaQuery.viewInsetsOf(context),

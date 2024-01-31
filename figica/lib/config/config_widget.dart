@@ -1,14 +1,12 @@
-import 'package:figica/flutter_set/figica_theme.dart';
-
 import '../flutter_set/App_icon_button.dart';
-import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/Loding_button_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+
 import 'config_model.dart';
 export 'config_model.dart';
+
+import 'package:figica/index.dart';
 
 class ConfigWidget extends StatefulWidget {
   const ConfigWidget({Key? key}) : super(key: key);

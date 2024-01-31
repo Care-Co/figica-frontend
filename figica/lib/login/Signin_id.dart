@@ -6,7 +6,7 @@ import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/login/custom_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '/auth/firebase_auth/auth_util.dart';
-import '../flutter_set/flutter_flow_util.dart';
+import '../flutter_set/flutter_util.dart';
 import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

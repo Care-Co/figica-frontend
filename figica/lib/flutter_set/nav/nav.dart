@@ -1,25 +1,13 @@
 import 'dart:async';
 
-import 'package:figica/agree_tos/agree_tos_widget.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/group/group_info_screen.dart';
-import 'package:figica/group/group_invitation_screen.dart';
-import 'package:figica/group/join_group.dart';
-import 'package:figica/login/certify.dart';
+import 'package:figica/group/settings/changeLeader_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import '/backend/backend.dart';
-
-import '/auth/base_auth_user_provider.dart';
-
+import '../../group/group_info_screen.dart';
+import '../../group/group_setting.dart';
+import '../../group/join_group.dart';
 import '/index.dart';
 import '/main.dart';
-
-import '/flutter_set/flutter_flow_util.dart';
-import 'serialization_util.dart';
-
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
 
@@ -112,6 +100,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => AgreeTosWidget(),
         ),
         FFRoute(
+          name: 'removeMember',
+          path: '/removeMember',
+          builder: (context, params) => RemoveMemberPage(),
+        ),
+        FFRoute(
           name: 'Get_id',
           path: '/Get_id',
           builder: (context, params) => GetidWidget(),
@@ -163,6 +156,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'groupJoin',
           path: '/groupJoin',
           builder: (context, params) => JoingroupWidget(),
+        ),
+        FFRoute(
+          name: 'GroupJoinHistory',
+          path: '/GroupJoinHistory',
+          builder: (context, params) => GroupJoinHistory(),
+        ),
+        FFRoute(
+          name: 'ChangeLeaderPage',
+          path: '/ChangeLeaderPage',
+          builder: (context, params) => ChangeLeaderPage(),
+        ),
+        FFRoute(
+          name: 'groupSetting',
+          path: '/groupSetting',
+          builder: (context, params) => GroupSetting(
+            authority: params.getParam('authority', ParamType.String),
+            groupname: params.getParam('groupname', ParamType.String),
+          ),
         ),
         FFRoute(
           name: 'mypage',

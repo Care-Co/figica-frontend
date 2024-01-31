@@ -1,7 +1,7 @@
 import 'package:figica/User_Controller.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/flutter_flow_util.dart';
+import 'package:figica/flutter_set/flutter_util.dart';
 import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/group/group_api.dart';
 import 'package:figica/group/group_invitation_screen.dart';
@@ -13,8 +13,7 @@ import 'creategroup_model.dart';
 export 'creategroup_model.dart';
 
 class CreategroupWidget extends StatefulWidget {
-  final VoidCallback updateCounter;
-  const CreategroupWidget({Key? key, required this.updateCounter}) : super(key: key);
+  const CreategroupWidget({Key? key}) : super(key: key);
 
   @override
   _CreategroupWidgetState createState() => _CreategroupWidgetState();
@@ -166,7 +165,7 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
                             PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                               context,
                               settings: RouteSettings(name: '/group/CreategroupWidget/GroupInvitationScreen'),
-                              screen: GroupInvitationScreen(updateCounter: widget.updateCounter),
+                              screen: GroupInvitationScreen(),
                               withNavBar: false,
                             );
                           } else {

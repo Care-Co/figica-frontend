@@ -68,7 +68,7 @@ class _SuccessJoinState extends State<SuccessJoin> {
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () async {
-                        context.pushNamed('homepage');
+                        context.go('group');
                       },
                       text: SetLocalizations.of(context).getText(
                         'ze1u6oze' /* 다시입력 */,

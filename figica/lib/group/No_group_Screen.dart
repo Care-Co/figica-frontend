@@ -1,22 +1,18 @@
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/internationalization.dart';
-import 'package:figica/group/creategroup_widget.dart';
 import 'package:figica/group/join_group.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'package:figica/index.dart';
 
 // 다른 필요한 패키지들을 여기에 임포트하세요.
 
-class GroupScreen1 extends StatefulWidget {
-  final VoidCallback updateCounter;
-  const GroupScreen1({Key? key, required this.updateCounter}) : super(key: key);
+class NogroupScreen extends StatefulWidget {
+  const NogroupScreen({Key? key}) : super(key: key);
   @override
-  _GroupScreenState1 createState() => _GroupScreenState1();
+  _NogroupScreenState createState() => _NogroupScreenState();
 }
 
-class _GroupScreenState1 extends State<GroupScreen1> {
+class _NogroupScreenState extends State<NogroupScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   RefreshController _refreshController = RefreshController(initialRefresh: false);
 
@@ -80,7 +76,7 @@ class _GroupScreenState1 extends State<GroupScreen1> {
                           PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
                             context,
                             settings: RouteSettings(name: '/group/CreategroupWidget'),
-                            screen: CreategroupWidget(updateCounter: widget.updateCounter),
+                            screen: CreategroupWidget(),
                             withNavBar: false,
                           );
                         },

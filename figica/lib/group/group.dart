@@ -1,34 +1,39 @@
-import 'package:figica/User_Controller.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/group/creategroup_widget.dart';
-import 'package:figica/group/group_api.dart';
-import 'package:figica/group/group_no.dart';
-import 'package:figica/group/group_yes.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'dart:convert';
 
-import '../flutter_set/flutter_flow_util.dart';
+import 'package:figica/group/Wait_group_Screen.dart';
+import 'package:figica/group/No_group_Screen.dart';
+import 'package:figica/group/Yes_group_Screen.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:figica/index.dart';
 
-class groupWidget extends StatefulWidget {
-  const groupWidget({Key? key}) : super(key: key);
+class GroupWidget extends StatefulWidget {
+  const GroupWidget({Key? key}) : super(key: key);
 
   @override
-  _groupWidgetState createState() => _groupWidgetState();
+  _GroupWidgetState createState() => _GroupWidgetState();
 }
 
-class _groupWidgetState extends State<groupWidget> {
+class _GroupWidgetState extends State<GroupWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   RefreshController _refreshController = RefreshController(initialRefresh: false);
 
-  String groupStatus = "loading";
-
-  void updateCounter() {
-    setState(() {
-      groupStatus = 'success';
-    });
+  String printAuthority(String response) {
+    var decodedResponse = json.decode(response);
+    String authority = decodedResponse['data']['myself']['authority'];
+    print(authority);
+    return authority;
   }
+
+  String groupname(String response) {
+    var decodedResponse = json.decode(response);
+    String groupname = decodedResponse['data']['groupName'];
+    print(groupname);
+    return groupname;
+  }
+
+  String groupStatus = "loading";
 
   @override
   void initState() {
@@ -45,6 +50,22 @@ class _groupWidgetState extends State<groupWidget> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Widget result(String groupStatus) {
+    if (groupStatus == 'fail') {
+      return NogroupScreen();
+    } else if (groupStatus == 'loading') {
+      return CircularProgressIndicator();
+    } else if (groupStatus == 'waiting') {
+      return WaitgroupScreen();
+    } else {
+      GroupApi.saveGroup(groupStatus);
+      return YesgroupScreen(
+        authority: printAuthority(groupStatus),
+        data: groupStatus,
+      );
+    }
   }
 
   @override
@@ -73,44 +94,51 @@ class _groupWidgetState extends State<groupWidget> {
                   'ze1uteze' /* 그룹   */,
                 ),
                 style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
-            actions: [],
+            actions: (groupStatus == "fail")
+                ? []
+                : <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.settings),
+                      onPressed: () {
+                        context.pushNamed(
+                          'groupSetting',
+                          queryParameters: {'authority': printAuthority(groupStatus), 'groupname': groupname(groupStatus)},
+                        );
+                      },
+                    ),
+                  ],
             centerTitle: false,
             elevation: 0.0,
           ),
           body: SmartRefresher(
-              header: const ClassicHeader(
-                spacing: 0,
-                releaseText: '',
-                completeText: '',
-              ),
-              footer: const ClassicFooter(
-                spacing: 0,
-                loadingText: '',
-                canLoadingText: '',
-                idleText: '',
-              ),
-              enablePullDown: true,
-              enablePullUp: true,
-              onRefresh: () {
-                GroupApi.findGroup().then((status) {
-                  setState(() {
-                    groupStatus = status;
-                    print(groupStatus);
-                  });
+            header: const ClassicHeader(
+              spacing: 0,
+              releaseText: '',
+              completeText: '',
+            ),
+            // footer: const ClassicFooter(
+            //   spacing: 0,
+            //   loadingText: '',
+            //   canLoadingText: '',
+            //   idleText: '',
+            // ),
+            enablePullDown: true,
+            enablePullUp: false,
+            onRefresh: () {
+              GroupApi.findGroup().then((status) {
+                setState(() {
+                  groupStatus = status;
+                  print(groupStatus);
                 });
-                _refreshController.refreshCompleted();
-              },
-              onLoading: () {
-                _refreshController.loadComplete();
-              },
-              controller: _refreshController,
-              child: (groupStatus == "loading")
-                  ? CircularProgressIndicator()
-                  : (groupStatus == "fail")
-                      ? GroupScreen1(updateCounter: updateCounter)
-                      : GroupScreen2(
-                          histories: GroupApi.parseHistories(groupStatus),
-                        )),
+              });
+              _refreshController.refreshCompleted();
+            },
+            onLoading: () {
+              _refreshController.loadComplete();
+            },
+            controller: _refreshController,
+            child: result(groupStatus),
+          ),
         ),
       ),
     );

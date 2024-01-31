@@ -1,21 +1,12 @@
-import 'package:aligned_dialog/aligned_dialog.dart';
-import 'package:figica/components/Login_Fail.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import '/auth/firebase_auth/auth_util.dart';
-import '../flutter_set/flutter_drop_down.dart';
-import '../flutter_set/flutter_flow_util.dart';
+import '../flutter_set/flutter_util.dart';
 import '../flutter_set/Loding_button_widget.dart';
-import '../flutter_set/form_field_controller.dart';
-import '../flutter_set/internationalization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'login_model.dart';
 export 'login_model.dart';
-import '../backend/backend.dart';
 
 class checkemailWidget extends StatefulWidget {
   const checkemailWidget({Key? key}) : super(key: key);

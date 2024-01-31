@@ -1,5 +1,5 @@
 import '../flutter_set/App_icon_button.dart';
-import '../flutter_set/flutter_flow_util.dart';
+import '../flutter_set/flutter_util.dart';
 import '../flutter_set/Loding_button_widget.dart';
 import 'mypage_widget.dart' show MypageWidget;
 import 'package:flutter/material.dart';

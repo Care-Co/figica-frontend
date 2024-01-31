@@ -1,15 +1,10 @@
-import 'package:figica/flutter_set/Loding_button_widget.dart';
-import 'package:figica/flutter_set/flutter_flow_util.dart';
-import 'package:figica/group/creategroup_widget.dart';
-import 'package:figica/group/group.dart';
-import 'package:figica/group/group_api.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:figica/components/cancel_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:social_share/social_share.dart';
+
+import 'package:figica/index.dart';
 
 Widget buildCircularShareButton(IconData icon) {
   return GestureDetector(
@@ -32,8 +27,7 @@ Widget buildCircularShareButton(IconData icon) {
 }
 
 class GroupInvitationScreen extends StatefulWidget {
-  final VoidCallback updateCounter;
-  GroupInvitationScreen({Key? key, required this.updateCounter}) : super(key: key);
+  GroupInvitationScreen({Key? key}) : super(key: key);
   @override
   _CreategroupWidgetState createState() => _CreategroupWidgetState();
 }
@@ -102,7 +96,7 @@ class _CreategroupWidgetState extends State<GroupInvitationScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                   child: Text(
                     SetLocalizations.of(context).getText(
                       'rmfnqdhksfy' /* Page Title */,
@@ -110,18 +104,9 @@ class _CreategroupWidgetState extends State<GroupInvitationScreen> {
                     style: AppFont.b24.overrides(color: AppColors.primaryBackground),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 24),
-                  child: Text(
-                    SetLocalizations.of(context).getText(
-                      'tofhqkfrmf' /* Page Title */,
-                    ),
-                    style: AppFont.s12.overrides(color: AppColors.Gray200),
-                  ),
-                ),
                 Container(
                   width: 327,
-                  height: 72,
+                  height: 185,
                   decoration: ShapeDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
@@ -144,30 +129,89 @@ class _CreategroupWidgetState extends State<GroupInvitationScreen> {
                       )
                     ],
                   ),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 23, 0, 23),
-                      child: Text(
-                        SetLocalizations.of(context).getText('cheo') + " : " + invitationCode,
-                        style: AppFont.s18.overrides(color: AppColors.primaryBackground),
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.copy),
-                      color: AppColors.primaryBackground,
-                      onPressed: () {
-                        Clipboard.setData(ClipboardData(text: invitationCode));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("초대코드가 복사되었습니다."),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                              Text(
+                                SetLocalizations.of(context).getText('cheo') + " : " + invitationCode,
+                                style: AppFont.s18.overrides(color: AppColors.primaryBackground),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.copy),
+                                color: AppColors.primaryBackground,
+                                onPressed: () {
+                                  Clipboard.setData(ClipboardData(text: invitationCode));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("초대코드가 복사되었습니다."),
+                                    ),
+                                  );
+                                },
+                              )
+                            ]),
+                            Text(
+                              SetLocalizations.of(context).getText(
+                                'tofhqkfrmf' /* Page Title */,
+                              ),
+                              style: AppFont.r16.overrides(color: AppColors.Gray300),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 56.0,
+                          child: LodingButtonWidget(
+                            onPressed: () async {
+                              showAlignedDialog(
+                                context: context,
+                                isGlobal: true,
+                                avoidOverflow: false,
+                                targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                builder: (dialogContext) {
+                                  return Material(
+                                    color: Colors.transparent,
+                                    child: GestureDetector(
+                                      child: Container(
+                                        height: 432,
+                                        width: 327,
+                                        child: Cancelcode(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            text: SetLocalizations.of(context).getText(
+                              'xhemcnlth',
+                            ),
+                            options: LodingButtonOptions(
+                              height: 40.0,
+                              padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                              color: Colors.transparent,
+                              textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                              elevation: 0,
+                              borderSide: BorderSide(
+                                color: AppColors.primaryBackground,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
                           ),
-                        );
-                      },
-                    )
-                  ]),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 78),
+                  padding: const EdgeInsets.only(top: 37),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,16 +245,13 @@ class _CreategroupWidgetState extends State<GroupInvitationScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                   child: Container(
                     width: double.infinity,
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () {
-                        widget.updateCounter();
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          context.go('group');
-                        });
+                        context.goNamed('group');
                       },
                       text: SetLocalizations.of(context).getText(
                         'rmfnqghq',

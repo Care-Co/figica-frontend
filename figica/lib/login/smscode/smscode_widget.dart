@@ -5,12 +5,10 @@ import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../flutter_set/App_icon_button.dart';
-import '../../../flutter_set/flutter_flow_util.dart';
+import '../../flutter_set/flutter_util.dart';
 import '../../../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'smscode_model.dart';
-export 'smscode_model.dart';
 
 class SmscodeWidget extends StatefulWidget {
   final String verificationId;
@@ -22,10 +20,11 @@ class SmscodeWidget extends StatefulWidget {
 }
 
 class _SmscodeWidgetState extends State<SmscodeWidget> {
-  late SmscodeModel _model;
   int _seconds = 300; // 5 minutes in seconds
   bool _isActive = false;
   late Timer _timer;
+  final TextEditingController myController = TextEditingController();
+  final myfocusNode = FocusNode();
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
@@ -56,13 +55,9 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => SmscodeModel());
-
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
     _isActive ? null : _startTimer();
-    _model.textController!.addListener(() {
-      if (_model.textController!.text == _model.textController!.text) {
+    myController.addListener(() {
+      if (myController.text == myController.text) {
       } else {}
       setState(() {});
     });
@@ -70,7 +65,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
   }
 
   bool _errorText1() {
-    final smsCodeVal = _model.textController.text;
+    final smsCodeVal = myController.text;
     if (smsCodeVal == null || smsCodeVal.isEmpty || smsCodeVal.length != 6) {
       return false;
     }
@@ -79,7 +74,6 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
 
   @override
   void dispose() {
-    _model.dispose();
     _timer.cancel();
     super.dispose();
   }
@@ -98,7 +92,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
     }
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: AppColors.primaryBackground,
@@ -153,8 +147,8 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                             style: AppFont.s12),
                       ),
                       TextFormField(
-                        controller: _model.textController,
-                        focusNode: _model.textFieldFocusNode,
+                        controller: myController,
+                        focusNode: myfocusNode,
                         autofocus: true,
                         obscureText: false,
                         decoration: InputDecoration(
@@ -205,7 +199,6 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                               )),
                         ),
                         style: AppFont.r16,
-                        validator: _model.textControllerValidator.asValidator(context),
                       ),
                       Text('$minutes:$seconds')
                     ],
@@ -220,7 +213,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                       child: LodingButtonWidget(
                         onPressed: () async {
                           PhoneAuthCredential credential =
-                              PhoneAuthProvider.credential(verificationId: widget.verificationId, smsCode: _model.textController.text);
+                              PhoneAuthProvider.credential(verificationId: widget.verificationId, smsCode: myController.text);
                           try {
                             final getfiretoken = await FirebaseAuth.instance.signInWithCredential(credential);
                             final String? token = await getfiretoken.user?.getIdToken();

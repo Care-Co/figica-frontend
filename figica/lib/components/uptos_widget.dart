@@ -2,7 +2,7 @@ import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/internationalization.dart';
 
-import '../flutter_set/flutter_flow_util.dart';
+import '../flutter_set/flutter_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

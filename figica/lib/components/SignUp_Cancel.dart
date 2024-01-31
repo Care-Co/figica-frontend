@@ -1,14 +1,6 @@
-import 'package:figica/flutter_set/Loding_button_widget.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/flutter_flow_util.dart';
-import 'package:figica/flutter_set/internationalization.dart';
-
-import '/auth/firebase_auth/auth_util.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+
+import 'package:figica/index.dart';
 
 class SignUpCancelWidget extends StatefulWidget {
   const SignUpCancelWidget({

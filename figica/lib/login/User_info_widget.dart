@@ -1,18 +1,16 @@
-import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 
 import 'package:figica/components/SignUP_Cancel.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/flutter_drop_down.dart';
-import 'package:figica/flutter_set/flutter_flow_util.dart';
-import 'package:figica/flutter_set/Loding_button_widget.dart';
-import 'package:figica/User_Controller.dart';
+
 import 'package:figica/flutter_set/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'User_info_model.dart';
 export 'User_info_model.dart';
+
+import 'package:figica/index.dart';
 
 class UserInfoWidget extends StatefulWidget {
   const UserInfoWidget({Key? key}) : super(key: key);
