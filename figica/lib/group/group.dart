@@ -1,30 +1,71 @@
-import 'package:figica/flutter_set/figica_theme.dart';
+import 'dart:convert';
 
-import '../flutter_set/App_icon_button.dart';
-import '../flutter_set/flutter_flow_util.dart';
+import 'package:figica/group/Wait_group_Screen.dart';
+import 'package:figica/group/No_group_Screen.dart';
+import 'package:figica/group/Yes_group_Screen.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:figica/index.dart';
 
-class groupWidget extends StatefulWidget {
-  const groupWidget({Key? key}) : super(key: key);
+class GroupWidget extends StatefulWidget {
+  const GroupWidget({Key? key}) : super(key: key);
 
   @override
-  _groupWidgetState createState() => _groupWidgetState();
+  _GroupWidgetState createState() => _GroupWidgetState();
 }
 
-class _groupWidgetState extends State<groupWidget> {
+class _GroupWidgetState extends State<GroupWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+  String printAuthority(String response) {
+    var decodedResponse = json.decode(response);
+    String authority = decodedResponse['data']['myself']['authority'];
+    print(authority);
+    return authority;
+  }
+
+  String groupname(String response) {
+    var decodedResponse = json.decode(response);
+    String groupname = decodedResponse['data']['groupName'];
+    print(groupname);
+    return groupname;
+  }
+
+  String groupStatus = "loading";
 
   @override
   void initState() {
     super.initState();
-
+    GroupApi.findGroup().then((status) {
+      setState(() {
+        groupStatus = status;
+        print(groupStatus);
+      });
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Widget result(String groupStatus) {
+    if (groupStatus == 'fail') {
+      return NogroupScreen();
+    } else if (groupStatus == 'loading') {
+      return CircularProgressIndicator();
+    } else if (groupStatus == 'waiting') {
+      return WaitgroupScreen();
+    } else {
+      GroupApi.saveGroup(groupStatus);
+      return YesgroupScreen(
+        authority: printAuthority(groupStatus),
+        data: groupStatus,
+      );
+    }
   }
 
   @override
@@ -40,108 +81,63 @@ class _groupWidgetState extends State<groupWidget> {
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: AppColors.Black,
-        appBar: AppBar(
-          backgroundColor: Color(0x00CCFF8B),
-          automaticallyImplyLeading: false,
-          title: Text(
-              SetLocalizations.of(context).getText(
-                'ze1uteze' /* 그룹   */,
-              ),
-              style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
-          actions: [],
-          centerTitle: false,
-          elevation: 0.0,
-        ),
-        body: SafeArea(
-          top: true,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 42, 0, 83),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                              color: AppColors.Gray850,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                    child: Text(
-                                        SetLocalizations.of(context).getText(
-                                          'ckadue1uteze' /* 그룹이 없네요! */,
-                                        ),
-                                        style: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                                    child: Text(
-                                        SetLocalizations.of(context).getText(
-                                          'ckadurmfnqteze' /* 를 공유할 수 있 */,
-                                        ),
-                                        style: AppFont.r16.overrides(fontSize: 12, color: AppColors.Gray300)),
-                                  ),
-                                ],
-                              ),
-                            )),
-                      )
-                    ],
-                  ),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          key: scaffoldKey,
+          backgroundColor: (groupStatus == "fail") ? AppColors.Black : AppColors.Gray850,
+          appBar: AppBar(
+            backgroundColor: Color(0x00CCFF8B),
+            automaticallyImplyLeading: false,
+            title: Text(
+                SetLocalizations.of(context).getText(
+                  'ze1uteze' /* 그룹   */,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                        child: InkWell(
-                          onTap: () {
-                            context.pushNamed('groupCreate');
-                          },
-                          child: Container(
-                            height: 232,
-                            decoration: BoxDecoration(
-                              color: AppColors.Gray850,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        child: InkWell(
-                          onTap: () {
-                            context.pushNamed('groupJoin');
-                          },
-                          child: Container(
-                            height: 232,
-                            decoration: BoxDecoration(
-                              color: AppColors.Gray850,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                          ),
-                        ),
-                      ),
+                style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
+            actions: (groupStatus == "fail")
+                ? []
+                : <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.settings),
+                      onPressed: () {
+                        context.pushNamed(
+                          'groupSetting',
+                          queryParameters: {'authority': printAuthority(groupStatus), 'groupname': groupname(groupStatus)},
+                        );
+                      },
                     ),
                   ],
-                )
-              ],
+            centerTitle: false,
+            elevation: 0.0,
+          ),
+          body: SmartRefresher(
+            header: const ClassicHeader(
+              spacing: 0,
+              releaseText: '',
+              completeText: '',
             ),
+            // footer: const ClassicFooter(
+            //   spacing: 0,
+            //   loadingText: '',
+            //   canLoadingText: '',
+            //   idleText: '',
+            // ),
+            enablePullDown: true,
+            enablePullUp: false,
+            onRefresh: () {
+              GroupApi.findGroup().then((status) {
+                setState(() {
+                  groupStatus = status;
+                  print(groupStatus);
+                });
+              });
+              _refreshController.refreshCompleted();
+            },
+            onLoading: () {
+              _refreshController.loadComplete();
+            },
+            controller: _refreshController,
+            child: result(groupStatus),
           ),
         ),
       ),

@@ -1,14 +1,6 @@
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/flutter_flow_util.dart';
-import 'package:figica/flutter_set/flutter_flow_widgets.dart';
-import 'package:figica/flutter_set/internationalization.dart';
-
-import '/auth/firebase_auth/auth_util.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+
+import 'package:figica/index.dart';
 
 class SignUpCancelWidget extends StatefulWidget {
   const SignUpCancelWidget({
@@ -90,7 +82,7 @@ class _SignUpCancelWidgetState extends State<SignUpCancelWidget> {
                     child: Container(
                       width: double.infinity,
                       height: 56.0,
-                      child: FFButtonWidget(
+                      child: LodingButtonWidget(
                         onPressed: () async {
                           await authManager.deleteUser(context);
                           context.goNamedAuth('login', context.mounted);
@@ -98,7 +90,7 @@ class _SignUpCancelWidgetState extends State<SignUpCancelWidget> {
                         text: SetLocalizations.of(context).getText(
                           'cnlthgkrl' /* 회원 가입취소하기 */,
                         ),
-                        options: FFButtonOptions(
+                        options: LodingButtonOptions(
                           height: 40.0,
                           padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -117,14 +109,14 @@ class _SignUpCancelWidgetState extends State<SignUpCancelWidget> {
                   Container(
                     width: double.infinity,
                     height: 56.0,
-                    child: FFButtonWidget(
+                    child: LodingButtonWidget(
                       onPressed: () async {
                         context.safePop();
                       },
                       text: SetLocalizations.of(context).getText(
                         'rPthrwkrtjd' /* 계속 작성하기 */,
                       ),
-                      options: FFButtonOptions(
+                      options: LodingButtonOptions(
                         height: 40.0,
                         padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                         iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

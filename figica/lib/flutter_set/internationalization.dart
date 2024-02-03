@@ -24,16 +24,13 @@ class SetLocalizations {
   String get languageCode => locale.toString();
   String? get languageShortCode => _languagesWithShortCode.contains(locale.toString()) ? '${locale.toString()}_short' : null;
   int get languageIndex => languages().contains(languageCode) ? languages().indexOf(languageCode) : 0;
-
   String getText(String key) => (kTranslationsMap[key] ?? {})[locale.toString()] ?? '';
-
   String getVariableText({
     String? koText = '',
     String? enText = '',
     String? jaText = '',
   }) =>
       [koText, enText, jaText][languageIndex] ?? '';
-
   static const Set<String> _languagesWithShortCode = {
     'ar',
     'az',
@@ -126,7 +123,27 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ja': '',
     },
     'rmfnqdhksfy': {
-      'ko': '그룹 생성이\n완료되었습니다',
+      'ko': '초대 코드를 이용해\n새로운 멤버를 초대하세요',
+      'en': '',
+      'ja': '',
+    },
+    'tofhqkfrmf': {
+      'ko': '유효 기간이 72시간 남았습니다.',
+      'en': '',
+      'ja': '',
+    },
+    'xhemcnlth': {
+      'ko': '초대 코드 취소하기',
+      'en': '',
+      'ja': '',
+    },
+    'xhemtl': {
+      'ko': '초대 코드 취소',
+      'en': '',
+      'ja': '',
+    },
+    'tjksodif': {
+      'ko': '초대 코드를 취소하면\n그룹에 멤버를 초대할 수 없습니다.\n초대 코드를 취소할까요?',
       'en': '',
       'ja': '',
     },
@@ -135,8 +152,13 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
-    '초대코드': {
+    'cheo': {
       'ko': '초대코드',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqghq': {
+      'ko': '그룹 홈으로 이동하기',
       'en': '',
       'ja': '',
     },
@@ -185,6 +207,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
+    'rmfnt': {
+      'ko': '그룹 성정',
+      'en': '',
+      'ja': '',
+    },
     'tjdquf': {
       'ko': '성별',
       'en': '',
@@ -210,6 +237,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
+    'rnrrk': {
+      'ko': '국가',
+      'en': '',
+      'ja': '',
+    },
     'mht88zbc': {
       'ko': '완료',
       'en': '',
@@ -232,6 +264,271 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'rPthrwkrtjd': {
       'ko': '계속 작성하기',
+      'en': '',
+      'ja': '',
+    },
+    'cheozhemdhfb': {
+      'ko': '초대 코드 오류',
+      'en': '',
+      'ja': '',
+    },
+    'ckwdmftndjqtdm': {
+      'ko': '해당 초대코드를 가진 그룹을\n찾을 수 없습니다',
+      'en': '',
+      'ja': '',
+    },
+    'ghadmfhdlehd': {
+      'ko': '홈으로 이동하기',
+      'en': '',
+      'ja': '',
+    },
+    'ektldlqfur': {
+      'ko': '초대코드 다시 입력하기',
+      'en': '',
+      'ja': '',
+    },
+    'ckadutlscj': {
+      'ko': '그룹 참여 신청하기',
+      'en': '',
+      'ja': '',
+    },
+    'tlvskdy': {
+      'ko': '님의 그룹에\n함께하고 싶나요?',
+      'en': '',
+      'ja': '',
+    },
+    'dmlrnfnq': {
+      'ko': '의 그룹',
+      'en': '',
+      'ja': '',
+    },
+    'dho': {
+      'ko': '외',
+      'en': '',
+      'ja': '',
+    },
+    'auddmlao': {
+      'ko': '명의 멤버',
+      'en': '',
+      'ja': '',
+    },
+    'wodlqdur': {
+      'ko': '초대 코드 재입력',
+      'en': '',
+      'ja': '',
+    },
+    'tlscud': {
+      'ko': '참여 신청하기',
+      'en': '',
+      'ja': '',
+    },
+    'tlscjddhksfy': {
+      'ko': '참여 신청 완료',
+      'en': '',
+      'ja': '',
+    },
+    'dhksfy': {
+      'ko': '의 그룹’에\n그룹 참여 신청을 전달했습니다!\n초대가 수락되면 다시 알려드릴게요',
+      'en': '',
+      'ja': '',
+    },
+    'dlalqhsoa': {
+      'ko': '이미 참여 신청을 보냈네요!',
+      'en': '',
+      'ja': '',
+    },
+    'ghkrdlsanswk': {
+      'ko': '‘홍길동의 그룹’ 그룹에 이미 그룹 참여 신청을 보냈어요.\n그룹장이 확인할 때까지 조금만 기다려 주세요!',
+      'en': '',
+      'ja': '',
+    },
+    'tlscjtndl': {
+      'ko': '그룹을 생성하거나 다른 그룹에 참여하려면\n이미 보낸 참여 신청을 취소하세요',
+      'en': '',
+      'ja': '',
+    },
+    'dkssod': {
+      'ko': '다른 그룹에 참여 신청을 보내려면 ‘취소하기’ 버튼을 눌러\n‘홍길동의 그룹’ 그룹에 보낸 신청을 취소하세요.',
+      'en': '',
+      'ja': '',
+    },
+    'cnlgh': {
+      'ko': '취소하기',
+      'en': '',
+      'ja': '',
+    },
+    'ngpljxdi': {
+      'ko': '그룹 히스토리',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqfdlfwjd': {
+      'ko': '그룹 일정',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqdk': {
+      'ko': '그룹 참여 신청 관리',
+      'en': '',
+      'ja': '',
+    },
+    'tlscudrj': {
+      'ko': '신청 거절',
+      'en': '',
+      'ja': '',
+    },
+    'gkalt': {
+      'ko': '참여 신청 승인',
+      'en': '',
+      'ja': '',
+    },
+    'rlfhrqhrl': {
+      'ko': '참여 신청 기록 보기',
+      'en': '',
+      'ja': '',
+    },
+    'tmddlseorl': {
+      'ko': '승인 대기 중',
+      'en': '',
+      'ja': '',
+    },
+    'tmddlsdh': {
+      'ko': '승인 완료',
+      'en': '',
+      'ja': '',
+    },
+    'rjwjd': {
+      'ko': '승인 거절',
+      'en': '',
+      'ja': '',
+    },
+    'rjwjdehla': {
+      'ko': '님의 참여 신청이 거절되었습니다',
+      'en': '',
+      'ja': '',
+    },
+    'tmddlsehla': {
+      'ko': '님의 참여 신청이 승인되었습니다',
+      'en': '',
+      'ja': '',
+    },
+    'doaqjqkdcnf': {
+      'ko': '그룹 멤버 방출',
+      'en': '',
+      'ja': '',
+    },
+    'rmvnqkddlwjs': {
+      'ko': '그룹장 이전',
+      'en': '',
+      'ja': '',
+    },
+    'tlscjrhksfl': {
+      'ko': '그룹 참여 신청 관리',
+      'en': '',
+      'ja': '',
+    },
+    'aoqejrhksfl': {
+      'ko': '맴버 관리',
+      'en': '',
+      'ja': '',
+    },
+    'aoqejrhkdcnf': {
+      'ko': '방출하기',
+      'en': '',
+      'ja': '',
+    },
+    'rmfwnqkddlwjd': {
+      'ko': '그룹장 이전 필요',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqwkdskrkrl': {
+      'ko': '그룹을 나가기 위해서는 \n그룹장 이전이 필요합니다.\n그룹장을 옮기고 그룹을 나가시겠습니까?',
+      'en': '',
+      'ja': '',
+    },
+    'rmqnwkelwjskrl': {
+      'ko': '그룹장 이전하기',
+      'en': '',
+      'ja': '',
+    },
+    'cnlth': {
+      'ko': '취소',
+      'en': '',
+      'ja': '',
+    },
+    'qkdcnfkrl': {
+      'ko': '방출하기',
+      'en': '',
+      'ja': '',
+    },
+    'aoqqjwkdcnf': {
+      'ko': '멤버 방출하기',
+      'en': '',
+      'ja': '',
+    },
+    'rmfwnqkddlwjs': {
+      'ko': '그룹장 이전',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqwk': {
+      'ko': '그룹장 이전하기',
+      'en': '',
+      'ja': '',
+    },
+    'rmfnqaudrud': {
+      'ko': '그룹명 변경',
+      'en': '',
+      'ja': '',
+    },
+    'gkfntdlTdma': {
+      'ko': '그룹 이름을 변경할 수 있어요',
+      'en': '',
+      'ja': '',
+    },
+    'qusrudhgks': {
+      'ko': '그룹명 변경 완료',
+      'en': '',
+      'ja': '',
+    },
+    'gktgkrf': {
+      'ko': '그룹을 삭제할까요?',
+      'en': '',
+      'ja': '',
+    },
+    'rgklrkd': {
+      'ko': '그룹 삭제',
+      'en': '',
+      'ja': '',
+    },
+    'tkrdpdhky': {
+      'ko': '그룹 삭제 완료',
+      'en': '',
+      'ja': '',
+    },
+    'sodyd': {
+      'ko': '그룹이 삭제되었습니다.\n그룹 기능을 다시 이용하려면\n새로운 그룹을 생성하거\n다른 그룹에 가입해야 해요.',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
       'en': '',
       'ja': '',
     },
@@ -360,6 +657,36 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'onxlo4sfhw': {
       'ko': '아직 회원이 아니라면',
+      'en': '',
+      'ja': '',
+    },
+    'tlscjdwnlth': {
+      'ko': '그룹 참여 신청 취소',
+      'en': '',
+      'ja': '',
+    },
+    'o84ubxz5': {
+      'ko': '‘홍길동의 그룹’ 그룹에 보낸\n그룹 참여 신청을 취소할까요?',
+      'en': '',
+      'ja': '',
+    },
+    'cnlthgkrl': {
+      'ko': '참여 신청 취소하기',
+      'en': '',
+      'ja': '',
+    },
+    'ehfkdrl': {
+      'ko': '이전으로 돌아가기',
+      'en': '',
+      'ja': '',
+    },
+    'tlscjdtnl': {
+      'ko': '참여 신청 취소',
+      'en': '',
+      'ja': '',
+    },
+    'ektlgownj': {
+      'ko': '그룹 참여 신청을 취소했습니다!\n그룹 기능을 사용하려면\n그룹을 생성하거나 다른 그룹에\n다시 참여 신청을 진행해 주세요',
       'en': '',
       'ja': '',
     },

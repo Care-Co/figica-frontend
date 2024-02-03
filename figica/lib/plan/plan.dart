@@ -1,11 +1,8 @@
 import '../flutter_set/App_icon_button.dart';
-import '../flutter_set/flutter_flow_theme.dart';
-import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+
+import 'package:figica/index.dart';
 
 class planWidget extends StatefulWidget {
   const planWidget({Key? key}) : super(key: key);
@@ -43,7 +40,7 @@ class _planWidgetState extends State<planWidget> {
     return GestureDetector(
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: AppColors.primaryBackground,
         appBar: AppBar(
           backgroundColor: Color(0x00CCFF8B),
           automaticallyImplyLeading: false,
@@ -65,11 +62,6 @@ class _planWidgetState extends State<planWidget> {
             SetLocalizations.of(context).getText(
               '60jvpwul' /* Page Title */,
             ),
-            style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Outfit',
-                  color: Colors.black,
-                  fontSize: 22.0,
-                ),
           ),
           actions: [],
           centerTitle: false,

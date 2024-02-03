@@ -1,18 +1,6 @@
+import 'package:figica/flutter_set/nav/nav.dart';
 import 'package:flutter/material.dart';
 
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/group/group.dart';
-import 'package:figica/login/token.dart';
-import 'package:figica/plan/plan.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'auth/firebase_auth/auth_util.dart';
-import 'flutter_set/flutter_flow_util.dart';
-import 'flutter_set/internationalization.dart';
-import 'flutter_set/nav/nav.dart';
 import 'index.dart';
 
 void main() async {
@@ -52,7 +40,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
-    AuthStorage.getsavedToken().then((userData) {
+    UserController.getsavedToken().then((userData) {
       _appStateNotifier.update(userData);
     }).catchError((error) {
       print('Error fetching user data: $error');
@@ -124,42 +112,37 @@ class _NavBarPageState extends State<NavBarPage> {
   List<Widget> _buildScreens() {
     return [
       HomePageWidget(),
-      groupWidget(),
+      GroupWidget(),
       ScanpageWidget(),
       planWidget(),
       MypageWidget(),
-      // Add more screens here
     ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        title: ".",
+        icon: SvgPicture.asset('assets/icons/home.svg', colorFilter: ColorFilter.mode(AppColors.primaryBackground, BlendMode.srcIn)),
         activeColorPrimary: AppColors.primaryBackground,
         inactiveColorPrimary: AppColors.Gray500,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.people_alt),
-        title: ".",
+        icon: SvgPicture.asset('assets/icons/user.svg', colorFilter: ColorFilter.mode(AppColors.primaryBackground, BlendMode.srcIn)),
         activeColorPrimary: AppColors.primaryBackground,
         inactiveColorPrimary: AppColors.Gray500,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.search),
+        icon: SvgPicture.asset('assets/icons/scan.svg'),
         activeColorPrimary: AppColors.primary,
         inactiveColorPrimary: AppColors.Gray500,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.search),
-        title: ".",
+        icon: SvgPicture.asset('assets/icons/calendar.svg', colorFilter: ColorFilter.mode(AppColors.primaryBackground, BlendMode.srcIn)),
         activeColorPrimary: AppColors.primaryBackground,
         inactiveColorPrimary: AppColors.Gray500,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.person),
-        title: ".",
+        icon: SvgPicture.asset('assets/icons/my.svg', colorFilter: ColorFilter.mode(AppColors.primaryBackground, BlendMode.srcIn)),
         activeColorPrimary: AppColors.primaryBackground,
         inactiveColorPrimary: AppColors.Gray500,
       ),

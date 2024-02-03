@@ -1,6 +1,6 @@
+import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/flutter_flow_util.dart';
-import 'package:figica/flutter_set/flutter_flow_widgets.dart';
+import 'package:figica/flutter_set/flutter_util.dart';
 import 'package:figica/flutter_set/internationalization.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
@@ -113,14 +113,14 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                       child: Container(
                         width: double.infinity,
                         height: 56.0,
-                        child: FFButtonWidget(
+                        child: LodingButtonWidget(
                           onPressed: () async {
                             context.pushNamed('login');
                           },
                           text: SetLocalizations.of(context).getText(
                             'fhrmdls' /* 로그인으로 돌아가기*/,
                           ),
-                          options: FFButtonOptions(
+                          options: LodingButtonOptions(
                             height: 40.0,
                             padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                             iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -142,7 +142,7 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                       child: Container(
                         width: double.infinity,
                         height: 56.0,
-                        child: FFButtonWidget(
+                        child: LodingButtonWidget(
                           onPressed: () async {
                             context.safePop();
                             widget.onConfirmed();
@@ -150,7 +150,7 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                           text: SetLocalizations.of(context).getText(
                             '3787ocsp' /* 비밀번호 찾기 */,
                           ),
-                          options: FFButtonOptions(
+                          options: LodingButtonOptions(
                             height: 40.0,
                             padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                             iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -169,7 +169,7 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                   Container(
                     width: double.infinity,
                     height: 56.0,
-                    child: FFButtonWidget(
+                    child: LodingButtonWidget(
                       onPressed: () async {
                         context.safePop();
                         widget.onConfirmed();
@@ -177,7 +177,7 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                       text: SetLocalizations.of(context).getText(
                         'ze1u6oze' /* 확인 */,
                       ),
-                      options: FFButtonOptions(
+                      options: LodingButtonOptions(
                         height: 40.0,
                         padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                         iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

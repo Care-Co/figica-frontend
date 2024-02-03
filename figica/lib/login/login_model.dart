@@ -1,11 +1,7 @@
-import '/auth/firebase_auth/auth_util.dart';
-import '../flutter_set/flutter_drop_down.dart';
-import '../flutter_set/flutter_flow_util.dart';
+import '../flutter_set/flutter_util.dart';
 import '../flutter_set/form_field_controller.dart';
-import 'login_widget.dart' show LoginWidget;
+import 'Login_main.dart' show LoginWidget;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class LoginModel extends FlutterFlowModel<LoginWidget> {
   ///  State fields for stateful widgets in this page.

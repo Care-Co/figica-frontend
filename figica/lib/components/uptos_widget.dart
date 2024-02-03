@@ -1,8 +1,8 @@
+import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/internationalization.dart';
 
-import '../flutter_set/flutter_flow_util.dart';
-import '../flutter_set/flutter_flow_widgets.dart';
+import '../flutter_set/flutter_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -88,7 +88,7 @@ class _UptosWidgetState extends State<UptosWidget> {
                       width: double.infinity,
                       height: 56.0,
                       decoration: BoxDecoration(color: AppColors.primaryBackground),
-                      child: FFButtonWidget(
+                      child: LodingButtonWidget(
                         onPressed: () async {
                           widget.onAgree(true);
                           Navigator.pop(context);
@@ -96,7 +96,7 @@ class _UptosWidgetState extends State<UptosWidget> {
                         text: SetLocalizations.of(context).getText(
                           'hz0ov3hg' /* 동의 */,
                         ),
-                        options: FFButtonOptions(
+                        options: LodingButtonOptions(
                           height: 40.0,
                           padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                           iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),

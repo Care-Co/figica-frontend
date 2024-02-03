@@ -169,6 +169,7 @@ enum ParamType {
   JSON,
   Document,
   DocumentReference,
+  Map,
 }
 
 dynamic deserializeParam<T>(

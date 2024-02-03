@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 class CustomInputField extends StatefulWidget {
   final TextEditingController controller;
   final Function(String) onStatusChanged;
+  final Function(String) onSelected;
 
-  CustomInputField({Key? key, required this.controller, required this.onStatusChanged}) : super(key: key);
+  CustomInputField({Key? key, required this.controller, required this.onStatusChanged, required this.onSelected}) : super(key: key);
 
   @override
   _CustomInputFieldState createState() => _CustomInputFieldState();
@@ -28,7 +29,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
   }
 
   FormFieldController<String>? dropDownValueController2;
-  String? selectedDropdownValue;
+  String? selectedDropdownValue = '+82';
 
   String inputType = 'none';
 
@@ -250,8 +251,9 @@ class _CustomInputFieldState extends State<CustomInputField> {
                       options: ['+1', '+91', '+82', '+81'],
                       onChanged: (String? newValue) {
                         setState(() {
-                          selectedDropdownValue = newValue;
+                          selectedDropdownValue = newValue ?? '+82';
                         });
+                        widget.onSelected(selectedDropdownValue!);
                       },
                       height: 38.0,
                       textStyle: AppFont.r16.overrides(color: AppColors.Gray500),
