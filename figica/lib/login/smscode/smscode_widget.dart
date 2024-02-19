@@ -220,7 +220,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                             print("Token: $token");
                             await UserController.signUpWithPhone(token!, widget.phone);
 
-                            context.goNamedAuth('userinfo', context.mounted);
+                            //context.goNamedAuth('userinfo', context.mounted);
                           } on FirebaseAuthException catch (e) {
                             print(e.code);
                             if (e.code == 'invalid-verification-code') {

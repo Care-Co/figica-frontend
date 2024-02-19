@@ -15,6 +15,7 @@ class MypageWidget extends StatefulWidget {
 
 class _MypageWidgetState extends State<MypageWidget> {
   late MypageModel _model;
+  late AppStateNotifier _appStateNotifier;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -82,8 +83,14 @@ class _MypageWidgetState extends State<MypageWidget> {
             children: [
               ElevatedButton(
                 onPressed: () async {
-                  await UserController.removeToken();
-                  context.goNamedAuth('login', context.mounted);
+                  _appStateNotifier = AppStateNotifier.instance;
+
+                  UserController.removeToken().then((userData) {
+                    _appStateNotifier.update(userData);
+                  }).catchError((error) {
+                    print('Error fetching user data: $error');
+                  });
+                  context.goNamed('login');
                 },
                 child: Text('로그아웃'),
               ),

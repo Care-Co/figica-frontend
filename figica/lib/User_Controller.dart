@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class UserController {
   static const _keyToken = 'jwtToken';
   static const bool _bottomstate = true;
+  static const _device = '';
+  static const _platformName = '';
+  static const services = '';
 
   //유효성 검사
   static Future<bool> validate(String text, String inputType) async {
@@ -143,13 +147,54 @@ class UserController {
   }
 
   // 토큰 삭제
-  static Future<void> removeToken() async {
+  static Future<String?> removeToken() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_keyToken);
     print('removeToken');
+    return null;
   }
 
-  static Future<bool> updateProfile(String birthdaty, String displayName, String gender, double height, double weight, String optionRegion) async {
+  // 디바이스 저장
+  static Future<void> savedevice(String device) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString(_device, device.toString());
+  }
+
+  static Future<void> savedevicename(String platformName) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString(_platformName, platformName.toString());
+  }
+
+  //디바이스 가져오기
+  static Future<String?> getdevice() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(_device) == null) {
+      return null;
+    } else {
+      return prefs.getString(_device);
+    }
+  }
+
+  static Future<String?> getdevicename() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(_platformName) == null) {
+      return null;
+    } else {
+      return prefs.getString(_platformName);
+    }
+  }
+
+  // 디바이스 삭제
+  static Future<String?> removedevice() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_keyToken);
+    print('removeToken');
+    return null;
+  }
+
+  static Future<String?> updateProfile(String birthdaty, String displayName, String gender, double height, double weight, String optionRegion) async {
     final url = Uri.parse('http://203.232.210.68:8080/api/user/signup/completeRegistrationProcess');
     String? token = await getsavedToken();
     print("now $token");
@@ -169,15 +214,15 @@ class UserController {
       if (response.statusCode == 201) {
         var jsonResponse = jsonDecode(response.body);
         print(jsonResponse['message']);
-        await UserController.getapiToken(token!);
-        return true;
+        String newtoken = await UserController.getapiToken(token!);
+        return newtoken;
       } else {
         print('Failed to update profile: ${response.statusCode}');
-        return false;
+        return "Null";
       }
     } catch (e) {
       print('Error occurred: $e');
-      return false;
+      return "Null";
     }
   }
 

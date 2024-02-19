@@ -66,7 +66,10 @@ class _CheckCancelState extends State<CheckCancel> {
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () async {
-                        context.pushNamed('homepage');
+                        while (Navigator.of(context).canPop()) {
+                          Navigator.of(context).pop();
+                        }
+                        context.goNamed('home');
                       },
                       text: SetLocalizations.of(context).getText(
                         'ze1u6oze' /* 확인 */,

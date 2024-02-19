@@ -251,7 +251,7 @@ class _CreategroupWidgetState extends State<GroupInvitationScreen> {
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () {
-                        context.goNamed('group');
+                        context.goNamed('home');
                       },
                       text: SetLocalizations.of(context).getText(
                         'rmfnqghq',

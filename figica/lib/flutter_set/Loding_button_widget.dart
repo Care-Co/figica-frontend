@@ -81,6 +81,7 @@ class _LodingButtonWidgetState extends State<LodingButtonWidget> {
               width: 23,
               height: 23,
               child: CircularProgressIndicator(
+                strokeWidth: 2.0,
                 valueColor: AlwaysStoppedAnimation<Color>(
                   widget.options.textStyle!.color ?? Colors.white,
                 ),

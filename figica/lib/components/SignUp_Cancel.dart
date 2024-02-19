@@ -85,7 +85,8 @@ class _SignUpCancelWidgetState extends State<SignUpCancelWidget> {
                       child: LodingButtonWidget(
                         onPressed: () async {
                           await authManager.deleteUser(context);
-                          context.goNamedAuth('login', context.mounted);
+                          await UserController.removeToken();
+                          context.goNamed('login');
                         },
                         text: SetLocalizations.of(context).getText(
                           'cnlthgkrl' /* 회원 가입취소하기 */,

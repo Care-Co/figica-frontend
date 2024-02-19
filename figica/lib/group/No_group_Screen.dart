@@ -1,6 +1,4 @@
-import 'package:figica/group/join_group.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:figica/index.dart';
 
@@ -14,7 +12,6 @@ class NogroupScreen extends StatefulWidget {
 
 class _NogroupScreenState extends State<NogroupScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +70,7 @@ class _NogroupScreenState extends State<NogroupScreen> {
                       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                       child: InkWell(
                         onTap: () {
-                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                            context,
-                            settings: RouteSettings(name: '/group/CreategroupWidget'),
-                            screen: CreategroupWidget(),
-                            withNavBar: false,
-                          );
+                          context.pushNamed('Creategroup');
                         },
                         child: Container(
                           height: 232,
@@ -128,12 +120,7 @@ class _NogroupScreenState extends State<NogroupScreen> {
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: InkWell(
                         onTap: () {
-                          PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                            context,
-                            settings: RouteSettings(name: '/group/joingroup'),
-                            screen: JoingroupWidget(),
-                            withNavBar: false,
-                          );
+                          context.pushNamed('Joingroup');
                         },
                         child: Container(
                           height: 232,

@@ -1,58 +1,57 @@
 import 'package:flutter/material.dart';
 import '/index.dart';
 
-class SuccessJoin extends StatefulWidget {
-  final String name;
-  const SuccessJoin({Key? key, required this.name}) : super(key: key);
+class NoDivice extends StatefulWidget {
+  const NoDivice({Key? key}) : super(key: key);
 
   @override
-  State<SuccessJoin> createState() => _SuccessJoinState();
+  State<NoDivice> createState() => _NoDiviceState();
 }
 
-class _SuccessJoinState extends State<SuccessJoin> {
+class _NoDiviceState extends State<NoDivice> {
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 327,
-      height: 366,
+      height: 200,
       decoration: BoxDecoration(
-        color: AppColors.Gray850,
         borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter, // 그라데이션 시작 위치
+          end: Alignment.bottomCenter, // 그라데이션 끝 위치
+          colors: [
+            AppColors.Gray700, AppColors.Gray850, // 아래쪽의 끝 색상
+          ],
+        ),
       ),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
+        padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
         child: Column(
           mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 77, 0, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    Icons.check_circle_outline_rounded,
-                    color: AppColors.DarkenGreen,
-                    size: 16,
-                  ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
                     child: Text(
                       SetLocalizations.of(context).getText(
-                        'tlscjddhksfy' /* Hello World */,
+                        'elqkdltmdjqt',
                       ),
-                      style: AppFont.s18.overrides(color: AppColors.primaryBackground),
+                      style: AppFont.s18.overrides(color: AppColors.primaryBackground, fontSize: 16),
                     ),
                   ),
                   Text(
-                    widget.name +
-                        SetLocalizations.of(context).getText(
-                          'dhksfy' /* Hello World */,
-                        ),
-                    style: AppFont.r16.overrides(color: AppColors.Gray300),
-                    textAlign: TextAlign.center,
+                    SetLocalizations.of(context).getText(
+                      'sodydd',
+                    ),
+                    style: AppFont.r16.overrides(color: AppColors.Gray300, fontSize: 12),
+                    textAlign: TextAlign.start,
                   ),
                 ],
               ),
@@ -68,10 +67,10 @@ class _SuccessJoinState extends State<SuccessJoin> {
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () async {
-                        context.goNamed('home');
+                        context.pushNamed('FindBlue');
                       },
                       text: SetLocalizations.of(context).getText(
-                        'ze1u6oze' /* 다시입력 */,
+                        'eldktj' /* 확인 */,
                       ),
                       options: LodingButtonOptions(
                         height: 40.0,

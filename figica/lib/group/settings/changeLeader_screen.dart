@@ -1,10 +1,6 @@
 import 'dart:convert';
 
 import 'package:figica/components/changeLeader_pop.dart';
-import 'package:figica/components/member_more.dart';
-import 'package:figica/components/removeMemberOnly_pop.dart';
-import 'package:figica/components/removeMember_changeLeader.dart';
-import 'package:figica/components/removeMembers_pop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:figica/index.dart';
@@ -37,7 +33,7 @@ class _ChangeLeaderPageState extends State<ChangeLeaderPage> {
     print("test");
     setState(() {
       group = parsedJson['data']['groupName'];
-      groupMembers = GroupMember.parseGroupInvitation(groupData!);
+      groupMembers = GroupMember.parseGroupInvitation(groupData);
     });
   }
 
@@ -199,6 +195,7 @@ class _ChangeLeaderPageState extends State<ChangeLeaderPage> {
                                       height: 432,
                                       width: 327,
                                       child: ChangeLeaderpop(
+                                        selectedUserIds: selectedUserIds,
                                         group: group,
                                         name: onlyname,
                                       ),

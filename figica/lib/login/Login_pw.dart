@@ -21,6 +21,7 @@ class _InputPwWidgetState extends State<InputPwWidget> {
   final pwFocusNode = FocusNode();
   bool pwVisibility = true;
   String? Function(BuildContext, String?)? pwControllerValidator;
+  late AppStateNotifier _appStateNotifier;
 
   @override
   void initState() {
@@ -42,17 +43,22 @@ class _InputPwWidgetState extends State<InputPwWidget> {
     return password.length >= 6;
   }
 
-  void userExists() async {
+  Future<bool> userExists() async {
     final pw = pwController.text;
     print(widget.email);
     print(pw);
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: widget.email, password: pw);
       final String? token = await userCredential.user?.getIdToken();
-      print("Token: $token");
-      await UserController.getapiToken(token!);
+      _appStateNotifier = AppStateNotifier.instance;
 
-      context.goNamedAuth('HomePage', context.mounted);
+      await UserController.getapiToken(token!).then((userData) {
+        _appStateNotifier.update(userData);
+        context.goNamed('home');
+      }).catchError((error) {
+        print('Error fetching user data: $error');
+      });
+      return true;
     } on FirebaseAuthException catch (e) {
       print(e.code);
       if (e.code == 'wrong-password') {
@@ -83,8 +89,10 @@ class _InputPwWidgetState extends State<InputPwWidget> {
           },
         ).then((value) => setState(() {}));
       }
+      return false;
     } catch (e) {
       print(e);
+      return false;
     }
   }
 
@@ -324,7 +332,7 @@ class _InputPwWidgetState extends State<InputPwWidget> {
                                 decoration: BoxDecoration(),
                                 child: LodingButtonWidget(
                                   onPressed: () async {
-                                    userExists();
+                                    await userExists();
                                   },
                                   text: SetLocalizations.of(context).getText(
                                     '20tycjvp' /* 다음 */,

@@ -68,7 +68,7 @@ class _MemberMoreState extends State<MemberMore> {
               Divider(),
               Expanded(
                 child: InkWell(
-                  onTap: () => print('Clicked Area 2'),
+                  onTap: () => context.pushNamed('ChangeLeader'),
                   child: Container(
                     child: Center(child: Text(SetLocalizations.of(context).getText('rmvnqkddlwjs' /*그룹장 이전*/))),
                   ),
@@ -77,7 +77,7 @@ class _MemberMoreState extends State<MemberMore> {
               Divider(),
               Expanded(
                 child: InkWell(
-                  onTap: () => print('Clicked Area 3'),
+                  onTap: () => context.pushNamed('member_GroupJoinRequest'),
                   child: Container(
                     child: Center(child: Text(SetLocalizations.of(context).getText('tlscjrhksfl' /*신청관리*/))),
                   ),

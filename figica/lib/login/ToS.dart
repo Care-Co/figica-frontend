@@ -247,7 +247,7 @@ class _certifyWidgetState extends State<certifyWidget> {
                                     if (phoneVerifiedUser == null) {
                                       return;
                                     }
-                                    context.goNamedAuth('homePage', context.mounted);
+                                    //context.goNamedAuth('homePage', context.mounted);
                                   },
                                   text: SetLocalizations.of(context).getText(
                                     '20tycjvp' /* 다음 */,

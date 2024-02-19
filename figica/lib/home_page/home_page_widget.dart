@@ -48,9 +48,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         ),
       );
     }
-
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: AppColors.primaryBackground,

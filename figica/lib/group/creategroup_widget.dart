@@ -1,13 +1,10 @@
-import 'package:figica/User_Controller.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/flutter_util.dart';
 import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/group/group_api.dart';
-import 'package:figica/group/group_invitation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import 'creategroup_model.dart';
 export 'creategroup_model.dart';
@@ -162,12 +159,7 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
 
                           if (groupCreated) {
                             FocusScope.of(context).unfocus();
-                            PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                              context,
-                              settings: RouteSettings(name: '/group/CreategroupWidget/GroupInvitationScreen'),
-                              screen: GroupInvitationScreen(),
-                              withNavBar: false,
-                            );
+                            context.pushNamed('GroupInvitation');
                           } else {
                             print('Failed to create group');
                           }

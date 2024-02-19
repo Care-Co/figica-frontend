@@ -1,40 +1,20 @@
 import 'package:flutter/material.dart';
+import '/index.dart';
 
-import 'package:figica/index.dart';
-
-class RemoveMemberOnly extends StatefulWidget {
+class SuccessDevice extends StatefulWidget {
   final String name;
-  final String group;
-  final String uid;
-
-  const RemoveMemberOnly({Key? key, required this.name, required this.uid, required this.group}) : super(key: key);
+  const SuccessDevice({Key? key, required this.name}) : super(key: key);
 
   @override
-  _RemoveMemberOnlyState createState() => _RemoveMemberOnlyState();
+  State<SuccessDevice> createState() => _SuccessDeviceState();
 }
 
-class _RemoveMemberOnlyState extends State<RemoveMemberOnly> {
-  @override
-  void setState(VoidCallback callback) {
-    super.setState(callback);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
+class _SuccessDeviceState extends State<SuccessDevice> {
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 327,
-      height: 432,
+      height: 366,
       decoration: BoxDecoration(
         color: AppColors.Gray850,
         borderRadius: BorderRadius.circular(12),
@@ -54,18 +34,23 @@ class _RemoveMemberOnlyState extends State<RemoveMemberOnly> {
                 children: [
                   Icon(
                     Icons.check_circle_outline_rounded,
-                    color: AppColors.red,
+                    color: AppColors.DarkenGreen,
                     size: 16,
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
                     child: Text(
-                      SetLocalizations.of(context).getText('doaqjqkdcnf'),
+                      SetLocalizations.of(context).getText(
+                        'elqkdltm' /* Hello World */,
+                      ),
                       style: AppFont.s18.overrides(color: AppColors.primaryBackground),
                     ),
                   ),
                   Text(
-                    widget.name + '님을' + widget.group + '에서 방출',
+                    widget.name +
+                        SetLocalizations.of(context).getText(
+                          'qksrkdk' /* Hello World */,
+                        ),
                     style: AppFont.r16.overrides(color: AppColors.Gray300),
                     textAlign: TextAlign.center,
                   ),
@@ -78,52 +63,56 @@ class _RemoveMemberOnlyState extends State<RemoveMemberOnly> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 3, 0, 12),
-                    child: Container(
-                      width: double.infinity,
-                      height: 56.0,
-                      child: LodingButtonWidget(
-                        onPressed: () async {
-                          await GroupApi.removeMemberByGroupleader(widget.uid).then((value) => context.pushNamed('homepage'));
-                        },
-                        text: SetLocalizations.of(context).getText('aoqqjwkdcnf'),
-                        options: LodingButtonOptions(
-                          height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                          color: AppColors.primaryBackground,
-                          textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.Black),
-                          elevation: 0,
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                      ),
-                    ),
-                  ),
                   Container(
                     width: double.infinity,
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () async {
-                        context.safePop();
+                        context.goNamed('home');
                       },
-                      text: SetLocalizations.of(context).getText('cnlth'),
+                      text: SetLocalizations.of(context).getText(
+                        'qmvldje' /*  */,
+                      ),
                       options: LodingButtonOptions(
                         height: 40.0,
                         padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                         iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: Colors.transparent,
-                        textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                        color: AppColors.primaryBackground,
+                        textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.Black),
                         elevation: 0,
                         borderSide: BorderSide(
-                          color: AppColors.primaryBackground,
+                          color: Colors.transparent,
                           width: 1.0,
                         ),
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: 56.0,
+                      child: LodingButtonWidget(
+                        onPressed: () async {
+                          context.goNamed('home');
+                        },
+                        text: SetLocalizations.of(context).getText(
+                          'ze1u6oze' /*  */,
+                        ),
+                        options: LodingButtonOptions(
+                          height: 40.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          color: Colors.transparent,
+                          textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                          elevation: 0,
+                          borderSide: BorderSide(
+                            color: AppColors.primaryBackground,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
                       ),
                     ),
                   ),
