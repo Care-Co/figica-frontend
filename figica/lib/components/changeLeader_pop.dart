@@ -7,7 +7,8 @@ import 'package:figica/index.dart';
 class ChangeLeaderpop extends StatefulWidget {
   final String name;
   final String group;
-  const ChangeLeaderpop({Key? key, required this.name, required this.group}) : super(key: key);
+  final String selectedUserIds;
+  const ChangeLeaderpop({Key? key, required this.name, required this.selectedUserIds, required this.group}) : super(key: key);
 
   @override
   _ChangeLeaderpopState createState() => _ChangeLeaderpopState();
@@ -23,6 +24,28 @@ class _ChangeLeaderpopState extends State<ChangeLeaderpop> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  void showCustomSnackBar(BuildContext context, String type, String name) {
+    final snackBar = SnackBar(
+      backgroundColor: AppColors.primary,
+
+      content: Text(
+        (type == 'ok') ? name + SetLocalizations.of(context).getText('rmfqnekdlwjs') : name + SetLocalizations.of(context).getText('rjwjdehla'),
+        style: AppFont.s12.overrides(
+          color: AppColors.Black,
+          fontSize: 16,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(seconds: 3), // Set the duration to 3 seconds
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(28),
+      ),
+      behavior: SnackBarBehavior.floating,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -85,25 +108,14 @@ class _ChangeLeaderpopState extends State<ChangeLeaderpop> {
                       height: 56.0,
                       child: LodingButtonWidget(
                         onPressed: () async {
-                          await GroupApi.updateGroupInvitationByUser(4).then((value) => showAlignedDialog(
-                                context: context,
-                                isGlobal: true,
-                                avoidOverflow: false,
-                                targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                builder: (dialogContext) {
-                                  return Material(
-                                    color: Colors.transparent,
-                                    child: GestureDetector(
-                                      child: Container(
-                                        height: 432,
-                                        width: 327,
-                                        child: CheckCancel(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ));
+                          await GroupApi.updateGroupLeader(widget.selectedUserIds).then((value) {
+                            showCustomSnackBar(
+                              context,
+                              'ok',
+                              widget.name,
+                            );
+                            context.safePop();
+                          });
                         },
                         text: SetLocalizations.of(context).getText('rmfnqwk'),
                         options: LodingButtonOptions(

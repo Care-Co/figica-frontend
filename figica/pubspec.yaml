@@ -78,12 +78,12 @@ dependencies:
   url_launcher_android: 6.0.27
   url_launcher_ios: 6.1.4
   url_launcher_platform_interface: 2.1.2
-  persistent_bottom_nav_bar: ^5.0.2
   flutter_keyboard_visibility: ^6.0.0
   http: ^0.13.3
   social_share: ^2.3.1
   pull_to_refresh: ^2.0.0
-
+  flutter_blue_plus: ^1.31.13
+  flutter_dash: ^1.0.0
   bottom_picker:
     git:
       url: https://github.com/juntaenoh/Bottom-Picker.git

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:figica/components/member_more.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +23,6 @@ class _MemberManagementPageState extends State<MemberManagementPage> {
 
   Future<void> initGroupData() async {
     var groupData = await GroupApi.getGroup();
-    print("test");
     setState(() {
       groupMembers = GroupMember.parseGroupMember(groupData!);
     });

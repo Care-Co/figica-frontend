@@ -272,10 +272,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       },
                                     ).then((value) => setState(() {}));
                                   } else if (!exists) {
-                                    context.pushNamed(
-                                      'Input_pw',
-                                      queryParameters: {'email': id}.withoutNulls,
-                                    );
+                                    context.pushNamed('Input_pw', extra: id);
                                     FocusScope.of(context).unfocus();
                                   }
                                 }

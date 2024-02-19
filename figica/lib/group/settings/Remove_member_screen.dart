@@ -39,7 +39,7 @@ class _RemoveMemberPageState extends State<RemoveMemberPage> {
     print("test");
     setState(() {
       group = parsedJson['data']['groupName'];
-      groupMembers = GroupMember.parseGroupMember(groupData!);
+      groupMembers = GroupMember.parseGroupMember(groupData);
     });
   }
 

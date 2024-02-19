@@ -25,6 +25,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
   String selectedGender = 'none';
   String dropDownValue = 'KR';
   FormFieldController<String>? dropDownValueController;
+  late AppStateNotifier _appStateNotifier;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -613,9 +615,14 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                 String name = _model.fiController.text + _model.namController.text;
                                 double height = _model.heController.text.isEmpty ? 0.0 : double.parse(_model.heController.text);
                                 double weight = _model.weController.text.isEmpty ? 0.0 : double.parse(_model.weController.text);
-                                await UserController.updateProfile(data, name, selectedGender, height, weight, dropDownValue);
+                                _appStateNotifier = AppStateNotifier.instance;
 
-                                context.pushNamed('homePage');
+                                await UserController.updateProfile(data, name, selectedGender, height, weight, dropDownValue).then((userData) {
+                                  _appStateNotifier.update(userData);
+                                  context.goNamed('home');
+                                }).catchError((error) {
+                                  print('Error fetching user data: $error');
+                                });
                               }
                             },
                             text: SetLocalizations.of(context).getText(

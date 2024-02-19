@@ -1,13 +1,13 @@
 import 'dart:async';
 
+import 'package:figica/botnav.dart';
 import 'package:figica/group/settings/changeLeader_screen.dart';
+import 'package:figica/scan/Find_blue.dart';
+import 'package:figica/scan/FootPrintScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../group/group_info_screen.dart';
 import '../../group/group_setting.dart';
-import '../../group/join_group.dart';
 import '/index.dart';
-import '/main.dart';
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
 
@@ -22,13 +22,8 @@ class AppStateNotifier extends ChangeNotifier {
   BaseAuthUser? initialUser;
   bool showSplashImage = true;
   String? _redirectLocation;
-  String? _apiToken; // API 토큰을 저장할 새로운 필드
+  String? _apiToken;
 
-  /// Determines whether the app will refresh and build again when a sign
-  /// in or sign out happens. This is useful when the app is launched or
-  /// on an unexpected logout. However, this must be turned off when we
-  /// intend to sign in/out and then navigate or perform any actions after.
-  /// Otherwise, this will trigger a refresh and interrupt the action(s).
   bool notifyOnAuthChange = true;
   String? get apiToken => _apiToken;
   bool get loading => _apiToken == null || showSplashImage;
@@ -41,8 +36,6 @@ class AppStateNotifier extends ChangeNotifier {
   void setRedirectLocationIfUnset(String loc) => _redirectLocation ??= loc;
   void clearRedirectLocation() => _redirectLocation = null;
 
-  /// Mark as not needing to notify on a sign in / out when we intend
-  /// to perform subsequent actions (such as navigation) afterwards.
   void updateNotifyOnAuthChange(bool notify) => notifyOnAuthChange = notify;
 
   void update(String? newToken) {
@@ -60,133 +53,258 @@ class AppStateNotifier extends ChangeNotifier {
 }
 
 GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
-      initialLocation: '/',
-      debugLogDiagnostics: true,
-      refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) => appStateNotifier.loggedIn ? NavBarPage() : LoginWidget(),
-      routes: [
-        FFRoute(
-          name: '_initialize',
-          path: '/',
-          builder: (context, _) => appStateNotifier.loggedIn ? NavBarPage() : LoginWidget(),
-        ),
-        FFRoute(
-          name: 'login',
-          path: '/login',
-          builder: (context, params) => LoginWidget(),
-        ),
-        FFRoute(
-          name: 'homePage',
-          path: '/homePage',
-          builder: (context, params) => params.isEmpty ? NavBarPage(initialPage: 'homePage') : HomePageWidget(),
-        ),
-        FFRoute(
-          name: 'smscode',
-          path: '/smscode',
-          builder: (context, params) => SmscodeWidget(
-            verificationId: params.getParam(
-              'verificationId',
-              ParamType.String,
-            ),
-            phone: params.getParam(
-              'phone',
-              ParamType.String,
-            ),
+        initialLocation: '/',
+        debugLogDiagnostics: true,
+        refreshListenable: appStateNotifier,
+        redirect: (context, state) {
+          final loggedIn = appStateNotifier.loggedIn;
+          print(loggedIn);
+          final loggingIn = state.matchedLocation.startsWith('/login');
+          if (!loggedIn) return loggingIn ? null : '/login';
+          if (loggingIn) return '/';
+          return null;
+        },
+        // HomePageWidget(),
+        // GroupWidget(),
+        // ScanpageWidget(), // 가정: 가운데 돌출 아이템
+        // planWidget(),
+        // MypageWidget(),
+        routes: <RouteBase>[
+          GoRoute(
+            name: 'home',
+            path: '/',
+            builder: (context, state) {
+              return MarketPage();
+            },
+            routes: [
+              GoRoute(
+                path: 'Footprint',
+                name: 'Footprint',
+                builder: (context, state) {
+                  return FootPrint();
+                },
+              ),
+              GoRoute(
+                name: 'FindBlue',
+                path: 'FindBlue',
+                builder: (context, state) {
+                  return FindBlue();
+                },
+              ),
+              GoRoute(
+                  name: 'groupSetting',
+                  path: 'groupSetting',
+                  builder: (context, state) {
+                    final Map<String, dynamic> item = state.extra as Map<String, dynamic>;
+                    final authority = item['authority'];
+                    final groupname = item['groupname'];
+                    return GroupSetting(authority: authority, groupname: groupname);
+                  },
+                  routes: [
+                    GoRoute(
+                        name: 'MemberManage',
+                        path: 'MemberManage',
+                        builder: (context, state) {
+                          return MemberManagementPage();
+                        },
+                        routes: [
+                          GoRoute(
+                            name: 'removeMember',
+                            path: 'removeMember',
+                            builder: (context, state) {
+                              return RemoveMemberPage();
+                            },
+                          ),
+                          GoRoute(
+                            name: 'ChangeLeader',
+                            path: 'ChangeLeader',
+                            builder: (context, state) {
+                              return ChangeLeaderPage();
+                            },
+                          ),
+                          GoRoute(
+                            name: 'member_GroupJoinRequest',
+                            path: 'member_GroupJoinRequest',
+                            builder: (context, state) {
+                              return GroupJoinRequestsPage();
+                            },
+                          ),
+                        ]),
+                    GoRoute(
+                      name: 'GroupJoinRequest',
+                      path: 'GroupJoinRequest',
+                      builder: (context, state) {
+                        return GroupJoinRequestsPage();
+                      },
+                    ),
+                    GoRoute(
+                      name: 'ChangeGroupName',
+                      path: 'ChangeGroupName',
+                      builder: (context, state) {
+                        return ChangeGroupNamePage();
+                      },
+                    ),
+                    GoRoute(
+                      name: 'InvitationCodeManage',
+                      path: 'InvitationCodeManage',
+                      builder: (context, state) {
+                        return InvitationCodeManagementPage();
+                      },
+                    ),
+                    GoRoute(
+                      name: 'DeleteGroup',
+                      path: 'DeleteGroup',
+                      builder: (context, state) {
+                        return DeleteGroupPage();
+                      },
+                    ),
+                    GoRoute(
+                      name: 'PublicInfoSetting',
+                      path: 'PublicInfoSetting',
+                      builder: (context, state) {
+                        return PublicInfoSettingsPage();
+                      },
+                    ),
+                    GoRoute(
+                      name: 'NotificationSetting',
+                      path: 'NotificationSetting',
+                      builder: (context, state) {
+                        return NotificationSettingsPage();
+                      },
+                    ),
+                    GoRoute(
+                      name: 'GroupHistory',
+                      path: 'GroupHistory',
+                      builder: (context, state) {
+                        return GroupHistoryPage();
+                      },
+                    ),
+                    GoRoute(
+                      name: 'LeaveGroup',
+                      path: 'LeaveGroup',
+                      builder: (context, state) {
+                        return LeaveGroupPage();
+                      },
+                    )
+                  ]),
+              GoRoute(
+                  name: 'Creategroup',
+                  path: 'Creategroup',
+                  builder: (context, state) {
+                    return CreategroupWidget();
+                  },
+                  routes: [
+                    GoRoute(
+                      name: 'GroupInvitation',
+                      path: 'GroupInvitation',
+                      builder: (context, state) {
+                        return GroupInvitationScreen();
+                      },
+                    )
+                  ]),
+              GoRoute(
+                  name: 'Joingroup',
+                  path: 'Joingroup',
+                  builder: (context, state) {
+                    return JoingroupWidget();
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'GroupInfo',
+                      name: 'GroupInfo',
+                      builder: (context, state) {
+                        final Map<String, dynamic> item = state.extra as Map<String, dynamic>;
+                        final data = item['data'];
+                        final code = item['code'];
+                        return GroupInfoScreen(data: data, code: code);
+                      },
+                    )
+                  ])
+            ],
           ),
-        ),
-        FFRoute(
-          name: 'agree_tos',
-          path: '/agreeTos',
-          builder: (context, params) => AgreeTosWidget(),
-        ),
-        FFRoute(
-          name: 'removeMember',
-          path: '/removeMember',
-          builder: (context, params) => RemoveMemberPage(),
-        ),
-        FFRoute(
-          name: 'Get_id',
-          path: '/Get_id',
-          builder: (context, params) => GetidWidget(),
-        ),
-        FFRoute(
-          name: 'certify',
-          path: '/certify',
-          builder: (context, params) => certifyWidget(),
-        ),
-        FFRoute(
-          name: 'check_email',
-          path: '/check_email',
-          builder: (context, params) => checkemailWidget(),
-        ),
-        FFRoute(
-          name: 'userinfo',
-          path: '/userinfo',
-          builder: (context, params) => UserInfoWidget(),
-        ),
-        FFRoute(
-          name: 'Set_pw',
-          path: '/Set_pw',
-          builder: (context, params) => SetPwWidget(
-            email: params.getParam('email', ParamType.String),
-          ),
-        ),
-        FFRoute(
-          name: 'Input_pw',
-          path: '/Input_pw',
-          builder: (context, params) => InputPwWidget(
-            email: params.getParam('email', ParamType.String),
-          ),
-        ),
-        FFRoute(
-          name: 'groupInfo',
-          path: '/groupInfo',
-          builder: (context, params) => GroupInfoScreen(
-            data: params.getParam('data', ParamType.String),
-            code: params.getParam('code', ParamType.String),
-          ),
-        ),
-        FFRoute(
-          name: 'config',
-          path: '/config',
-          builder: (context, params) => ConfigWidget(),
-        ),
-        FFRoute(name: 'group', path: '/group', builder: (context, params) => NavBarPage(initialPage: 'group')),
-        FFRoute(
-          name: 'groupJoin',
-          path: '/groupJoin',
-          builder: (context, params) => JoingroupWidget(),
-        ),
-        FFRoute(
-          name: 'GroupJoinHistory',
-          path: '/GroupJoinHistory',
-          builder: (context, params) => GroupJoinHistory(),
-        ),
-        FFRoute(
-          name: 'ChangeLeaderPage',
-          path: '/ChangeLeaderPage',
-          builder: (context, params) => ChangeLeaderPage(),
-        ),
-        FFRoute(
-          name: 'groupSetting',
-          path: '/groupSetting',
-          builder: (context, params) => GroupSetting(
-            authority: params.getParam('authority', ParamType.String),
-            groupname: params.getParam('groupname', ParamType.String),
-          ),
-        ),
-        FFRoute(
-          name: 'mypage',
-          path: '/mypage',
-          builder: (context, params) => params.isEmpty ? NavBarPage(initialPage: 'mypage') : MypageWidget(),
-        ),
-        FFRoute(
-          name: 'scanpage',
-          path: '/scanpage',
-          builder: (context, params) => params.isEmpty ? NavBarPage(initialPage: 'scanpage') : ScanpageWidget(),
-        ),
-      ].map((r) => r.toRoute(appStateNotifier)).toList(),
-    );
+
+          //login
+
+          GoRoute(
+              name: 'login',
+              path: '/login',
+              builder: (context, state) {
+                return LoginWidget();
+              },
+              routes: [
+                GoRoute(
+                  name: 'Input_pw',
+                  path: 'Input_pw',
+                  builder: (context, state) {
+                    final item = state.extra as String;
+                    return InputPwWidget(email: item);
+                  },
+                ),
+                //로그인 sms코드
+                GoRoute(
+                  name: 'smscode',
+                  path: 'smscode',
+                  builder: (context, state) {
+                    final verificationId = state.queryParameters['verificationId'];
+                    final phone = state.queryParameters['phone'];
+                    return SmscodeWidget(
+                      verificationId: verificationId ?? '',
+                      phone: phone ?? '',
+                    );
+                  },
+                ),
+                //회원가입
+                GoRoute(
+                    name: 'agree_tos',
+                    path: 'agree_tos',
+                    builder: (context, state) {
+                      return AgreeTosWidget();
+                    },
+                    routes: [
+                      GoRoute(
+                          name: 'Get_id',
+                          path: 'Get_id',
+                          builder: (context, state) {
+                            return GetidWidget();
+                          },
+                          routes: [
+                            GoRoute(
+                              name: 'Set_pw',
+                              path: 'Set_pw',
+                              builder: (context, state) {
+                                final item = state.extra as String;
+                                return SetPwWidget(email: item);
+                              },
+                            ),
+                            GoRoute(
+                              path: 'smscode',
+                              builder: (context, state) {
+                                final verificationId = state.queryParameters['verificationId'];
+                                final phone = state.queryParameters['phone'];
+                                return SmscodeWidget(
+                                  verificationId: verificationId ?? '',
+                                  phone: phone ?? '',
+                                );
+                              },
+                            ),
+                            GoRoute(
+                              name: 'userinfo',
+                              path: 'userinfo',
+                              builder: (context, params) {
+                                return UserInfoWidget();
+                              },
+                            ),
+                            //회원가입 sms코드
+                          ])
+                    ]),
+                GoRoute(
+                  path: 'check_email',
+                  builder: (context, state) {
+                    return checkemailWidget();
+                  },
+                )
+              ]),
+        ]);
 
 extension NavParamExtensions on Map<String, String?> {
   Map<String, String> get withoutNulls => Map.fromEntries(
@@ -195,40 +313,6 @@ extension NavParamExtensions on Map<String, String?> {
 }
 
 extension NavigationExtensions on BuildContext {
-  void goNamedAuth(
-    String name,
-    bool mounted, {
-    Map<String, String> pathParameters = const <String, String>{},
-    Map<String, String> queryParameters = const <String, String>{},
-    Object? extra,
-    bool ignoreRedirect = false,
-  }) =>
-      !mounted || GoRouter.of(this).shouldRedirect(ignoreRedirect)
-          ? null
-          : goNamed(
-              name,
-              pathParameters: pathParameters,
-              queryParameters: queryParameters,
-              extra: extra,
-            );
-
-  void pushNamedAuth(
-    String name,
-    bool mounted, {
-    Map<String, String> pathParameters = const <String, String>{},
-    Map<String, String> queryParameters = const <String, String>{},
-    Object? extra,
-    bool ignoreRedirect = false,
-  }) =>
-      !mounted || GoRouter.of(this).shouldRedirect(ignoreRedirect)
-          ? null
-          : pushNamed(
-              name,
-              pathParameters: pathParameters,
-              queryParameters: queryParameters,
-              extra: extra,
-            );
-
   void safePop() {
     // If there is only one route on the stack, navigate to the initial
     // page instead of popping.
@@ -304,81 +388,6 @@ class FFParameters {
     // Return serialized value.
     return deserializeParam<T>(param, type, isList, collectionNamePath: collectionNamePath);
   }
-}
-
-class FFRoute {
-  const FFRoute({
-    required this.name,
-    required this.path,
-    required this.builder,
-    this.requireAuth = false,
-    this.asyncParams = const {},
-    this.routes = const [],
-  });
-
-  final String name;
-  final String path;
-  final bool requireAuth;
-  final Map<String, Future<dynamic> Function(String)> asyncParams;
-  final Widget Function(BuildContext, FFParameters) builder;
-  final List<GoRoute> routes;
-
-  GoRoute toRoute(AppStateNotifier appStateNotifier) => GoRoute(
-        name: name,
-        path: path,
-        redirect: (context, state) {
-          if (appStateNotifier.shouldRedirect) {
-            final redirectLocation = appStateNotifier.getRedirectLocation();
-            appStateNotifier.clearRedirectLocation();
-            return redirectLocation;
-          }
-
-          if (requireAuth && !appStateNotifier.loggedIn) {
-            appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/login';
-          }
-          return null;
-        },
-        pageBuilder: (context, state) {
-          final ffParams = FFParameters(state, asyncParams);
-          final page = ffParams.hasFutures
-              ? FutureBuilder(
-                  future: ffParams.completeFutures(),
-                  builder: (context, _) => builder(context, ffParams),
-                )
-              : builder(context, ffParams);
-          final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        AppColors.primaryBackground,
-                      ),
-                    ),
-                  ),
-                )
-              : page;
-
-          final transitionInfo = state.transitionInfo;
-          return transitionInfo.hasTransition
-              ? CustomTransitionPage(
-                  key: state.pageKey,
-                  child: child,
-                  transitionDuration: transitionInfo.duration,
-                  transitionsBuilder: PageTransition(
-                    type: transitionInfo.transitionType,
-                    duration: transitionInfo.duration,
-                    reverseDuration: transitionInfo.duration,
-                    alignment: transitionInfo.alignment,
-                    child: child,
-                  ).transitionsBuilder,
-                )
-              : MaterialPage(key: state.pageKey, child: child);
-        },
-        routes: routes,
-      );
 }
 
 class TransitionInfo {

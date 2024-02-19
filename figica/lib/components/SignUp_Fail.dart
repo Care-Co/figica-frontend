@@ -115,7 +115,7 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                         height: 56.0,
                         child: LodingButtonWidget(
                           onPressed: () async {
-                            context.pushNamed('login');
+                            context.push('/');
                           },
                           text: SetLocalizations.of(context).getText(
                             'fhrmdls' /* 로그인으로 돌아가기*/,

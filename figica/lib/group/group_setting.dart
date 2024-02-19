@@ -1,16 +1,6 @@
-import 'dart:convert';
-
 import 'package:figica/components/delete_group.dart';
 import 'package:figica/components/exit_group.dart';
-import 'package:figica/group/settings/ChangeGroupName_screen.dart';
-import 'package:figica/group/settings/DeleteGroup_screen.dart';
-import 'package:figica/group/settings/GroupHistory_screen.dart';
-import 'package:figica/group/settings/GroupJoinRequests_screen.dart';
-import 'package:figica/group/settings/InvitationCodeManage_screen.dart';
-import 'package:figica/group/settings/LeaveGroup_screen.dart';
-import 'package:figica/group/settings/MemberManage_screen.dart';
-import 'package:figica/group/settings/NotificationSetting_screen.dart';
-import 'package:figica/group/settings/PublicInfoSettings_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:figica/index.dart';
@@ -88,23 +78,23 @@ class _GroupSettingState extends State<GroupSetting> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, WidgetBuilder> leaderMenu = {
-      '멤버 관리': (_) => MemberManagementPage(),
-      '그룹 참여 신청 관리': (_) => GroupJoinRequestsPage(),
-      '그룹명 변경': (_) => ChangeGroupNamePage(),
-      '초대 코드 관리': (_) => InvitationCodeManagementPage(),
-      '그룹 삭제': (_) => DeleteGroupPage(),
-      '공개 정보 설정': (_) => PublicInfoSettingsPage(),
-      '알림 설정': (_) => NotificationSettingsPage(),
-      '그룹 히스토리': (_) => GroupHistoryPage(),
+    final Map<String, String> leaderMenu = {
+      '멤버 관리': 'MemberManage',
+      '그룹 참여 신청 관리': 'GroupJoinRequest',
+      '그룹명 변경': 'ChangeGroupName',
+      '초대 코드 관리': 'InvitationCodeManage',
+      '그룹 삭제': 'DeleteGroup',
+      '공개 정보 설정': 'PublicInfoSetting',
+      '알림 설정': 'NotificationSetting',
+      '그룹 히스토리': 'GroupHistory',
     };
 
     // 일반 사용자용 메뉴 리스트와 페이지 매핑
-    final Map<String, WidgetBuilder> userMenu = {
-      '공개 정보 설정': (_) => PublicInfoSettingsPage(),
-      '알림 설정': (_) => NotificationSettingsPage(),
-      '그룹 히스토리': (_) => GroupHistoryPage(),
-      '그룹 나가기': (_) => LeaveGroupPage(),
+    final Map<String, String> userMenu = {
+      '공개 정보 설정': 'PublicInfoSetting',
+      '알림 설정': 'NotificationSetting',
+      '그룹 히스토리': 'GroupHistory',
+      '그룹 나가기': 'LeaveGroup',
     };
     final menuList = (widget.authority == 'LEADER') ? leaderMenu : userMenu;
 
@@ -160,16 +150,12 @@ class _GroupSettingState extends State<GroupSetting> {
                     color: AppColors.Gray100,
                   ),
                   onTap: () {
-                    /*if (menuTitle == '그룹 나가기') {
+                    if (menuTitle == '그룹 나가기') {
                       _showLeaveGroupDialog(context);
-                    } else */
-                    if (menuTitle == '그룹 삭제') {
+                    } else if (menuTitle == '그룹 삭제') {
                       _showDeleteGroupDialog(context);
                     } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: menuList[menuTitle]!),
-                      );
+                      context.pushNamed(menuList[menuTitle]!);
                     }
                   },
                 );

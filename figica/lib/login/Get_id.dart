@@ -37,6 +37,8 @@ class _GetidWidgetState extends State<GetidWidget> {
 
   @override
   void dispose() {
+    myController.dispose();
+
     super.dispose();
   }
 
@@ -229,10 +231,7 @@ class _GetidWidgetState extends State<GetidWidget> {
                                               },
                                             ).then((value) => setState(() {}));
                                           } else {
-                                            context.pushNamed(
-                                              'Set_pw',
-                                              queryParameters: {'email': input}.withoutNulls,
-                                            );
+                                            context.pushNamed('Set_pw', extra: input);
                                           }
                                         }
                                         if (inputType == 'phone') {
@@ -282,7 +281,7 @@ class _GetidWidgetState extends State<GetidWidget> {
                                                   print('인증 문자 전송');
                                                   _verificationId = verificationId;
                                                   context.pushNamed(
-                                                    'smscode',
+                                                    'singup_smscode',
                                                     queryParameters: {
                                                       'verificationId': _verificationId,
                                                       'phone': phoneNumberVal,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:figica/group/Wait_group_Screen.dart';
 import 'package:figica/group/No_group_Screen.dart';
 import 'package:figica/group/Yes_group_Screen.dart';
+import 'package:figica/main.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -82,7 +83,6 @@ class _GroupWidgetState extends State<GroupWidget> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           key: scaffoldKey,
           backgroundColor: (groupStatus == "fail") ? AppColors.Black : AppColors.Gray850,
@@ -102,7 +102,7 @@ class _GroupWidgetState extends State<GroupWidget> {
                       onPressed: () {
                         context.pushNamed(
                           'groupSetting',
-                          queryParameters: {'authority': printAuthority(groupStatus), 'groupname': groupname(groupStatus)},
+                          extra: {'authority': printAuthority(groupStatus), 'groupname': groupname(groupStatus)},
                         );
                       },
                     ),

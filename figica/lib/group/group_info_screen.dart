@@ -1,10 +1,9 @@
 import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:figica/components/invitation_codeError.dart';
-import 'package:figica/components/success_Join.dart';
+import 'package:figica/components/Success_Join.dart';
 import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/flutter_util.dart';
-import 'package:figica/flutter_set/internationalization.dart';
 import 'package:figica/group/group_api.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';

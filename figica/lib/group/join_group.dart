@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:aligned_dialog/aligned_dialog.dart';
-import 'package:figica/backend/backend.dart';
 import 'package:figica/components/invitation_codeError.dart';
 import 'package:figica/flutter_set/App_icon_button.dart';
 import 'package:figica/flutter_set/figica_theme.dart';
 import 'package:figica/flutter_set/flutter_util.dart';
 import 'package:figica/flutter_set/Loding_button_widget.dart';
 import 'package:figica/group/group_api.dart';
-import 'package:figica/group/group_invitation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -45,17 +41,19 @@ class _JoingroupWidgetState extends State<JoingroupWidget> {
     }
   }
 
-  void _handleFetchGroupInfo() async {
+  Future<bool> _handleFetchGroupInfo() async {
     String invitationCode = myController.text;
     try {
+      FocusScope.of(context).unfocus();
       String groupData = await GroupApi.fetchGroupByInvitationCode(invitationCode);
 
       print(groupData);
 
       context.pushNamed(
-        'groupInfo',
-        queryParameters: {'data': groupData, 'code': invitationCode},
+        'GroupInfo',
+        extra: {'data': groupData, 'code': invitationCode},
       );
+      return true;
     } catch (e) {
       if (e is Exception) {
         print('Exception occurred: $e');
@@ -81,6 +79,7 @@ class _JoingroupWidgetState extends State<JoingroupWidget> {
           );
         },
       );
+      return false;
     }
   }
 
@@ -205,7 +204,8 @@ class _JoingroupWidgetState extends State<JoingroupWidget> {
                     child: LodingButtonWidget(
                       onPressed: isButtonEnabled
                           ? () async {
-                              _handleFetchGroupInfo();
+                              FocusScope.of(context).unfocus();
+                              await _handleFetchGroupInfo();
                             }
                           : null,
                       text: SetLocalizations.of(context).getText(

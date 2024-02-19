@@ -322,7 +322,7 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                                     try {
                                       bool singup = await UserController.signUpWithEmail(widget.email, _model.pwController.text);
                                       if (singup) {
-                                        context.goNamedAuth('userinfo', context.mounted);
+                                        context.goNamed('userinfo');
                                       } else {
                                         print('Failed to create ');
                                         ScaffoldMessenger.of(context).showSnackBar(

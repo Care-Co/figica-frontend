@@ -102,6 +102,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
+    'rnmfqndlg': {
+      'ko': '그룹 히스토리',
+      'en': '',
+      'ja': '',
+    },
     'ckadue1uteze': {
       'ko': '참여하고 있는 그룹이 없네요!',
       'en': '',
@@ -412,6 +417,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
+    'rmfqnekdlwjs': {
+      'ko': '님이 그룹장이 되었습니다.',
+      'en': '',
+      'ja': '',
+    },
     'doaqjqkdcnf': {
       'ko': '그룹 멤버 방출',
       'en': '',
@@ -509,6 +519,71 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'sodyd': {
       'ko': '그룹이 삭제되었습니다.\n그룹 기능을 다시 이용하려면\n새로운 그룹을 생성하거\n다른 그룹에 가입해야 해요.',
+      'en': '',
+      'ja': '',
+    },
+    'dbgud': {
+      'ko': '유형',
+      'en': '',
+      'ja': '',
+    },
+    'tjsxor': {
+      'ko': '선택',
+      'en': '',
+      'ja': '',
+    },
+    'elqkdltmdjqt': {
+      'ko': '등록된 디바이스가 없어요!',
+      'en': '',
+      'ja': '',
+    },
+    'sodydd': {
+      'ko': '디바이스를 등록하면 내 건강 정보를 담은\n디지털 트윈 아바타를 통해 건강을 관리할 수 있어요.',
+      'en': '',
+      'ja': '',
+    },
+    'eldktj': {
+      'ko': '디바이스 등록하기',
+      'en': '',
+      'ja': '',
+    },
+    'elqkdltm': {
+      'ko': '디바이스 등록 완료',
+      'en': '',
+      'ja': '',
+    },
+    'qksrkdk': {
+      'ko': ' 이 연결되었습니다.\n반가워요!',
+      'en': '',
+      'ja': '',
+    },
+    'qmvldje': {
+      'ko': 'Footprint 분석하기',
+      'en': '',
+      'ja': '',
+    },
+    'rlrldusrufhgkrdls': {
+      'ko': '기기의 연결을 확인해주세요',
+      'en': '',
+      'ja': '',
+    },
+    'cmrwjdwnd': {
+      'ko': '기기 위로 올라서서\n측정이 완료될 때까지 기다려 주세요',
+      'en': '',
+      'ja': '',
+    },
+    'elqkdltmdus': {
+      'ko': '디바이스 연결하기',
+      'en': '',
+      'ja': '',
+    },
+    'whrwjdjkq': {
+      'ko': '족저압 측정하기',
+      'en': '',
+      'ja': '',
+    },
+    'qlwjsqnsjr': {
+      'ko': 'Vision 분석하기',
       'en': '',
       'ja': '',
     },

@@ -545,7 +545,7 @@ class GroupApi {
     };
 
     final data = {
-      'newGroupName': memberUid,
+      'newGroupLeaderUid': memberUid,
     };
 
     final response = await http.put(

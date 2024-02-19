@@ -13,6 +13,10 @@ class PublicInfoSettingsPage extends StatefulWidget {
 
 class _PublicInfoSettingsPageState extends State<PublicInfoSettingsPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  bool switchValue1 = false;
+  bool switchValue2 = false;
+  bool switchValue3 = false;
+  bool switchValue4 = false;
 
   @override
   void initState() {
@@ -69,7 +73,125 @@ class _PublicInfoSettingsPageState extends State<PublicInfoSettingsPage> {
                 centerTitle: false,
                 elevation: 0.0,
               ),
-              body: Container())),
+              body: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('히스토리 알림', style: AppFont.s12.overrides(color: AppColors.primaryBackground, fontSize: 16)),
+                            Text('히스토리 알림', style: AppFont.r16.overrides(color: AppColors.Gray300, fontSize: 10)),
+                          ],
+                        ),
+                        Switch.adaptive(
+                          value: switchValue1 ??= true,
+                          onChanged: (newValue) async {
+                            setState(() => switchValue1 = newValue);
+                          },
+                          activeColor: AppColors.primaryBackground,
+                          activeTrackColor: AppColors.primary,
+                          inactiveTrackColor: AppColors.Gray700,
+                          inactiveThumbColor: AppColors.primaryBackground,
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: AppColors.Gray700,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('히스토리 알림', style: AppFont.s12.overrides(color: AppColors.primaryBackground, fontSize: 16)),
+                            Text('히스토리 알림', style: AppFont.r16.overrides(color: AppColors.Gray300, fontSize: 10)),
+                          ],
+                        ),
+                        Switch.adaptive(
+                          value: switchValue2 ??= true,
+                          onChanged: (newValue) async {
+                            setState(() => switchValue2 = newValue);
+                          },
+                          activeColor: AppColors.primaryBackground,
+                          activeTrackColor: AppColors.primary,
+                          inactiveTrackColor: AppColors.Gray700,
+                          inactiveThumbColor: AppColors.primaryBackground,
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: AppColors.Gray700,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('히스토리 알림', style: AppFont.s12.overrides(color: AppColors.primaryBackground, fontSize: 16)),
+                            Text('히스토리 알림', style: AppFont.r16.overrides(color: AppColors.Gray300, fontSize: 10)),
+                          ],
+                        ),
+                        Switch.adaptive(
+                          value: switchValue3 ??= true,
+                          onChanged: (newValue) async {
+                            setState(() => switchValue3 = newValue);
+                          },
+                          activeColor: AppColors.primaryBackground,
+                          activeTrackColor: AppColors.primary,
+                          inactiveTrackColor: AppColors.Gray700,
+                          inactiveThumbColor: AppColors.primaryBackground,
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: AppColors.Gray700,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('히스토리 알림', style: AppFont.s12.overrides(color: AppColors.primaryBackground, fontSize: 16)),
+                            Text('히스토리 알림', style: AppFont.r16.overrides(color: AppColors.Gray300, fontSize: 10)),
+                          ],
+                        ),
+                        Switch.adaptive(
+                          value: switchValue4 ??= true,
+                          onChanged: (newValue) async {
+                            setState(() => switchValue4 = newValue);
+                          },
+                          activeColor: AppColors.primaryBackground,
+                          activeTrackColor: AppColors.primary,
+                          inactiveTrackColor: AppColors.Gray700,
+                          inactiveThumbColor: AppColors.primaryBackground,
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: AppColors.Gray700,
+                    )
+                  ],
+                ),
+              ))),
     );
   }
 }
