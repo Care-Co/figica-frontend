@@ -50,3 +50,4 @@ export 'package:figica/group/group_info_screen.dart';
 export 'package:flutter_blue_plus/flutter_blue_plus.dart';
 export 'dart:async';
 export 'dart:io';
+export 'package:model_viewer_plus/model_viewer_plus.dart';

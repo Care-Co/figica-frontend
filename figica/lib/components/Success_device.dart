@@ -68,7 +68,7 @@ class _SuccessDeviceState extends State<SuccessDevice> {
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () async {
-                        context.goNamed('home');
+                        context.goNamed('Footprint');
                       },
                       text: SetLocalizations.of(context).getText(
                         'qmvldje' /*  */,

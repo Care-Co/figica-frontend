@@ -84,6 +84,10 @@ dependencies:
   pull_to_refresh: ^2.0.0
   flutter_blue_plus: ^1.31.13
   flutter_dash: ^1.0.0
+  modal_bottom_sheet: ^2.1.2
+  toggle_switch: ^2.1.0
+  model_viewer_plus: ^1.7.0
+
   bottom_picker:
     git:
       url: https://github.com/juntaenoh/Bottom-Picker.git
@@ -115,6 +119,25 @@ flutter:
     - assets/rive_animations/
     - assets/pdfs/
     - assets/icons/
+    - assets/body3d/
+    - assets/bodygrapic/back/female/
+    - assets/bodygrapic/back/male/
+    - assets/bodygrapic/flat/female/
+    - assets/bodygrapic/flat/male/
+    - assets/bodygrapic/yo/female/
+    - assets/bodygrapic/yo/male/
+    - assets/bodygrapic/front/female/
+    - assets/bodygrapic/front/male/
+    - assets/bodygrapic/left/female/
+    - assets/bodygrapic/left/male/
+    - assets/bodygrapic/right/female/
+    - assets/bodygrapic/right/male/
+    - assets/bodygrapic/leftroll/female/
+    - assets/bodygrapic/leftroll/male/
+    - assets/bodygrapic/rightroll/female/
+    - assets/bodygrapic/rightroll/male/
+    - assets/bodygrapic/normal/female/
+    - assets/bodygrapic/normal/male/
   fonts:
     - family: "Pretendard"
       fonts:

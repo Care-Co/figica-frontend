@@ -48,7 +48,6 @@ class _MyAppState extends State<MyApp> {
       print('Error fetching user data: $error');
     });
 
-    //blue
     _adapterStateStateSubscription = FlutterBluePlus.adapterState.listen((state) {
       _adapterState = state;
       if (mounted) {

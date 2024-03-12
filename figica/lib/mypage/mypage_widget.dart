@@ -1,3 +1,5 @@
+import 'package:figica/scan/Foot_Controller.dart';
+
 import '../flutter_set/App_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -84,12 +86,14 @@ class _MypageWidgetState extends State<MypageWidget> {
               ElevatedButton(
                 onPressed: () async {
                   _appStateNotifier = AppStateNotifier.instance;
+                  UserController.removedata();
 
                   UserController.removeToken().then((userData) {
                     _appStateNotifier.update(userData);
                   }).catchError((error) {
                     print('Error fetching user data: $error');
                   });
+                  FootprintData.removedevice();
                   context.goNamed('login');
                 },
                 child: Text('로그아웃'),
@@ -99,12 +103,6 @@ class _MypageWidgetState extends State<MypageWidget> {
                   print(await UserController.getsavedToken());
                 },
                 child: Text('token'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  await UserController.getprofile();
-                },
-                child: Text('조회'),
               ),
               ElevatedButton(
                 onPressed: () async {
