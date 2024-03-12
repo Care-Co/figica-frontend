@@ -4,6 +4,7 @@ import 'package:figica/botnav.dart';
 import 'package:figica/group/settings/changeLeader_screen.dart';
 import 'package:figica/scan/Find_blue.dart';
 import 'package:figica/scan/FootPrintScreen.dart';
+import 'package:figica/scan/Foot_result.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../group/group_setting.dart';
@@ -27,7 +28,7 @@ class AppStateNotifier extends ChangeNotifier {
   bool notifyOnAuthChange = true;
   String? get apiToken => _apiToken;
   bool get loading => _apiToken == null || showSplashImage;
-  bool get loggedIn => _apiToken != null && _apiToken != 'Null';
+  bool get loggedIn => _apiToken != null;
   bool get initiallyLoggedIn => initialUser?.loggedIn ?? false;
   bool get shouldRedirect => loggedIn && _redirectLocation != null;
 
@@ -39,6 +40,7 @@ class AppStateNotifier extends ChangeNotifier {
   void updateNotifyOnAuthChange(bool notify) => notifyOnAuthChange = notify;
 
   void update(String? newToken) {
+    print('start -------- setToken');
     if (_apiToken != newToken) {
       _apiToken = newToken;
       print('update $_apiToken');
@@ -78,12 +80,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             },
             routes: [
               GoRoute(
-                path: 'Footprint',
-                name: 'Footprint',
-                builder: (context, state) {
-                  return FootPrint();
-                },
-              ),
+                  path: 'Footprint',
+                  name: 'Footprint',
+                  builder: (context, state) {
+                    return FootPrint();
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'Footresult',
+                      name: 'Footresult',
+                      builder: (context, state) {
+                        return FootResult();
+                      },
+                    )
+                  ]),
               GoRoute(
                 name: 'FindBlue',
                 path: 'FindBlue',
@@ -247,9 +257,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   builder: (context, state) {
                     final verificationId = state.queryParameters['verificationId'];
                     final phone = state.queryParameters['phone'];
+                    final setinfo = state.queryParameters['setinfo'];
                     return SmscodeWidget(
                       verificationId: verificationId ?? '',
                       phone: phone ?? '',
+                      setinfo: setinfo ?? '',
                     );
                   },
                 ),
@@ -277,23 +289,28 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                               },
                             ),
                             GoRoute(
-                              path: 'smscode',
-                              builder: (context, state) {
-                                final verificationId = state.queryParameters['verificationId'];
-                                final phone = state.queryParameters['phone'];
-                                return SmscodeWidget(
-                                  verificationId: verificationId ?? '',
-                                  phone: phone ?? '',
-                                );
-                              },
-                            ),
-                            GoRoute(
-                              name: 'userinfo',
-                              path: 'userinfo',
-                              builder: (context, params) {
-                                return UserInfoWidget();
-                              },
-                            ),
+                                name: 'singup_smscode',
+                                path: 'singup_smscode',
+                                builder: (context, state) {
+                                  final verificationId = state.queryParameters['verificationId'];
+                                  final phone = state.queryParameters['phone'];
+                                  final setinfo = state.queryParameters['setinfo'];
+                                  return SmscodeWidget(
+                                    verificationId: verificationId ?? '',
+                                    phone: phone ?? '',
+                                    setinfo: setinfo ?? '',
+                                  );
+                                },
+                                routes: [
+                                  GoRoute(
+                                    name: 'singup_userinfo',
+                                    path: 'singup_userinfo',
+                                    builder: (context, params) {
+                                      return UserInfoWidget();
+                                    },
+                                  ),
+                                ]),
+
                             //회원가입 sms코드
                           ])
                     ]),

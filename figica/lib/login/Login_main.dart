@@ -232,10 +232,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           _verificationId = verificationId;
                                           context.pushNamed(
                                             'smscode',
-                                            queryParameters: {
-                                              'verificationId': _verificationId,
-                                              'phone': id,
-                                            }.withoutNulls,
+                                            queryParameters: {'verificationId': _verificationId, 'phone': id, 'setinfo': 'false'},
                                           );
                                           setState(() {});
                                         },

@@ -1,4 +1,5 @@
 import 'package:figica/components/Success_device.dart';
+import 'package:figica/scan/Foot_Controller.dart';
 import 'package:figica/scan/utils/extra.dart';
 import 'package:figica/scan/widgets/scan_result_tile.dart';
 import 'package:figica/scan/widgets/system_device_tile.dart';
@@ -82,9 +83,10 @@ class _FindBlueState extends State<FindBlue> {
 
     void onConnectPressed(BluetoothDevice device) {
       device.connect(autoConnect: true, mtu: null).then((value) {
+        device.requestMtu(645);
         print(device.remoteId);
-        UserController.savedevice(device.remoteId.toString());
-        UserController.savedevicename(device.platformName.toString());
+        FootprintData.savedevice(device.remoteId.toString());
+        FootprintData.savedevicename(device.platformName.toString());
         showAlignedDialog(
           context: context,
           isGlobal: true,

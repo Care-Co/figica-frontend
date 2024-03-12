@@ -1,5 +1,6 @@
 import 'package:figica/components/No_device.dart';
 import 'package:figica/components/Yes_device.dart';
+import 'package:figica/scan/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'index.dart'; // 필요한 위젯을 불러오는 부분
 
@@ -26,48 +27,50 @@ class _MarketPageState extends State<MarketPage> {
     });
   }
 
-  void show(BuildContext context) {
-    if (UserController.getdevice() == null) {
-      showAlignedDialog(
-        context: context,
-        isGlobal: true,
-        avoidOverflow: false,
-        targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-        followerAnchor: AlignmentDirectional(0, 0.5).resolve(Directionality.of(context)),
-        builder: (dialogContext) {
-          return Material(
-            color: Colors.transparent,
-            child: GestureDetector(
-              child: Container(
-                height: 200,
-                width: 327,
-                child: NoDivice(),
+  Future<void> show(BuildContext context) async {
+    await FootprintData.getdevice().then((value) {
+      if (value == null) {
+        showAlignedDialog(
+          context: context,
+          isGlobal: true,
+          avoidOverflow: false,
+          targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+          followerAnchor: AlignmentDirectional(0, 0.5).resolve(Directionality.of(context)),
+          builder: (dialogContext) {
+            return Material(
+              color: Colors.transparent,
+              child: GestureDetector(
+                child: Container(
+                  height: 200,
+                  width: 327,
+                  child: NoDivice(),
+                ),
               ),
-            ),
-          );
-        },
-      );
-    } else {
-      showAlignedDialog(
-        context: context,
-        isGlobal: true,
-        avoidOverflow: false,
-        targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-        followerAnchor: AlignmentDirectional(0, 0.5).resolve(Directionality.of(context)),
-        builder: (dialogContext) {
-          return Material(
-            color: Colors.transparent,
-            child: GestureDetector(
-              child: Container(
-                height: 60,
-                width: 327,
-                child: YesDivice(),
+            );
+          },
+        );
+      } else {
+        showAlignedDialog(
+          context: context,
+          isGlobal: true,
+          avoidOverflow: false,
+          targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+          followerAnchor: AlignmentDirectional(0, 0.5).resolve(Directionality.of(context)),
+          builder: (dialogContext) {
+            return Material(
+              color: Colors.transparent,
+              child: GestureDetector(
+                child: Container(
+                  height: 60,
+                  width: 327,
+                  child: YesDivice(),
+                ),
               ),
-            ),
-          );
-        },
-      );
-    }
+            );
+          },
+        );
+      }
+    });
   }
 
   @override

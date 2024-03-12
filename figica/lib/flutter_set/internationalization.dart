@@ -587,13 +587,13 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'xcmrjdju': {
+      'ko': 'Footprint 측정결과',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'qkfw': {
+      'ko': '다음과 같은 부위에\n통증이 느껴질 수 있어요',
       'en': '',
       'ja': '',
     },

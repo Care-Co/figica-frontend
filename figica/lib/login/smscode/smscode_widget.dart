@@ -13,7 +13,8 @@ import 'package:flutter/services.dart';
 class SmscodeWidget extends StatefulWidget {
   final String verificationId;
   final String phone;
-  const SmscodeWidget({Key? key, required this.verificationId, required this.phone}) : super(key: key);
+  final String setinfo;
+  const SmscodeWidget({Key? key, required this.verificationId, required this.phone, required this.setinfo}) : super(key: key);
 
   @override
   _SmscodeWidgetState createState() => _SmscodeWidgetState();
@@ -212,27 +213,15 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                       height: 56.0,
                       child: LodingButtonWidget(
                         onPressed: () async {
-                          PhoneAuthCredential credential =
-                              PhoneAuthProvider.credential(verificationId: widget.verificationId, smsCode: myController.text);
-                          try {
-                            final getfiretoken = await FirebaseAuth.instance.signInWithCredential(credential);
-                            final String? token = await getfiretoken.user?.getIdToken();
-                            print("Token: $token");
-                            await UserController.signUpWithPhone(token!, widget.phone);
-
-                            //context.goNamedAuth('userinfo', context.mounted);
-                          } on FirebaseAuthException catch (e) {
-                            print(e.code);
-                            if (e.code == 'invalid-verification-code') {
-                              print('틀림');
-                              return false;
+                          await UserController.signUpWithPhone(widget.verificationId, myController.text, widget.setinfo == 'true').then((value) {
+                            if (value) {
+                              if (widget.setinfo == 'true') {
+                                context.goNamed('singup_userinfo');
+                              } else {
+                                context.goNamed('home');
+                              }
                             }
-                          } catch (e) {
-                            print(e);
-                          }
-                          return true;
-
-                          //context.goNamedAuth('homePage', context.mounted);
+                          });
                         },
                         text: SetLocalizations.of(context).getText(
                           't0ydhdm1' /* 인증하기 */,

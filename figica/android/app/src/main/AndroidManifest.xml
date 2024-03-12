@@ -29,6 +29,7 @@
         android:label="figica"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true">
         <provider
             android:name="androidx.core.content.FileProvider"

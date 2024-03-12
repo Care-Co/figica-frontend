@@ -612,13 +612,14 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                 String data = selectedDate != null
                                     ? "${selectedDate!.year}/${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.day.toString().padLeft(2, '0')}"
                                     : "0000/00/00";
-                                String name = _model.fiController.text + _model.namController.text;
+                                String finame = _model.fiController.text;
+                                String name = _model.namController.text;
                                 double height = _model.heController.text.isEmpty ? 0.0 : double.parse(_model.heController.text);
                                 double weight = _model.weController.text.isEmpty ? 0.0 : double.parse(_model.weController.text);
                                 _appStateNotifier = AppStateNotifier.instance;
 
-                                await UserController.updateProfile(data, name, selectedGender, height, weight, dropDownValue).then((userData) {
-                                  _appStateNotifier.update(userData);
+                                await UserController.updateProfile(data, finame, name, selectedGender, height, weight, dropDownValue)
+                                    .then((userData) {
                                   context.goNamed('home');
                                 }).catchError((error) {
                                   print('Error fetching user data: $error');

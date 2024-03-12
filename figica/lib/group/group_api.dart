@@ -218,7 +218,7 @@ class GroupApi {
         final responseData = jsonDecode(response.body);
         final newtoken = responseData['token'];
         print(newtoken);
-        await UserController.setToken(newtoken);
+        await UserController.setToken(newtoken, true);
         print('createGroup${response.body}');
         return true;
       } else {
@@ -290,7 +290,7 @@ class GroupApi {
         print('Group deleted successfully');
         final responseData = jsonDecode(response.body);
         final token = responseData['token'];
-        UserController.setToken(token);
+        UserController.setToken(token, true);
       } else {
         // 에러 응답 처리
         print('Error: ${response.statusCode}');

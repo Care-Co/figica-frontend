@@ -280,12 +280,9 @@ class _GetidWidgetState extends State<GetidWidget> {
                                                 codeSent: (String verificationId, int? resendToken) async {
                                                   print('인증 문자 전송');
                                                   _verificationId = verificationId;
-                                                  context.pushNamed(
-                                                    'singup_smscode',
-                                                    queryParameters: {
-                                                      'verificationId': _verificationId,
-                                                      'phone': phoneNumberVal,
-                                                    }.withoutNulls,
+                                                  context.goNamed(
+                                                    'smscode',
+                                                    queryParameters: {'verificationId': _verificationId, 'phone': phoneNumberVal, 'setinfo': 'true'},
                                                   );
                                                 },
                                                 codeAutoRetrievalTimeout: (String verificationId) {});

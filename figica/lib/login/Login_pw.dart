@@ -1,7 +1,5 @@
 import 'package:figica/components/resetPw.dart';
-import 'package:figica/flutter_set/App_icon_button.dart';
 
-import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -48,16 +46,12 @@ class _InputPwWidgetState extends State<InputPwWidget> {
     print(widget.email);
     print(pw);
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: widget.email, password: pw);
-      final String? token = await userCredential.user?.getIdToken();
-      _appStateNotifier = AppStateNotifier.instance;
-
-      await UserController.getapiToken(token!).then((userData) {
-        _appStateNotifier.update(userData);
-        context.goNamed('home');
-      }).catchError((error) {
-        print('Error fetching user data: $error');
+      await UserController.signInWithEmail(widget.email, pw).then((value) {
+        if (value) {
+          context.goNamed('home');
+        }
       });
+
       return true;
     } on FirebaseAuthException catch (e) {
       print(e.code);
