@@ -1,4 +1,4 @@
-import 'package:figica/flutter_set/flutter_flow_model.dart';
+import 'package:fisica/flutter_set/flutter_flow_model.dart';
 
 import 'creategroup_widget.dart' show CreategroupWidget;
 import 'package:flutter/material.dart';

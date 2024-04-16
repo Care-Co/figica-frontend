@@ -1,9 +1,9 @@
-import 'package:figica/components/delete_group.dart';
-import 'package:figica/components/exit_group.dart';
+import 'package:fisica/components/delete_group.dart';
+import 'package:fisica/components/exit_group.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class GroupSetting extends StatefulWidget {
   final String authority;

@@ -1,4 +1,4 @@
-import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:fisica/flutter_set/fisica_theme.dart';
 
 import '/components/uptos_widget.dart';
 import '../flutter_set/App_icon_button.dart';
@@ -149,7 +149,7 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                             border: Border.all(color: AppColors.Gray200),
                           ),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                            padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 20.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,7 +195,7 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                         width: double.infinity,
                         height: 40.0,
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                          padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 20.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -260,6 +260,7 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                                           child: Container(
                                               height: MediaQuery.sizeOf(context).height * 0.6,
                                               child: UptosWidget(
+                                                index: 1,
                                                 onAgree: (value) {
                                                   setState(() {
                                                     //agree1 = value;
@@ -283,7 +284,7 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                           width: double.infinity,
                           height: 40.0,
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                            padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 20.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -315,7 +316,7 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
                                         child: Text(
                                           SetLocalizations.of(context).getText(
-                                            'mqd24b0b' /* 이용 약관 동의 */,
+                                            'mqd24b0b' /* 개인정보 수집 및 이용 동의*/,
                                           ),
                                           style: AppFont.r16,
                                         ),
@@ -349,6 +350,7 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                                             child: Container(
                                                 height: MediaQuery.sizeOf(context).height * 0.6,
                                                 child: UptosWidget(
+                                                  index: 2,
                                                   onAgree: (value) {
                                                     setState(() {
                                                       _onAgree2(value);

@@ -1,8 +1,8 @@
-import 'package:figica/components/check_cancel_invite.dart';
+import 'package:fisica/components/check_cancel_invite.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class Cancelcode extends StatefulWidget {
   const Cancelcode({
@@ -88,9 +88,7 @@ class _CancelcodeState extends State<Cancelcode> {
                       width: double.infinity,
                       height: 56.0,
                       child: LodingButtonWidget(
-                        onPressed: () async {
-               
-                        },
+                        onPressed: () async {},
                         text: SetLocalizations.of(context).getText('xhemcnlth' /* 신청 취소하기 */
                             ),
                         options: LodingButtonOptions(

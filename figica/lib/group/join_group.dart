@@ -1,10 +1,10 @@
 import 'package:aligned_dialog/aligned_dialog.dart';
-import 'package:figica/components/invitation_codeError.dart';
-import 'package:figica/flutter_set/App_icon_button.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/flutter_util.dart';
-import 'package:figica/flutter_set/Loding_button_widget.dart';
-import 'package:figica/group/group_api.dart';
+import 'package:fisica/components/invitation_codeError.dart';
+import 'package:fisica/flutter_set/App_icon_button.dart';
+import 'package:fisica/flutter_set/fisica_theme.dart';
+import 'package:fisica/flutter_set/flutter_util.dart';
+import 'package:fisica/flutter_set/Loding_button_widget.dart';
+import 'package:fisica/group/group_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

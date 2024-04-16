@@ -1,9 +1,9 @@
-import 'package:figica/components/check_cancel_invite.dart';
-import 'package:figica/components/check_exit_group.dart';
+import 'package:fisica/components/check_cancel_invite.dart';
+import 'package:fisica/components/check_exit_group.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class ExitGroup extends StatefulWidget {
   const ExitGroup({

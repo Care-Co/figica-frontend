@@ -3,7 +3,8 @@ import '/index.dart';
 
 class SuccessDevice extends StatefulWidget {
   final String name;
-  const SuccessDevice({Key? key, required this.name}) : super(key: key);
+  final String mode;
+  const SuccessDevice({Key? key, required this.name, required this.mode}) : super(key: key);
 
   @override
   State<SuccessDevice> createState() => _SuccessDeviceState();
@@ -68,7 +69,11 @@ class _SuccessDeviceState extends State<SuccessDevice> {
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () async {
-                        context.goNamed('Footprint');
+                        if (widget.mode == 'main') {
+                          context.goNamed('Footprint', extra: 'main');
+                        } else {
+                          context.goNamed('testFootprint', extra: 'tester');
+                        }
                       },
                       text: SetLocalizations.of(context).getText(
                         'qmvldje' /*  */,

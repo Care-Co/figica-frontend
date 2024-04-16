@@ -1,14 +1,15 @@
 import 'dart:convert';
 
-import 'package:figica/scan/scandata.dart';
-import 'package:figica/scan/Foot_Controller.dart';
+import 'package:fisica/scan/scandata.dart';
+import 'package:fisica/scan/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class FootResult extends StatefulWidget {
-  const FootResult({Key? key}) : super(key: key);
+  final String mode;
+  const FootResult({Key? key, required this.mode}) : super(key: key);
 
   @override
   State<FootResult> createState() => _FootResultState();
@@ -18,12 +19,16 @@ class _FootResultState extends State<FootResult> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var data;
   final DraggableScrollableController _controller = DraggableScrollableController();
-
+  bool main = true;
   @override
   void initState() {
     super.initState();
     getData();
     showModalBottomSheetWithStates(context);
+    if (widget.mode != 'main') {
+      main = false;
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -33,7 +38,7 @@ class _FootResultState extends State<FootResult> {
   }
 
   Future<void> getData() async {
-    var tempData = await FootprintData.getDataFromSharedPreferences();
+    var tempData = await DataController.get_apiData();
     print(tempData);
     data = tempData;
   }
@@ -44,7 +49,7 @@ class _FootResultState extends State<FootResult> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       barrierColor: Colors.transparent,
-      builder: (context) => ScanData(),
+      builder: (context) => ScanData(mode: widget.mode),
     );
   }
 
@@ -69,16 +74,17 @@ class _FootResultState extends State<FootResult> {
             SetLocalizations.of(context).getText(
               'xcmrjdju' /* Page Title */,
             ),
-            style: AppFont.s18,
+            style: AppFont.s18.overrides(color: AppColors.primaryBackground),
           ),
           actions: [
             IconButton(
               icon: Icon(
                 Icons.cancel,
                 size: 20,
+                color: AppColors.primaryBackground,
               ),
               onPressed: () {
-                context.pop();
+                context.pushNamed('login');
               },
             ),
           ],
@@ -103,7 +109,7 @@ class _FootResultState extends State<FootResult> {
                   height: 327,
                   decoration: BoxDecoration(color: Colors.transparent),
                   child: Image.network(
-                    data['data']['url'],
+                    main ? data['imageUrl'] : data['footprintImageUrl'],
                     width: 327,
                     fit: BoxFit.contain,
                   ),
@@ -163,7 +169,7 @@ class _FootResultState extends State<FootResult> {
                         decoration: BoxDecoration(),
                         child: LodingButtonWidget(
                           onPressed: () {
-                            context.goNamed('Footprint');
+                            main ? context.goNamed('Footprint', extra: 'main') : context.goNamed('testFootprint', extra: 'tester');
                           },
                           text: '다시 측정하기',
                           options: LodingButtonOptions(

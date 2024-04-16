@@ -1,4 +1,4 @@
-import 'package:figica/components/resetPw.dart';
+import 'package:fisica/components/resetPw.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,18 +45,13 @@ class _InputPwWidgetState extends State<InputPwWidget> {
     final pw = pwController.text;
     print(widget.email);
     print(pw);
-    try {
-      await UserController.signInWithEmail(widget.email, pw).then((value) {
-        if (value) {
-          context.goNamed('home');
-        }
-      });
 
-      return true;
-    } on FirebaseAuthException catch (e) {
-      print(e.code);
-      if (e.code == 'wrong-password') {
-        await showAlignedDialog(
+    await UserController.signInWithEmail(widget.email, pw).then((value) {
+      if (value) {
+        context.goNamed('home');
+      } else {
+        print(value);
+        showAlignedDialog(
           context: context,
           isGlobal: true,
           avoidOverflow: false,
@@ -83,11 +78,9 @@ class _InputPwWidgetState extends State<InputPwWidget> {
           },
         ).then((value) => setState(() {}));
       }
-      return false;
-    } catch (e) {
-      print(e);
-      return false;
-    }
+    });
+
+    return true;
   }
 
   void findPw() async {

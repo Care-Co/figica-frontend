@@ -1,17 +1,18 @@
-import 'package:figica/components/Success_device.dart';
-import 'package:figica/scan/Foot_Controller.dart';
-import 'package:figica/scan/utils/extra.dart';
-import 'package:figica/scan/widgets/scan_result_tile.dart';
-import 'package:figica/scan/widgets/system_device_tile.dart';
+import 'package:fisica/components/Success_device.dart';
+import 'package:fisica/scan/Foot_Controller.dart';
+import 'package:fisica/scan/utils/extra.dart';
+import 'package:fisica/scan/widgets/scan_result_tile.dart';
+import 'package:fisica/scan/widgets/system_device_tile.dart';
 
 import '../flutter_set/App_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class FindBlue extends StatefulWidget {
-  const FindBlue({Key? key}) : super(key: key);
+  final String mode;
+  const FindBlue({Key? key, required this.mode}) : super(key: key);
 
   @override
   State<FindBlue> createState() => _FindBlueState();
@@ -85,8 +86,8 @@ class _FindBlueState extends State<FindBlue> {
       device.connect(autoConnect: true, mtu: null).then((value) {
         device.requestMtu(645);
         print(device.remoteId);
-        FootprintData.savedevice(device.remoteId.toString());
-        FootprintData.savedevicename(device.platformName.toString());
+        DataController.savedevice(device.remoteId.toString());
+        DataController.savedevicename(device.platformName.toString());
         showAlignedDialog(
           context: context,
           isGlobal: true,
@@ -102,6 +103,7 @@ class _FindBlueState extends State<FindBlue> {
                   width: 327,
                   child: SuccessDevice(
                     name: device.platformName,
+                    mode: widget.mode,
                   ),
                 ),
               ),

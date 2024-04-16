@@ -5,8 +5,8 @@ import '../base_auth_user_provider.dart';
 
 export '../base_auth_user_provider.dart';
 
-class FigicaFirebaseUser extends BaseAuthUser {
-  FigicaFirebaseUser(this.user);
+class fisicaFirebaseUser extends BaseAuthUser {
+  fisicaFirebaseUser(this.user);
   User? user;
   bool get loggedIn => user != null;
 
@@ -46,24 +46,19 @@ class FigicaFirebaseUser extends BaseAuthUser {
 
   @override
   Future refreshUser() async {
-    await FirebaseAuth.instance.currentUser
-        ?.reload()
-        .then((_) => user = FirebaseAuth.instance.currentUser);
+    await FirebaseAuth.instance.currentUser?.reload().then((_) => user = FirebaseAuth.instance.currentUser);
   }
 
-  static BaseAuthUser fromUserCredential(UserCredential userCredential) =>
-      fromFirebaseUser(userCredential.user);
-  static BaseAuthUser fromFirebaseUser(User? user) => FigicaFirebaseUser(user);
+  static BaseAuthUser fromUserCredential(UserCredential userCredential) => fromFirebaseUser(userCredential.user);
+  static BaseAuthUser fromFirebaseUser(User? user) => fisicaFirebaseUser(user);
 }
 
-Stream<BaseAuthUser> figicaFirebaseUserStream() => FirebaseAuth.instance
+Stream<BaseAuthUser> fisicaFirebaseUserStream() => FirebaseAuth.instance
         .authStateChanges()
-        .debounce((user) => user == null && !loggedIn
-            ? TimerStream(true, const Duration(seconds: 1))
-            : Stream.value(user))
+        .debounce((user) => user == null && !loggedIn ? TimerStream(true, const Duration(seconds: 1)) : Stream.value(user))
         .map<BaseAuthUser>(
       (user) {
-        currentUser = FigicaFirebaseUser(user);
+        currentUser = fisicaFirebaseUser(user);
         return currentUser!;
       },
     );

@@ -1,12 +1,20 @@
 import 'dart:async';
 
-import 'package:figica/botnav.dart';
-import 'package:figica/group/settings/changeLeader_screen.dart';
-import 'package:figica/scan/Find_blue.dart';
-import 'package:figica/scan/FootPrintScreen.dart';
-import 'package:figica/scan/Foot_result.dart';
+import 'package:fisica/botnav.dart';
+import 'package:fisica/group/settings/changeLeader_screen.dart';
+import 'package:fisica/mypage/History.dart';
+import 'package:fisica/mypage/Modi_User_info_widget.dart';
+import 'package:fisica/mypage/Chart.dart';
+import 'package:fisica/mypage/my_avata.dart';
+import 'package:fisica/mypage/my_setting.dart';
+import 'package:fisica/scan/Find_blue.dart';
+import 'package:fisica/scan/FootPrintScreen.dart';
+import 'package:fisica/scan/Foot_result.dart';
+import 'package:fisica/testmode.dart/TesterData.dart';
+import 'package:fisica/testmode.dart/test_tos_.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../group/group_setting.dart';
 import '/index.dart';
 export 'package:go_router/go_router.dart';
@@ -40,12 +48,18 @@ class AppStateNotifier extends ChangeNotifier {
   void updateNotifyOnAuthChange(bool notify) => notifyOnAuthChange = notify;
 
   void update(String? newToken) {
-    print('start -------- setToken');
+    print('notifyListeners');
     if (_apiToken != newToken) {
       _apiToken = newToken;
       print('update $_apiToken');
       notifyListeners(); // 상태가 변경되었으므로 리스너들에게 알림
     }
+  }
+
+  void delete() {
+    print('delete');
+    _apiToken = null;
+    notifyListeners();
   }
 
   void stopShowingSplashImage() {
@@ -80,17 +94,52 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             },
             routes: [
               GoRoute(
+                  name: 'MySetting',
+                  path: 'MySetting',
+                  builder: (context, state) {
+                    return MySetting();
+                  },
+                  routes: []),
+              GoRoute(
+                  name: 'Modiinfo',
+                  path: 'Modiinfo',
+                  builder: (context, state) {
+                    return ModiUserInfoWidget();
+                  },
+                  routes: []),
+              GoRoute(
+                  name: 'Myavata',
+                  path: 'Myavata',
+                  builder: (context, state) {
+                    return Myavata();
+                  },
+                  routes: []),
+              GoRoute(
+                  name: 'history',
+                  path: 'history',
+                  builder: (context, state) {
+                    return HistoryWidget();
+                  },
+                  routes: []),
+              GoRoute(
                   path: 'Footprint',
                   name: 'Footprint',
                   builder: (context, state) {
-                    return FootPrint();
+                    final mode = state.extra as String;
+                    return FootPrint(
+                      mode: mode,
+                    );
                   },
                   routes: [
                     GoRoute(
                       path: 'Footresult',
                       name: 'Footresult',
                       builder: (context, state) {
-                        return FootResult();
+                        final mode = state.extra as String;
+
+                        return FootResult(
+                          mode: mode,
+                        );
                       },
                     )
                   ]),
@@ -98,7 +147,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 name: 'FindBlue',
                 path: 'FindBlue',
                 builder: (context, state) {
-                  return FindBlue();
+                  final mode = state.extra as String;
+
+                  return FindBlue(
+                    mode: mode,
+                  );
                 },
               ),
               GoRoute(
@@ -255,16 +308,66 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   name: 'smscode',
                   path: 'smscode',
                   builder: (context, state) {
-                    final verificationId = state.queryParameters['verificationId'];
-                    final phone = state.queryParameters['phone'];
-                    final setinfo = state.queryParameters['setinfo'];
+                    final verificationId = state.extra as String;
+                    final phone = state.extra as String;
+                    final setinfo = state.extra as String;
+
                     return SmscodeWidget(
-                      verificationId: verificationId ?? '',
-                      phone: phone ?? '',
-                      setinfo: setinfo ?? '',
+                      verificationId: verificationId,
+                      phone: phone,
+                      setinfo: setinfo,
                     );
                   },
                 ),
+                GoRoute(
+                    name: 'Guest_agree_tos',
+                    path: 'Guest_agree_tos',
+                    builder: (context, state) {
+                      return TestTos();
+                    },
+                    routes: [
+                      GoRoute(
+                          path: 'TesterData',
+                          name: 'TesterData',
+                          builder: (context, state) {
+                            return TesterData();
+                          },
+                          routes: [
+                            GoRoute(
+                                path: 'testFootprint',
+                                name: 'testFootprint',
+                                builder: (context, state) {
+                                  final mode = state.extra as String;
+                                  return FootPrint(
+                                    mode: mode,
+                                  );
+                                },
+                                routes: [
+                                  GoRoute(
+                                    path: 'testFootresult',
+                                    name: 'testFootresult',
+                                    builder: (context, state) {
+                                      final mode = state.extra as String;
+
+                                      return FootResult(
+                                        mode: mode,
+                                      );
+                                    },
+                                  )
+                                ]),
+                            GoRoute(
+                              name: 'testFindBlue',
+                              path: 'testFindBlue',
+                              builder: (context, state) {
+                                final mode = state.extra as String;
+
+                                return FindBlue(
+                                  mode: mode,
+                                );
+                              },
+                            ),
+                          ])
+                    ]),
                 //회원가입
                 GoRoute(
                     name: 'agree_tos',
@@ -292,13 +395,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                                 name: 'singup_smscode',
                                 path: 'singup_smscode',
                                 builder: (context, state) {
-                                  final verificationId = state.queryParameters['verificationId'];
-                                  final phone = state.queryParameters['phone'];
-                                  final setinfo = state.queryParameters['setinfo'];
+                                  final verificationId = state.extra as String;
+                                  final phone = state.extra as String;
+                                  final setinfo = state.extra as String;
+
                                   return SmscodeWidget(
-                                    verificationId: verificationId ?? '',
-                                    phone: phone ?? '',
-                                    setinfo: setinfo ?? '',
+                                    verificationId: verificationId,
+                                    phone: phone,
+                                    setinfo: setinfo,
                                   );
                                 },
                                 routes: [
@@ -353,7 +457,6 @@ extension _GoRouterStateExtensions on GoRouterState {
   Map<String, dynamic> get extraMap => extra != null ? extra as Map<String, dynamic> : {};
   Map<String, dynamic> get allParams => <String, dynamic>{}
     ..addAll(pathParameters)
-    ..addAll(queryParameters)
     ..addAll(extraMap);
   TransitionInfo get transitionInfo =>
       extraMap.containsKey(kTransitionInfoKey) ? extraMap[kTransitionInfoKey] as TransitionInfo : TransitionInfo.appDefault();
@@ -421,22 +524,4 @@ class TransitionInfo {
   final Alignment? alignment;
 
   static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
-}
-
-class RootPageContext {
-  const RootPageContext(this.isRootPage, [this.errorRoute]);
-  final bool isRootPage;
-  final String? errorRoute;
-
-  static bool isInactiveRootPage(BuildContext context) {
-    final rootPageContext = context.read<RootPageContext?>();
-    final isRootPage = rootPageContext?.isRootPage ?? false;
-    final location = GoRouter.of(context).location;
-    return isRootPage && location != '/' && location != rootPageContext?.errorRoute;
-  }
-
-  static Widget wrap(Widget child, {String? errorRoute}) => Provider.value(
-        value: RootPageContext(true, errorRoute),
-        child: child,
-      );
 }

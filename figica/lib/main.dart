@@ -6,10 +6,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
 
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FirebaseAppCheck.instance.activate(
-    webRecaptchaSiteKey: '6LfvOBgpAAAAAO6Sk8m65hEr8CKAelzcdbx9MxLT',
+    // Set androidProvider to `AndroidProvider.debug`
+    androidProvider: AndroidProvider.debug,
   );
+
   await SetLocalizations.initialize();
 
   runApp(MyApp());
@@ -84,7 +87,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'figica',
+      title: 'fisica',
       localizationsDelegates: [
         SetLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,

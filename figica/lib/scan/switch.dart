@@ -1,10 +1,11 @@
-import 'package:figica/index.dart';
-import 'package:figica/scan/Foot_Controller.dart';
+import 'package:fisica/index.dart';
+import 'package:fisica/scan/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class ToggleImageSwitch extends StatefulWidget {
-  ToggleImageSwitch({Key? key}) : super(key: key);
+  final String mode;
+  const ToggleImageSwitch({Key? key, required this.mode}) : super(key: key);
 
   @override
   _ToggleImageSwitchState createState() => _ToggleImageSwitchState();
@@ -15,16 +16,27 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
   String type = '';
   String image = '';
   List<String> imageList = [];
+  bool main = true;
+
   final PageController _pageController = PageController();
 
   int _currentIndex = 0;
   Future<void> getData() async {
-    var typedata = await FootprintData.getDataFromSharedPreferences();
+    var typedata = await DataController.get_apiData();
     print(typedata);
     var data = await UserController.getuserinfo();
-    gender = data['data']['customClaims']['gender'];
+    print(data);
+    gender = data['profile']['gender'].toLowerCase();
 
-    settype(typedata['data']['classType']);
+    settype(typedata['classType']);
+  }
+
+  Future<void> getData2() async {
+    var typedata = await DataController.get_apiData();
+
+    gender = typedata['gender'].toLowerCase();
+
+    settype(typedata['footprintClassType']);
   }
 
   void settype(int typeint) {
@@ -64,14 +76,14 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
   void getImagePath3(String type) {
     imageList.add('assets/bodygrapic/$type/$gender/front.png');
     imageList.add('assets/bodygrapic/$type/$gender/side.png');
-
     imageList.add('assets/bodygrapic/$type/$gender/back.png');
     print(imageList.length);
   }
 
   void getImagePath4(String type) {
+    print(type);
+    print(gender);
     imageList.add('assets/bodygrapic/$type/$gender/front.png');
-
     imageList.add('assets/bodygrapic/$type/$gender/side_l.png');
     imageList.add('assets/bodygrapic/$type/$gender/side_r.png');
     imageList.add('assets/bodygrapic/$type/$gender/back.png');
@@ -81,7 +93,12 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
   @override
   void initState() {
     super.initState();
-    getData();
+
+    if (widget.mode != 'main') {
+      print('test');
+      getData2();
+    } else
+      getData();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 

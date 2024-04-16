@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class LeaveGroupPage extends StatefulWidget {
   const LeaveGroupPage({Key? key}) : super(key: key);

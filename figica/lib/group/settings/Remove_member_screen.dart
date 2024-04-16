@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:figica/components/member_more.dart';
-import 'package:figica/components/removeMemberOnly_pop.dart';
-import 'package:figica/components/removeMember_changeLeader.dart';
-import 'package:figica/components/removeMembers_pop.dart';
+import 'package:fisica/components/member_more.dart';
+import 'package:fisica/components/removeMemberOnly_pop.dart';
+import 'package:fisica/components/removeMember_changeLeader.dart';
+import 'package:fisica/components/removeMembers_pop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class RemoveMemberPage extends StatefulWidget {
   const RemoveMemberPage({Key? key}) : super(key: key);

@@ -26,7 +26,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
-        android:label="figica"
+        android:label="fisica"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
@@ -77,7 +77,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="figica" android:host="figica.com" />
+                <data android:scheme="fisica" android:host="fisica.com" />
             </intent-filter>
 
         </activity>

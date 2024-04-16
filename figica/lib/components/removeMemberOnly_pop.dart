@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class RemoveMemberOnly extends StatefulWidget {
   final String name;

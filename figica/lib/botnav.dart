@@ -1,6 +1,6 @@
-import 'package:figica/components/No_device.dart';
-import 'package:figica/components/Yes_device.dart';
-import 'package:figica/scan/Foot_Controller.dart';
+import 'package:fisica/components/No_device.dart';
+import 'package:fisica/components/Yes_device.dart';
+import 'package:fisica/scan/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'index.dart'; // 필요한 위젯을 불러오는 부분
 
@@ -28,7 +28,7 @@ class _MarketPageState extends State<MarketPage> {
   }
 
   Future<void> show(BuildContext context) async {
-    await FootprintData.getdevice().then((value) {
+    await DataController.getdevice().then((value) {
       if (value == null) {
         showAlignedDialog(
           context: context,
@@ -104,11 +104,11 @@ class _MarketPageState extends State<MarketPage> {
               ),
               SizedBox(width: 48),
               IconButton(
-                icon: _buildSvgIcon('assets/icons/calendar.svg', _selectedIndex == 3),
+                icon: _buildSvgIcon('assets/icons/calendar.svg', _selectedIndex == 2),
                 onPressed: () => _onItemTapped(2),
               ),
               IconButton(
-                icon: _buildSvgIcon('assets/icons/my.svg', _selectedIndex == 4),
+                icon: _buildSvgIcon('assets/icons/my.svg', _selectedIndex == 3),
                 onPressed: () => _onItemTapped(3),
               ),
             ],

@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:figica/group/Wait_group_Screen.dart';
-import 'package:figica/group/No_group_Screen.dart';
-import 'package:figica/group/Yes_group_Screen.dart';
-import 'package:figica/main.dart';
+import 'package:fisica/group/Wait_group_Screen.dart';
+import 'package:fisica/group/No_group_Screen.dart';
+import 'package:fisica/group/Yes_group_Screen.dart';
+import 'package:fisica/main.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class GroupWidget extends StatefulWidget {
   const GroupWidget({Key? key}) : super(key: key);

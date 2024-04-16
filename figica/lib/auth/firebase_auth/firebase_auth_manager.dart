@@ -199,11 +199,7 @@ class FirebaseAuthManager extends AuthManager
       return;
     }
     final completer = Completer<bool>();
-    // If you'd like auto-verification, without the user having to enter the SMS
-    // code manually. Follow these instructions:
-    // * For Android: https://firebase.google.com/docs/auth/android/phone-auth?authuser=0#enable-app-verification (SafetyNet set up)
-    // * For iOS: https://firebase.google.com/docs/auth/ios/phone-auth?authuser=0#start-receiving-silent-notifications
-    // * Finally modify verificationCompleted below as instructed.
+
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       timeout: Duration(seconds: 0), // Skips Android's default auto-verification
@@ -213,13 +209,6 @@ class FirebaseAuthManager extends AuthManager
           phoneAuthManager.triggerOnCodeSent = false;
           phoneAuthManager.phoneAuthError = null;
         });
-        // If you've implemented auto-verification, navigate to home page or
-        // onboarding page here manually. Uncomment the lines below and replace
-        // DestinationPage() with the desired widget.
-        // await Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (_) => DestinationPage()),
-        // );
       },
       verificationFailed: (e) {
         phoneAuthManager.update(() {
@@ -279,7 +268,7 @@ class FirebaseAuthManager extends AuthManager
       if (userCredential?.user != null) {
         await maybeCreateUser(userCredential!.user!);
       }
-      return userCredential == null ? null : FigicaFirebaseUser.fromUserCredential(userCredential);
+      return userCredential == null ? null : fisicaFirebaseUser.fromUserCredential(userCredential);
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
