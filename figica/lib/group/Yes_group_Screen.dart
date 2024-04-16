@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 // 다른 필요한 패키지들을 여기에 임포트하세요.
 

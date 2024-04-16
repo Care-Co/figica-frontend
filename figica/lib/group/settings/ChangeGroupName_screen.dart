@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:figica/components/groupNamechanged.dart';
+import 'package:fisica/components/groupNamechanged.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class ChangeGroupNamePage extends StatefulWidget {
   const ChangeGroupNamePage({Key? key}) : super(key: key);

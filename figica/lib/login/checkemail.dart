@@ -1,5 +1,5 @@
-import 'package:figica/flutter_set/App_icon_button.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:fisica/flutter_set/App_icon_button.dart';
+import 'package:fisica/flutter_set/fisica_theme.dart';
 
 import '../flutter_set/flutter_util.dart';
 import '../flutter_set/Loding_button_widget.dart';

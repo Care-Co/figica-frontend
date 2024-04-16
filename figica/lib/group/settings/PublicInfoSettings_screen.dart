@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class PublicInfoSettingsPage extends StatefulWidget {
   const PublicInfoSettingsPage({Key? key}) : super(key: key);
@@ -91,7 +91,7 @@ class _PublicInfoSettingsPageState extends State<PublicInfoSettingsPage> {
                           ],
                         ),
                         Switch.adaptive(
-                          value: switchValue1 ??= true,
+                          value: switchValue1,
                           onChanged: (newValue) async {
                             setState(() => switchValue1 = newValue);
                           },
@@ -119,7 +119,7 @@ class _PublicInfoSettingsPageState extends State<PublicInfoSettingsPage> {
                           ],
                         ),
                         Switch.adaptive(
-                          value: switchValue2 ??= true,
+                          value: switchValue2,
                           onChanged: (newValue) async {
                             setState(() => switchValue2 = newValue);
                           },
@@ -147,7 +147,7 @@ class _PublicInfoSettingsPageState extends State<PublicInfoSettingsPage> {
                           ],
                         ),
                         Switch.adaptive(
-                          value: switchValue3 ??= true,
+                          value: switchValue3,
                           onChanged: (newValue) async {
                             setState(() => switchValue3 = newValue);
                           },
@@ -175,7 +175,7 @@ class _PublicInfoSettingsPageState extends State<PublicInfoSettingsPage> {
                           ],
                         ),
                         Switch.adaptive(
-                          value: switchValue4 ??= true,
+                          value: switchValue4,
                           onChanged: (newValue) async {
                             setState(() => switchValue4 = newValue);
                           },

@@ -1,8 +1,8 @@
-import 'package:figica/components/check_cancel_invite.dart';
+import 'package:fisica/components/check_cancel_invite.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 import 'package:http/http.dart';
 
 class RemoveMembers extends StatefulWidget {

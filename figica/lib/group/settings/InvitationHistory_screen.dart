@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class GroupJoinHistory extends StatefulWidget {
   const GroupJoinHistory({Key? key}) : super(key: key);

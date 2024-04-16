@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'config_model.dart';
 export 'config_model.dart';
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class ConfigWidget extends StatefulWidget {
   const ConfigWidget({Key? key}) : super(key: key);

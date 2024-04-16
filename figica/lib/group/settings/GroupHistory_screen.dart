@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:figica/components/Setting_type.dart';
+import 'package:fisica/components/Setting_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class ButtonPopup {
   String title;

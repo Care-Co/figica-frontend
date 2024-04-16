@@ -1,6 +1,6 @@
-import 'package:figica/flutter_set/flutter_flow_model.dart';
-import 'package:figica/flutter_set/form_field_controller.dart';
-import 'package:figica/login/User_info_widget.dart';
+import 'package:fisica/flutter_set/flutter_flow_model.dart';
+import 'package:fisica/flutter_set/form_field_controller.dart';
+import 'package:fisica/login/User_info_widget.dart';
 
 import 'package:flutter/material.dart';
 

@@ -14,13 +14,11 @@ Future initFirebase() async {
             appId: "1:1070443989491:web:cf88120bfbc85eee2aea86",
             measurementId: "G-VZHK2G2CP1"));
     await FirebaseAppCheck.instance.activate(
-      webRecaptchaSiteKey: '6LfvOBgpAAAAAO6Sk8m65hEr8CKAelzcdbx9MxLT',
       androidProvider: AndroidProvider.debug,
     );
   } else {
     await Firebase.initializeApp();
     await FirebaseAppCheck.instance.activate(
-      webRecaptchaSiteKey: '6LfvOBgpAAAAAO6Sk8m65hEr8CKAelzcdbx9MxLT',
       androidProvider: AndroidProvider.debug,
     );
   }

@@ -1,7 +1,7 @@
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/flutter_drop_down.dart';
-import 'package:figica/flutter_set/form_field_controller.dart';
-import 'package:figica/flutter_set/internationalization.dart';
+import 'package:fisica/flutter_set/fisica_theme.dart';
+import 'package:fisica/flutter_set/flutter_drop_down.dart';
+import 'package:fisica/flutter_set/form_field_controller.dart';
+import 'package:fisica/flutter_set/internationalization.dart';
 import 'package:flutter/material.dart';
 
 class CustomInputField extends StatefulWidget {

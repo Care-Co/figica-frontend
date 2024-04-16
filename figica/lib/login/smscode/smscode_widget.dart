@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:figica/User_Controller.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
+import 'package:fisica/User_Controller.dart';
+import 'package:fisica/flutter_set/fisica_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../flutter_set/App_icon_button.dart';

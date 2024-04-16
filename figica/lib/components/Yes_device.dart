@@ -33,7 +33,7 @@ class _YesDiviceState extends State<YesDivice> {
             children: [
               TextButton(
                   onPressed: () {
-                    context.goNamed('Footprint');
+                    context.goNamed('Footprint', extra: 'main');
                   },
                   child: Text(
                     SetLocalizations.of(context).getText(
@@ -50,9 +50,7 @@ class _YesDiviceState extends State<YesDivice> {
                     dashColor: AppColors.primaryBackground, // 점선의 색상
                   )),
               TextButton(
-                onPressed: () {
-                  context.goNamed('Footprint');
-                },
+                onPressed: () {},
                 child: Text(
                   SetLocalizations.of(context).getText(
                     'qlwjsqnsjr' /*  */,

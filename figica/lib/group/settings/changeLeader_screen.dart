@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:figica/components/changeLeader_pop.dart';
+import 'package:fisica/components/changeLeader_pop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class ChangeLeaderPage extends StatefulWidget {
   const ChangeLeaderPage({Key? key}) : super(key: key);

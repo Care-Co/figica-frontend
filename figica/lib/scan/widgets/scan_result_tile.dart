@@ -1,4 +1,4 @@
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 import 'package:flutter/material.dart';
 
 class ScanResultTile extends StatefulWidget {

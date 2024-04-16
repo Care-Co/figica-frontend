@@ -1,9 +1,11 @@
-import 'package:figica/scan/Foot_Controller.dart';
-import 'package:figica/scan/switch.dart';
+import 'package:fisica/scan/Foot_Controller.dart';
+import 'package:fisica/scan/switch.dart';
 import 'package:flutter/material.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class ScanData extends StatefulWidget {
+  final String mode;
+  const ScanData({Key? key, required this.mode}) : super(key: key);
   @override
   _ScanDataState createState() => _ScanDataState();
 }
@@ -14,11 +16,16 @@ class _ScanDataState extends State<ScanData> {
   String type = '';
   String typetitle = '';
   String typeScript = '';
+  bool main = true;
 
   @override
   void initState() {
     super.initState();
     getData();
+    if (widget.mode != 'main') {
+      main = false;
+    }
+
     //WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -31,10 +38,10 @@ class _ScanDataState extends State<ScanData> {
   }
 
   Future<void> getData() async {
-    var tempData = await FootprintData.getDataFromSharedPreferences();
+    var tempData = await DataController.get_apiData();
     print(tempData);
     data = tempData;
-    settype(tempData['data']['classType']);
+    settype(main ? tempData['classType'] : tempData['footprintClassType']);
   }
 
   void settype(int typeint) {
@@ -205,7 +212,7 @@ class _ScanDataState extends State<ScanData> {
                                                       Padding(
                                                         padding: const EdgeInsets.only(top: 12),
                                                         child: Text(
-                                                          data['data']['accuracy'].toString() + '%',
+                                                          main ? data['accuracy'].toString() + '%' : data['footprintAccuracy'].toString() + '%',
                                                           style: AppFont.b24.overrides(fontSize: 20),
                                                         ),
                                                       )
@@ -231,7 +238,7 @@ class _ScanDataState extends State<ScanData> {
                                                       Padding(
                                                         padding: const EdgeInsets.only(top: 12),
                                                         child: Text(
-                                                          data['data']['weight'].toString() + 'kg',
+                                                          main ? data['weight'].toString() + 'kg' : data['footprintWeight'].toString() + 'kg',
                                                           style: AppFont.b24.overrides(fontSize: 20),
                                                         ),
                                                       )
@@ -259,7 +266,9 @@ class _ScanDataState extends State<ScanData> {
                               width: double.infinity,
                               child: Column(
                                 children: [
-                                  ToggleImageSwitch(),
+                                  ToggleImageSwitch(
+                                    mode: widget.mode,
+                                  ),
                                 ],
                               ),
                             ),
@@ -292,7 +301,7 @@ class _ScanDataState extends State<ScanData> {
             ),
             child: LodingButtonWidget(
               onPressed: () async {
-                context.goNamed('Footprint');
+                main ? context.goNamed('Footprint', extra: 'main') : context.goNamed('testFootprint', extra: 'tester');
               },
               text: '다시 측정하기',
               options: LodingButtonOptions(

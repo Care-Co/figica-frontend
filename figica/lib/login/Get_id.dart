@@ -1,9 +1,9 @@
 import 'package:aligned_dialog/aligned_dialog.dart';
-import 'package:figica/User_Controller.dart';
-import 'package:figica/components/SignUp_Fail.dart';
-import 'package:figica/flutter_set/App_icon_button.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/login/custom_input_field.dart';
+import 'package:fisica/User_Controller.dart';
+import 'package:fisica/components/SignUp_Fail.dart';
+import 'package:fisica/flutter_set/App_icon_button.dart';
+import 'package:fisica/flutter_set/fisica_theme.dart';
+import 'package:fisica/login/custom_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '../flutter_set/flutter_util.dart';
@@ -282,7 +282,7 @@ class _GetidWidgetState extends State<GetidWidget> {
                                                   _verificationId = verificationId;
                                                   context.goNamed(
                                                     'smscode',
-                                                    queryParameters: {'verificationId': _verificationId, 'phone': phoneNumberVal, 'setinfo': 'true'},
+                                                    extra: {'verificationId': _verificationId, 'phone': phoneNumberVal, 'setinfo': 'true'},
                                                   );
                                                 },
                                                 codeAutoRetrievalTimeout: (String verificationId) {});

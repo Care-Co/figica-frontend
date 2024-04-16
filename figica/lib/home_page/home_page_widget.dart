@@ -1,8 +1,8 @@
-import 'package:figica/home_page/home_info.dart';
-import 'package:figica/home_page/avata_widget.dart';
+import 'package:fisica/home_page/home_info.dart';
+import 'package:fisica/home_page/avata_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({Key? key}) : super(key: key);
@@ -72,7 +72,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             backgroundColor: AppColors.Black,
             automaticallyImplyLeading: false,
             flexibleSpace: FutureBuilder(
-                future: getData(), // 비동기 함수를 FutureBuilder의 future로 지정합니다.
+                future: getData(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());

@@ -1,10 +1,10 @@
-import 'package:figica/components/cancel_code.dart';
+import 'package:fisica/components/cancel_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:social_share/social_share.dart';
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 Widget buildCircularShareButton(IconData icon) {
   return GestureDetector(

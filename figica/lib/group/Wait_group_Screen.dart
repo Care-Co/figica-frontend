@@ -1,9 +1,9 @@
-import 'package:figica/components/cancel_invitation.dart';
-import 'package:figica/group/join_group.dart';
+import 'package:fisica/components/cancel_invitation.dart';
+import 'package:fisica/group/join_group.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 // 다른 필요한 패키지들을 여기에 임포트하세요.
 

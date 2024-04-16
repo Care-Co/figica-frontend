@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class InvitationCodeManagementPage extends StatefulWidget {
   const InvitationCodeManagementPage({Key? key}) : super(key: key);

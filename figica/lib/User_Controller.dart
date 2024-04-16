@@ -1,13 +1,15 @@
 import 'dart:convert';
+import 'package:fisica/scan/Foot_Controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class UserController {
   static const _keyToken = 'jwtToken';
   static const _uid = 'uid';
   static const _userdata = 'userdata';
+  static const _testuserdata = 'testuserdata';
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   late AppStateNotifier _appStateNotifier;
 
@@ -87,36 +89,22 @@ class UserController {
     }
     return true;
   }
-  // static Future<String> signUpWithPhone(String token, String phoneNumber) async {
-  //   print('getapitoken');
-  //   final url = Uri.parse('http://203.232.210.68:8080/api/v1/user/signup/phone');
-  //   Map<String, dynamic> requestData = {"phoneNumber": phoneNumber};
 
-  //   try {
-  //     final response = await http.post(
-  //       url,
-  //       headers: <String, String>{
-  //         'accept': '*/*',
-  //         'Authorization': 'Bearer $token',
-  //       },
-  //       body: jsonEncode(requestData),
-  //     );
-  //     if (response.statusCode == 201) {
-  //       var jsonResponse = jsonDecode(response.body);
-  //       String newtoken = jsonResponse['token'];
-  //       await UserController.setToken(newtoken, false);
-  //       await getprofile(newtoken);
-  //       return jsonResponse['token'];
-  //     } else {
-  //       print(response.statusCode);
-  //       print('Failed to fetch token');
-  //       return 'Null';
-  //     }
-  //   } catch (e) {
-  //     print('Error: $e');
-  //     return 'Null';
-  //   }
-  // }
+  static Future<void> deleteUser() async {
+    print('deleteUser');
+    final String? token = await UserController.getsavedToken();
+    await UserController.getuserinfo().then((temdata) async {
+      String? uid = temdata['uid'];
+      print(uid);
+
+      var url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid');
+      var headers = {'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+
+      var response = await http.delete(url, headers: headers);
+      print(response.body);
+      UserController.removeToken();
+    });
+  }
 
   // 토큰 생성
   static Future<void> getapiToken(String token) async {
@@ -149,7 +137,6 @@ class UserController {
     if (token.isNotEmpty) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_keyToken, token);
-      print('Ok -------- setToken');
       if (update) {
         AppStateNotifier.instance.update(token);
       }
@@ -160,24 +147,20 @@ class UserController {
 
   // 토큰 가져오기
   static Future<String?> getsavedToken() async {
-    print('Start -------- getsavedtoken');
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getString(_keyToken) == null) {
       return null;
     } else {
-      print('Ok -------- getsavedtoken');
       return prefs.getString(_keyToken);
     }
   }
 
   static Future<void> saveuid(String uid) async {
-    print('saveuid');
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_uid, uid);
   }
 
   static Future<String?> getsaveduid() async {
-    print('getsavedtoken');
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getString(_uid) == null) {
       return 'Null';
@@ -190,6 +173,7 @@ class UserController {
   static Future<String?> removeToken() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_keyToken);
+    AppStateNotifier.instance.delete();
     print('removeToken');
     return null;
   }
@@ -211,8 +195,10 @@ class UserController {
       "gender": gender,
       "height": height,
       "weight": weight,
-      "optionRegion": optionRegion
+      //"region": optionRegion
     });
+    print(headers);
+    print(body);
 
     try {
       final response = await http.post(url, headers: headers, body: body);
@@ -221,6 +207,62 @@ class UserController {
         print('Response data: $decodedBody');
         var jsonResponse = jsonDecode(decodedBody);
         setToken(jsonResponse['token']['accessToken'], true);
+        saveuserinfo(jsonResponse['data']);
+        return true;
+      } else {
+        print('Failed to update profile: ${response.statusCode}');
+        var jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        return false;
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+      return false;
+    }
+  }
+
+  static Future<void> updatetester(
+      String birthday, String firstName, String lastName, String gender, double height, double weight, String optionRegion) async {
+    print('Start -------- updatetester');
+    Map<String, dynamic> body = ({
+      "birthday": birthday,
+      'firstName': firstName,
+      "lastName": lastName,
+      "gender": gender,
+      "height": height,
+      "weight": weight,
+      "region": optionRegion
+    });
+    await savetester(body);
+  }
+
+  static Future<bool> modiProfile(
+      String birthday, String firstName, String lastName, String gender, double height, double weight, String optionRegion) async {
+    print('Start -------- updateProfile');
+    final url = Uri.parse('http://203.232.210.68:8080/api/v1/profileUpdate');
+    String? token = await getsavedToken();
+    final headers = {
+      'accept': '*/*',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+    final body = jsonEncode({
+      "birthday": birthday,
+      'firstName': firstName,
+      "lastName": lastName,
+      "gender": gender,
+      "height": height,
+      "weight": weight,
+      "region": optionRegion
+    });
+
+    try {
+      final response = await http.put(url, headers: headers, body: body);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        print('Response data: $decodedBody');
+        var jsonResponse = jsonDecode(decodedBody);
         saveuserinfo(jsonResponse['data']);
         return true;
       } else {
@@ -260,21 +302,19 @@ class UserController {
     }
   }
 
-  static Future<void> saveuserinfo(Map<String, dynamic> data) async {
+  static Future<bool> saveuserinfo(Map<String, dynamic> data) async {
     print('saveuserinfo');
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_userdata, jsonEncode(data));
+    AppStateNotifier.instance.notifyListeners();
+    return true;
   }
 
   static Future<Map<String, dynamic>> getuserinfo() async {
     print('Start ------ getuserinfo');
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getString(_userdata) == null) {
-      return {
-        'status': null,
-        'message': null,
-        'data': {'accuracy': 0, 'battery': 0, 'classType': 10, 'url': null, 'weight': 0}
-      };
+      return {};
     } else {
       String? jsonData = prefs.getString(_userdata);
 
@@ -282,10 +322,178 @@ class UserController {
     }
   }
 
-  static Future<String?> removedata() async {
+  static Future<String?> remove_userdata() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_userdata);
+    print('remove_userdata');
+    return null;
+  }
+
+  static Future<bool> savetester(Map<String, dynamic> data) async {
+    print('saveuserinfo');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_testuserdata, jsonEncode(data));
+    AppStateNotifier.instance.notifyListeners();
+    return true;
+  }
+
+  static Future<Map<String, dynamic>> gettester() async {
+    print('Start ------ getuserinfo');
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(_testuserdata) == null) {
+      return {};
+    } else {
+      String? jsonData = prefs.getString(_testuserdata);
+
+      return jsonDecode(jsonData!);
+    }
+  }
+
+  static Future<String?> removetester() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_testuserdata);
     print('removedata');
+    return null;
+  }
+}
+
+//------------------------DataController-------------------------------//
+class DataController {
+  static const _apiData = 'apiData';
+  static const _foothistory = 'foothistory';
+  static const _weighthistory = 'weighthistory';
+  static const _device = 'device';
+  static const _platformName = 'platformName';
+
+  static Future<bool> save_apiData(Map<String, dynamic> data) async {
+    print('save_apiData->');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_apiData, jsonEncode(data));
+    AppStateNotifier.instance.notifyListeners();
+    return true;
+  }
+
+  static Future<Map<String, dynamic>> get_apiData() async {
+    print('get_apiData->');
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(_apiData) == null) {
+      return {
+        'status': null,
+        'message': null,
+        'data': {'accuracy': 0, 'battery': 0, 'classType': 10, 'url': null, 'weight': 0}
+      };
+    } else {
+      String? jsonData = prefs.getString(_apiData);
+
+      return jsonDecode(jsonData!);
+    }
+  }
+
+  static Future<void> removedate() async {
+    print('Removing data');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_apiData);
+      await prefs.remove(_weighthistory);
+      await prefs.remove(_foothistory);
+
+      print('Data removal completed successfully.');
+    } catch (e) {
+      print('Error removing data: $e');
+      throw 'Failed to remove data';
+    }
+  }
+
+  static Future<bool> savefoothistory(dynamic data) async {
+    print('발 저장 시작');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_foothistory, jsonEncode(data));
+    print(data);
+
+    AppStateNotifier.instance.notifyListeners();
+    print('발 저장 완료');
+    return true;
+  }
+
+  static Future<List<FootData>> getfoothistory() async {
+    print('발 가져오기 시작');
+
+    final prefs = await SharedPreferences.getInstance();
+    String? jsonData = prefs.getString(_foothistory);
+
+    if (jsonData == null) return [];
+
+    List<dynamic> jsonList = jsonDecode(jsonData);
+    List<FootData> footList = jsonList.map((json) => FootData.fromJson(json)).toList();
+    print('발 가져오기 완료');
+
+    return footList;
+  }
+
+  static Future<bool> saveweighthistory(dynamic data) async {
+    print('체중 저장 시작');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_weighthistory, jsonEncode(data));
+    AppStateNotifier.instance.notifyListeners();
+    print('체중 저장 완료');
+
+    return true;
+  }
+
+  static Future<List<WeightData>> getWeightHistory() async {
+    print('체중 가져오기 시작');
+
+    final prefs = await SharedPreferences.getInstance();
+    final String? jsonData = prefs.getString(_weighthistory);
+
+    if (jsonData == null) return [];
+
+    List<dynamic> jsonList = jsonDecode(jsonData);
+    List<WeightData> weightList = jsonList.map((json) => WeightData.fromJson(json)).toList();
+    print('체중 가저오기 완료');
+
+    return weightList;
+  }
+
+  static Future<void> savedevice(String device) async {
+    print('savedevice');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_device, device.toString());
+  }
+
+  static Future<void> savedevicename(String platformName) async {
+    print('savedevicename');
+    print(platformName);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_platformName, platformName.toString());
+  }
+
+  static Future<String?> getdevice() async {
+    print('getdevice');
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(_device) == null) {
+      return null;
+    } else {
+      return prefs.getString(_device);
+    }
+  }
+
+  static Future<String?> getdevicename() async {
+    print('getdevicename');
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(_platformName) == null) {
+      return null;
+    } else {
+      return prefs.getString(_platformName);
+    }
+  }
+
+  // 디바이스 삭제
+  static Future<String?> removedevice() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_device);
+    await prefs.remove(_platformName);
+    print('removeall');
     return null;
   }
 }

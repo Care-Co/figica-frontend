@@ -76,14 +76,41 @@ class _LoginWidgetState extends State<LoginWidget> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            'assets/images/symbol.png',
-                            width: 83.0,
-                            height: 79.0,
-                            fit: BoxFit.cover,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                'assets/images/symbol.png',
+                                width: 83.0,
+                                height: 79.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            LodingButtonWidget(
+                              onPressed: () async {
+                                context.pushNamed('Guest_agree_tos');
+                              },
+                              text: SetLocalizations.of(context).getText(
+                                'cpgjahem',
+                              ),
+                              options: LodingButtonOptions(
+                                height: 28.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 5.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                color: AppColors.primaryBackground,
+                                textStyle: AppFont.s18.overrides(fontSize: 12, color: AppColors.Gray300),
+                                elevation: 0,
+                                borderSide: BorderSide(
+                                  color: AppColors.Gray300,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(14.0),
+                              ),
+                            ),
+                          ],
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0.0, 22.0, 0.0, 0.0),
@@ -232,7 +259,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           _verificationId = verificationId;
                                           context.pushNamed(
                                             'smscode',
-                                            queryParameters: {'verificationId': _verificationId, 'phone': id, 'setinfo': 'false'},
+                                            extra: {'verificationId': _verificationId, 'phone': id, 'setinfo': 'false'},
                                           );
                                           setState(() {});
                                         },

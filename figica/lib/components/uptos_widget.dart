@@ -1,6 +1,6 @@
-import 'package:figica/flutter_set/Loding_button_widget.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/flutter_set/internationalization.dart';
+import 'package:fisica/flutter_set/Loding_button_widget.dart';
+import 'package:fisica/flutter_set/fisica_theme.dart';
+import 'package:fisica/flutter_set/internationalization.dart';
 
 import '../flutter_set/flutter_util.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +8,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class UptosWidget extends StatefulWidget {
-  const UptosWidget({Key? key, required this.onAgree}) : super(key: key);
-
+  final int index;
   final Function(bool) onAgree;
+
+  const UptosWidget({Key? key, required this.onAgree, required this.index}) : super(key: key);
+
   @override
   _UptosWidgetState createState() => _UptosWidgetState();
 }
@@ -31,6 +33,22 @@ class _UptosWidgetState extends State<UptosWidget> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future<String> loadTextFileContent(int index) async {
+    String text = '';
+    switch (index) {
+      case 1:
+        text = await rootBundle.loadString('assets/text/service_agreement.txt');
+        break;
+      case 2:
+        text = await rootBundle.loadString('assets/text/info_agreement.txt');
+        break;
+      case 3:
+        text = await rootBundle.loadString('assets/text/ad_agreement.txt');
+        break;
+    }
+    return text;
   }
 
   @override
@@ -80,39 +98,55 @@ class _UptosWidgetState extends State<UptosWidget> {
                     style: AppFont.b24),
               ),
               Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 56.0,
-                      decoration: BoxDecoration(color: AppColors.primaryBackground),
-                      child: LodingButtonWidget(
-                        onPressed: () async {
-                          widget.onAgree(true);
-                          Navigator.pop(context);
-                        },
-                        text: SetLocalizations.of(context).getText(
-                          'hz0ov3hg' /* 동의 */,
+                child: FutureBuilder<String>(
+                  future: loadTextFileContent(widget.index),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return SingleChildScrollView(
+                          child: Text(snapshot.data ?? '내용이 비어있습니다.', style: AppFont.r16),
+                        );
+                      }
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 56.0,
+                    decoration: BoxDecoration(color: AppColors.primaryBackground),
+                    child: LodingButtonWidget(
+                      onPressed: () async {
+                        widget.onAgree(true);
+                        Navigator.pop(context);
+                      },
+                      text: SetLocalizations.of(context).getText(
+                        'hz0ov3hg' /* 동의 */,
+                      ),
+                      options: LodingButtonOptions(
+                        height: 40.0,
+                        padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                        iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: AppColors.Black,
+                        textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                        elevation: 3.0,
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1.0,
                         ),
-                        options: LodingButtonOptions(
-                          height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                          color: AppColors.Black,
-                          textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
-                          elevation: 3.0,
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

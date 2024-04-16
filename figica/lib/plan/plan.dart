@@ -2,7 +2,7 @@ import '../flutter_set/App_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:figica/index.dart';
+import 'package:fisica/index.dart';
 
 class planWidget extends StatefulWidget {
   const planWidget({Key? key}) : super(key: key);

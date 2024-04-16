@@ -1,9 +1,13 @@
-import 'package:figica/index.dart';
-import 'package:figica/scan/Foot_Controller.dart';
+import 'package:fisica/index.dart';
+import 'package:fisica/scan/Foot_Controller.dart';
+import 'package:flutter/material.dart';
+
+import 'package:fisica/index.dart';
+import 'package:fisica/scan/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 
 class Avata extends StatefulWidget {
-  const Avata({super.key});
+  const Avata({Key? key}) : super(key: key);
 
   @override
   _AvataState createState() => _AvataState();
@@ -14,84 +18,88 @@ class _AvataState extends State<Avata> {
   String type = '';
   String typeavt = '';
   bool typeok = false;
+  bool isLoading = true; // 추가: 데이터 로딩 상태 표시
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   Future<void> getData() async {
-    var tempData = await FootprintData.getDataFromSharedPreferences();
-    print(tempData);
-    data = tempData;
-    settype(tempData['data']['classType']);
+    var tempData = await DataController.get_apiData();
+    print('getData = $tempData');
+    if (mounted) {
+      setState(() {
+        data = tempData;
+        settype(tempData['classType']);
+        isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<void>(
-      future: getData(), // Your async data retrieval function
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 460,
-            child: Stack(
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: 460,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: <Widget>[
+          Positioned(
+            child: Container(
+              height: 460,
+              width: MediaQuery.of(context).size.width,
               alignment: Alignment.bottomCenter,
-              children: <Widget>[
-                Positioned(
-                  child: Container(
-                    height: 460,
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.bottomCenter,
-                    child: Image.asset(
-                      'assets/images/footsheet.png',
-                    ),
+              child: Image.asset(
+                'assets/images/footsheet.png',
+              ),
+            ),
+          ),
+          if (typeok)
+            Positioned(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Container(
+                  height: 460,
+                  width: MediaQuery.of(context).size.width,
+                  child: ModelViewer(
+                    backgroundColor: Colors.transparent,
+                    src: typeavt,
+                    alt: 'A 3D model of an astronaut',
+                    autoRotate: false,
+                    cameraControls: true,
+                    disableZoom: true,
+                    cameraOrbit: "30deg 90deg auto",
+                    minCameraOrbit: "auto 90deg auto",
+                    maxCameraOrbit: "auto 90deg auto",
                   ),
                 ),
-                if (typeok)
-                  Positioned(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Container(
-                        height: 460,
-                        width: MediaQuery.of(context).size.width,
-                        child: ModelViewer(
-                          backgroundColor: Colors.transparent,
-                          src: typeavt,
-                          alt: 'A 3D model of an astronaut',
-                          autoRotate: false,
-                          cameraControls: true,
-                          disableZoom: true,
-                          cameraOrbit: "30deg 90deg auto",
-                          minCameraOrbit: "auto 90deg auto",
-                          maxCameraOrbit: "auto 90deg auto",
-                        ),
-                      ),
-                    ),
-                  ),
-                if (!typeok)
-                  Positioned(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 30.0),
-                      child: Container(
-                        height: 460,
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.bottomCenter,
-                        child: Image.asset(
-                          'assets/images/noavt.png',
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+              ),
             ),
-          );
-        } else {
-          // While waiting for the Future to complete, show a loading spinner
-          return Center(child: CircularProgressIndicator());
-        }
-      },
+          if (!typeok)
+            Positioned(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 30.0),
+                child: Container(
+                  height: 460,
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.bottomCenter,
+                  child: Image.asset(
+                    'assets/images/noavt.png',
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
-  // Dummy placeholder for settype method, replace with your actual method
-  void settype(int typeint) {
+  void settype(var typeint) {
     switch (typeint) {
       case 0:
         type = '정상발';

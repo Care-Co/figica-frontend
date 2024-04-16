@@ -597,6 +597,161 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
+    'vmfhvlfv': {
+      'ko': '프로필 편집',
+      'en': '',
+      'ja': '',
+    },
+    'dkqkxk': {
+      'ko': '아바타 보기',
+      'en': '',
+      'ja': '',
+    },
+    'tnwjd': {
+      'ko': '수정',
+      'en': '',
+      'ja': '',
+    },
+    'vmfhvlfvuswl': {
+      'ko': '프로필 편집을 중단하고\n화면을 나가겠습니까?',
+      'en': '',
+      'ja': '',
+    },
+    'dhksfydhksy': {
+      'ko': '수정 내용을 저장하려면\n수정 완료 버튼을 눌러주세요',
+      'en': '',
+      'ja': '',
+    },
+    'ttnwjddhks': {
+      'ko': '수정 완료',
+      'en': '',
+      'ja': '',
+    },
+    'vuswlqskrlrl': {
+      'ko': '프로필 편집 나가기',
+      'en': '',
+      'ja': '',
+    },
+    'sodkqkxk': {
+      'ko': '내 아바타',
+      'en': '',
+      'ja': '',
+    },
+    'rjsrkdwjdqh': {
+      'ko': '건강 정보',
+      'en': '',
+      'ja': '',
+    },
+    'rpwjddktn': {
+      'ko': '계정 로그아웃',
+      'en': '',
+      'ja': '',
+    },
+    'dkffkashsh': {
+      'ko': '지금 로그아웃하면 이 디바이스에서\n알림을 받을 수 없어요',
+      'en': '',
+      'ja': '',
+    },
+    'xkfxhl': {
+      'ko': '서비스 탈퇴',
+      'en': '',
+      'ja': '',
+    },
+    'dldydahtgo': {
+      'ko': '지금 서비스를 \nFisica에서 제공하는 서비스를\n더 이상 이용할 수 없어요',
+      'en': '',
+      'ja': '',
+    },
+    'fhdnrkdtn': {
+      'ko': '로그아웃 완료',
+      'en': '',
+      'ja': '',
+    },
+    'ektlgodkf': {
+      'ko': '로그아웃이 완료되었습니다.\n서비스를 이용하려면 다시 로그인해 주세요',
+      'en': '',
+      'ja': '',
+    },
+    'xkfehldks': {
+      'ko': '서비스 탈퇴 완료',
+      'en': '',
+      'ja': '',
+    },
+    'dkssud': {
+      'ko': '다시 만나길 기다릴게요!\n안녕히 가세요',
+      'en': '',
+      'ja': '',
+    },
+    'fhrmdktn': {
+      'ko': '로그아웃',
+      'en': '',
+      'ja': '',
+    },
+    'xkfxhlgkrl': {
+      'ko': '탈퇴하기',
+      'en': '',
+      'ja': '',
+    },
+    'cpgjahem': {
+      'ko': '체험 모드',
+      'en': '',
+      'ja': '',
+    },
+    'gmrwjdg': {
+      'ko': '측정 히스토리',
+      'en': '',
+      'ja': '',
+    },
+    'dmmldlfwjd': {
+      'ko': '의 일정',
+      'en': '',
+      'ja': '',
+    },
+    'cmrwjdgltm': {
+      'ko': '측정 히스토리',
+      'en': '',
+      'ja': '',
+    },
+    'goeidkfwk': {
+      'ko': '해당 일자 선택',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
+      'en': '',
+      'ja': '',
+    },
+    '': {
+      'ko': '',
+      'en': '',
+      'ja': '',
+    },
     '': {
       'ko': '',
       'en': '',
@@ -885,12 +1040,17 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ja': '',
     },
     '7rstmxvf': {
-      'ko': '이용 약관 동의',
+      'ko': '이용 약관 동의(필수)',
       'en': '',
       'ja': '',
     },
     'mqd24b0b': {
-      'ko': '이용 약관 동의',
+      'ko': '개인정보 수집 및 이용 동의(필수)',
+      'en': '',
+      'ja': '',
+    },
+    'dlsla': {
+      'ko': '광고성 정보 수신 동의(선택)',
       'en': '',
       'ja': '',
     },
@@ -1047,7 +1207,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // mypage
   {
     'qqpwooly': {
-      'ko': 'Page Title',
+      'ko': '마이페이지',
       'en': '',
       'ja': '',
     },

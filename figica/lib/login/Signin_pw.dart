@@ -1,6 +1,6 @@
-import 'package:figica/flutter_set/App_icon_button.dart';
-import 'package:figica/flutter_set/figica_theme.dart';
-import 'package:figica/User_Controller.dart';
+import 'package:fisica/flutter_set/App_icon_button.dart';
+import 'package:fisica/flutter_set/fisica_theme.dart';
+import 'package:fisica/User_Controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../flutter_set/flutter_util.dart';
 import '../flutter_set/Loding_button_widget.dart';
@@ -322,7 +322,7 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                                     try {
                                       bool singup = await UserController.signUpWithEmail(widget.email, _model.pwController.text);
                                       if (singup) {
-                                        context.goNamed('userinfo');
+                                        context.goNamed('singup_userinfo');
                                       } else {
                                         print('Failed to create ');
                                         ScaffoldMessenger.of(context).showSnackBar(
