@@ -16,9 +16,9 @@ class MypageWidget extends StatefulWidget {
 class _MypageWidgetState extends State<MypageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var data;
-  late List<WeightData> weightData;
-  late List<FootData> footData;
-  var historyData;
+  var weightData;
+  var footData;
+  List<dynamic> historyData = [];
   Future? _loadDataFuture;
 
   late int agedata = 0;
@@ -39,36 +39,30 @@ class _MypageWidgetState extends State<MypageWidget> {
     }
   }
 
-  void sortData(var data) {
-    print(data.toString());
-    data.sort((a, b) {
-      DateTime dateTimeA = DateTime.parse("${a.measuredDate} ${a.measuredTime}");
-      DateTime dateTimeB = DateTime.parse("${b.measuredDate} ${b.measuredTime}");
-      return dateTimeB.compareTo(dateTimeA);
-    });
-  }
-
   Future<void> getData() async {
     final now = DateTime.now();
 
     print('homepage ---- getData');
     try {
       data = await UserController.getuserinfo();
-      await WeightData.getweighthistory('${now.year}', '${now.month}');
-      weightData = await DataController.getWeightHistory();
-      print(weightData.length);
+      print(data);
 
-      await FootData.getfoothistory('${now.year}', '${now.month}');
-      footData = await DataController.getfoothistory();
-      print(footData.length);
+      await footDataClass.getfoothistory('${now.year}', '${now.month}').then((value) async {
+        footData = await DataController.getfoothistory();
+        footDataClass.sortData(footData);
+        print(footData.toString());
+      });
+      await WeightDataClass.getweighthistory('${now.year}', '${now.month}').then((value) async {
+        weightData = await DataController.getWeightHistory();
+        WeightDataClass.sortData(weightData);
+        print(weightData.toString());
+      });
 
-      sortData(weightData);
-      sortData(footData);
       historyData = [...weightData, ...footData];
-      sortData(historyData);
+
       print(historyData.toString());
 
-      agedata = calculateAge(data['profile']['birthday']);
+      agedata = calculateAge(data['birthday']);
       print('age : ${agedata}');
     } catch (e) {
       print(e);
@@ -182,7 +176,7 @@ class _MypageWidgetState extends State<MypageWidget> {
                                                 style: AppFont.s12.overrides(color: AppColors.Gray300),
                                               ),
                                               Text(
-                                                data['profile']['gender'],
+                                                data['gender'],
                                                 style: AppFont.s12.overrides(color: AppColors.Gray300),
                                               ),
                                             ],
@@ -273,7 +267,7 @@ class _MypageWidgetState extends State<MypageWidget> {
                                             height: 2,
                                           ),
                                           Text(
-                                            data['profile']['height'].toString() + 'cm',
+                                            data['height'].toString() + 'cm',
                                             style: AppFont.s12.overrides(fontSize: 16, color: AppColors.primaryBackground),
                                           )
                                         ],
@@ -299,10 +293,10 @@ class _MypageWidgetState extends State<MypageWidget> {
                                           SizedBox(
                                             height: 2,
                                           ),
-                                          // Text(
-                                          //   weightData[0].weight.toString() + 'kg',
-                                          //   style: AppFont.s12.overrides(fontSize: 16, color: AppColors.primaryBackground),
-                                          // )
+                                          Text(
+                                            data['weight'].toString() + 'cm',
+                                            style: AppFont.s12.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                                          )
                                         ],
                                       ),
                                     )
@@ -356,33 +350,33 @@ class _MypageWidgetState extends State<MypageWidget> {
                                   //   itemBuilder: (context, index) {
                                   //     final item = historyData[index];
                                   //     return ListTile(
-                                  //       title: item is WeightData ? Text('Weight: ${item.weight} kg') : Text('Class Type: ${item.classType}'),
+                                  //       title: item is WeightDataClass ? Text('Weight: ${item.weight} kg') : Text('Class Type: ${item.classType}'),
                                   //       subtitle: Text('Measured at: ${item.dateTime}'),
-                                  //       trailing: item is FootData ? Image.network(item.imageUrl, width: 50, height: 50) : null,
+                                  //       trailing: item is footDataClass ? Image.network(item.imageUrl, width: 50, height: 50) : null,
                                   //     );
                                   //   },
                                   // ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        SetLocalizations.of(context).getText('dmmldlfwjd'),
-                                        style: AppFont.b24.overrides(fontSize: 20, color: AppColors.primaryBackground),
-                                      ),
-                                      AppIconButton(
-                                        borderColor: Colors.transparent,
-                                        borderRadius: 20.0,
-                                        borderWidth: 1.0,
-                                        buttonSize: 40.0,
-                                        icon: Icon(
-                                          Icons.chevron_right_rounded,
-                                          color: AppColors.primaryBackground,
-                                          size: 20.0,
-                                        ),
-                                        onPressed: () async {},
-                                      ),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     Text(
+                                  //       SetLocalizations.of(context).getText('dmmldlfwjd'),
+                                  //       style: AppFont.b24.overrides(fontSize: 20, color: AppColors.primaryBackground),
+                                  //     ),
+                                  //     AppIconButton(
+                                  //       borderColor: Colors.transparent,
+                                  //       borderRadius: 20.0,
+                                  //       borderWidth: 1.0,
+                                  //       buttonSize: 40.0,
+                                  //       icon: Icon(
+                                  //         Icons.chevron_right_rounded,
+                                  //         color: AppColors.primaryBackground,
+                                  //         size: 20.0,
+                                  //       ),
+                                  //       onPressed: () async {},
+                                  //     ),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             ),

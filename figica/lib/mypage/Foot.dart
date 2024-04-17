@@ -1,5 +1,6 @@
 import 'package:fisica/index.dart';
 import 'package:fisica/mypage/calendar.dart';
+import 'package:fisica/scan/Foot_Controller.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:rxdart/streams.dart';
 
 class Footreport extends StatefulWidget {
-  final List<dynamic> data;
+  final List<footDataClass> data;
 
   const Footreport({
     Key? key,
@@ -47,10 +48,12 @@ class _Footreport2State extends State<Footreport> with SingleTickerProviderState
         });
       });
     if (!isempty) {
+      print('not empty');
+      print(widget.data);
       processData(widget.data);
-      selectedDate1 = timeData.last;
+      selectedDate1 = widget.data.last.measuredTime;
+
       _onDateSelected(selectedDate1!);
-      calculateWeightChange(widget.data);
       sortData();
     }
   }
@@ -86,43 +89,26 @@ class _Footreport2State extends State<Footreport> with SingleTickerProviderState
       setState(() {
         selectedDate1 = timeData[index];
         selectedUrl = imageUrl[index];
-        print(selectedDate1);
       });
     }
   }
 
-  void processData(var data) {
+  void processData(List<footDataClass> data) {
     timeData = [];
     imageUrl = [];
-    print(data);
     for (var item in data) {
-      String dateStr = item["measuredDate"];
-      String timeStr = item["measuredTime"];
-      DateTime dateTime = DateTime.parse("$dateStr $timeStr");
+      DateTime dateTime = item.measuredTime;
 
       timeData.add(dateTime);
-      imageUrl.add(item["imageUrl"]);
+      imageUrl.add(item.imageUrl);
     }
-  }
-
-  void calculateWeightChange(List<dynamic> data) {
-    for (int i = 1; i < data.length; i++) {
-      double weightChange = data[i]['weight'] - data[i - 1]['weight'];
-      double roundedDouble = double.parse(weightChange.toStringAsFixed(2));
-      data[i]['weightChange'] = roundedDouble;
-    }
-    data[0]['weightChange'] = 0;
   }
 
   void sortData() {
     if (selectedSortOption == '최신순') {
-      widget.data.sort((a, b) {
-        return b['measuredDate'].compareTo(a['measuredDate']);
-      });
+      widget.data.sort((a, b) => b.measuredTime.compareTo(a.measuredTime));
     } else if (selectedSortOption == '오래된 순') {
-      widget.data.sort((a, b) {
-        return a['measuredDate'].compareTo(b['measuredDate']);
-      });
+      widget.data.sort((a, b) => a.measuredTime.compareTo(b.measuredTime));
     }
   }
 
@@ -374,14 +360,6 @@ class _Footreport2State extends State<Footreport> with SingleTickerProviderState
                                       child: ListView.builder(
                                         itemCount: widget.data.length,
                                         itemBuilder: (context, index) {
-                                          bool plus = true;
-                                          if (widget.data[index]['weightChange'] != null) {
-                                            if (widget.data[index]['weightChange'] < 0) {
-                                              plus = true;
-                                            } else {
-                                              plus = false;
-                                            }
-                                          }
                                           return Container(
                                             height: 242,
                                             child: Padding(
@@ -390,13 +368,11 @@ class _Footreport2State extends State<Footreport> with SingleTickerProviderState
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    DateFormat('yyyy.MM.dd').format(DateTime.parse(widget.data[index]['measuredDate'])) + ' 측정 리포트',
+                                                    DateFormat('yyyy.MM.dd').format(widget.data[index].measuredDate) + ' 측정 리포트',
                                                     style: AppFont.s12.overrides(fontSize: 18, color: AppColors.Black),
                                                   ),
                                                   Text(
-                                                    DateFormat('a hh:mm', 'ko_KR')
-                                                            .format(DateFormat('HH:mm:ss').parse(widget.data[index]['measuredTime'])) +
-                                                        ' 측정',
+                                                    DateFormat('a hh:mm', 'ko_KR').format(widget.data[index].measuredTime) + ' 측정',
                                                     style: AppFont.r16.overrides(fontSize: 12, color: AppColors.Gray500),
                                                   ),
                                                   Padding(
@@ -425,7 +401,7 @@ class _Footreport2State extends State<Footreport> with SingleTickerProviderState
                                                                     height: 2,
                                                                   ),
                                                                   Text(
-                                                                    settype(widget.data[index]['classType']),
+                                                                    settype(widget.data[index].classType),
                                                                     style: AppFont.b24.overrides(fontSize: 20, color: AppColors.Black),
                                                                   ),
                                                                 ],
@@ -451,7 +427,7 @@ class _Footreport2State extends State<Footreport> with SingleTickerProviderState
                                                                           style: AppFont.s12.overrides(color: AppColors.Gray500),
                                                                         ),
                                                                         Text(
-                                                                          '${widget.data[index]['accuracy']}%',
+                                                                          '${widget.data[index].accuracy}%',
                                                                           style: AppFont.b24.overrides(fontSize: 20, color: AppColors.Black),
                                                                         ),
                                                                       ],
@@ -474,7 +450,7 @@ class _Footreport2State extends State<Footreport> with SingleTickerProviderState
                                                                           style: AppFont.s12.overrides(color: AppColors.Gray500),
                                                                         ),
                                                                         Text(
-                                                                          '${widget.data[index]['weight']}kg',
+                                                                          '${widget.data[index].weight}kg',
                                                                           style: AppFont.b24.overrides(fontSize: 20, color: AppColors.Black),
                                                                         ),
                                                                       ],

@@ -30,6 +30,7 @@ class _FootPrintState extends State<FootPrint> {
   void initState() {
     super.initState();
     final device = FlutterBluePlus.connectedDevices;
+    print(widget.mode);
 
     if (device.isEmpty) {
       isconnect = false;
@@ -344,7 +345,7 @@ class _FootPrintState extends State<FootPrint> {
                                 setState(() {
                                   isscaning = true;
                                 });
-                                if (widget.mode == 'mian') {
+                                if (widget.mode == 'main') {
                                   getRawData();
                                 } else
                                   testergetRawData();
@@ -377,7 +378,7 @@ class _FootPrintState extends State<FootPrint> {
 
                                 //testergetRawData2();
 
-                                if (widget.mode == 'mian') {
+                                if (widget.mode == 'main') {
                                   context.pushNamed('FindBlue', extra: 'main');
                                 } else {
                                   context.pushNamed('testFindBlue', extra: 'tester');

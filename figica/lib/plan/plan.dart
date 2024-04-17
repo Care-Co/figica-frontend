@@ -58,11 +58,7 @@ class _planWidgetState extends State<planWidget> {
               context.pop();
             },
           ),
-          title: Text(
-            SetLocalizations.of(context).getText(
-              '60jvpwul' /* Page Title */,
-            ),
-          ),
+          title: Text('plan'),
           actions: [],
           centerTitle: false,
           elevation: 0.0,
@@ -71,7 +67,7 @@ class _planWidgetState extends State<planWidget> {
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            children: [],
+            children: [Text('개발중')],
           ),
         ),
       ),

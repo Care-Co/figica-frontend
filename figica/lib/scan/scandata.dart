@@ -26,7 +26,7 @@ class _ScanDataState extends State<ScanData> {
       main = false;
     }
 
-    //WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   bool _isDescriptionShown = false;

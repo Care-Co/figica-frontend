@@ -1,12 +1,13 @@
 import 'package:fisica/index.dart';
 import 'package:fisica/mypage/calendar.dart';
+import 'package:fisica/scan/Foot_Controller.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/streams.dart';
 
 class Chart extends StatefulWidget {
-  final List<dynamic> data;
+  final List<WeightDataClass> data;
 
   const Chart({
     Key? key,
@@ -31,8 +32,8 @@ class _ChartState extends State<Chart> {
     super.initState();
     processData(widget.data);
     selectedDate2 = timeData.last;
-    calculateWeightChange(widget.data);
     sortData();
+    print(widget.data);
   }
 
   @override
@@ -40,19 +41,17 @@ class _ChartState extends State<Chart> {
     super.dispose();
   }
 
-  void processData(var data) {
+  void processData(List<WeightDataClass> data) {
     timeData = [];
     weights = [];
     weightTypes = [];
 
     for (var item in data) {
-      String dateStr = item["measuredDate"];
-      String timeStr = item["measuredTime"];
+      DateTime dateTime = item.measuredTime;
 
-      DateTime dateTime = DateTime.parse("$dateStr $timeStr");
       timeData.add(dateTime);
-      weights.add(item["weight"]);
-      weightTypes.add(item["weightType"]);
+      weights.add(item.weight);
+      weightTypes.add(item.weightType);
     }
     print(weights.length);
   }
@@ -72,20 +71,9 @@ class _ChartState extends State<Chart> {
     });
   }
 
-  String formatDateTime(String dateStr, String timeStr) {
-    String dateTimeStr = '$dateStr $timeStr';
-    DateTime dateTime = DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTimeStr);
-    String formatted = DateFormat('yy/MM/dd EEEE HH:mm', 'ko_KR').format(dateTime);
+  String formatDateTime(DateTime timeStr) {
+    String formatted = DateFormat('yy/MM/dd EEEE HH:mm', 'ko_KR').format(timeStr);
     return formatted;
-  }
-
-  void calculateWeightChange(List<dynamic> data) {
-    for (int i = 1; i < data.length; i++) {
-      double weightChange = data[i]['weight'] - data[i - 1]['weight'];
-      double roundedDouble = double.parse(weightChange.toStringAsFixed(2));
-      data[i]['weightChange'] = roundedDouble;
-    }
-    data[0]['weightChange'] = 0;
   }
 
   String typestring(String type) {
@@ -108,13 +96,9 @@ class _ChartState extends State<Chart> {
 
   void sortData() {
     if (selectedSortOption == '최신순') {
-      widget.data.sort((a, b) {
-        return b['measuredDate'].compareTo(a['measuredDate']);
-      });
+      widget.data.sort((a, b) => b.measuredTime.compareTo(a.measuredTime));
     } else if (selectedSortOption == '오래된 순') {
-      widget.data.sort((a, b) {
-        return a['measuredDate'].compareTo(b['measuredDate']);
-      });
+      widget.data.sort((a, b) => a.measuredTime.compareTo(b.measuredTime));
     }
   }
 
@@ -213,14 +197,14 @@ class _ChartState extends State<Chart> {
                                 selectedDate2 = newValue;
                               });
                             },
-                            items: timeData.map<DropdownMenuItem<DateTime>>((DateTime value) {
-                              String formattedDate =
-                                  "${value.year}.${value.month.toString().padLeft(2, '0')}.${value.day.toString().padLeft(2, '0')}";
+                            items: timeData.map<DropdownMenuItem<DateTime>>((DateTime weightValue) {
+                              String weightDate =
+                                  "${weightValue.year}.${weightValue.month.toString().padLeft(2, '0')}.${weightValue.day.toString().padLeft(2, '0')}";
 
                               return DropdownMenuItem<DateTime>(
-                                value: value,
+                                value: weightValue,
                                 child: Text(
-                                  formattedDate,
+                                  weightDate,
                                   style: AppFont.s12.overrides(fontSize: 16, color: AppColors.Gray100),
                                 ),
                               );
@@ -301,8 +285,8 @@ class _ChartState extends State<Chart> {
                         itemCount: widget.data.length,
                         itemBuilder: (context, index) {
                           bool plus = true;
-                          if (widget.data[index]['weightChange'] != null) {
-                            if (widget.data[index]['weightChange'] < 0) {
+                          if (widget.data[index].weightChange != null) {
+                            if (widget.data[index].weightChange < 0) {
                               plus = true;
                             } else {
                               plus = false;
@@ -322,11 +306,11 @@ class _ChartState extends State<Chart> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            formatDateTime(widget.data[index]['measuredDate'], widget.data[index]['measuredTime']),
+                                            formatDateTime(widget.data[index].measuredTime),
                                             style: AppFont.r16.overrides(color: AppColors.Gray500, fontSize: 10),
                                           ),
                                           Text(
-                                            typestring(widget.data[index]['weightType']),
+                                            typestring(widget.data[index].weightType),
                                             style: AppFont.s12,
                                           )
                                         ],
@@ -336,11 +320,11 @@ class _ChartState extends State<Chart> {
                                         crossAxisAlignment: CrossAxisAlignment.end,
                                         children: [
                                           Text(
-                                            widget.data[index]['weightChange'].toString() + 'kg',
+                                            widget.data[index].weightChange.toString() + 'kg',
                                             style: AppFont.s12.overrides(color: plus ? AppColors.AlertGreen : AppColors.red),
                                           ),
                                           Text(
-                                            '${widget.data[index]['weight']}kg',
+                                            '${widget.data[index].weight}kg',
                                             style: AppFont.s12.overrides(fontSize: 16, color: AppColors.Black),
                                           ),
                                         ],

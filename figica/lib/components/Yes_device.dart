@@ -41,23 +41,23 @@ class _YesDiviceState extends State<YesDivice> {
                     ),
                     style: AppFont.s12.overrides(fontSize: 16, color: AppColors.primaryBackground),
                   )),
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 18, 0, 16),
-                  child: Dash(
-                    direction: Axis.vertical,
-                    length: 26, // 점선의 길이
-                    dashLength: 2, // 각 점의 길이
-                    dashColor: AppColors.primaryBackground, // 점선의 색상
-                  )),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  SetLocalizations.of(context).getText(
-                    'qlwjsqnsjr' /*  */,
-                  ),
-                  style: AppFont.s12.overrides(fontSize: 16, color: AppColors.primaryBackground),
-                ),
-              )
+              // Padding(
+              //     padding: const EdgeInsets.fromLTRB(0, 18, 0, 16),
+              //     child: Dash(
+              //       direction: Axis.vertical,
+              //       length: 26, // 점선의 길이
+              //       dashLength: 2, // 각 점의 길이
+              //       dashColor: AppColors.primaryBackground, // 점선의 색상
+              //     )),
+              // TextButton(
+              //   onPressed: () {},
+              //   child: Text(
+              //     SetLocalizations.of(context).getText(
+              //       'qlwjsqnsjr' /*  */,
+              //     ),
+              //     style: AppFont.s12.overrides(fontSize: 16, color: AppColors.primaryBackground),
+              //   ),
+              // )
             ],
           )),
     );

@@ -33,18 +33,18 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
       _model.namController = TextEditingController(text: data['lastName']);
       _model.namFocusNode = FocusNode();
 
-      _model.heController = TextEditingController(text: data['profile']['height'].toString());
+      _model.heController = TextEditingController(text: data['height'].toString());
       _model.heFocusNode = FocusNode();
 
-      _model.weController = TextEditingController(text: data['profile']['weight'].toString());
+      _model.weController = TextEditingController(text: data['weight'].toString());
       _model.weFocusNode = FocusNode();
 
-      selectedDate = DateTime.parse(data['profile']['birthday'] == null ? '0000-00-00 00:00:00.000' : data['profile']['birthday']);
+      selectedDate = DateTime.parse(data['birthday'] == null ? '0000-00-00 00:00:00.000' : data['birthday']);
       print(selectedDate);
-      selectedGender = data['profile']['gender'] == 'NONE' ? null : data['profile']['gender'];
+      selectedGender = data['gender'] == 'NONE' ? null : data['gender'];
       print(selectedGender);
 
-      dropDownValue = data['profile']['region'] == null ? 'KR' : data['profile']['region'];
+      dropDownValue = data['region'] == null ? 'KR' : data['region'];
       print(dropDownValue);
     });
   }
