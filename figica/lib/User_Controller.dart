@@ -311,12 +311,13 @@ class UserController {
   }
 
   static Future<Map<String, dynamic>> getuserinfo() async {
-    print('Start ------ getuserinfo');
+    print('유저 정보 가져가기  시작');
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getString(_userdata) == null) {
       return {};
     } else {
       String? jsonData = prefs.getString(_userdata);
+      print('유저 정보 가져가기  성공');
 
       return jsonDecode(jsonData!);
     }
@@ -408,25 +409,19 @@ class DataController {
     print('발 저장 시작');
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_foothistory, jsonEncode(data));
-    print(data);
-
     AppStateNotifier.instance.notifyListeners();
     print('발 저장 완료');
     return true;
   }
 
-  static Future<List<FootData>> getfoothistory() async {
+  static Future<List<footDataClass>> getfoothistory() async {
     print('발 가져오기 시작');
-
     final prefs = await SharedPreferences.getInstance();
     String? jsonData = prefs.getString(_foothistory);
-
     if (jsonData == null) return [];
-
     List<dynamic> jsonList = jsonDecode(jsonData);
-    List<FootData> footList = jsonList.map((json) => FootData.fromJson(json)).toList();
+    List<footDataClass> footList = jsonList.map((json) => footDataClass.fromJson(json)).toList();
     print('발 가져오기 완료');
-
     return footList;
   }
 
@@ -440,16 +435,23 @@ class DataController {
     return true;
   }
 
-  static Future<List<WeightData>> getWeightHistory() async {
+  static Future<List<WeightDataClass>> getWeightHistory() async {
     print('체중 가져오기 시작');
-
     final prefs = await SharedPreferences.getInstance();
     final String? jsonData = prefs.getString(_weighthistory);
-
     if (jsonData == null) return [];
-
     List<dynamic> jsonList = jsonDecode(jsonData);
-    List<WeightData> weightList = jsonList.map((json) => WeightData.fromJson(json)).toList();
+    List<WeightDataClass> weightList = jsonList.map((json) => WeightDataClass.fromJson(json)).toList();
+
+    weightList.sort((a, b) => a.measuredTime.compareTo(b.measuredTime));
+
+    for (int i = 1; i < weightList.length; i++) {
+      weightList[i].weightChange = weightList[i].weight - weightList[i - 1].weight;
+      print(weightList[i].weightChange);
+    }
+
+    weightList.first.weightChange = 0.0;
+
     print('체중 가저오기 완료');
 
     return weightList;

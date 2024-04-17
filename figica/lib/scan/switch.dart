@@ -26,7 +26,7 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
     print(typedata);
     var data = await UserController.getuserinfo();
     print(data);
-    gender = data['profile']['gender'].toLowerCase();
+    gender = data['gender'].toLowerCase();
 
     settype(typedata['classType']);
   }

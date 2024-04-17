@@ -18,7 +18,8 @@ class _AvataState extends State<Avata> {
   String type = '';
   String typeavt = '';
   bool typeok = false;
-  bool isLoading = true; // 추가: 데이터 로딩 상태 표시
+  bool isLoading = true;
+  var footData;
 
   @override
   void initState() {
@@ -27,14 +28,21 @@ class _AvataState extends State<Avata> {
   }
 
   Future<void> getData() async {
-    var tempData = await DataController.get_apiData();
-    print('getData = $tempData');
-    if (mounted) {
+    final now = DateTime.now();
+    try {
+      await footDataClass.getfoothistory('${now.year}', '${now.month}').then((value) async {
+        footData = await DataController.getfoothistory();
+        footDataClass.sortData(footData);
+        print(footData.toString());
+      });
+
       setState(() {
-        data = tempData;
-        settype(tempData['classType']);
+        data = footData.first;
+        settype(data.classType);
         isLoading = false;
       });
+    } on Exception catch (e) {
+      print(e);
     }
   }
 

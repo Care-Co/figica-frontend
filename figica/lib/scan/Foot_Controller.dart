@@ -116,7 +116,7 @@ class FootprintData {
   //체중 히스토리
 }
 
-class FootData {
+class footDataClass {
   DateTime measuredDate;
   DateTime measuredTime;
   int classType;
@@ -124,7 +124,7 @@ class FootData {
   String imageUrl;
   double weight;
 
-  FootData({
+  footDataClass({
     required this.measuredDate,
     required this.measuredTime,
     required this.classType,
@@ -132,13 +132,21 @@ class FootData {
     required this.imageUrl,
     required this.weight,
   });
+  static void sortData(List<footDataClass> data) {
+    try {
+      data.sort((a, b) => a.measuredTime.compareTo(b.measuredTime));
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
+
   String toString() {
-    return 'FootData(measuredDate: $measuredDate, measuredTime: $measuredTime, classType: $classType, accuracy: $accuracy, imageUrl: $imageUrl, weight: $weight)';
+    return 'footData(measuredDate: $measuredDate, measuredTime: $measuredTime, classType: $classType, accuracy: $accuracy, imageUrl: $imageUrl, weight: $weight)';
   }
 
   // Method to parse from JSON
-  factory FootData.fromJson(Map<String, dynamic> json) {
-    return FootData(
+  factory footDataClass.fromJson(Map<String, dynamic> json) {
+    return footDataClass(
       measuredDate: DateTime.parse(json['measuredDate']),
       measuredTime: DateTime.parse("${json['measuredDate']} ${json['measuredTime']}"),
       classType: json['classType'],
@@ -186,40 +194,54 @@ class FootData {
   }
 }
 
-class WeightData {
+class WeightDataClass {
   DateTime measuredDate;
   DateTime measuredTime;
   double weight;
+  double weightChange;
   String weightType;
 
-  WeightData({
+  WeightDataClass({
     required this.measuredDate,
     required this.measuredTime,
     required this.weight,
+    required this.weightChange,
     required this.weightType,
   });
 
-  // Optional: Method to parse from JSON
-  factory WeightData.fromJson(Map<String, dynamic> json) {
-    return WeightData(
+  static void sortData(List<WeightDataClass> data) {
+    try {
+      data.sort((a, b) => a.measuredTime.compareTo(b.measuredTime));
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
+
+  static void sortData2(List<WeightDataClass> data) {
+    try {
+      data.sort((a, b) => b.measuredTime.compareTo(a.measuredTime));
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
+
+  String toString() {
+    return '{measuredDate: $measuredDate, measuredTime: $measuredTime, weight: $weight, weightType: $weightType,weightChange: $weightChange}';
+  }
+
+  factory WeightDataClass.fromJson(Map<String, dynamic> json) {
+    return WeightDataClass(
       measuredDate: DateTime.parse(json['measuredDate']),
       measuredTime: DateTime.parse("${json['measuredDate']} ${json['measuredTime']}"),
       weight: json['weight'].toDouble(),
+      weightChange: json['weightChange']?.toDouble() ?? 1.0,
       weightType: json['weightType'],
     );
   }
 
-  // Optional: Method to convert to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'measuredDate': measuredDate.toIso8601String().split('T')[0],
-      'measuredTime': measuredTime.toIso8601String().split('T')[1],
-      'weight': weight,
-      'weightType': weightType,
-    };
-  }
-
   static Future<bool?> getweighthistory(String year, String month) async {
+    List<WeightDataClass> weights = [];
+
     print('체중히스토리 api 시작 ');
     bool va = false;
     final String? token = await UserController.getsavedToken();
@@ -227,14 +249,14 @@ class WeightData {
       String? uid = temdata['uid'];
       var url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/weights?year=$year&month=$month');
       var headers = {'accept': '*/*', 'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
-      print(url);
 
       var response = await http.get(url, headers: headers);
 
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = jsonDecode(response.body);
+        print(responseData.toString());
         await DataController.saveweighthistory(responseData['data']).then((value) {
-          print('저장완료 ${value.toString()}');
+          print('savefoothistory ' + value.toString());
           va = true;
         });
       } else {
@@ -243,7 +265,6 @@ class WeightData {
         va = false;
       }
     });
-    print('체중히스토리 api 종료 ');
 
     return va;
   }

@@ -10,14 +10,32 @@ class Homeinfo extends StatefulWidget {
 
 class _HomeinfoState extends State<Homeinfo> {
   var data;
+  Future? _loadDataFuture;
 
   Future<void> getData() async {
+    print('홈 정보 데이터 가져오기');
     data = await UserController.getuserinfo();
     print(data);
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadDataFuture = getData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void fu() {
+    print(data);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    //fu();
     return Container(
       height: 200,
       decoration: BoxDecoration(
@@ -27,7 +45,7 @@ class _HomeinfoState extends State<Homeinfo> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           FutureBuilder(
-            future: getData(), // 비동기 함수를 FutureBuilder의 future로 지정합니다.
+            future: _loadDataFuture,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -76,7 +94,7 @@ class _HomeinfoState extends State<Homeinfo> {
                                       style: AppFont.s12.overrides(color: AppColors.Gray300),
                                     ),
                                     Text(
-                                      data['profile']['height'].toString() + 'cm',
+                                      data['height'].toString() + 'cm',
                                       style: AppFont.s18.overrides(color: AppColors.primaryBackground),
                                     )
                                   ],
@@ -97,7 +115,7 @@ class _HomeinfoState extends State<Homeinfo> {
                                       style: AppFont.s12.overrides(color: AppColors.Gray300),
                                     ),
                                     Text(
-                                      data['profile']['weight'].toString() + 'kg',
+                                      data['weight'].toString() + 'kg',
                                       style: AppFont.s18.overrides(color: AppColors.primaryBackground),
                                     )
                                   ],

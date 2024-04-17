@@ -19,37 +19,24 @@ class HistoryWidget extends StatefulWidget {
 class _HistoryState extends State<HistoryWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   Future? _loadDataFuture;
-  var footdata;
-  var weightdata;
+  late List<footDataClass> footData;
+  late List<WeightDataClass> weightdata;
 
   int _currentIndex = 0;
-
-  void sortData(var data) {
-    data.sort((a, b) {
-      DateTime dateTimeA = DateTime.parse("${a['measuredDate']} ${a['measuredTime']}");
-      DateTime dateTimeB = DateTime.parse("${b['measuredDate']} ${b['measuredTime']}");
-      return dateTimeA.compareTo(dateTimeB);
-    });
-  }
 
   Future<void> getData() async {
     final now = DateTime.now();
 
-    DateTime nowUTC = DateTime.now().toUtc();
-    String utcString = nowUTC.toIso8601String();
-    String result = utcString.substring(0, utcString.length - 1) + '+00:00';
-    print(result);
+    try {
+      print('history ---- getData');
 
-    print('history ---- getData');
-    await WeightData.getweighthistory('${now.year}', '${now.month}').then((value) async {
       weightdata = await DataController.getWeightHistory();
-      sortData(weightdata);
-    });
-    await FootData.getfoothistory('${now.year}', '${now.month}').then((value) async {
-      footdata = await DataController.getfoothistory();
-      sortData(footdata);
-    });
-    print(footdata);
+      WeightDataClass.sortData(weightdata);
+      footData = await DataController.getfoothistory();
+      footDataClass.sortData(footData);
+    } on Exception catch (e) {
+      print(e);
+    }
     setState(() {});
   }
 
@@ -150,7 +137,7 @@ class _HistoryState extends State<HistoryWidget> {
                         ),
                         Expanded(
                           child: Container(
-                            child: _currentIndex == 0 ? Footreport(data: footdata) : Chart(data: weightdata),
+                            child: _currentIndex == 0 ? Footreport(data: footData) : Chart(data: weightdata),
                           ),
                         ),
                       ],

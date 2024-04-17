@@ -134,7 +134,7 @@ class _MyScanDataState extends State<MyScanData> {
                                   style: AppFont.s12.overrides(color: AppColors.Gray500),
                                 ),
                                 Text(
-                                  mydata['profile']['height'].toString() + 'cm',
+                                  mydata['height'].toString() + 'cm',
                                   style: AppFont.s18.overrides(color: AppColors.primaryBackground),
                                 )
                               ],
@@ -151,7 +151,7 @@ class _MyScanDataState extends State<MyScanData> {
                                   style: AppFont.s12.overrides(color: AppColors.Gray500),
                                 ),
                                 Text(
-                                  mydata['profile']['weight'].toString() + 'kg',
+                                  mydata['weight'].toString() + 'kg',
                                   style: AppFont.s18.overrides(color: AppColors.primaryBackground),
                                 )
                               ],
