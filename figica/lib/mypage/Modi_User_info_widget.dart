@@ -24,7 +24,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
   late Future<void> _userInfoFuture; // Variable to store the future
 
   Future<void> getData() async {
-    data = await UserController.getuserinfo();
+    data = await DataController.getuserinfo();
     print(data);
     setState(() {
       _model.fiController = TextEditingController(text: data['firstName']);

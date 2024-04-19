@@ -14,7 +14,7 @@ class _HomeinfoState extends State<Homeinfo> {
 
   Future<void> getData() async {
     print('홈 정보 데이터 가져오기');
-    data = await UserController.getuserinfo();
+    data = await DataController.getuserinfo();
     print(data);
   }
 

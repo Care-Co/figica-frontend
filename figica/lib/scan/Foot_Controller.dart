@@ -43,7 +43,7 @@ class FootprintData {
     bool va = false;
     final String? token = await UserController.getsavedToken();
     print(token);
-    await UserController.getuserinfo().then((temdata) async {
+    await DataController.getuserinfo().then((temdata) async {
       String? uid = temdata['uid'];
       print(uid);
 
@@ -172,7 +172,7 @@ class footDataClass {
     print('getfoothistoryAPI');
     bool va = false;
     final String? token = await UserController.getsavedToken();
-    await UserController.getuserinfo().then((temdata) async {
+    await DataController.getuserinfo().then((temdata) async {
       String? uid = temdata['uid'];
       var url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/footprints?year=$year&month=$month');
       var headers = {'accept': '*/*', 'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
@@ -245,7 +245,7 @@ class WeightDataClass {
     print('체중히스토리 api 시작 ');
     bool va = false;
     final String? token = await UserController.getsavedToken();
-    await UserController.getuserinfo().then((temdata) async {
+    await DataController.getuserinfo().then((temdata) async {
       String? uid = temdata['uid'];
       var url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/weights?year=$year&month=$month');
       var headers = {'accept': '*/*', 'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};

@@ -37,7 +37,6 @@ class _CheckExitState extends State<OkPopup> {
       if (widget.state == 'logout_ok') {
         mainText = gs('fhdnrkdtn');
         subText = gs('ektlgodkf');
-
         action = logout;
       } else if (widget.state == 'singout_ok') {
         mainText = gs('xkfehldks');

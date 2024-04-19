@@ -42,7 +42,7 @@ class _MyScanDataState extends State<MyScanData> {
 
   Future<void> getData() async {
     // 비동기 작업의 결과를 상태 변수에 저장합니다.
-    var tempData = await UserController.getuserinfo();
+    var tempData = await DataController.getuserinfo();
     var sharedPrefsData = await DataController.get_apiData();
     data = sharedPrefsData;
     mydata = tempData;

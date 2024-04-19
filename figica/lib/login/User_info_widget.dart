@@ -619,8 +619,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                 _appStateNotifier = AppStateNotifier.instance;
 
                                 await UserController.updateProfile(data, finame, name, selectedGender, height, weight, dropDownValue)
-                                    .then((userData) {
-                                  context.goNamed('home');
+                                    .then((userData) async {
+                                  userData ? context.goNamed('home') : await UserController.deleteUser().then((value) => context.goNamed('home'));
                                 }).catchError((error) {
                                   print('Error fetching user data: $error');
                                 });

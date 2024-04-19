@@ -64,7 +64,7 @@ class _ExitserviceState extends State<Exitservice> {
 
   Future<void> logout() async {
     print('logout');
-    await DataController.removedate();
+    await DataController.removedata();
     await DataController.removedevice();
     await UserController.removeToken();
     showAlignedDialog(
@@ -89,9 +89,8 @@ class _ExitserviceState extends State<Exitservice> {
   }
 
   Future<void> singout() async {
-    DataController.removedate;
-    DataController.removedevice;
     await UserController.deleteUser();
+
     showAlignedDialog(
       context: context,
       isGlobal: true,

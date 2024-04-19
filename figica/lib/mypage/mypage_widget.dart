@@ -44,7 +44,7 @@ class _MypageWidgetState extends State<MypageWidget> {
 
     print('homepage ---- getData');
     try {
-      data = await UserController.getuserinfo();
+      data = await DataController.getuserinfo();
       print(data);
 
       await footDataClass.getfoothistory('${now.year}', '${now.month}').then((value) async {

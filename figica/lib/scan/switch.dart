@@ -24,7 +24,7 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
   Future<void> getData() async {
     var typedata = await DataController.get_apiData();
     print(typedata);
-    var data = await UserController.getuserinfo();
+    var data = await DataController.getuserinfo();
     print(data);
     gender = data['gender'].toLowerCase();
 

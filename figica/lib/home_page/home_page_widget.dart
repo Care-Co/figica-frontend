@@ -19,7 +19,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   Future<void> getData() async {
     print('homepage ---- getData');
-    data = await UserController.getuserinfo();
+    data = await DataController.getuserinfo();
     print(data);
   }
 

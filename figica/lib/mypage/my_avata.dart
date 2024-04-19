@@ -20,7 +20,7 @@ class _MyavataState extends State<Myavata> {
 
   Future<void> getData() async {
     print('homepage ---- getData');
-    data = await UserController.getuserinfo();
+    data = await DataController.getuserinfo();
     print(data);
   }
 
