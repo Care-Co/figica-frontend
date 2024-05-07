@@ -1,4 +1,5 @@
 import 'package:fisica/components/member_more.dart';
+import 'package:fisica/models/GroupData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';
@@ -12,7 +13,7 @@ class MemberManagementPage extends StatefulWidget {
 
 class _MemberManagementPageState extends State<MemberManagementPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<GroupMember> groupMembers = [];
+  List<Member> memberData = [];
 
   @override
   void initState() {
@@ -22,10 +23,12 @@ class _MemberManagementPageState extends State<MemberManagementPage> {
   }
 
   Future<void> initGroupData() async {
-    var groupData = await GroupApi.getGroup();
-    setState(() {
-      groupMembers = GroupMember.parseGroupMember(groupData!);
-    });
+    print("test");
+    // var loadedmemberdata = await GroupStorageManager.loadMember();
+
+    // setState(() {
+    //   memberData = loadedmemberdata;
+    // });
   }
 
   @override
@@ -94,7 +97,7 @@ class _MemberManagementPageState extends State<MemberManagementPage> {
                 elevation: 0.0,
               ),
               body: ListView.builder(
-                itemCount: groupMembers.length,
+                itemCount: memberData!.length,
                 itemBuilder: (context, index) {
                   return Container(
                     width: 232,
@@ -123,10 +126,10 @@ class _MemberManagementPageState extends State<MemberManagementPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      groupMembers[index].name,
+                                      memberData![index].firstName,
                                       style: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
                                     ),
-                                    Text(groupMembers[index].authority, style: AppFont.r16.overrides(fontSize: 12, color: AppColors.Gray300)),
+                                    Text(memberData![index].authority, style: AppFont.r16.overrides(fontSize: 12, color: AppColors.Gray300)),
                                   ],
                                 ),
                               ),

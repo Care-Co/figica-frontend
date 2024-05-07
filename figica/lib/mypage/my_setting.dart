@@ -124,7 +124,7 @@ class _MySettingState extends State<MySetting> {
               automaticallyImplyLeading: false,
               title: Text(
                   SetLocalizations.of(context).getText(
-                    'rmfnt' /* 그룹   */,
+                    'tjfwjd' /* 설정  */,
                   ),
                   style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
               centerTitle: false,

@@ -6,9 +6,6 @@ import 'package:fisica/group/group_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'creategroup_model.dart';
-export 'creategroup_model.dart';
-
 class CreategroupWidget extends StatefulWidget {
   const CreategroupWidget({Key? key}) : super(key: key);
 
@@ -17,24 +14,19 @@ class CreategroupWidget extends StatefulWidget {
 }
 
 class _CreategroupWidgetState extends State<CreategroupWidget> {
-  late CreategroupModel _model;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController myController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CreategroupModel());
-
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   void dispose() {
-    _model.dispose();
+    myController.dispose();
 
     super.dispose();
   }
@@ -104,8 +96,7 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(8, 10, 8, 0),
                       child: TextFormField(
-                        controller: _model.textController,
-                        focusNode: _model.textFieldFocusNode,
+                        controller: myController,
                         autofocus: true,
                         obscureText: false,
                         decoration: InputDecoration(
@@ -142,7 +133,6 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
                             filled: true,
                             fillColor: AppColors.Gray850),
                         style: AppFont.r16.overrides(color: AppColors.primaryBackground),
-                        validator: _model.textControllerValidator.asValidator(context),
                       ),
                     ),
                   ],
@@ -155,11 +145,11 @@ class _CreategroupWidgetState extends State<CreategroupWidget> {
                     child: LodingButtonWidget(
                       onPressed: () async {
                         try {
-                          bool groupCreated = await GroupApi.createGroup(_model.textController.text);
+                          bool groupCreated = await GroupApi.createGroup(myController.text);
 
                           if (groupCreated) {
                             FocusScope.of(context).unfocus();
-                            context.pushNamed('GroupInvitation');
+                            context.pushNamed('GroupCreatecode');
                           } else {
                             print('Failed to create group');
                           }

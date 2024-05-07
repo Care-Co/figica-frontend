@@ -717,33 +717,33 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'tjfwjd': {
+      'ko': '설정',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'todakld': {
+      'ko': '그룹 생성 완료',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'todtjdhskyh': {
+      'ko': '그룹 생성이\n완료되었습니다',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'cheozhemqkfr': {
+      'ko': '초대 코드를 발급해 주세요.',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'dldkwlkt': {
+      'ko': '초대 코드의 유효 기간은 72시간입니다.',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'zhemqkfkr': {
+      'ko': '초대 코드 발급',
       'en': '',
       'ja': '',
     },

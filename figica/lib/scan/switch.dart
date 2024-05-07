@@ -22,19 +22,20 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
 
   int _currentIndex = 0;
   Future<void> getData() async {
-    var typedata = await DataController.get_apiData();
+    var typedata = AppStateNotifier.instance.scandata;
     print(typedata);
-    var data = await DataController.getuserinfo();
-    print(data);
-    gender = data['gender'].toLowerCase();
+    var data = AppStateNotifier.instance.userdata;
 
-    settype(typedata['classType']);
+    print(data);
+    gender = data!.gender.toLowerCase();
+
+    settype(typedata!['classType']);
   }
 
   Future<void> getData2() async {
-    var typedata = await DataController.get_apiData();
+    var typedata = AppStateNotifier.instance.scandata;
 
-    gender = typedata['gender'].toLowerCase();
+    gender = typedata!['gender'].toLowerCase();
 
     settype(typedata['footprintClassType']);
   }

@@ -1,33 +1,12 @@
 import 'dart:convert';
 import 'package:fisica/index.dart';
+import 'package:fisica/main.dart';
+import 'package:fisica/models/FootData.dart';
+import 'package:fisica/models/WeightData.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FootprintData {
-  final String classType;
-  final String url;
-  final String accuracy;
-  final String weight;
-  final String battery;
-
-  FootprintData({
-    required this.classType,
-    required this.url,
-    required this.accuracy,
-    required this.weight,
-    required this.battery,
-  });
-
-  factory FootprintData.fromJson(Map<String, dynamic> json) {
-    return FootprintData(
-      classType: json['classType'],
-      url: json['url'],
-      accuracy: json['accuracy'],
-      weight: json['weight'],
-      battery: json['battery'],
-    );
-  }
-
+class FootprintApi {
   static String printUTCTime() {
     DateTime nowUTC = DateTime.now().toUtc();
     String utcString = nowUTC.toIso8601String();
@@ -39,42 +18,35 @@ class FootprintData {
 
   static Future<bool?> footScan(String rawdata) async {
     String date = printUTCTime();
-    print('footScan');
     bool va = false;
-    final String? token = await UserController.getsavedToken();
-    print(token);
-    await DataController.getuserinfo().then((temdata) async {
-      String? uid = temdata['uid'];
-      print(uid);
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
 
-      var url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/footprints');
-      var headers = {'accept': '*/*', 'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    var url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/footprints');
+    var headers = {'accept': '*/*', 'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
 
-      var body = jsonEncode({'hexData': rawdata, 'mesured_time': date});
-      print(rawdata.length);
-      print(date);
+    var body = jsonEncode({'hexData': rawdata, 'mesured_time': date});
+    print(rawdata.length);
+    print(date);
 
-      var response = await http.post(url, headers: headers, body: body);
+    var response = await http.post(url, headers: headers, body: body);
 
-      if (response.statusCode == 201) {
-        print('Request successful');
-        print('Response body: ${response.body}');
-        Map<String, dynamic> responseData = jsonDecode(response.body);
-        await DataController.save_apiData(responseData['data']).then((value) {
-          print('footscansave ' + value.toString());
-          va = true;
-        });
-      } else {
-        print('Request failed with status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        va = false;
-      }
-    });
+    if (response.statusCode == 201) {
+      print('Request successful');
+      print('Response body: ${response.body}');
+      Map<String, dynamic> responseData = jsonDecode(response.body);
+      await AppStateNotifier.instance.UpScanData(responseData['data']).then((value) {
+        va = true;
+      });
+    } else {
+      print('Request failed with status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      va = false;
+    }
     return va;
   }
 
   static Future<bool?> testfootScan(List datalist) async {
-    print('footScan');
     bool va = false;
     UserController.gettester().then((value) async {
       for (var data in datalist) {
@@ -94,7 +66,7 @@ class FootprintData {
 
         if (response.statusCode == 201) {
           Map<String, dynamic> responseData = jsonDecode(response.body);
-          await DataController.save_apiData(responseData['data']);
+          await AppStateNotifier.instance.UpScanData(responseData['data']);
         } else {
           print('Request failed with status: ${response.statusCode}');
           print('Response body: ${response.body}');
@@ -105,167 +77,44 @@ class FootprintData {
       va = true;
     });
     await Future.delayed(const Duration(milliseconds: 10000));
-    print(DataController.get_apiData);
-
-    print('va = $va');
-    return va;
-  }
-
-// 족저압 히스토리
-
-  //체중 히스토리
-}
-
-class footDataClass {
-  DateTime measuredDate;
-  DateTime measuredTime;
-  int classType;
-  int accuracy;
-  String imageUrl;
-  double weight;
-
-  footDataClass({
-    required this.measuredDate,
-    required this.measuredTime,
-    required this.classType,
-    required this.accuracy,
-    required this.imageUrl,
-    required this.weight,
-  });
-  static void sortData(List<footDataClass> data) {
-    try {
-      data.sort((a, b) => a.measuredTime.compareTo(b.measuredTime));
-    } on Exception catch (e) {
-      print(e);
-    }
-  }
-
-  String toString() {
-    return 'footData(measuredDate: $measuredDate, measuredTime: $measuredTime, classType: $classType, accuracy: $accuracy, imageUrl: $imageUrl, weight: $weight)';
-  }
-
-  // Method to parse from JSON
-  factory footDataClass.fromJson(Map<String, dynamic> json) {
-    return footDataClass(
-      measuredDate: DateTime.parse(json['measuredDate']),
-      measuredTime: DateTime.parse("${json['measuredDate']} ${json['measuredTime']}"),
-      classType: json['classType'],
-      accuracy: json['accuracy'],
-      imageUrl: json['imageUrl'],
-      weight: json['weight'].toDouble(),
-    );
-  }
-
-  // Method to convert to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'measuredDate': measuredDate.toIso8601String().split('T')[0],
-      'measuredTime': measuredTime.toIso8601String().split('T')[1],
-      'classType': classType,
-      'accuracy': accuracy,
-      'imageUrl': imageUrl,
-      'weight': weight,
-    };
-  }
-
-  static Future<bool?> getfoothistory(String year, String month) async {
-    print('getfoothistoryAPI');
-    bool va = false;
-    final String? token = await UserController.getsavedToken();
-    await DataController.getuserinfo().then((temdata) async {
-      String? uid = temdata['uid'];
-      var url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/footprints?year=$year&month=$month');
-      var headers = {'accept': '*/*', 'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
-      var response = await http.get(url, headers: headers);
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = jsonDecode(response.body);
-        await DataController.savefoothistory(responseData['data']).then((value) {
-          print('savefoothistory ' + value.toString());
-          va = true;
-        });
-      } else {
-        print('Request failed with status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        va = false;
-      }
-    });
 
     return va;
   }
-}
 
-class WeightDataClass {
-  DateTime measuredDate;
-  DateTime measuredTime;
-  double weight;
-  double weightChange;
-  String weightType;
+  static Future<void> getfoothistory(String year, String month) async {
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
 
-  WeightDataClass({
-    required this.measuredDate,
-    required this.measuredTime,
-    required this.weight,
-    required this.weightChange,
-    required this.weightType,
-  });
-
-  static void sortData(List<WeightDataClass> data) {
-    try {
-      data.sort((a, b) => a.measuredTime.compareTo(b.measuredTime));
-    } on Exception catch (e) {
-      print(e);
+    var url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/footprints?year=$year&month=$month');
+    var headers = {'accept': '*/*', 'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+    var response = await http.get(url, headers: headers);
+    loggerNoStack.t({'Name': 'getfoothistory', 'url': url});
+    if (response.statusCode == 200) {
+      List<dynamic> responseData = jsonDecode(response.body)['data'];
+      loggerNoStack.i(responseData);
+      List<FootData> footHistory = responseData.map((data) => FootData.fromJson(data)).toList();
+      AppStateNotifier.instance.Upfoothistory(footHistory);
+    } else {
+      loggerNoStack.e(response.body);
     }
   }
 
-  static void sortData2(List<WeightDataClass> data) {
-    try {
-      data.sort((a, b) => b.measuredTime.compareTo(a.measuredTime));
-    } on Exception catch (e) {
-      print(e);
+  static Future<void> getweighthistory(String year, String month) async {
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    var url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/weights?year=$year&month=$month');
+    var headers = {'accept': '*/*', 'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
+
+    var response = await http.get(url, headers: headers);
+    loggerNoStack.t({'Name': 'getweighthistory', 'url': url});
+    if (response.statusCode == 200) {
+      List<dynamic> responseData = jsonDecode(response.body)['data'];
+      loggerNoStack.i(responseData);
+
+      List<WeightData> WeightHistory = responseData.map((data) => WeightData.fromJson(data)).toList();
+      AppStateNotifier.instance.UpWeightHistory(WeightHistory);
+    } else {
+      loggerNoStack.e(response.body);
     }
-  }
-
-  String toString() {
-    return '{measuredDate: $measuredDate, measuredTime: $measuredTime, weight: $weight, weightType: $weightType,weightChange: $weightChange}';
-  }
-
-  factory WeightDataClass.fromJson(Map<String, dynamic> json) {
-    return WeightDataClass(
-      measuredDate: DateTime.parse(json['measuredDate']),
-      measuredTime: DateTime.parse("${json['measuredDate']} ${json['measuredTime']}"),
-      weight: json['weight'].toDouble(),
-      weightChange: json['weightChange']?.toDouble() ?? 1.0,
-      weightType: json['weightType'],
-    );
-  }
-
-  static Future<bool?> getweighthistory(String year, String month) async {
-    List<WeightDataClass> weights = [];
-
-    print('체중히스토리 api 시작 ');
-    bool va = false;
-    final String? token = await UserController.getsavedToken();
-    await DataController.getuserinfo().then((temdata) async {
-      String? uid = temdata['uid'];
-      var url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/weights?year=$year&month=$month');
-      var headers = {'accept': '*/*', 'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
-
-      var response = await http.get(url, headers: headers);
-
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = jsonDecode(response.body);
-        print(responseData.toString());
-        await DataController.saveweighthistory(responseData['data']).then((value) {
-          print('savefoothistory ' + value.toString());
-          va = true;
-        });
-      } else {
-        print('Request failed with status: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        va = false;
-      }
-    });
-
-    return va;
   }
 }

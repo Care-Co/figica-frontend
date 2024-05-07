@@ -38,7 +38,7 @@ class _FootResultState extends State<FootResult> {
   }
 
   Future<void> getData() async {
-    var tempData = await DataController.get_apiData();
+    var tempData = AppStateNotifier.instance.scandata;
     print(tempData);
     data = tempData;
   }

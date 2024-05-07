@@ -1,13 +1,11 @@
-import 'package:fisica/home_page/home_info.dart';
-import 'package:fisica/home_page/avata_widget.dart';
+import 'package:fisica/models/FootData.dart';
+import 'package:fisica/models/WeightData.dart';
 import 'package:fisica/mypage/Chart.dart';
 import 'package:fisica/mypage/Foot.dart';
 import 'package:fisica/scan/Foot_Controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';
-import 'package:flutter/widgets.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class HistoryWidget extends StatefulWidget {
@@ -19,8 +17,8 @@ class HistoryWidget extends StatefulWidget {
 class _HistoryState extends State<HistoryWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   Future? _loadDataFuture;
-  late List<footDataClass> footData;
-  late List<WeightDataClass> weightdata;
+  late List<FootData> footData;
+  late List<WeightData> weightdata;
 
   int _currentIndex = 0;
 
@@ -30,10 +28,10 @@ class _HistoryState extends State<HistoryWidget> {
     try {
       print('history ---- getData');
 
-      weightdata = await DataController.getWeightHistory();
-      WeightDataClass.sortData(weightdata);
-      footData = await DataController.getfoothistory();
-      footDataClass.sortData(footData);
+      weightdata = AppStateNotifier.instance.weightData!;
+      WeightData.sortData(weightdata);
+      footData = AppStateNotifier.instance.footdata!;
+      //footDataClass.sortData(footData);
     } on Exception catch (e) {
       print(e);
     }

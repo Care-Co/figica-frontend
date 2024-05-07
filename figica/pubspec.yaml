@@ -95,6 +95,8 @@ dependencies:
   cupertino_icons: ^1.0.0
   firebase_app_check: ^0.2.1+19
   table_calendar: ^3.0.9
+  logger: ^2.2.0
+  persistent_bottom_nav_bar: ^5.0.2
 
 dev_dependencies:
   flutter_test:

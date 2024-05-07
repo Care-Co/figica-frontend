@@ -1,4 +1,5 @@
 import 'package:fisica/index.dart';
+import 'package:fisica/models/WeightData.dart';
 import 'package:fisica/mypage/calendar.dart';
 import 'package:fisica/scan/Foot_Controller.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:rxdart/streams.dart';
 
 class Chart extends StatefulWidget {
-  final List<WeightDataClass> data;
+  final List<WeightData> data;
 
   const Chart({
     Key? key,
@@ -41,7 +42,7 @@ class _ChartState extends State<Chart> {
     super.dispose();
   }
 
-  void processData(List<WeightDataClass> data) {
+  void processData(List<WeightData> data) {
     timeData = [];
     weights = [];
     weightTypes = [];

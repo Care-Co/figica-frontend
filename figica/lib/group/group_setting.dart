@@ -26,7 +26,7 @@ class _GroupSettingState extends State<GroupSetting> {
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
-  _showLeaveGroupDialog(BuildContext context) {
+  _showLeaveGroupDialog() {
     showAlignedDialog(
       context: context,
       isGlobal: true,
@@ -48,8 +48,8 @@ class _GroupSettingState extends State<GroupSetting> {
     );
   }
 
-  _showDeleteGroupDialog(BuildContext context) {
-    print("tst");
+  _showDeleteGroupDialog() {
+    print("_showDeleteGroupDialog");
     showAlignedDialog(
       context: context,
       isGlobal: true,
@@ -151,9 +151,9 @@ class _GroupSettingState extends State<GroupSetting> {
                   ),
                   onTap: () {
                     if (menuTitle == '그룹 나가기') {
-                      _showLeaveGroupDialog(context);
+                      _showLeaveGroupDialog();
                     } else if (menuTitle == '그룹 삭제') {
-                      _showDeleteGroupDialog(context);
+                      _showDeleteGroupDialog();
                     } else {
                       context.pushNamed(menuList[menuTitle]!);
                     }

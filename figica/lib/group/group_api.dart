@@ -1,100 +1,12 @@
 import 'dart:convert';
-import 'package:fisica/User_Controller.dart';
+import 'package:fisica/main.dart';
+import 'package:fisica/view_models/provider.dart';
+
+import 'package:fisica/models/GroupData.dart';
+import 'package:fisica/models/GroupHistory.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
-class History {
-  final String id;
-  final String groupId;
-  final String category;
-  final String userUid;
-  final String name;
-  final String shortDescription;
-  final String longDescription;
-  final String date;
-
-  History({
-    required this.id,
-    required this.groupId,
-    required this.category,
-    required this.userUid,
-    required this.name,
-    required this.shortDescription,
-    required this.longDescription,
-    required this.date,
-  });
-
-  factory History.fromJson(Map<String, dynamic> json) {
-    return History(
-      id: json['id'],
-      groupId: json['groupId'],
-      category: json['category'],
-      userUid: json['userUid'],
-      name: json['name'],
-      shortDescription: json['shortDescription'],
-      longDescription: json['longDescription'],
-      date: json['date'],
-    );
-  }
-  static List<History> parseHistories(String responseBody) {
-    final parsedJson = json.decode(utf8.decode(responseBody.runes.toList()));
-    final historiesJson = parsedJson['data']['groupHistories'] as List;
-    return historiesJson.map<History>((json) => History.fromJson(json)).toList();
-  }
-}
-
-class GroupMember {
-  final String insertTime;
-  final String? updateTime;
-  final String deleteYn;
-  final String? deleteTime;
-  final String id;
-  final String groupId;
-  final String userUid;
-  final String authority;
-  final String name;
-  final String? photoUrl;
-
-  GroupMember({
-    required this.insertTime,
-    this.updateTime,
-    required this.deleteYn,
-    this.deleteTime,
-    required this.id,
-    required this.groupId,
-    required this.userUid,
-    required this.authority,
-    required this.name,
-    this.photoUrl,
-  });
-
-  factory GroupMember.fromJson(Map<String, dynamic> json) {
-    return GroupMember(
-      insertTime: json['insertTime'],
-      updateTime: json['updateTime'],
-      deleteYn: json['deleteYn'],
-      deleteTime: json['deleteTime'],
-      id: json['id'],
-      groupId: json['groupId'],
-      userUid: json['userUid'],
-      authority: json['authority'],
-      name: json['name'],
-      photoUrl: json['photoUrl'],
-    );
-  }
-
-  static List<GroupMember> parseGroupMember(String responseBody) {
-    final parsedJson = json.decode(utf8.decode(responseBody.runes.toList()));
-    final groupMemberJson = parsedJson['data']['groupMembers'] as List;
-    return groupMemberJson.map<GroupMember>((json) => GroupMember.fromJson(json)).toList();
-  }
-
-  static List<GroupMember> parseGroupInvitation(String responseBody) {
-    final parsedJson = json.decode(utf8.decode(responseBody.runes.toList()));
-    final groupMemberJson = parsedJson['data']['groupMembers'] as List;
-    return groupMemberJson.where((json) => json['authority'] != 'LEADER').map<GroupMember>((json) => GroupMember.fromJson(json)).toList();
-  }
-}
 
 class GroupCheckList {
   final String id;
@@ -188,53 +100,142 @@ class GroupInvitation {
   }
 }
 
+//-----------------------------------------GroupApi-----------------------------------------//
 class GroupApi {
-  static const _data = 'data';
-  static Future<void> saveGroup(String data) async {
-    print('save group');
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_data, data);
+  static Future<void> findGroup() async {
+    String? token = AppStateNotifier.instance.apiToken;
+
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    final url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/groups');
+    final headers = {
+      'accept': '*/*',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+    loggerNoStack.t({'Name': 'findGroup', 'url': url});
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.i(jsonBody);
+
+      if (jsonBody['data'] != null && jsonBody['data'].isNotEmpty) {
+        List<GroupData> data = (jsonBody['data'] as List).map((m) => GroupData.fromJson(m)).toList();
+        AppStateNotifier.instance.UpGroupData(data);
+      } else {
+        loggerNoStack.w('No group');
+      }
+    } else {
+      loggerNoStack.e(response.body);
+    }
   }
 
-  static Future<String?> getGroup() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.getString(_data) == null) {
-      return 'Null';
+  static Future<void> GroupHistoryData() async {
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
+
+    final url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/history/$groupId');
+    final headers = {
+      'accept': '*/*',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+
+    final response = await http.get(url, headers: headers);
+    loggerNoStack.t({'Name': 'GroupHistoryData', 'url': url});
+
+    if (response.statusCode == 200) {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.i(jsonBody);
+      List<GroupHistory> data = (jsonBody as List).map((m) => GroupHistory.fromJson(m)).toList();
+
+      await AppStateNotifier.instance.UpGroupHistory(data);
     } else {
-      return prefs.getString(_data);
+      loggerNoStack.e(response.body);
     }
   }
 
   //그룹 생성
   static Future<bool> createGroup(String groupName) async {
-    print('createGroup');
-    String? token = await UserController.getsavedToken();
-    try {
-      final url = Uri.parse("http://203.232.210.68:8080/api/groups/createGroup");
-      final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
-      final body = jsonEncode({"groupName": groupName});
-      final response = await http.post(url, headers: headers, body: body);
-      if (response.statusCode == 201) {
-        final responseData = jsonDecode(response.body);
-        final newtoken = responseData['token'];
-        print(newtoken);
-        await UserController.setToken(newtoken, true);
-        print('createGroup${response.body}');
-        return true;
-      } else {
-        print('Failed to create group');
-        print('Error: ${response.statusCode}');
-        print('Error message: ${response.body}');
-        return false;
-      }
-    } catch (e) {
-      print('Error occurred: $e');
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+
+    final url = Uri.parse("http://203.232.210.68:8080/api/v1/users/$uid/groups");
+    final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
+    final body = jsonEncode({"groupName": groupName});
+    final response = await http.post(url, headers: headers, body: body);
+    loggerNoStack.t({'Name': 'createGroup', 'url': url});
+
+    if (response.statusCode == 201) {
+      final responseData = jsonDecode(response.body);
+      loggerNoStack.i(responseData);
+      await findGroup();
+      await GroupHistoryData();
+      return true;
+    } else {
+      loggerNoStack.e(response.body);
+
       return false;
     }
   }
 
+  static Future<void> deleteGroup() async {
+    print('RemoveGroup');
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
+    print(groupId);
+
+    final url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/groups/$groupId');
+    final headers = {
+      'accept': '*/*',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+    loggerNoStack.t({'Name': 'GroupHistoryData', 'url': url});
+
+    final response = await http.delete(url, headers: headers);
+    if (response.statusCode == 200) {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.i(jsonBody);
+    } else {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.e(jsonBody);
+    }
+  }
+
+  // static Future<void> removeMemberByGroupmember() async {
+  //   print('RemoveGroup');
+  //   String? token = await UserController.getsavedToken();
+  //   String? uid = await DataController.getuseruid();
+  //   String? groupId = await GroupStorageManager.loadGroupId();
+  //   print(token);
+  //   try {
+  //     final url = Uri.parse('http://203.232.210.68:8080/api/v1/users/$uid/groups/$groupId');
+  //     final headers = {
+  //       'accept': '*/*',
+  //       'Authorization': 'Bearer $token',
+  //       'Content-Type': 'application/json',
+  //     };
+  //     final response = await http.delete(url, headers: headers);
+  //     if (response.statusCode == 201) {
+  //       final responseData = jsonDecode(response.body);
+  //       print('RemoveGroup response${responseData}');
+  //     } else {
+  //       print('Error: ${response.statusCode}');
+  //       print('Error message: ${response.body}');
+  //     }
+  //   } catch (e) {
+  //     print('Error occurred: $e');
+  //   }
+  // }
+
   static Future<void> updateGroupInvitationByGroupLeader(String type, String userUid) async {
-    String? token = await UserController.getsavedToken();
+    String? token = AppStateNotifier.instance.apiToken;
     final apiUrl = Uri.parse('http://203.232.210.68:8080/api/groups/updateGroupInvitationByGroupLeader');
     final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
     final body = jsonEncode({"status": type, "userUid": userUid});
@@ -254,15 +255,16 @@ class GroupApi {
 
   static Future<String> createInvitationCode() async {
     print('createInvitationCode');
-    String? token = await UserController.getsavedToken();
-
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
     try {
-      final url = Uri.parse("http://203.232.210.68:8080/api/groups/createInvitationCode");
+      final url = Uri.parse("http://203.232.210.68:8080/api/v1/users/$uid/groups/$groupId/invitation-codes");
       final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
       final response = await http.post(url, headers: headers);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final responseData = jsonDecode(response.body);
-        final groupInvitationCode = responseData['data']['invitationCode'];
+        final groupInvitationCode = responseData['data']['code'];
         print('createInvitationCode${response.body}');
         return groupInvitationCode;
       } else {
@@ -275,58 +277,9 @@ class GroupApi {
     }
   }
 
-  static Future<void> deleteGroup() async {
-    String? token = await UserController.getsavedToken();
-    final url = Uri.parse('http://203.232.210.68:8080/api/groups/deleteGroup');
-
-    try {
-      final response = await http.delete(
-        url,
-        headers: {'accept': '*/*', 'Authorization': "Bearer $token"},
-      );
-
-      if (response.statusCode == 200) {
-        // 성공적인 응답 처리
-        print('Group deleted successfully');
-        final responseData = jsonDecode(response.body);
-        final token = responseData['token'];
-        UserController.setToken(token, true);
-      } else {
-        // 에러 응답 처리
-        print('Error: ${response.statusCode}');
-        print('Error message: ${response.body}');
-      }
-    } catch (e) {
-      // 예외 처리
-      print('Error: $e');
-    }
-  }
-
-//그룹 찾기
-  static Future<String> findGroup() async {
-    print('findGroup');
-    String? token = await UserController.getsavedToken();
-    final url = Uri.parse('http://203.232.210.68:8080/api/groups/findGroupTest');
-
-    final response = await http.get(
-      url,
-      headers: {
-        'accept': '*/*',
-        'Authorization': 'Bearer $token',
-      },
-    );
-    if (response.statusCode == 200) {
-      return response.body;
-    } else {
-      print(response.body);
-      return await getGroupInvitationByUser();
-    }
-  }
-
 //초대했는지 여부 확인
   static Future<String> getGroupInvitationByUser() async {
-    String? token = await UserController.getsavedToken();
-
+    String? token = AppStateNotifier.instance.apiToken;
     print('getGroupInvitationByUser');
     final url = Uri.parse('http://203.232.210.68:8080/api/groups/getGroupInvitationByUser');
     final headers = {
@@ -348,7 +301,7 @@ class GroupApi {
   }
 
   static Future<String> fetchGroupByInvitationCode(String invitationCode) async {
-    String? token = await UserController.getsavedToken();
+    String? token = AppStateNotifier.instance.apiToken;
     final response = await http.get(
       Uri.parse('http://203.232.210.68:8080/api/groups/getGroupByInvitationCode?invitationCode=$invitationCode'),
       headers: {
@@ -369,7 +322,7 @@ class GroupApi {
 
 //초대 생성
   static Future<void> createGroupInvitation(String invitationCode) async {
-    String? token = await UserController.getsavedToken();
+    String? token = AppStateNotifier.instance.apiToken;
 
     final url = Uri.parse('http://203.232.210.68:8080/api/groups/createGroupInvitation');
     final headers = {
@@ -399,7 +352,7 @@ class GroupApi {
 
 //초대 내역 확인
   static Future<String> getGroupInvitations() async {
-    String? token = await UserController.getsavedToken();
+    String? token = AppStateNotifier.instance.apiToken;
     final url = Uri.parse('http://203.232.210.68:8080/api/groups/getGroupInvitationsByGroupLeader');
     final headers = {
       'accept': '*/*',
@@ -458,7 +411,7 @@ class GroupApi {
   }
 
   static Future<void> updateGroupInvitationByUser(int status) async {
-    String? token = await UserController.getsavedToken();
+    String? token = AppStateNotifier.instance.apiToken;
 
     final url = Uri.parse('http://203.232.210.68:8080/api/groups/updateGroupInvitationByUser');
     final headers = {
@@ -484,32 +437,8 @@ class GroupApi {
     }
   }
 
-  static Future<void> removeMemberByGroupmember() async {
-    String? token = await UserController.getsavedToken();
-
-    String apiUrl = 'http://203.232.210.68:8080/api/groups/removeMemberByGroupmember';
-
-    try {
-      final response = await http.delete(
-        Uri.parse(apiUrl),
-        headers: {
-          'accept': '*/*',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        print('Request successful');
-      } else {
-        print('Request failed with status: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error: $error');
-    }
-  }
-
   static Future<void> removeMemberByGroupleader(String memberUid) async {
-    String? token = await UserController.getsavedToken();
+    String? token = AppStateNotifier.instance.apiToken;
     print(memberUid);
 
     String apiUrl = 'http://203.232.210.68:8080/api/groups/removeMemberByGroupleader?memberUid=$memberUid';
@@ -534,7 +463,7 @@ class GroupApi {
   }
 
   static Future<void> updateGroupLeader(String memberUid) async {
-    String? token = await UserController.getsavedToken();
+    String? token = AppStateNotifier.instance.apiToken;
     print(memberUid);
 
     final url = Uri.parse('http://203.232.210.68:8080/api/groups/updateGroup');
@@ -562,7 +491,7 @@ class GroupApi {
   }
 
   static Future<void> updateGroupName(String name) async {
-    String? token = await UserController.getsavedToken();
+    String? token = AppStateNotifier.instance.apiToken;
 
     final url = Uri.parse('http://203.232.210.68:8080/api/groups/updateGroup');
     final headers = {

@@ -1,14 +1,12 @@
 import 'package:bottom_picker/bottom_picker.dart';
 
 import 'package:fisica/components/SignUP_Cancel.dart';
-import 'package:fisica/flutter_set/App_icon_button.dart';
 import 'package:fisica/flutter_set/flutter_drop_down.dart';
+import 'package:fisica/view_models/provider.dart';
 
 import 'package:fisica/flutter_set/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'User_info_model.dart';
-export 'User_info_model.dart';
 
 import 'package:fisica/index.dart';
 
@@ -20,34 +18,29 @@ class UserInfoWidget extends StatefulWidget {
 }
 
 class _UserInfoWidgetState extends State<UserInfoWidget> {
-  late UserInfoModel _model;
   DateTime? selectedDate;
   String selectedGender = 'none';
   String dropDownValue = 'KR';
   FormFieldController<String>? dropDownValueController;
-  late AppStateNotifier _appStateNotifier;
+  final TextEditingController fiController = TextEditingController();
+  final fiFocusNode = FocusNode();
 
+  final TextEditingController namController = TextEditingController();
+  final namFocusNode = FocusNode();
+
+  final TextEditingController biController = TextEditingController();
+  final biFocusNode = FocusNode();
+
+  final TextEditingController heController = TextEditingController();
+  final heFocusNode = FocusNode();
+
+  final TextEditingController weController = TextEditingController();
+  final weFocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => UserInfoModel());
-
-    _model.fiController ??= TextEditingController();
-    _model.fiFocusNode ??= FocusNode();
-
-    _model.namController ??= TextEditingController();
-    _model.namFocusNode ??= FocusNode();
-
-    _model.biController ??= TextEditingController();
-    _model.biFocusNode ??= FocusNode();
-
-    _model.heController ??= TextEditingController();
-    _model.heFocusNode ??= FocusNode();
-
-    _model.weController ??= TextEditingController();
-    _model.weFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -79,12 +72,12 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
   }
 
   bool get areFieldsValid {
-    return _model.fiController.text.isNotEmpty && _model.namController.text.isNotEmpty;
+    return fiController.text.isNotEmpty && namController.text.isNotEmpty;
   }
 
   @override
   void dispose() {
-    _model.dispose();
+    dispose();
 
     super.dispose();
   }
@@ -101,7 +94,6 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
     }
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: AppColors.primaryBackground,
@@ -129,9 +121,9 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                   return Material(
                     color: Colors.transparent,
                     child: GestureDetector(
-                      onTap: () => _model.unfocusNode.canRequestFocus
-                          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                          : FocusScope.of(context).unfocus(),
+                      // onTap: () => unfocusNode.canRequestFocus
+                      //     ? FocusScope.of(context).requestFocus(unfocusNode)
+                      //     : FocusScope.of(context).unfocus(),
                       child: Container(
                         height: 432,
                         width: 327,
@@ -186,8 +178,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(0, 20, 8, 0),
                                 child: TextFormField(
-                                  controller: _model.fiController,
-                                  focusNode: _model.fiFocusNode,
+                                  controller: fiController,
+                                  focusNode: fiFocusNode,
                                   autofocus: false,
                                   obscureText: false,
                                   decoration: InputDecoration(
@@ -260,8 +252,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(8, 20, 0, 0),
                                 child: TextFormField(
-                                  controller: _model.namController,
-                                  focusNode: _model.namFocusNode,
+                                  controller: namController,
+                                  focusNode: namFocusNode,
                                   autofocus: false,
                                   obscureText: false,
                                   decoration: InputDecoration(
@@ -452,8 +444,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(0, 32, 8, 0),
                                 child: TextFormField(
-                                    controller: _model.heController,
-                                    focusNode: _model.heFocusNode,
+                                    controller: heController,
+                                    focusNode: heFocusNode,
                                     autofocus: false,
                                     obscureText: false,
                                     decoration: InputDecoration(
@@ -498,8 +490,8 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(8, 32, 0, 0),
                                 child: TextFormField(
-                                  controller: _model.weController,
-                                  focusNode: _model.weFocusNode,
+                                  controller: weController,
+                                  focusNode: weFocusNode,
                                   autofocus: false,
                                   obscureText: false,
                                   decoration: InputDecoration(
@@ -538,7 +530,6 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                       )),
                                   style: AppFont.r16,
                                   keyboardType: TextInputType.number,
-                                  validator: _model.weControllerValidator.asValidator(context),
                                 ),
                               ),
                             ),
@@ -612,13 +603,12 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                                 String data = selectedDate != null
                                     ? "${selectedDate!.year}/${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.day.toString().padLeft(2, '0')}"
                                     : "0000/00/00";
-                                String finame = _model.fiController.text;
-                                String name = _model.namController.text;
-                                double height = _model.heController.text.isEmpty ? 0.0 : double.parse(_model.heController.text);
-                                double weight = _model.weController.text.isEmpty ? 0.0 : double.parse(_model.weController.text);
-                                _appStateNotifier = AppStateNotifier.instance;
+                                String finame = fiController.text;
+                                String name = namController.text;
+                                double height = heController.text.isEmpty ? 0.0 : double.parse(heController.text);
+                                double weight = weController.text.isEmpty ? 0.0 : double.parse(weController.text);
 
-                                await UserController.updateProfile(data, finame, name, selectedGender, height, weight, dropDownValue)
+                                await UserController.singUpInputdata(data, finame, name, selectedGender, height, weight, dropDownValue)
                                     .then((userData) async {
                                   userData ? context.goNamed('home') : await UserController.deleteUser().then((value) => context.goNamed('home'));
                                 }).catchError((error) {

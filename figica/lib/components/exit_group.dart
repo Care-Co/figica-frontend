@@ -90,25 +90,27 @@ class _ExitGroupState extends State<ExitGroup> {
                       height: 56.0,
                       child: LodingButtonWidget(
                         onPressed: () async {
-                          await GroupApi.removeMemberByGroupmember().then((value) => showAlignedDialog(
-                                context: context,
-                                isGlobal: true,
-                                avoidOverflow: false,
-                                targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                builder: (dialogContext) {
-                                  return Material(
-                                    color: Colors.transparent,
-                                    child: GestureDetector(
-                                      child: Container(
-                                        height: 432,
-                                        width: 327,
-                                        child: CheckExit(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ));
+                          // await GroupApi.removeMemberByGroupmember().then((value) async {
+                          //   showAlignedDialog(
+                          //     context: context,
+                          //     isGlobal: true,
+                          //     avoidOverflow: false,
+                          //     targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                          //     followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                          //     builder: (dialogContext) {
+                          //       return Material(
+                          //         color: Colors.transparent,
+                          //         child: GestureDetector(
+                          //           child: Container(
+                          //             height: 432,
+                          //             width: 327,
+                          //             child: CheckExit(),
+                          //           ),
+                          //         ),
+                          //       );
+                          //     },
+                          //   );
+                          // });
                         },
                         text: SetLocalizations.of(context).getText('cnlthgkrl' /* 신청 취소하기 */
                             ),

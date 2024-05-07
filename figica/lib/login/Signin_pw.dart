@@ -6,8 +6,6 @@ import '../flutter_set/flutter_util.dart';
 import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'login_model.dart';
-export 'login_model.dart';
 
 class SetPwWidget extends StatefulWidget {
   final String email;
@@ -19,32 +17,32 @@ class SetPwWidget extends StatefulWidget {
 }
 
 class _SetPwWidgetState extends State<SetPwWidget> {
-  late LoginModel _model;
   String inputType = 'none'; // 'email', 'phone', 'none'
   String? selectedDropdownValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  var pwController = TextEditingController();
+  var pwFocusNode = FocusNode();
+
+  var pw2Controller = TextEditingController();
+  var pw2FocusNode = FocusNode();
+  late bool pwVisibility;
+  late bool pw2Visibility;
 
   @override
   void initState() {
     super.initState();
     print(widget.email);
-    _model = createModel(context, () => LoginModel());
-
-    _model.pwController ??= TextEditingController();
-    _model.pwFocusNode ??= FocusNode();
-
-    _model.pw2Controller ??= TextEditingController();
-    _model.pw2FocusNode ??= FocusNode();
-
-    _model.pwController!.addListener(() {
-      if (_isValidPassword(_model.pwController!.text)) {
+    pwVisibility = false;
+    pw2Visibility = false;
+    pwController.addListener(() {
+      if (_isValidPassword(pwController.text)) {
       } else {}
       setState(() {});
     });
 
     // 비밀번호 확인 텍스트필드의 리스너 추가
-    _model.pw2Controller!.addListener(() {
-      if (_model.pw2Controller!.text == _model.pwController!.text) {
+    pw2Controller.addListener(() {
+      if (pw2Controller.text == pwController.text) {
       } else {}
       setState(() {});
     });
@@ -58,13 +56,13 @@ class _SetPwWidgetState extends State<SetPwWidget> {
 
   @override
   void dispose() {
-    _model.dispose();
+    dispose();
 
     super.dispose();
   }
 
   String? get _errorText1 {
-    final text = _model.pwController!.text;
+    final text = pwController.text;
     if (!_isValidPassword(text)) {
       return SetLocalizations.of(context).getText(
         '8u5gojhte' /* 8 - 24자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요 */,
@@ -74,8 +72,8 @@ class _SetPwWidgetState extends State<SetPwWidget> {
   }
 
   String? get _errorText2 {
-    final text = _model.pw2Controller!.text;
-    final originalPassword = _model.pwController!.text;
+    final text = pw2Controller.text;
+    final originalPassword = pwController.text;
     if (text != originalPassword) {
       setState(() {});
       return SetLocalizations.of(context).getText(
@@ -97,7 +95,6 @@ class _SetPwWidgetState extends State<SetPwWidget> {
     }
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
@@ -159,18 +156,18 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                               style: AppFont.s12),
                         ),
                         TextFormField(
-                          controller: _model.pwController,
-                          focusNode: _model.pwFocusNode,
+                          controller: pwController,
+                          focusNode: pwFocusNode,
                           autofocus: false,
-                          obscureText: !_model.pwVisibility,
+                          obscureText: !pwVisibility,
                           decoration: InputDecoration(
                             suffixIcon: InkWell(
                               onTap: () => setState(
-                                () => _model.pwVisibility = !_model.pwVisibility,
+                                () => pwVisibility = !pwVisibility,
                               ),
                               focusNode: FocusNode(skipTraversal: true),
                               child: Icon(
-                                _model.pwVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                pwVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                                 color: Color(0xFF757575),
                                 size: 15,
                               ),
@@ -210,7 +207,6 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                             errorText: _errorText1,
                           ),
                           style: AppFont.r16.overrides(color: AppColors.Gray700),
-                          validator: _model.pwControllerValidator.asValidator(context),
                         ),
                         /*-----------------------비밀번호 확인-----------------------------*/
                         Padding(
@@ -222,18 +218,18 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                               style: AppFont.s12),
                         ),
                         TextFormField(
-                          controller: _model.pw2Controller,
-                          focusNode: _model.pw2FocusNode,
+                          controller: pw2Controller,
+                          focusNode: pw2FocusNode,
                           autofocus: false,
-                          obscureText: !_model.pw2Visibility,
+                          obscureText: !pw2Visibility,
                           decoration: InputDecoration(
                             suffixIcon: InkWell(
                               onTap: () => setState(
-                                () => _model.pw2Visibility = !_model.pw2Visibility,
+                                () => pw2Visibility = !pw2Visibility,
                               ),
                               focusNode: FocusNode(skipTraversal: true),
                               child: Icon(
-                                _model.pw2Visibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                pw2Visibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                                 color: Color(0xFF757575),
                                 size: 15,
                               ),
@@ -273,7 +269,6 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                             errorText: _errorText2,
                           ),
                           style: AppFont.r16.overrides(color: AppColors.Gray700),
-                          validator: _model.pw2ControllerValidator.asValidator(context),
                         ),
                       ]),
                     ),
@@ -317,10 +312,10 @@ class _SetPwWidgetState extends State<SetPwWidget> {
                                 decoration: BoxDecoration(),
                                 child: LodingButtonWidget(
                                   onPressed: () async {
-                                    GoRouter.of(context).prepareAuthEvent();
+                                    //GoRouter.of(context).prepareAuthEvent();
 
                                     try {
-                                      bool singup = await UserController.signUpWithEmail(widget.email, _model.pwController.text);
+                                      bool singup = await UserController.signUpWithEmail(widget.email, pwController.text);
                                       if (singup) {
                                         context.goNamed('singup_userinfo');
                                       } else {

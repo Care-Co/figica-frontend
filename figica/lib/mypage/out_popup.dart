@@ -64,9 +64,7 @@ class _ExitserviceState extends State<Exitservice> {
 
   Future<void> logout() async {
     print('logout');
-    await DataController.removedata();
-    await DataController.removedevice();
-    await UserController.removeToken();
+    await AppStateNotifier.instance.logout();
     showAlignedDialog(
       context: context,
       isGlobal: true,

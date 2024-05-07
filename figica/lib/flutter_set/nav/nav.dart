@@ -1,10 +1,8 @@
-import 'dart:async';
-
 import 'package:fisica/botnav.dart';
+import 'package:fisica/group/CreateCode.dart';
 import 'package:fisica/group/settings/changeLeader_screen.dart';
 import 'package:fisica/mypage/History.dart';
 import 'package:fisica/mypage/Modi_User_info_widget.dart';
-import 'package:fisica/mypage/Chart.dart';
 import 'package:fisica/mypage/my_avata.dart';
 import 'package:fisica/mypage/my_setting.dart';
 import 'package:fisica/scan/Find_blue.dart';
@@ -13,8 +11,6 @@ import 'package:fisica/scan/Foot_result.dart';
 import 'package:fisica/testmode.dart/TesterData.dart';
 import 'package:fisica/testmode.dart/test_tos_.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../group/group_setting.dart';
 import '/index.dart';
 export 'package:go_router/go_router.dart';
@@ -22,69 +18,20 @@ export 'serialization_util.dart';
 
 const kTransitionInfoKey = '__transition_info__';
 
-class AppStateNotifier extends ChangeNotifier {
-  AppStateNotifier._();
-
-  static AppStateNotifier? _instance;
-  static AppStateNotifier get instance => _instance ??= AppStateNotifier._();
-
-  BaseAuthUser? initialUser;
-  bool showSplashImage = true;
-  String? _redirectLocation;
-  String? _apiToken;
-
-  bool notifyOnAuthChange = true;
-  String? get apiToken => _apiToken;
-  bool get loading => _apiToken == null || showSplashImage;
-  bool get loggedIn => _apiToken != null;
-  bool get initiallyLoggedIn => initialUser?.loggedIn ?? false;
-  bool get shouldRedirect => loggedIn && _redirectLocation != null;
-
-  String getRedirectLocation() => _redirectLocation!;
-  bool hasRedirect() => _redirectLocation != null;
-  void setRedirectLocationIfUnset(String loc) => _redirectLocation ??= loc;
-  void clearRedirectLocation() => _redirectLocation = null;
-
-  void updateNotifyOnAuthChange(bool notify) => notifyOnAuthChange = notify;
-
-  void update(String? newToken) {
-    print('notifyListeners');
-    if (_apiToken != newToken) {
-      _apiToken = newToken;
-      print('update $_apiToken');
-      notifyListeners(); // 상태가 변경되었으므로 리스너들에게 알림
-    }
-  }
-
-  void delete() {
-    print('delete');
-    _apiToken = null;
-    notifyListeners();
-  }
-
-  void stopShowingSplashImage() {
-    showSplashImage = false;
-    notifyListeners();
-  }
-}
-
 GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         initialLocation: '/',
         debugLogDiagnostics: true,
         refreshListenable: appStateNotifier,
         redirect: (context, state) {
           final loggedIn = appStateNotifier.loggedIn;
-          print(loggedIn);
           final loggingIn = state.matchedLocation.startsWith('/login');
-          if (!loggedIn) return loggingIn ? null : '/login';
-          if (loggingIn) return '/';
+          if (!loggedIn && !loggingIn) {
+            return '/login';
+          } else if (loggedIn && loggingIn) {
+            return '/';
+          }
           return null;
         },
-        // HomePageWidget(),
-        // GroupWidget(),
-        // ScanpageWidget(), // 가정: 가운데 돌출 아이템
-        // planWidget(),
-        // MypageWidget(),
         routes: <RouteBase>[
           GoRoute(
             name: 'home',
@@ -258,12 +205,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   },
                   routes: [
                     GoRoute(
-                      name: 'GroupInvitation',
-                      path: 'GroupInvitation',
+                      name: 'GroupCreatecode',
+                      path: 'GroupCreatecode',
                       builder: (context, state) {
-                        return GroupInvitationScreen();
+                        return CreateCodeWidget();
                       },
-                    )
+                      routes: [
+                        GoRoute(
+                          name: 'GroupInvitation',
+                          path: 'GroupInvitation',
+                          builder: (context, state) {
+                            return GroupInvitationScreen();
+                          },
+                        )
+                      ],
+                    ),
                   ]),
               GoRoute(
                   name: 'Joingroup',
@@ -443,85 +399,4 @@ extension NavigationExtensions on BuildContext {
       go('/');
     }
   }
-}
-
-extension GoRouterExtensions on GoRouter {
-  AppStateNotifier get appState => AppStateNotifier.instance;
-  void prepareAuthEvent([bool ignoreRedirect = false]) => appState.hasRedirect() && !ignoreRedirect ? null : appState.updateNotifyOnAuthChange(false);
-  bool shouldRedirect(bool ignoreRedirect) => !ignoreRedirect && appState.hasRedirect();
-  void clearRedirectLocation() => appState.clearRedirectLocation();
-  void setRedirectLocationIfUnset(String location) => appState.updateNotifyOnAuthChange(false);
-}
-
-extension _GoRouterStateExtensions on GoRouterState {
-  Map<String, dynamic> get extraMap => extra != null ? extra as Map<String, dynamic> : {};
-  Map<String, dynamic> get allParams => <String, dynamic>{}
-    ..addAll(pathParameters)
-    ..addAll(extraMap);
-  TransitionInfo get transitionInfo =>
-      extraMap.containsKey(kTransitionInfoKey) ? extraMap[kTransitionInfoKey] as TransitionInfo : TransitionInfo.appDefault();
-}
-
-class FFParameters {
-  FFParameters(this.state, [this.asyncParams = const {}]);
-
-  final GoRouterState state;
-  final Map<String, Future<dynamic> Function(String)> asyncParams;
-
-  Map<String, dynamic> futureParamValues = {};
-
-  // Parameters are empty if the params map is empty or if the only parameter
-  // present is the special extra parameter reserved for the transition info.
-  bool get isEmpty => state.allParams.isEmpty || (state.extraMap.length == 1 && state.extraMap.containsKey(kTransitionInfoKey));
-  bool isAsyncParam(MapEntry<String, dynamic> param) => asyncParams.containsKey(param.key) && param.value is String;
-  bool get hasFutures => state.allParams.entries.any(isAsyncParam);
-  Future<bool> completeFutures() => Future.wait(
-        state.allParams.entries.where(isAsyncParam).map(
-          (param) async {
-            final doc = await asyncParams[param.key]!(param.value).onError((_, __) => null);
-            if (doc != null) {
-              futureParamValues[param.key] = doc;
-              return true;
-            }
-            return false;
-          },
-        ),
-      ).onError((_, __) => [false]).then((v) => v.every((e) => e));
-
-  dynamic getParam<T>(
-    String paramName,
-    ParamType type, [
-    bool isList = false,
-    List<String>? collectionNamePath,
-  ]) {
-    if (futureParamValues.containsKey(paramName)) {
-      return futureParamValues[paramName];
-    }
-    if (!state.allParams.containsKey(paramName)) {
-      return null;
-    }
-    final param = state.allParams[paramName];
-    // Got parameter from `extras`, so just directly return it.
-    if (param is! String) {
-      return param;
-    }
-    // Return serialized value.
-    return deserializeParam<T>(param, type, isList, collectionNamePath: collectionNamePath);
-  }
-}
-
-class TransitionInfo {
-  const TransitionInfo({
-    required this.hasTransition,
-    this.transitionType = PageTransitionType.fade,
-    this.duration = const Duration(milliseconds: 300),
-    this.alignment,
-  });
-
-  final bool hasTransition;
-  final PageTransitionType transitionType;
-  final Duration duration;
-  final Alignment? alignment;
-
-  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
 }

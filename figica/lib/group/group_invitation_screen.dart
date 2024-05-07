@@ -50,6 +50,7 @@ class _CreategroupWidgetState extends State<GroupInvitationScreen> {
   Future<void> _loadInvitationCode() async {
     try {
       String code = await GroupApi.createInvitationCode();
+      print(code);
       setState(() {
         invitationCode = code;
       });
@@ -79,11 +80,26 @@ class _CreategroupWidgetState extends State<GroupInvitationScreen> {
           automaticallyImplyLeading: false,
           title: Text(
             SetLocalizations.of(context).getText(
-              'rmfnqt' /* Page Title */,
+              'todakld' /* 그룹 생성 완료 */,
             ),
-            style: AppFont.s18,
+            style: AppFont.s18.overrides(color: AppColors.primaryBackground),
           ),
-          actions: [],
+          actions: [
+            AppIconButton(
+              borderColor: Colors.transparent,
+              borderRadius: 30,
+              borderWidth: 1,
+              buttonSize: 60,
+              icon: Icon(
+                Icons.chevron_left,
+                color: AppColors.primaryBackground,
+                size: 30,
+              ),
+              onPressed: () async {
+                context.goNamed('home');
+              },
+            ),
+          ],
           centerTitle: false,
           elevation: 0,
         ),
@@ -105,7 +121,7 @@ class _CreategroupWidgetState extends State<GroupInvitationScreen> {
                   ),
                 ),
                 Container(
-                  width: 327,
+                  width: double.infinity,
                   height: 185,
                   decoration: ShapeDecoration(
                     gradient: LinearGradient(
@@ -180,7 +196,7 @@ class _CreategroupWidgetState extends State<GroupInvitationScreen> {
                                     child: GestureDetector(
                                       child: Container(
                                         height: 432,
-                                        width: 327,
+                                        width: double.infinity,
                                         child: Cancelcode(),
                                       ),
                                     ),
@@ -224,7 +240,7 @@ class _CreategroupWidgetState extends State<GroupInvitationScreen> {
                         padding: EdgeInsets.only(top: 8),
                         child: Container(
                           height: 112,
-                          width: 327,
+                          width: double.infinity,
                           decoration: BoxDecoration(
                             color: AppColors.Gray850,
                             borderRadius: BorderRadius.circular(8),

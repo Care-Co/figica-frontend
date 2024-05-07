@@ -1,11 +1,9 @@
 import 'package:bottom_picker/bottom_picker.dart';
+import 'package:fisica/models/UserData.dart';
 
-import 'package:fisica/components/SignUP_Cancel.dart';
-import 'package:fisica/flutter_set/App_icon_button.dart';
-import 'package:fisica/flutter_set/flutter_drop_down.dart';
+import 'package:fisica/view_models/provider.dart';
 
 import 'package:fisica/flutter_set/form_field_controller.dart';
-import 'package:fisica/login/User_info_model.dart';
 import 'package:fisica/mypage/Cancle_modi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,36 +18,46 @@ class ModiUserInfoWidget extends StatefulWidget {
 }
 
 class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
-  var data;
+  UserData? data;
   late Future<void> _userInfoFuture; // Variable to store the future
+  var fiController = TextEditingController();
+  var fiFocusNode = FocusNode();
+
+  var namController = TextEditingController();
+  var namFocusNode = FocusNode();
+
+  var heController = TextEditingController();
+  var heFocusNode = FocusNode();
+
+  var weController = TextEditingController();
+  var weFocusNode = FocusNode();
 
   Future<void> getData() async {
-    data = await DataController.getuserinfo();
+    data = AppStateNotifier.instance.userdata;
     print(data);
     setState(() {
-      _model.fiController = TextEditingController(text: data['firstName']);
-      _model.fiFocusNode = FocusNode();
+      print('set');
+      fiController = TextEditingController(text: data!.firstName);
+      fiFocusNode = FocusNode();
 
-      _model.namController = TextEditingController(text: data['lastName']);
-      _model.namFocusNode = FocusNode();
+      namController = TextEditingController(text: data!.lastName);
+      namFocusNode = FocusNode();
 
-      _model.heController = TextEditingController(text: data['height'].toString());
-      _model.heFocusNode = FocusNode();
+      heController = TextEditingController(text: data!.height.toString());
+      heFocusNode = FocusNode();
 
-      _model.weController = TextEditingController(text: data['weight'].toString());
-      _model.weFocusNode = FocusNode();
+      weController = TextEditingController(text: data!.weight.toString());
+      weFocusNode = FocusNode();
 
-      selectedDate = DateTime.parse(data['birthday'] == null ? '0000-00-00 00:00:00.000' : data['birthday']);
+      selectedDate = DateTime.parse(data?.birthday == null ? '2024-01-01 00:00:00.000' : data!.birthday);
       print(selectedDate);
-      selectedGender = data['gender'] == 'NONE' ? null : data['gender'];
+      selectedGender = data!.gender == 'NONE' ? 'NONE' : data!.gender;
       print(selectedGender);
-
-      dropDownValue = data['region'] == null ? 'KR' : data['region'];
+      dropDownValue = data?.region == null ? 'KR' : data!.region;
       print(dropDownValue);
     });
   }
 
-  late UserInfoModel _model;
   DateTime? selectedDate;
   String selectedGender = 'none';
   String dropDownValue = 'KR';
@@ -61,7 +69,6 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => UserInfoModel());
     _userInfoFuture = getData();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -71,10 +78,10 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
       String data = selectedDate != null
           ? "${selectedDate!.year}/${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.day.toString().padLeft(2, '0')}"
           : "0000/00/00";
-      String finame = _model.fiController.text;
-      String name = _model.namController.text;
-      double height = _model.heController.text.isEmpty ? 0.0 : double.parse(_model.heController.text);
-      double weight = _model.weController.text.isEmpty ? 0.0 : double.parse(_model.weController.text);
+      String finame = fiController.text;
+      String name = namController.text;
+      double height = heController.text.isEmpty ? 0.0 : double.parse(heController.text);
+      double weight = weController.text.isEmpty ? 0.0 : double.parse(weController.text);
 
       await UserController.modiProfile(data, finame, name, selectedGender, height, weight, dropDownValue).then((userData) {
         _appStateNotifier = AppStateNotifier.instance;
@@ -113,12 +120,12 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
   }
 
   bool get areFieldsValid {
-    return _model.fiController.text.isNotEmpty && _model.namController.text.isNotEmpty;
+    return fiController.text.isNotEmpty && namController.text.isNotEmpty;
   }
 
   @override
   void dispose() {
-    _model.dispose();
+    dispose();
 
     super.dispose();
   }
@@ -135,7 +142,6 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
     }
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: AppColors.primaryBackground,
@@ -177,9 +183,9 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                     return Material(
                       color: Colors.transparent,
                       child: GestureDetector(
-                        onTap: () => _model.unfocusNode.canRequestFocus
-                            ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                            : FocusScope.of(context).unfocus(),
+                        // onTap: () => unfocusNode.canRequestFocus
+                        //     ? FocusScope.of(context).requestFocus(unfocusNode)
+                        //     : FocusScope.of(context).unfocus(),
                         child: Container(
                           height: 432,
                           width: 327,
@@ -226,8 +232,8 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(0, 20, 8, 0),
                                         child: TextFormField(
-                                          controller: _model.fiController,
-                                          focusNode: _model.fiFocusNode,
+                                          controller: fiController,
+                                          focusNode: fiFocusNode,
                                           autofocus: false,
                                           obscureText: false,
                                           decoration: InputDecoration(
@@ -300,8 +306,8 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(8, 20, 0, 0),
                                         child: TextFormField(
-                                          controller: _model.namController,
-                                          focusNode: _model.namFocusNode,
+                                          controller: namController,
+                                          focusNode: namFocusNode,
                                           autofocus: false,
                                           obscureText: false,
                                           decoration: InputDecoration(
@@ -492,8 +498,8 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(0, 32, 8, 0),
                                         child: TextFormField(
-                                            controller: _model.heController,
-                                            focusNode: _model.heFocusNode,
+                                            controller: heController,
+                                            focusNode: heFocusNode,
                                             autofocus: false,
                                             obscureText: false,
                                             decoration: InputDecoration(
@@ -538,8 +544,8 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(8, 32, 0, 0),
                                         child: TextFormField(
-                                          controller: _model.weController,
-                                          focusNode: _model.weFocusNode,
+                                          controller: weController,
+                                          focusNode: weFocusNode,
                                           autofocus: false,
                                           obscureText: false,
                                           decoration: InputDecoration(
@@ -578,7 +584,6 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                               )),
                                           style: AppFont.r16,
                                           keyboardType: TextInputType.number,
-                                          validator: _model.weControllerValidator.asValidator(context),
                                         ),
                                       ),
                                     ),

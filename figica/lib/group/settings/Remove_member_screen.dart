@@ -4,6 +4,7 @@ import 'package:fisica/components/member_more.dart';
 import 'package:fisica/components/removeMemberOnly_pop.dart';
 import 'package:fisica/components/removeMember_changeLeader.dart';
 import 'package:fisica/components/removeMembers_pop.dart';
+import 'package:fisica/models/GroupData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';
@@ -17,7 +18,7 @@ class RemoveMemberPage extends StatefulWidget {
 
 class _RemoveMemberPageState extends State<RemoveMemberPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<GroupMember> groupMembers = [];
+  List<Member> memberData = [];
   List<String> selectedUserIds = [];
   List<String> selectedUserauth = [];
   String onlyname = '';
@@ -33,14 +34,12 @@ class _RemoveMemberPageState extends State<RemoveMemberPage> {
   }
 
   Future<void> initGroupData() async {
-    var groupData = await GroupApi.getGroup();
-    var parsedJson = json.decode(groupData!);
-
     print("test");
-    setState(() {
-      group = parsedJson['data']['groupName'];
-      groupMembers = GroupMember.parseGroupMember(groupData);
-    });
+    // var loadedmemberdata = await GroupStorageManager.loadMember();
+
+    // setState(() {
+    //   memberData = loadedmemberdata;
+    // });
   }
 
   void _onMemberSelected(bool isSelected, String userId, String auth, String name) {
@@ -128,9 +127,9 @@ class _RemoveMemberPageState extends State<RemoveMemberPage> {
                 children: [
                   Flexible(
                     child: ListView.builder(
-                      itemCount: groupMembers.length,
+                      itemCount: memberData!.length,
                       itemBuilder: (context, index) {
-                        bool isSelected = selectedUserIds.contains(groupMembers[index].userUid);
+                        bool isSelected = selectedUserIds.contains(memberData![index].memberId);
                         return Container(
                           width: 232,
                           child: Column(
@@ -161,10 +160,10 @@ class _RemoveMemberPageState extends State<RemoveMemberPage> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                groupMembers[index].name,
+                                                memberData![index].firstName,
                                                 style: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
                                               ),
-                                              Text(groupMembers[index].authority,
+                                              Text(memberData![index].authority,
                                                   style: AppFont.r16.overrides(fontSize: 12, color: AppColors.Gray300)),
                                             ],
                                           ),
@@ -190,8 +189,8 @@ class _RemoveMemberPageState extends State<RemoveMemberPage> {
                                               checkColor: AppColors.Black, // Color of the tick
                                               activeColor: AppColors.Gray100, // Background color
                                               onChanged: (bool? newValue) {
-                                                _onMemberSelected(
-                                                    newValue!, groupMembers[index].userUid, groupMembers[index].authority, groupMembers[index].name);
+                                                _onMemberSelected(newValue!, memberData![index].memberId, memberData![index].authority,
+                                                    memberData![index].firstName);
                                               },
                                             ),
                                           ),

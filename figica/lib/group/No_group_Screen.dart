@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:fisica/index.dart';
 
-// 다른 필요한 패키지들을 여기에 임포트하세요.
-
 class NogroupScreen extends StatefulWidget {
   const NogroupScreen({Key? key}) : super(key: key);
   @override

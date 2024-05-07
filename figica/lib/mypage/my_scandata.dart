@@ -8,7 +8,6 @@ class MyScanData extends StatefulWidget {
   _MyScanDataState createState() => _MyScanDataState();
 }
 
-// StatefulWidget의 상태를 관리하는 클래스
 class _MyScanDataState extends State<MyScanData> {
   var mydata;
   var data;
@@ -22,12 +21,10 @@ class _MyScanDataState extends State<MyScanData> {
   void initState() {
     super.initState();
     getData();
-    //WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   void _toggleHeight() {
     setState(() {
-      // 높이와 아이콘 상태 토글
       if (togle) {
         togle = false;
         height = 50;
@@ -41,15 +38,12 @@ class _MyScanDataState extends State<MyScanData> {
   }
 
   Future<void> getData() async {
-    // 비동기 작업의 결과를 상태 변수에 저장합니다.
-    var tempData = await DataController.getuserinfo();
-    var sharedPrefsData = await DataController.get_apiData();
-    data = sharedPrefsData;
-    mydata = tempData;
+    mydata = AppStateNotifier.instance.userdata;
+    data = AppStateNotifier.instance.scandata;
     print(data);
     print(mydata);
-    settype(sharedPrefsData['classType']); // SharedPreferences에서 불러온 데이터
-    accuracy = sharedPrefsData['accuracy'];
+    settype(data['classType']); // SharedPreferences에서 불러온 데이터
+    accuracy = data['accuracy'];
   }
 
   void settype(int typeint) {

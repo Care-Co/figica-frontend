@@ -1,56 +1,44 @@
 import 'package:fisica/index.dart';
-import 'package:fisica/scan/Foot_Controller.dart';
+import 'package:fisica/models/FootData.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fisica/index.dart';
-import 'package:fisica/scan/Foot_Controller.dart';
-import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Avata extends StatefulWidget {
-  const Avata({Key? key}) : super(key: key);
+  final List<FootData> footdata;
+  const Avata({Key? key, required this.footdata}) : super(key: key);
 
   @override
   _AvataState createState() => _AvataState();
 }
 
 class _AvataState extends State<Avata> {
-  var data;
   String type = '';
   String typeavt = '';
   bool typeok = false;
   bool isLoading = true;
-  var footData;
 
   @override
   void initState() {
     super.initState();
-    getData();
+    getData(widget.footdata);
   }
 
-  Future<void> getData() async {
-    final now = DateTime.now();
+  void getData(List<FootData> datas) {
     try {
-      await footDataClass.getfoothistory('${now.year}', '${now.month}').then((value) async {
-        footData = await DataController.getfoothistory();
-        footDataClass.sortData(footData);
-        print(footData.toString());
-      });
-
-      setState(() {
-        data = footData.first;
-        settype(data.classType);
-        isLoading = false;
-      });
-    } on Exception catch (e) {
+      if (datas.isNotEmpty) {
+        settype(datas.first.classType);
+      } else {
+        typeok = false;
+      }
+    } catch (e) {
       print(e);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return Center(child: CircularProgressIndicator());
-    }
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 460,

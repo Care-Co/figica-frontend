@@ -1,9 +1,11 @@
 import 'package:fisica/home_page/home_info.dart';
 import 'package:fisica/home_page/avata_widget.dart';
+import 'package:fisica/models/FootData.dart';
 import 'package:fisica/mypage/my_scandata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';
+import 'package:provider/provider.dart';
 
 class Myavata extends StatefulWidget {
   const Myavata({Key? key}) : super(key: key);
@@ -16,13 +18,7 @@ class _MyavataState extends State<Myavata> {
   double rightPosition = 0;
   bool detailstate = false;
   bool detailinfo = false;
-  var data;
-
-  Future<void> getData() async {
-    print('homepage ---- getData');
-    data = await DataController.getuserinfo();
-    print(data);
-  }
+  var mydata;
 
   void togglePositionAndControls() {
     print('togglePositionAndControls');
@@ -38,6 +34,8 @@ class _MyavataState extends State<Myavata> {
       detailinfo = !detailinfo;
     });
   }
+
+  late List<FootData>? foot;
 
   @override
   void initState() {
@@ -71,38 +69,44 @@ class _MyavataState extends State<Myavata> {
         ),
       );
     }
-    return GestureDetector(
-      child: Scaffold(
-          key: scaffoldKey,
-          backgroundColor: AppColors.Black,
-          appBar: AppBar(
-            elevation: 0,
-            titleSpacing: 10,
+    return Consumer<AppStateNotifier>(builder: (context, appStateNotifier, child) {
+      foot = appStateNotifier.footdata;
+
+      return GestureDetector(
+        child: Scaffold(
+            key: scaffoldKey,
             backgroundColor: AppColors.Black,
-            automaticallyImplyLeading: false,
-            title: Text(SetLocalizations.of(context).getText('sodkqkxk')),
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.cancel,
-                  size: 20,
+            appBar: AppBar(
+              elevation: 0,
+              titleSpacing: 10,
+              backgroundColor: AppColors.Black,
+              automaticallyImplyLeading: false,
+              title: Text(SetLocalizations.of(context).getText('sodkqkxk')),
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.cancel,
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    context.pop();
+                  },
                 ),
-                onPressed: () {
-                  context.pop();
-                },
-              ),
-            ],
-          ),
-          body: SafeArea(
-            top: true,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Avata(),
-                MyScanData(),
               ],
             ),
-          )),
-    );
+            body: SafeArea(
+              top: true,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Avata(
+                    footdata: foot!,
+                  ),
+                  MyScanData(),
+                ],
+              ),
+            )),
+      );
+    });
   }
 }

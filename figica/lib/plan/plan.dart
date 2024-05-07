@@ -13,11 +13,12 @@ class planWidget extends StatefulWidget {
 
 class _planWidgetState extends State<planWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  Future? _loadDataFuture;
 
   @override
   void initState() {
     super.initState();
-
+    //_loadDataFuture = getdata();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -67,7 +68,130 @@ class _planWidgetState extends State<planWidget> {
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            children: [Text('개발중')],
+            children: [
+              // TableCalendar(
+              //   headerVisible: false,
+              //   firstDay: DateTime.utc(2010, 1, 1),
+              //   lastDay: DateTime.utc(2030, 12, 31),
+              //   focusedDay: _focusedDay,
+              //   selectedDayPredicate: (day) => isSameDay(_tempSelectedDate, day),
+              //   onDaySelected: (selectedDay, focusedDay) {
+              //     if (widget.timeData.any((date) => isSameDay(date, selectedDay))) {
+              //       setState(() {
+              //         _tempSelectedDate = selectedDay;
+              //       });
+              //     }
+              //   },
+              //   calendarStyle: CalendarStyle(),
+              //   calendarBuilders: CalendarBuilders(
+              //     defaultBuilder: (context, day, focusedDay) {
+              //       for (DateTime date in widget.timeData) {
+              //         if (isSameDay(date, day)) {
+              //           return Container(
+              //             margin: const EdgeInsets.all(4.0),
+              //             alignment: Alignment.center,
+              //             decoration: BoxDecoration(
+              //               color: AppColors.Black,
+              //               borderRadius: BorderRadius.circular(8),
+              //             ),
+              //             child: Text(
+              //               day.day.toString(),
+              //               style: AppFont.s18.overrides(color: AppColors.Gray100),
+              //             ),
+              //           );
+              //         }
+              //       }
+              //       return Container(
+              //         margin: const EdgeInsets.all(4.0),
+              //         alignment: Alignment.center,
+              //         decoration: BoxDecoration(
+              //           color: AppColors.Black,
+              //           borderRadius: BorderRadius.circular(8),
+              //         ),
+              //         child: Text(
+              //           day.day.toString(),
+              //           style: AppFont.s18.overrides(color: AppColors.Gray700),
+              //         ),
+              //       );
+              //     },
+              //     outsideBuilder: (context, day, focusedDay) {
+              //       for (DateTime date in widget.timeData) {
+              //         if (isSameDay(date, day)) {
+              //           return Container(
+              //             margin: const EdgeInsets.all(4.0),
+              //             alignment: Alignment.center,
+              //             decoration: BoxDecoration(
+              //               color: AppColors.Black,
+              //               borderRadius: BorderRadius.circular(8),
+              //             ),
+              //             child: Text(
+              //               day.day.toString(),
+              //               style: AppFont.s18.overrides(color: AppColors.Gray100),
+              //             ),
+              //           );
+              //         }
+              //       }
+              //       return Container(
+              //         margin: const EdgeInsets.all(4.0),
+              //         alignment: Alignment.center,
+              //         decoration: BoxDecoration(
+              //           color: AppColors.Gray850,
+              //           borderRadius: BorderRadius.circular(8),
+              //         ),
+              //         child: Text(
+              //           day.day.toString(),
+              //           style: AppFont.s18.overrides(color: AppColors.Gray700),
+              //         ),
+              //       );
+              //     },
+              //     todayBuilder: (context, day, focusedDay) {
+              //       for (DateTime date in widget.timeData) {
+              //         if (isSameDay(date, day)) {
+              //           return Container(
+              //             margin: const EdgeInsets.all(4.0),
+              //             alignment: Alignment.center,
+              //             decoration: BoxDecoration(
+              //               color: AppColors.Black,
+              //               borderRadius: BorderRadius.circular(8),
+              //             ),
+              //             child: Text(
+              //               day.day.toString(),
+              //               style: AppFont.s18.overrides(color: AppColors.Gray100),
+              //             ),
+              //           );
+              //         }
+              //       }
+              //       return Container(
+              //         margin: const EdgeInsets.all(4.0),
+              //         alignment: Alignment.center,
+              //         decoration: BoxDecoration(
+              //           color: AppColors.Black,
+              //           borderRadius: BorderRadius.circular(8),
+              //         ),
+              //         child: Text(
+              //           day.day.toString(),
+              //           style: AppFont.s18.overrides(color: AppColors.Gray700),
+              //         ),
+              //       );
+              //     },
+              //     selectedBuilder: (context, day, focusedDay) {
+              //       return Container(
+              //         margin: const EdgeInsets.all(4.0),
+              //         alignment: Alignment.center,
+              //         decoration: BoxDecoration(
+              //           color: AppColors.Black,
+              //           borderRadius: BorderRadius.circular(8),
+              //           border: Border.all(color: AppColors.primary),
+              //         ),
+              //         child: Text(
+              //           day.day.toString(),
+              //           style: AppFont.s18.overrides(color: AppColors.primary),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
+            ],
           ),
         ),
       ),

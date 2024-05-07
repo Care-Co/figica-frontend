@@ -1,4 +1,5 @@
 import 'package:fisica/components/resetPw.dart';
+import 'package:fisica/view_models/provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +20,6 @@ class _InputPwWidgetState extends State<InputPwWidget> {
   final pwFocusNode = FocusNode();
   bool pwVisibility = true;
   String? Function(BuildContext, String?)? pwControllerValidator;
-  late AppStateNotifier _appStateNotifier;
 
   @override
   void initState() {

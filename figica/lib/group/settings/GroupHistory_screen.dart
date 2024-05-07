@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fisica/components/Setting_type.dart';
+import 'package:fisica/models/GroupHistory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';
@@ -21,7 +22,7 @@ class GroupHistoryPage extends StatefulWidget {
 
 class _GroupHistoryPageState extends State<GroupHistoryPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<History> histories = [];
+  List<GroupHistory> histories = [];
   @override
   void initState() {
     super.initState();
@@ -34,16 +35,10 @@ class _GroupHistoryPageState extends State<GroupHistoryPage> {
     super.dispose();
   }
 
-  Future<void> initGroupData() async {
-    var groupData = await GroupApi.getGroup();
-    print("test");
-    setState(() {
-      histories = History.parseHistories(groupData!);
-    });
-  }
+  Future<void> initGroupData() async {}
 
-  List<String> extractNamesFromHistories(List<History> histories) {
-    return histories.map((history) => history.name).toList();
+  List<String> extractNamesFromHistories(List<GroupHistory> histories) {
+    return histories.map((history) => history.firstName).toList();
   }
 
   String timeElapsedSince(String logTimeStr) {
@@ -307,7 +302,7 @@ class _GroupHistoryPageState extends State<GroupHistoryPage> {
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  histories[index].name,
+                                                  histories[index].firstName,
                                                   style: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
                                                 ),
                                                 Text(GroupApi.historytext(histories[index].shortDescription),

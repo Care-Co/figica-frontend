@@ -38,10 +38,10 @@ class _ScanDataState extends State<ScanData> {
   }
 
   Future<void> getData() async {
-    var tempData = await DataController.get_apiData();
-    print(tempData);
-    data = tempData;
-    settype(main ? tempData['classType'] : tempData['footprintClassType']);
+    var typedata = AppStateNotifier.instance.scandata;
+    print(typedata);
+    data = typedata;
+    settype(main ? typedata!['classType'] : typedata!['footprintClassType']);
   }
 
   void settype(int typeint) {

@@ -82,7 +82,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
         keyboardType = newKeyboardType;
       });
 
-      // 프레임 렌더링 후 키보드 업데이트
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _updateKeyboard(inputType);
       });
