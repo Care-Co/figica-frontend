@@ -1,3 +1,5 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fisica/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -23,12 +25,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   usePathUrlStrategy();
-
-  await Firebase.initializeApp();
-  await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug, // Android 디버그 모드 활성화
+  //Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-
   await SetLocalizations.initialize(); // 로컬라이제이션 초기화
 
   runApp(
@@ -54,6 +54,7 @@ class _MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.system;
   BluetoothAdapterState _adapterState = BluetoothAdapterState.unknown;
   late StreamSubscription<BluetoothAdapterState> _adapterStateSubscription;
+  late String _token;
 
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
@@ -63,7 +64,15 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
-    _appStateNotifier.loadSaveUserData().then((value) async => await _appStateNotifier.api());
+    _getToken();
+
+    _appStateNotifier.loadSaveUserData().then((isSuccess) async {
+      if (isSuccess) {
+        await _appStateNotifier.apicall();
+      } else {
+        print('Omit data call');
+      }
+    });
 
     _adapterStateSubscription = FlutterBluePlus.adapterState.listen((state) {
       setState(() => _adapterState = state);
@@ -75,6 +84,33 @@ class _MyAppState extends State<MyApp> {
     Future.delayed(Duration(milliseconds: 500), () {
       _appStateNotifier.stopShowingSplashImage();
     });
+  }
+
+  void _getToken() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    // 권한 요청 (iOS의 경우 필요)
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      await messaging.getToken().then((value) {
+        if (value != null)
+          setState(() {
+            _token = value;
+          });
+        print("FCM Token: $_token");
+      });
+    } else {
+      print("Permission declined");
+    }
   }
 
   @override

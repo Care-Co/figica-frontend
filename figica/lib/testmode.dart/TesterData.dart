@@ -1,10 +1,10 @@
 import 'package:bottom_picker/bottom_picker.dart';
+import 'package:fisica/views/login/login_components/Login_SignUp_Cancel.dart';
 
-import 'package:fisica/components/SignUP_Cancel.dart';
-import 'package:fisica/flutter_set/App_icon_button.dart';
-import 'package:fisica/flutter_set/flutter_drop_down.dart';
+import 'package:fisica/widgets/App_icon_button.dart';
+import 'package:fisica/widgets/flutter_drop_down.dart';
 
-import 'package:fisica/flutter_set/form_field_controller.dart';
+import 'package:fisica/utils/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

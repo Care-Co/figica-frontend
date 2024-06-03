@@ -1,11 +1,9 @@
-import 'package:fisica/flutter_set/fisica_theme.dart';
+import '../views/login/login_components/Login_uptos.dart';
 
-import '/components/uptos_widget.dart';
-import '../flutter_set/App_icon_button.dart';
-import '../flutter_set/flutter_util.dart';
-import '../flutter_set/Loding_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:fisica/index.dart';
 
 class TestTos extends StatefulWidget {
   const TestTos({Key? key}) : super(key: key);

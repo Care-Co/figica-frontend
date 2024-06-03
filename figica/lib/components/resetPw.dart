@@ -1,12 +1,9 @@
-import 'package:fisica/flutter_set/Loding_button_widget.dart';
-import 'package:fisica/flutter_set/fisica_theme.dart';
-import 'package:fisica/flutter_set/flutter_util.dart';
-import 'package:fisica/flutter_set/internationalization.dart';
+import 'package:fisica/auth/auth_service.dart';
 
-import '/auth/firebase_auth/auth_util.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:fisica/index.dart';
+
 
 class resetPwWidget extends StatefulWidget {
   final String email;
@@ -17,6 +14,7 @@ class resetPwWidget extends StatefulWidget {
 }
 
 class _resetPwWidgetState extends State<resetPwWidget> {
+  final AuthService _authService = AuthService();
   @override
   void setState(VoidCallback callback) {
     super.setState(callback);
@@ -89,7 +87,7 @@ class _resetPwWidgetState extends State<resetPwWidget> {
                       height: 56.0,
                       child: LodingButtonWidget(
                         onPressed: () async {
-                          await authManager.resetPassword(
+                          await _authService.resetPassword(
                             email: widget.email,
                             context: context,
                           );

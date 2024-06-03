@@ -1,52 +1,26 @@
 {
   "project_info": {
-    "project_number": "1070443989491",
-    "firebase_url": "https://carencouserinfo-default-rtdb.firebaseio.com",
-    "project_id": "carencouserinfo",
-    "storage_bucket": "carencouserinfo.appspot.com"
+    "project_number": "1018044330468",
+    "project_id": "fisicatest-fc73a",
+    "storage_bucket": "fisicatest-fc73a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1070443989491:android:0518f38d953bbefe2aea86",
+        "mobilesdk_app_id": "1:1018044330468:android:f4623c8b98cbca933ad7f1",
         "android_client_info": {
           "package_name": "com.mycompany.figico"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "1070443989491-704dg7qrb63evcdt01jrk8opcs8dq0cv.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.mycompany.figico",
-            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
-          }
-        },
-        {
-          "client_id": "1070443989491-7pns9bo49pds1i092skhd20l93fjtmgs.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBroRKcXuxjaxlTb7UigLrsAJNfTN-zlNU"
+          "current_key": "AIzaSyDS9TADdQ5n4Bss4gG7oM4u0T_9qBJz2Jc"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1070443989491-7pns9bo49pds1i092skhd20l93fjtmgs.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "1070443989491-rsboiaolrqt6i695iqjs2r8dabfds3e4.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.logintest"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

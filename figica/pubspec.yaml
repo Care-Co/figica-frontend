@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+10
+version: 1.0.0+14
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -88,6 +88,8 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   easy_rich_text: ^2.1.0
   fl_chart: ^0.67.0
+  firebase_messaging: ^14.9.4
+  flutter_local_notifications: ^17.1.2
   bottom_picker:
     git:
       url: https://github.com/juntaenoh/Bottom-Picker.git
@@ -97,6 +99,9 @@ dependencies:
   table_calendar: ^3.0.9
   logger: ^2.2.0
   persistent_bottom_nav_bar: ^5.0.2
+  retrofit: ^3.0.1
+  dio: ^4.0.0
+  json_annotation: ^4.0.1
 
 dev_dependencies:
   flutter_test:

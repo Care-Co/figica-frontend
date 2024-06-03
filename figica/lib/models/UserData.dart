@@ -5,9 +5,9 @@ class UserData {
   final String firstName;
   final String lastName;
   final String? photoUrl;
-  final String gender;
-  final String birthday;
-  final String region;
+  final String? gender;
+  final String? birthday;
+  final String? region;
   final double height;
   final double weight;
 
