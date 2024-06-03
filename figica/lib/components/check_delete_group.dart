@@ -66,7 +66,7 @@ class _CheckExitState extends State<CheckDelete> {
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () async {
-                        context.go('homepage');
+                        context.goNamed('home');
                       },
                       text: SetLocalizations.of(context).getText(
                         'ze1u6oze' /* 확인 */,

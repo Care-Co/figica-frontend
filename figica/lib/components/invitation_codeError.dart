@@ -1,10 +1,7 @@
-import 'package:fisica/flutter_set/Loding_button_widget.dart';
-import 'package:fisica/flutter_set/fisica_theme.dart';
-import 'package:fisica/flutter_set/flutter_util.dart';
-import 'package:fisica/flutter_set/internationalization.dart';
+
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:fisica/index.dart';
 
 class CodeError extends StatefulWidget {
   const CodeError({

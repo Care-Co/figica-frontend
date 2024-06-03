@@ -16,14 +16,8 @@ class DeleteGroup extends StatefulWidget {
 
 class _DeleteGroupState extends State<DeleteGroup> {
   @override
-  void setState(VoidCallback callback) {
-    super.setState(callback);
-  }
-
-  @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -88,25 +82,28 @@ class _DeleteGroupState extends State<DeleteGroup> {
                       height: 56.0,
                       child: LodingButtonWidget(
                         onPressed: () async {
-                          await GroupApi.deleteGroup().then((value) => showAlignedDialog(
-                                context: context,
-                                isGlobal: true,
-                                avoidOverflow: false,
-                                targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                builder: (dialogContext) {
-                                  return Material(
-                                    color: Colors.transparent,
-                                    child: GestureDetector(
-                                      child: Container(
-                                        height: 432,
-                                        width: 327,
-                                        child: CheckDelete(),
-                                      ),
+                          await GroupApi.deleteGroup().then((value) async {
+                            await AppStateNotifier.instance.deletegroup();
+                            showAlignedDialog(
+                              context: context,
+                              isGlobal: true,
+                              avoidOverflow: false,
+                              targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                              followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                              builder: (dialogContext) {
+                                return Material(
+                                  color: Colors.transparent,
+                                  child: GestureDetector(
+                                    child: Container(
+                                      height: 432,
+                                      width: 327,
+                                      child: CheckDelete(),
                                     ),
-                                  );
-                                },
-                              ));
+                                  ),
+                                );
+                              },
+                            );
+                          });
                         },
                         text: SetLocalizations.of(context).getText('rgklrkd'),
                         options: LodingButtonOptions(

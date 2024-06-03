@@ -89,25 +89,26 @@ class _cancelinviteState extends State<cancelinvite> {
                       height: 56.0,
                       child: LodingButtonWidget(
                         onPressed: () async {
-                          await GroupApi.updateGroupInvitationByUser(4).then((value) => showAlignedDialog(
-                                context: context,
-                                isGlobal: true,
-                                avoidOverflow: false,
-                                targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                                builder: (dialogContext) {
-                                  return Material(
-                                    color: Colors.transparent,
-                                    child: GestureDetector(
-                                      child: Container(
-                                        height: 432,
-                                        width: 327,
-                                        child: CheckCancel(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ));
+                          await GroupApi.updateGroupInvitationByUser('Cancelled', AppStateNotifier.instance.groupInvitation!.first.invitationId)
+                              .then((value) => showAlignedDialog(
+                                    context: context,
+                                    isGlobal: true,
+                                    avoidOverflow: false,
+                                    targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                    followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                    builder: (dialogContext) {
+                                      return Material(
+                                        color: Colors.transparent,
+                                        child: GestureDetector(
+                                          child: Container(
+                                            height: 432,
+                                            width: 327,
+                                            child: CheckCancel(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ));
                         },
                         text: SetLocalizations.of(context).getText('cnlthgkrl' /* 신청 취소하기 */
                             ),
