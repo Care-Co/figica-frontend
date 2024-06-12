@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:fisica/components/changeLeader_pop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';

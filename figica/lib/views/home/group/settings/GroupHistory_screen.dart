@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:fisica/components/Setting_type.dart';
 import 'package:fisica/models/GroupHistory.dart';
 import 'package:flutter/material.dart';

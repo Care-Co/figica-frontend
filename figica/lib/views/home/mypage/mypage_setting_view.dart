@@ -1,5 +1,3 @@
-import 'package:fisica/components/delete_group.dart';
-import 'package:fisica/components/exit_group.dart';
 import 'package:fisica/views/home/mypage/mypage_components/out_popup.dart';
 
 import 'package:flutter/material.dart';

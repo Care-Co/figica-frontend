@@ -20,6 +20,44 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
+    },
+    {
+      "name": "Android real",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "R59N201ZJ0V"
+    },
+    {
+      "name": "iPhone 13",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "00008110-001E61C81A3A401E"
+    },
+    {
+      "name": "Android 3",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "emulator-5554"
+    },
+    {
+      "name": "iPhone 15",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "8A253750-B0A9-458F-A814-4E2969F63194"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "vm Devices",
+      "configurations": ["Android 3", "iPhone 15"]
+    },
+    {
+      "name": "real Devices",
+      "configurations": ["Android real", "iPhone 13"]
+    },
+    {
+      "name": "real and vm ios",
+      "configurations": ["Android real", "iPhone 15"]
     }
   ]
 }

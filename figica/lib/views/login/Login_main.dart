@@ -49,58 +49,53 @@ class _LoginWidgetState extends State<LoginWidget> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: _scaffoldKey,
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         backgroundColor: AppColors.primaryBackground,
         body: SafeArea(
           top: true,
-          child: SingleChildScrollView(
-            //reverse: true,
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.97,
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(24.0, 30.0, 24.0, 0.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildHeader(context),
-                    _buildLanguageDropDown(context),
-                    _buildPhoneNumberInput(context),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 40),
-                      child: Column(
-                        children: [
-                          _buildLoginButton(context),
-                          _buildphoneButton(context),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Divider(
-                                  color: AppColors.Gray200,
-                                  thickness: 1.0,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8),
-                                child: Text('OR', style: AppFont.r16.overrides(color: AppColors.Gray200, fontSize: 12)),
-                              ),
-                              Expanded(
-                                child: Divider(
-                                  color: AppColors.Gray200,
-                                  thickness: 1.0,
-                                ),
-                              ),
-                            ],
+          child: Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            padding: EdgeInsetsDirectional.fromSTEB(24.0, 30.0, 24.0, 24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildHeader(context),
+                _buildLanguageDropDown(context),
+                _buildPhoneNumberInput(context),
+                Padding(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: Column(
+                    children: [
+                      _buildLoginButton(context),
+                      _buildphoneButton(context),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Divider(
+                              color: AppColors.Gray200,
+                              thickness: 1.0,
+                            ),
                           ),
-                          _buildSingupButton(context)
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text('OR', style: AppFont.r16.overrides(color: AppColors.Gray200, fontSize: 12)),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              color: AppColors.Gray200,
+                              thickness: 1.0,
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                  ],
+                      _buildSingupButton(context),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
@@ -213,7 +208,30 @@ class _LoginWidgetState extends State<LoginWidget> {
                 fit: BoxFit.cover,
               ),
             ),
-            Text(version), // Version should be dynamic if needed
+            Column(
+              children: [
+                Text(version),
+                LodingButtonWidget(
+                  onPressed: () async {
+                    context.goNamed('Test_guide');
+                  },
+                  text: '테스트 모드',
+                  options: LodingButtonOptions(
+                    height: 30.0,
+                    padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                    iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    color: AppColors.primaryBackground,
+                    textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.Black),
+                    elevation: 0,
+                    borderSide: BorderSide(
+                      color: AppColors.Black,
+                      width: 1.0,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+              ],
+            ), // Version should be dynamic if needed
           ],
         ),
         const SizedBox(height: 8),

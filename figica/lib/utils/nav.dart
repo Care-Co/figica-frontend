@@ -1,20 +1,6 @@
-import 'package:fisica/views/home/plan/createSchedule.dart';
-import 'package:fisica/widgets/BotNav_widget.dart';
-import 'package:fisica/views/home/group/CreateCode.dart';
-import 'package:fisica/views/home/group/settings/changeLeader_screen.dart';
-import 'package:fisica/views/home/mypage/mypage_histroy_view.dart';
-import 'package:fisica/views/home/mypage/mypage_modify_info_view.dart';
-import 'package:fisica/views/home/mypage/mypage_avata_view.dart';
-import 'package:fisica/views/home/mypage/mypage_setting_view.dart';
-import 'package:fisica/views/home/scan/Find_blue.dart';
-import 'package:fisica/views/home/scan/FootPrintScreen.dart';
-import 'package:fisica/views/home/scan/Foot_result.dart';
-import 'package:fisica/testmode.dart/TesterData.dart';
-import 'package:fisica/testmode.dart/test_tos_.dart';
-import 'package:flutter/material.dart';
-import '../views/home/group/group_setting.dart';
 import '/index.dart';
 export 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 
 const kTransitionInfoKey = '__transition_info__';
 
@@ -275,54 +261,68 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   },
                 ),
                 GoRoute(
-                    name: 'Guest_agree_tos',
-                    path: 'Guest_agree_tos',
+                    name: 'Test_guide',
+                    path: 'Test_guide',
                     builder: (context, state) {
-                      return TestTos();
+                      return TesterGuide();
                     },
                     routes: [
                       GoRoute(
-                          path: 'TesterData',
-                          name: 'TesterData',
+                        name: 'Test_ErrorData',
+                        path: 'Test_ErrorData',
+                        builder: (context, state) {
+                          return TesterErrorData();
+                        },
+                      ),
+                      GoRoute(
+                          name: 'Tester_GetData1',
+                          path: 'Tester_GetData1',
                           builder: (context, state) {
-                            return TesterData();
+                            return TesterData1();
                           },
                           routes: [
                             GoRoute(
-                                path: 'testFootprint',
-                                name: 'testFootprint',
+                                name: 'Tester_GetData2',
+                                path: 'Tester_GetData2',
                                 builder: (context, state) {
-                                  final mode = state.extra as String;
-                                  return FootPrint(
-                                    mode: mode,
-                                  );
+                                  return TesterData2();
                                 },
                                 routes: [
                                   GoRoute(
-                                    path: 'testFootresult',
-                                    name: 'testFootresult',
-                                    builder: (context, state) {
-                                      final mode = state.extra as String;
+                                      name: 'Tester_menu',
+                                      path: 'Tester_menu',
+                                      builder: (context, state) {
+                                        return TesterMenu();
+                                      },
+                                      routes: [
+                                        GoRoute(
+                                            path: 'Teseter_Scan',
+                                            name: 'Teseter_Scan',
+                                            builder: (context, state) {
+                                              final divice = state.extra as int;
 
-                                      return FootResult(
-                                        mode: mode,
-                                      );
-                                    },
-                                  )
-                                ]),
-                            GoRoute(
-                              name: 'testFindBlue',
-                              path: 'testFindBlue',
-                              builder: (context, state) {
-                                final mode = state.extra as String;
+                                              return TesterScan(
+                                                divice: divice,
+                                              );
+                                            },
+                                            routes: [
+                                              GoRoute(
+                                                path: 'testFootresult',
+                                                name: 'testFootresult',
+                                                builder: (context, state) {
+                                                  final mode = state.extra as String;
 
-                                return FindBlue(
-                                  mode: mode,
-                                );
-                              },
-                            ),
+                                                  return FootResult(
+                                                    mode: mode,
+                                                  );
+                                                },
+                                              )
+                                            ]),
+                                      ]),
+                                ])
                           ])
                     ]),
+
                 //회원가입
                 GoRoute(
                     name: 'agree_tos',

@@ -1,6 +1,6 @@
+import 'package:bottom_picker/bottom_picker.dart';
 import 'package:fisica/utils/fisica_theme.dart';
 import 'package:fisica/utils/form_field_controller.dart';
-import 'package:fisica/utils/internationalization.dart';
 import 'package:fisica/widgets/flutter_drop_down.dart';
 import 'package:flutter/material.dart';
 
@@ -23,35 +23,80 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
   String location = '미등록';
   String notification = '정각 알림';
   String measurementType = '측정안 분석';
+  int doseCount = 3;
+  List<TimeOfDay> doseTimes = [
+    TimeOfDay(hour: 0, minute: 0),
+    TimeOfDay(hour: 0, minute: 0),
+    TimeOfDay(hour: 0, minute: 0),
+    TimeOfDay(hour: 0, minute: 0),
+    TimeOfDay(hour: 0, minute: 0)
+  ];
 
   void _selectDate() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
+    BottomPicker.date(
+      title: "",
+      titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black),
+      onSubmit: (date) {
+        setState(() {
+          selectedDate = date;
+          print(date); // For debugging, to see the selected date in the console
+        });
+      },
+      onClose: () {
+        print("Picker closed");
+      },
+      dismissable: true,
+      height: 360,
+      displayCloseIcon: false,
+      buttonWidth: 300,
+      buttonText: '선택',
+      displayButtonIcon: false,
+      buttonTextStyle: const TextStyle(color: Colors.white),
+      buttonSingleColor: AppColors.Black,
+      minDateTime: DateTime(1800, 1, 1),
+      maxDateTime: DateTime(2021, 8, 2),
+    ).show(context);
   }
 
-  void _selectTime(bool isStartTime) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: isStartTime ? startTime : endTime,
-    );
-    if (picked != null && picked != (isStartTime ? startTime : endTime)) {
-      setState(() {
-        if (isStartTime) {
-          startTime = picked;
-        } else {
-          endTime = picked;
-        }
-      });
-    }
+  // void _selectTime(int index) async {
+  //   final TimeOfDay? picked = await showTimePicker(
+  //     context: context,
+  //     initialTime: doseTimes[index],
+  //   );
+  //   if (picked != null && picked != doseTimes[index]) {
+  //     setState(() {
+  //       doseTimes[index] = picked;
+  //     });
+  //   }
+  // }
+
+  void _selectTime(int index) async {
+    BottomPicker.time(
+      title: "",
+      titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black),
+      onSubmit: (date) {
+        setState(() {
+          doseTimes[index] = TimeOfDay.fromDateTime(date);
+        });
+      },
+      onClose: () {
+        print("Picker closed");
+      },
+      dismissable: true,
+      height: 360,
+      displayCloseIcon: false,
+      buttonWidth: 300,
+      buttonText: '선택',
+      displayButtonIcon: false,
+      buttonTextStyle: const TextStyle(color: Colors.white),
+      buttonSingleColor: AppColors.Black,
+      initialTime: Time(
+        minutes: 23,
+      ),
+      maxTime: Time(
+        hours: 17,
+      ),
+    ).show(context);
   }
 
   void _showBottomSheet(List<String> options, String selected, Function(String) onSelected) {
@@ -104,7 +149,7 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
             _buildTextField('복용약', _titleController, 'textholder'),
             SizedBox(height: 16),
             _buildDateField(),
-            _buildTimeFields(),
+            _peel(),
             _buildRepeatField(),
             _buildRepeatPeriodField(),
             _buildLocationField(),
@@ -222,12 +267,69 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
     );
   }
 
+  Widget _peel() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('일일 복용 횟수'),
+            Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: () {
+                    setState(() {
+                      if (doseCount > 1) doseCount--;
+                    });
+                  },
+                ),
+                Text('$doseCount'),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {
+                      doseCount++;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: 16),
+        Text('복용 시간'),
+        for (int i = 0; i < doseCount; i++)
+          GestureDetector(
+            onTap: () => _selectTime(i),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Container(
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('${doseTimes[i].format(context)}'),
+                    Icon(Icons.keyboard_arrow_down),
+                  ],
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
   Widget _buildTimeFields() {
     return Row(
       children: [
         Expanded(
           child: GestureDetector(
-            onTap: () => _selectTime(true),
+            onTap: () => _selectDate,
             child: Container(
               padding: EdgeInsets.all(12),
               margin: EdgeInsets.symmetric(vertical: 4),
@@ -248,7 +350,7 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
         SizedBox(width: 16),
         Expanded(
           child: GestureDetector(
-            onTap: () => _selectTime(false),
+            onTap: () => _selectDate,
             child: Container(
               padding: EdgeInsets.all(12),
               margin: EdgeInsets.symmetric(vertical: 4),
@@ -447,7 +549,7 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              ('종류'), // 종류
+              '종류', // 종류
               style: AppFont.s12.overrides(color: AppColors.Black),
             ),
             SizedBox(height: 8),
@@ -473,6 +575,7 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
               hidesUnderline: true,
               isSearchable: false,
               isMultiSelect: false,
+              hintText: '종류',
             ),
             SizedBox(height: 16),
             _buildForm(),

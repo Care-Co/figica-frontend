@@ -1,23 +1,20 @@
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:fisica/views/login/login_components/Login_SignUp_Cancel.dart';
 
-import 'package:fisica/widgets/App_icon_button.dart';
-import 'package:fisica/widgets/flutter_drop_down.dart';
-
 import 'package:fisica/utils/form_field_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fisica/index.dart';
 
-class TesterData extends StatefulWidget {
-  const TesterData({Key? key}) : super(key: key);
+class TesterData2 extends StatefulWidget {
+  const TesterData2({Key? key}) : super(key: key);
 
   @override
-  _TesterDataState createState() => _TesterDataState();
+  _TesterData2State createState() => _TesterData2State();
 }
 
-class _TesterDataState extends State<TesterData> {
+class _TesterData2State extends State<TesterData2> {
   DateTime? selectedDate;
   String selectedGender = 'none';
   String dropDownValue = 'KR';

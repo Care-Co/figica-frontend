@@ -1,12 +1,8 @@
 import 'package:fisica/index.dart';
 import 'package:fisica/models/FootData.dart';
 import 'package:fisica/views/home/mypage/widgets/calendar.dart';
-import 'package:fisica/views/home/scan/Foot_Controller.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:rxdart/streams.dart';
 
 class Footreport extends StatefulWidget {
   final List<FootData> data;

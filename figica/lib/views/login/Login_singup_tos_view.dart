@@ -220,7 +220,7 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
+                                      padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
                                       child: Text(
                                         SetLocalizations.of(context).getText(
                                           '7rstmxvf' /* 이용 약관 동의 */,
@@ -233,7 +233,6 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                               ),
                               AppIconButton(
                                 borderColor: Colors.transparent,
-                                borderRadius: 20.0,
                                 borderWidth: 1.0,
                                 buttonSize: 40.0,
                                 icon: Icon(
@@ -281,7 +280,7 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                           width: double.infinity,
                           height: 40.0,
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 20.0, 0.0),
+                            padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 20.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -290,6 +289,7 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                                   height: 100.0,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Theme(
                                         data: ThemeData(
@@ -315,7 +315,7 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                                           SetLocalizations.of(context).getText(
                                             'mqd24b0b' /* 개인정보 수집 및 이용 동의*/,
                                           ),
-                                          style: AppFont.r16,
+                                          style: AppFont.r16.overrides(color: AppColors.Gray700),
                                         ),
                                       ),
                                     ],
@@ -323,7 +323,6 @@ class _AgreeTosWidgetState extends State<AgreeTosWidget> {
                                 ),
                                 AppIconButton(
                                   borderColor: Colors.transparent,
-                                  borderRadius: 20.0,
                                   borderWidth: 1.0,
                                   buttonSize: 40.0,
                                   icon: Icon(

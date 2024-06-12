@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fisica/firebase_options.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -25,10 +26,22 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   usePathUrlStrategy();
-  //Firebase.initializeApp();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // if (!kIsWeb) {
+  //   print('not web');
+  //   // 웹이 아닌 환경에서만 Firebase 초기화
+
+  // }
+  if (!kIsWeb) {
+    if (Platform.isIOS) {
+      // iOS 초기화 로직
+      Firebase.initializeApp();
+    } else if (Platform.isAndroid) {
+      // Android 초기화 로직
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
+  }
   await SetLocalizations.initialize(); // 로컬라이제이션 초기화
 
   runApp(
@@ -64,7 +77,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
-    _getToken();
 
     _appStateNotifier.loadSaveUserData().then((isSuccess) async {
       if (isSuccess) {
@@ -86,32 +98,32 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void _getToken() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // void _getToken() async {
+  //   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    // 권한 요청 (iOS의 경우 필요)
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+  //   // 권한 요청 (iOS의 경우 필요)
+  //   NotificationSettings settings = await messaging.requestPermission(
+  //     alert: true,
+  //     announcement: false,
+  //     badge: true,
+  //     carPlay: false,
+  //     criticalAlert: false,
+  //     provisional: false,
+  //     sound: true,
+  //   );
 
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      await messaging.getToken().then((value) {
-        if (value != null)
-          setState(() {
-            _token = value;
-          });
-        print("FCM Token: $_token");
-      });
-    } else {
-      print("Permission declined");
-    }
-  }
+  //   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+  //     await messaging.getToken().then((value) {
+  //       if (value != null)
+  //         setState(() {
+  //           _token = value;
+  //         });
+  //       print("FCM Token: $_token");
+  //     });
+  //   } else {
+  //     print("Permission declined");
+  //   }
+  // }
 
   @override
   void dispose() {
