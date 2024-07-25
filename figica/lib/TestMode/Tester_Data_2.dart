@@ -1,11 +1,8 @@
 import 'package:bottom_picker/bottom_picker.dart';
-import 'package:fisica/views/login/login_components/Login_SignUp_Cancel.dart';
-
-import 'package:fisica/utils/form_field_controller.dart';
+import 'package:fisica/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:fisica/index.dart';
+import 'package:dropdown_button2/dropdown_button2.dart'; // 패키지가 필요할 경우 추가하세요
 
 class TesterData2 extends StatefulWidget {
   const TesterData2({Key? key}) : super(key: key);
@@ -17,29 +14,30 @@ class TesterData2 extends StatefulWidget {
 class _TesterData2State extends State<TesterData2> {
   DateTime? selectedDate;
   String selectedGender = 'none';
-  String dropDownValue = 'KR';
-  FormFieldController<String>? dropDownValueController;
+  String selectedJob = '선택';
   final TextEditingController fiController = TextEditingController();
   final fiFocusNode = FocusNode();
 
   final TextEditingController namController = TextEditingController();
   final namFocusNode = FocusNode();
 
-  final TextEditingController biController = TextEditingController();
-  final biFocusNode = FocusNode();
+  final TextEditingController phoneController = TextEditingController();
+  final phoneFocusNode = FocusNode();
 
-  final TextEditingController heController = TextEditingController();
-  final heFocusNode = FocusNode();
+  final TextEditingController emailController = TextEditingController();
+  final emailFocusNode = FocusNode();
 
-  final TextEditingController weController = TextEditingController();
-  final weFocusNode = FocusNode();
+  final TextEditingController addressController = TextEditingController();
+  final addressFocusNode = FocusNode();
+
+  final TextEditingController detailAddressController = TextEditingController();
+  final detailAddressFocusNode = FocusNode();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -63,7 +61,7 @@ class _TesterData2State extends State<TesterData2> {
       buttonText: '선택',
       displayButtonIcon: false,
       buttonTextStyle: const TextStyle(color: Colors.white),
-      buttonSingleColor: AppColors.Black,
+      buttonSingleColor: Colors.black,
       minDateTime: DateTime(1800, 1, 1),
       maxDateTime: DateTime(2021, 8, 2),
     ).show(context);
@@ -74,8 +72,10 @@ class _TesterData2State extends State<TesterData2> {
         namController.text.isNotEmpty &&
         selectedDate != null &&
         selectedGender != 'none' &&
-        weController.text.isNotEmpty &&
-        heController.text.isNotEmpty;
+        selectedJob != '선택' &&
+        phoneController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        addressController.text.isNotEmpty;
   }
 
   @override
@@ -86,20 +86,23 @@ class _TesterData2State extends State<TesterData2> {
     namFocusNode.dispose();
     namController.dispose();
 
-    biFocusNode.dispose();
-    biController.dispose();
+    phoneFocusNode.dispose();
+    phoneController.dispose();
 
-    heFocusNode.dispose();
-    heController.dispose();
+    emailFocusNode.dispose();
+    emailController.dispose();
 
-    weFocusNode.dispose();
-    weController.dispose();
+    addressFocusNode.dispose();
+    addressController.dispose();
+
+    detailAddressFocusNode.dispose();
+    detailAddressController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(
           statusBarBrightness: Theme.of(context).brightness,
@@ -108,43 +111,33 @@ class _TesterData2State extends State<TesterData2> {
       );
     }
 
+    final List<String> jobOptions = [
+      '선택',
+      '경영/관리직',
+      '전문직(의사, 변호사, 약사 등)',
+      '프리랜서',
+      '사무/기술직',
+      '판매/서비스직',
+      '기능/작업/단순노무직',
+      '농/림/어/축산업',
+      '자영업',
+      '주부',
+      '학생',
+      '무직',
+      '기타'
+    ];
+
     return GestureDetector(
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: AppColors.primaryBackground,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Color(0x00CCFF8B),
           automaticallyImplyLeading: false,
-          leading: AppIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 30,
-            borderWidth: 1,
-            buttonSize: 60,
-            icon: Icon(
-              Icons.chevron_left,
-              color: Colors.black,
-              size: 30,
-            ),
+          leading: IconButton(
+            icon: Icon(Icons.chevron_left, color: Colors.black, size: 30),
             onPressed: () async {
-              await showAlignedDialog(
-                context: context,
-                isGlobal: true,
-                avoidOverflow: false,
-                targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                builder: (dialogContext) {
-                  return Material(
-                    color: Colors.transparent,
-                    child: GestureDetector(
-                      child: Container(
-                        height: 432,
-                        width: 327,
-                        child: SignUpCancelWidget(),
-                      ),
-                    ),
-                  );
-                },
-              ).then((value) => setState(() {}));
+              context.pop();
             },
           ),
           title: Column(
@@ -153,15 +146,14 @@ class _TesterData2State extends State<TesterData2> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 5),
                 child: Text(
-                    SetLocalizations.of(context).getText(
-                      'mglc61fj' /* Page Title */,
-                    ),
-                    style: AppFont.s18.overrides(color: AppColors.Black)),
+                  '체험자 정보 입력',
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                ),
               ),
               Text(
-                SetLocalizations.of(context).getText('mglttt'),
-                style: AppFont.s12.overrides(color: AppColors.Gray300, fontSize: 12),
-              )
+                '항목의 우측 상단 빨간 점 표시는 필수 입력 요소입니다',
+                style: TextStyle(color: Colors.grey[700], fontSize: 12),
+              ),
             ],
           ),
           actions: [],
@@ -171,423 +163,194 @@ class _TesterData2State extends State<TesterData2> {
         body: SafeArea(
           top: true,
           child: SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.85,
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  // 직업 Dropdown
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisSize: MainAxisSize.max,
                           children: [
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(0, 20, 8, 0),
-                                child: TextFormField(
-                                  controller: fiController,
-                                  focusNode: fiFocusNode,
-                                  autofocus: false,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    label: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          SetLocalizations.of(context).getText(
-                                            'ty7h9c9n' /*성 */,
-                                          ),
-                                          style: AppFont.s12.overrides(color: AppColors.Black),
-                                        ),
-                                        Container(
-                                          height: 6, // Height of the dot
-                                          width: 6, // Width of the dot
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: AppColors.red, // Color of the dot
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    labelStyle: AppFont.s12.overrides(color: AppColors.Black),
-                                    hintStyle: AppFont.s12,
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.Gray200,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.Gray200,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.Gray200,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    focusedErrorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.Gray200,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  style: AppFont.s12,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Field cannot be empty';
-                                    }
-                                    bool isKorean = RegExp(r"[\uac00-\ud7af]").hasMatch(value);
-                                    bool isJapanese = RegExp(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9faf]").hasMatch(value);
-                                    if (isKorean && value.length > 2) {
-                                      return '한글은 2자 이하로 입력해주세요';
-                                    } else if (isJapanese && value.length > 20) {
-                                      return '日本語は20文字以内で入力してください';
-                                    } else if (!isKorean && !isJapanese && value.length > 12) {
-                                      return '영어는 12자 이하로 입력해주세요';
-                                    }
-                                    return null; // null means input is valid
-                                  },
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(8, 20, 0, 0),
-                                child: TextFormField(
-                                  controller: namController,
-                                  focusNode: namFocusNode,
-                                  autofocus: false,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    label: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          SetLocalizations.of(context).getText(
-                                            'p9l0jbdf' /* Label here... */,
-                                          ),
-                                          style: AppFont.s12.overrides(color: AppColors.Black),
-                                        ),
-                                        Container(
-                                          height: 6, // Height of the dot
-                                          width: 6, // Width of the dot
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: AppColors.red, // Color of the dot
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    hintStyle: AppFont.s12,
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.Gray200,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.Gray200,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.Gray200,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    focusedErrorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.Gray200,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  style: AppFont.s12,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Field cannot be empty';
-                                    }
-                                    bool isKorean = RegExp(r"[\uac00-\ud7af]").hasMatch(value);
-                                    bool isJapanese = RegExp(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9faf]").hasMatch(value);
-                                    if (isKorean && value.length > 15) {
-                                      return '한글은 15자 이하로 입력해주세요';
-                                    } else if (isJapanese && value.length > 20) {
-                                      return '日本語は20文字以内で入力してください';
-                                    } else if (!isKorean && !isJapanese && value.length > 20) {
-                                      return '영어는 20자 이하로 입력해주세요';
-                                    }
-                                    return null; // null means input is valid
-                                  },
-                                ),
+                            Text('직업', style: TextStyle(fontSize: 12, color: Colors.black)),
+                            SizedBox(width: 4),
+                            Container(
+                              height: 6,
+                              width: 6,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red,
                               ),
                             ),
                           ],
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      SetLocalizations.of(context).getText('cho9jtn4'),
-                                      style: AppFont.s12.overrides(color: AppColors.Black),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                      child: InkWell(
-                                        onTap: _showDatePicker,
-                                        child: Container(
-                                            width: double.infinity,
-                                            height: 20,
-                                            decoration: BoxDecoration(
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                  color: AppColors.Gray200,
-                                                  width: 1.0,
-                                                ),
-                                              ),
-                                            ),
-                                            child: Text(
-                                              selectedDate != null
-                                                  ? "${selectedDate!.year}/${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.day.toString().padLeft(2, '0')}"
-                                                  : "00/00/00",
-                                              style: TextStyle(fontSize: 16),
-                                            )),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 32, 0, 10),
-                          child: Row(
-                            children: [
-                              Text(
-                                SetLocalizations.of(context).getText('tjdquf'),
-                                style: AppFont.s12.overrides(color: AppColors.Black),
-                              )
-                            ],
+                        SizedBox(height: 8),
+                        DropdownButtonFormField2<String>(
+                          value: selectedJob,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                            border: OutlineInputBorder(),
                           ),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                child: LodingButtonWidget(
-                                  onPressed: () {
-                                    setState(() {
-                                      selectedGender = 'male';
-                                    });
-                                  },
-                                  text: SetLocalizations.of(context).getText(
-                                    'b6pt2wpc' /* 남성 */,
-                                  ),
-                                  options: LodingButtonOptions(
-                                    height: 40,
-                                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                    color: selectedGender == 'male' ? Colors.black : AppColors.primaryBackground,
-                                    textStyle: AppFont.s12.overrides(color: selectedGender == 'male' ? Colors.white : AppColors.Gray300),
-                                    elevation: 0,
-                                    borderSide: BorderSide(
-                                      color: AppColors.Gray300,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                child: LodingButtonWidget(
-                                  onPressed: () {
-                                    setState(() {
-                                      selectedGender = 'female';
-                                    });
-                                  },
-                                  text: SetLocalizations.of(context).getText(
-                                    'wyai5zsz' /* 여성 */,
-                                  ),
-                                  options: LodingButtonOptions(
-                                    height: 40,
-                                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                    color: selectedGender == 'female' ? Colors.black : AppColors.primaryBackground,
-                                    textStyle: AppFont.s12.overrides(color: selectedGender == 'female' ? Colors.white : AppColors.Gray300),
-                                    elevation: 0,
-                                    borderSide: BorderSide(
-                                      color: AppColors.Gray300,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(0, 32, 8, 0),
-                                child: TextFormField(
-                                    controller: heController,
-                                    focusNode: heFocusNode,
-                                    autofocus: false,
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                        labelText: SetLocalizations.of(context).getText(
-                                          'dqi4qlg7' /* Label here... */,
-                                        ),
-                                        labelStyle: AppFont.s12.overrides(color: AppColors.Black),
-                                        hintStyle: AppFont.s12,
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: AppColors.Gray200,
-                                            width: 1,
-                                          ),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: AppColors.Gray200,
-                                            width: 1,
-                                          ),
-                                        ),
-                                        errorBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: AppColors.Gray200,
-                                            width: 1,
-                                          ),
-                                        ),
-                                        focusedErrorBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: AppColors.Gray200,
-                                            width: 1,
-                                          ),
-                                        ),
-                                        suffix: Text(
-                                          'Cm',
-                                          style: AppFont.r16.overrides(color: AppColors.Gray200),
-                                        )),
-                                    keyboardType: TextInputType.number,
-                                    style: AppFont.r16),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(8, 32, 0, 0),
-                                child: TextFormField(
-                                  controller: weController,
-                                  focusNode: weFocusNode,
-                                  autofocus: false,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                      labelText: SetLocalizations.of(context).getText(
-                                        'a45ghbyh' /* Label here... */,
-                                      ),
-                                      labelStyle: AppFont.s12.overrides(color: AppColors.Black),
-                                      hintStyle: AppFont.s12,
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.Gray200,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.Gray200,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      errorBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.Gray200,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      focusedErrorBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.Gray200,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      suffix: Text(
-                                        'Kg',
-                                        style: AppFont.r16.overrides(color: AppColors.Gray200),
-                                      )),
-                                  style: AppFont.r16,
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                            ),
-                          ],
+                          isExpanded: true,
+                          //icon: Icon(Icons.arrow_drop_down, color: Colors.grey),
+                          items: jobOptions
+                              .map((job) => DropdownMenuItem<String>(
+                                    value: job,
+                                    child: Text(job, style: TextStyle(fontSize: 14)),
+                                  ))
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              selectedJob = value!;
+                            });
+                          },
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: Container(
-                          width: double.infinity,
-                          height: 56.0,
-                          child: LodingButtonWidget(
-                            onPressed: () async {
-                              if (areFieldsValid) {
-                                String data = selectedDate != null
-                                    ? "${selectedDate!.year}/${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.day.toString().padLeft(2, '0')}"
-                                    : "0000/00/00";
-                                String finame = fiController.text;
-                                String name = namController.text;
-                                double height = heController.text.isEmpty ? 0.0 : double.parse(heController.text);
-                                double weight = weController.text.isEmpty ? 0.0 : double.parse(weController.text);
-
-                                await UserController.updatetester(data, finame, name, selectedGender, height, weight, dropDownValue).then((userData) {
-                                  context.goNamed('testFootprint', extra: 'tester');
-                                }).catchError((error) {
-                                  print('Error fetching user data: $error');
-                                });
-                              }
-                            },
-                            text: SetLocalizations.of(context).getText(
-                              'mht88zbc' /* 완료 */,
+                  ),
+                  // 전화번호
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text('국가번호', style: TextStyle(fontSize: 12, color: Colors.black)),
+                            SizedBox(width: 4),
+                            Container(
+                              height: 6,
+                              width: 6,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red,
+                              ),
                             ),
-                            options: LodingButtonOptions(
-                              height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                              color: areFieldsValid ? Colors.black : AppColors.Gray200, // Change color based on validation
-                              textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
-                              elevation: 0,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          )),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        TextFormField(
+                          controller: phoneController,
+                          focusNode: phoneFocusNode,
+                          autofocus: false,
+                          decoration: InputDecoration(
+                            prefixText: '+82 ',
+                            contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                            border: OutlineInputBorder(),
+                          ),
+                          keyboardType: TextInputType.phone,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  // 이메일
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text('E-mail', style: TextStyle(fontSize: 12, color: Colors.black)),
+                            SizedBox(width: 4),
+                            Container(
+                              height: 6,
+                              width: 6,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        TextFormField(
+                          controller: emailController,
+                          focusNode: emailFocusNode,
+                          autofocus: false,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                            border: OutlineInputBorder(),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // 주소
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text('거주지', style: TextStyle(fontSize: 12, color: Colors.black)),
+                            SizedBox(width: 4),
+                            Container(
+                              height: 6,
+                              width: 6,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        TextFormField(
+                          controller: addressController,
+                          focusNode: addressFocusNode,
+                          autofocus: false,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                            border: OutlineInputBorder(),
+                          ),
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        SizedBox(height: 8),
+                        TextFormField(
+                          controller: detailAddressController,
+                          focusNode: detailAddressFocusNode,
+                          autofocus: false,
+                          decoration: InputDecoration(
+                            labelText: '상세 주소 작성(선택)',
+                            contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                            border: OutlineInputBorder(),
+                          ),
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+// 입력 완료 버튼
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    child: Container(
+                      width: double.infinity,
+                      height: 56.0,
+                      child: ElevatedButton(
+                        onPressed: areFieldsValid
+                            ? () async {
+// Add your form submission logic here
+                              }
+                            : null,
+                        child: Text('입력 완료', style: TextStyle(fontSize: 16)),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

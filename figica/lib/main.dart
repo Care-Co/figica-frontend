@@ -1,10 +1,9 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:fisica/firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-
+import 'firebase_options.dart';
 import 'index.dart';
 
 var logger = Logger();
@@ -26,23 +25,23 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   usePathUrlStrategy();
-  // if (!kIsWeb) {
-  //   print('not web');
-  //   // 웹이 아닌 환경에서만 Firebase 초기화
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  // }
-  if (!kIsWeb) {
-    if (Platform.isIOS) {
-      // iOS 초기화 로직
-      Firebase.initializeApp();
-    } else if (Platform.isAndroid) {
-      // Android 초기화 로직
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-    }
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print('Firebase 초기화 성공');
+  } catch (e) {
+    print('Firebase 초기화 실패: $e');
   }
-  await SetLocalizations.initialize(); // 로컬라이제이션 초기화
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+    appleProvider: AppleProvider.deviceCheck,
+  );
+  await SetLocalizations.initialize();
 
   runApp(
     ChangeNotifierProvider<AppStateNotifier>(
@@ -67,7 +66,6 @@ class _MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.system;
   BluetoothAdapterState _adapterState = BluetoothAdapterState.unknown;
   late StreamSubscription<BluetoothAdapterState> _adapterStateSubscription;
-  late String _token;
 
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
@@ -75,12 +73,15 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.transparent,
+    ));
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
 
     _appStateNotifier.loadSaveUserData().then((isSuccess) async {
       if (isSuccess) {
-        await _appStateNotifier.apicall();
+        await _appStateNotifier.isrefresh();
       } else {
         print('Omit data call');
       }
@@ -97,33 +98,6 @@ class _MyAppState extends State<MyApp> {
       _appStateNotifier.stopShowingSplashImage();
     });
   }
-
-  // void _getToken() async {
-  //   FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  //   // 권한 요청 (iOS의 경우 필요)
-  //   NotificationSettings settings = await messaging.requestPermission(
-  //     alert: true,
-  //     announcement: false,
-  //     badge: true,
-  //     carPlay: false,
-  //     criticalAlert: false,
-  //     provisional: false,
-  //     sound: true,
-  //   );
-
-  //   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-  //     await messaging.getToken().then((value) {
-  //       if (value != null)
-  //         setState(() {
-  //           _token = value;
-  //         });
-  //       print("FCM Token: $_token");
-  //     });
-  //   } else {
-  //     print("Permission declined");
-  //   }
-  // }
 
   @override
   void dispose() {

@@ -1,6 +1,10 @@
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:fisica/utils/fisica_theme.dart';
 import 'package:fisica/utils/form_field_controller.dart';
+import 'package:fisica/utils/internationalization.dart';
+import 'package:fisica/views/home/plan/plan_components/calendar_Range.dart';
+import 'package:fisica/views/home/plan/plan_components/checkbox.dart';
+import 'package:fisica/widgets/Loding_button_widget.dart';
 import 'package:fisica/widgets/flutter_drop_down.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +27,9 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
   String location = '미등록';
   String notification = '정각 알림';
   String measurementType = '측정안 분석';
+  String _formattedDateRange = '반복 기간';
+  Set<String> selectedOptions = {};
+
   int doseCount = 3;
   List<TimeOfDay> doseTimes = [
     TimeOfDay(hour: 0, minute: 0),
@@ -70,6 +77,31 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
   //   }
   // }
 
+  void _showDateRangePicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.Gray850, // 바텀 시트 배경색을 설정
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          height: 570, // 높이를 570으로 고정
+          child: CustomCalendarRange(
+            timeData: [], // 필요한 날짜 데이터를 여기에 추가하세요.
+            onDateRangeSelected: (startDate, endDate) {
+              setState(() {
+                _formattedDateRange = _formatDateRange(startDate, endDate);
+              });
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  String _formatDateRange(DateTime startDate, DateTime endDate) {
+    return '${startDate.year}.${startDate.month}.${startDate.day}~${endDate.year}.${endDate.month}.${endDate.day}';
+  }
+
   void _selectTime(int index) async {
     BottomPicker.time(
       title: "",
@@ -77,6 +109,7 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
       onSubmit: (date) {
         setState(() {
           doseTimes[index] = TimeOfDay.fromDateTime(date);
+          print('${doseTimes[0]},${doseTimes[1]},${doseTimes[2]},${doseTimes[3]},${doseTimes[4]}');
         });
       },
       onClose: () {
@@ -101,40 +134,169 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
 
   void _showBottomSheet(List<String> options, String selected, Function(String) onSelected) {
     showModalBottomSheet(
+      backgroundColor: AppColors.primaryBackground,
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          color: AppColors.Gray850,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ...options.map((option) => RadioListTile<String>(
-                    title: Text(
-                      (option), // 옵션 텍스트
-                      style: AppFont.s18.overrides(color: AppColors.primaryBackground),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ...options.map((option) => RadioListTile<String>(
+                      title: Text(
+                        (option), // 옵션 텍스트
+                        style: AppFont.s18.overrides(color: AppColors.Black),
+                      ),
+                      value: option,
+                      groupValue: selected,
+                      onChanged: (value) {
+                        onSelected(value!);
+                      },
+                    )),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
+                  child: Container(
+                    height: 56,
+                    width: double.infinity,
+                    child: LodingButtonWidget(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      text: SetLocalizations.of(context).getText(
+                        'goeidkfwk' /* 해당일자 선택 */,
+                      ),
+                      options: LodingButtonOptions(
+                        height: 40.0,
+                        padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                        iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: AppColors.Black,
+                        textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                        elevation: 0,
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
                     ),
-                    value: option,
-                    groupValue: selected,
-                    onChanged: (value) {
-                      onSelected(value!);
-                      Navigator.pop(context);
-                    },
-                  )),
-              Container(
-                color: AppColors.primary,
-                width: double.infinity,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    ('선택'), // 선택 버튼
-                    style: AppFont.s18.overrides(color: AppColors.primaryBackground),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+        );
+      },
+    );
+  }
+
+  void _showRepeatBottomSheet(List<String> options, Set<String> selectedOptions, Function(Set<String>) onSelected) {
+    showModalBottomSheet(
+      backgroundColor: AppColors.primaryBackground,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(options[0], style: AppFont.s18),
+                        Theme(
+                          data: ThemeData(
+                              checkboxTheme: CheckboxThemeData(
+                                //fillColor:
+                                visualDensity: VisualDensity.compact,
+                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                              ),
+                              unselectedWidgetColor: AppColors.Gray200),
+                          child: Checkbox(
+                            value: selectedOptions.isEmpty,
+                            onChanged: (bool? value) {
+                              if (value == true) {
+                                setState(() {
+                                  selectedOptions.clear();
+                                });
+                                onSelected(Set.from(selectedOptions));
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    CustomCheckbox(
+                      value: selectedOptions.length == options.length - 2,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          if (value == true) {
+                            selectedOptions.addAll(options.sublist(2));
+                          } else {
+                            selectedOptions.clear();
+                          }
+                        });
+                        onSelected(Set.from(selectedOptions));
+                      },
+                      title: options[1], // "매일"
+                    ),
+                    ...options.sublist(2).map((option) {
+                      return CustomCheckbox(
+                        value: selectedOptions.contains(option),
+                        onChanged: (bool? value) {
+                          setState(() {
+                            if (value == true) {
+                              selectedOptions.add(option);
+                            } else {
+                              selectedOptions.remove(option);
+                            }
+                          });
+                          onSelected(Set.from(selectedOptions));
+                        },
+                        title: option,
+                      );
+                    }).toList(),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 12),
+                      child: Container(
+                        height: 56,
+                        width: double.infinity,
+                        child: LodingButtonWidget(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          text: SetLocalizations.of(context).getText(
+                            'goeidkfwk' /* 해당일자 선택 */,
+                          ),
+                          options: LodingButtonOptions(
+                            height: 40.0,
+                            padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            color: AppColors.Black,
+                            textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                            elevation: 0,
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         );
       },
     );
@@ -152,7 +314,6 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
             _peel(),
             _buildRepeatField(),
             _buildRepeatPeriodField(),
-            _buildLocationField(),
             _buildNotificationField(),
             _buildSubmitButton(),
           ],
@@ -269,57 +430,80 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
 
   Widget _peel() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('일일 복용 횟수'),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  icon: Icon(Icons.remove),
-                  onPressed: () {
-                    setState(() {
-                      if (doseCount > 1) doseCount--;
-                    });
-                  },
-                ),
-                Text('$doseCount'),
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    setState(() {
-                      doseCount++;
-                    });
-                  },
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.remove),
+                      onPressed: () {
+                        setState(() {
+                          if (doseCount > 1) doseCount--;
+                        });
+                      },
+                    ),
+                    Text('$doseCount'),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        setState(() {
+                          doseCount++;
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
           ],
         ),
         SizedBox(height: 16),
-        Text('복용 시간'),
-        for (int i = 0; i < doseCount; i++)
-          GestureDetector(
-            onTap: () => _selectTime(i),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Text(
+          '복용 시간',
+          style: AppFont.s18.overrides(color: AppColors.Black, fontSize: 16),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            children: List.generate(doseCount, (i) {
+              return GestureDetector(
+                onTap: () => _selectTime(i),
+                child: Column(
                   children: [
-                    Text('${doseTimes[i].format(context)}'),
-                    Icon(Icons.keyboard_arrow_down),
+                    Container(
+                      padding: EdgeInsets.all(12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${doseTimes[i].format(context)}',
+                            style: AppFont.s18.overrides(color: AppColors.Black, fontSize: 16),
+                          ),
+                          Icon(Icons.keyboard_arrow_down),
+                        ],
+                      ),
+                    ),
+                    if (i != doseCount - 1) // 마지막 항목이 아닌 경우에만 Divider 추가
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Divider(),
+                      ),
                   ],
                 ),
-              ),
-            ),
+              );
+            }),
           ),
+        )
       ],
     );
   }
@@ -340,7 +524,10 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(startTime.format(context)),
+                  Text(
+                    startTime.format(context),
+                    style: AppFont.s18.overrides(color: AppColors.Black, fontSize: 16),
+                  ),
                   Icon(Icons.access_time),
                 ],
               ),
@@ -361,7 +548,10 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(endTime.format(context)),
+                  Text(
+                    endTime.format(context),
+                    style: AppFont.s18.overrides(color: AppColors.Black, fontSize: 16),
+                  ),
                   Icon(Icons.access_time),
                 ],
               ),
@@ -375,12 +565,12 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
   Widget _buildRepeatField() {
     return GestureDetector(
       onTap: () {
-        _showBottomSheet(
-          ['반복 없음', '매일', '매주', '매월', '매년'],
-          repeat,
+        _showRepeatBottomSheet(
+          ['반복 없음', '매일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+          selectedOptions,
           (value) {
             setState(() {
-              repeat = value;
+              selectedOptions = value;
             });
           },
         );
@@ -395,7 +585,13 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(repeat),
+            Expanded(
+              child: Text(
+                selectedOptions.isEmpty ? '반복 없음' : selectedOptions.join(', '),
+                style: AppFont.s18.overrides(color: AppColors.Black, fontSize: 16),
+                overflow: TextOverflow.ellipsis, // 긴 텍스트가 있을 경우 생략 표시
+              ),
+            ),
             Icon(Icons.keyboard_arrow_down),
           ],
         ),
@@ -406,15 +602,7 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
   Widget _buildRepeatPeriodField() {
     return GestureDetector(
       onTap: () {
-        _showBottomSheet(
-          ['없음', '1주일', '2주일', '1개월', '3개월', '6개월', '1년'],
-          repeatPeriod,
-          (value) {
-            setState(() {
-              repeatPeriod = value;
-            });
-          },
-        );
+        _showDateRangePicker(context);
       },
       child: Container(
         padding: EdgeInsets.all(12),
@@ -426,8 +614,11 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(repeatPeriod),
-            Icon(Icons.keyboard_arrow_down),
+            Text(
+              _formattedDateRange,
+              style: AppFont.s18.overrides(color: AppColors.Black, fontSize: 16),
+            ),
+            Icon(Icons.calendar_today),
           ],
         ),
       ),
@@ -528,7 +719,6 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
     );
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(

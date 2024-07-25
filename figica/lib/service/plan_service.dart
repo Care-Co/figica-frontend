@@ -14,7 +14,7 @@ class ScheduleService {
       String endDate, String startTime, String endTime, List<int> repeatDays, List<String> notificationTimes, String notificationOption) async {
     String? token = AppStateNotifier.instance.apiToken;
     String? uid = AppStateNotifier.instance.userdata?.uid;
-    final url = Uri.parse('$linkurl/api/v1/users/$uid/schedule');
+    final url = Uri.parse('$linkurl/users/$uid/schedule');
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
@@ -55,7 +55,7 @@ class ScheduleService {
   static Future<void> getScheduleData(String from, String to) async {
     String? token = AppStateNotifier.instance.apiToken;
     String? uid = AppStateNotifier.instance.userdata?.uid;
-    final url = Uri.parse('$linkurl/api/v1/users/$uid/schedule?from=$from&to=$to');
+    final url = Uri.parse('$linkurl/users/$uid/schedule?from=$from&to=$to');
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
@@ -74,6 +74,8 @@ class ScheduleService {
         }
       } else {
         loggerNoStack.e(response.body);
+        List<ScheduleData> data = [];
+        AppStateNotifier.instance.UpSchadule(data);
         throw Exception('Failed to load schedule data');
       }
     } catch (e) {

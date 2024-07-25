@@ -1,5 +1,5 @@
 import 'package:bottom_picker/bottom_picker.dart';
-import 'package:fisica/views/login/login_components/Login_SignUp_Cancel.dart';
+import 'package:fisica/auth/auth_service.dart';
 
 import 'package:fisica/utils/form_field_controller.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,8 @@ class TesterData1 extends StatefulWidget {
 }
 
 class _TesterData1State extends State<TesterData1> {
+  final AuthService _authService = AuthService();
+
   DateTime? selectedDate;
   String selectedGender = 'none';
   String dropDownValue = 'KR';
@@ -99,16 +101,8 @@ class _TesterData1State extends State<TesterData1> {
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
-        ),
-      );
-    }
-
     return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: AppColors.primaryBackground,
@@ -126,25 +120,7 @@ class _TesterData1State extends State<TesterData1> {
               size: 30,
             ),
             onPressed: () async {
-              await showAlignedDialog(
-                context: context,
-                isGlobal: true,
-                avoidOverflow: false,
-                targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-                builder: (dialogContext) {
-                  return Material(
-                    color: Colors.transparent,
-                    child: GestureDetector(
-                      child: Container(
-                        height: 432,
-                        width: 327,
-                        child: SignUpCancelWidget(),
-                      ),
-                    ),
-                  );
-                },
-              ).then((value) => setState(() {}));
+              context.safePop();
             },
           ),
           title: Column(
@@ -173,7 +149,7 @@ class _TesterData1State extends State<TesterData1> {
           child: SingleChildScrollView(
             child: Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.85,
+              height: MediaQuery.of(context).size.height * 0.8,
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                 child: Column(
@@ -566,7 +542,7 @@ class _TesterData1State extends State<TesterData1> {
                                 double weight = weController.text.isEmpty ? 0.0 : double.parse(weController.text);
 
                                 await UserController.updatetester(data, finame, name, selectedGender, height, weight, dropDownValue).then((userData) {
-                                  context.goNamed('testFootprint', extra: 'tester');
+                                  context.goNamed('Tester_GetData2');
                                 }).catchError((error) {
                                   print('Error fetching user data: $error');
                                 });

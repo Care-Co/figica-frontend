@@ -41,14 +41,14 @@ class _NoDiviceState extends State<NoDivice> {
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
                     child: Text(
                       SetLocalizations.of(context).getText(
-                        'elqkdltmdjqt',
+                        'scanNoDeviceLabel',
                       ),
                       style: AppFont.s18.overrides(color: AppColors.primaryBackground, fontSize: 16),
                     ),
                   ),
                   Text(
                     SetLocalizations.of(context).getText(
-                      'sodydd',
+                      'scanNoDeviceDescription',
                     ),
                     style: AppFont.r16.overrides(color: AppColors.Gray300, fontSize: 12),
                     textAlign: TextAlign.start,
@@ -70,7 +70,7 @@ class _NoDiviceState extends State<NoDivice> {
                         context.pushNamed('FindBlue', extra: 'main');
                       },
                       text: SetLocalizations.of(context).getText(
-                        'eldktj' /* 확인 */,
+                        'scanNoDeviceButtonConfirmLabel' /* 확인 */,
                       ),
                       options: LodingButtonOptions(
                         height: 40.0,

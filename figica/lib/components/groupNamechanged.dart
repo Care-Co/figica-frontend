@@ -65,7 +65,7 @@ class _ChangegroupnameState extends State<Changegroupname> {
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () async {
-                        context.pushNamed('group');
+                        context.pushNamed('home');
                       },
                       text: SetLocalizations.of(context).getText('ze1u6oze'),
                       options: LodingButtonOptions(

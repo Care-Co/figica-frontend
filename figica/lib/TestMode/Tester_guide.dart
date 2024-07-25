@@ -81,7 +81,7 @@ class _TesterGuideState extends State<TesterGuide> {
                     width: double.infinity,
                     child: LodingButtonWidget(
                       onPressed: () async {
-                        context.goNamed('Tester_menu');
+                        context.goNamed('Tester_GetData1');
                       },
                       text: '시작하기',
                       options: LodingButtonOptions(

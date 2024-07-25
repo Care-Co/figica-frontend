@@ -1,26 +1,24 @@
+import 'package:fisica/index.dart';
+import 'package:flutter/material.dart';
+
 class FootData {
+  String footprintId;
   DateTime measuredDate;
   DateTime measuredTime;
   int classType;
   int accuracy;
-  String imageUrl;
+  String? imageUrl;
   double weight;
 
   FootData({
+    required this.footprintId,
     required this.measuredDate,
     required this.measuredTime,
     required this.classType,
     required this.accuracy,
-    required this.imageUrl,
+    this.imageUrl,
     required this.weight,
   });
-  static void sortData(List<FootData> data) {
-    try {
-      data.sort((a, b) => a.measuredTime.compareTo(b.measuredTime));
-    } on Exception catch (e) {
-      print(e);
-    }
-  }
 
   static String settype(int typeint) {
     switch (typeint) {
@@ -52,6 +50,7 @@ class FootData {
   // Method to parse from JSON
   factory FootData.fromJson(Map<String, dynamic> json) {
     return FootData(
+      footprintId: json['footprintId'],
       measuredDate: DateTime.parse(json['measuredDate']),
       measuredTime: DateTime.parse("${json['measuredDate']} ${json['measuredTime']}"),
       classType: json['classType'],
@@ -64,6 +63,7 @@ class FootData {
   // Method to convert to JSON
   Map<String, dynamic> toJson() {
     return {
+      'footprintId': footprintId,
       'measuredDate': measuredDate.toIso8601String().split('T')[0],
       'measuredTime': measuredTime.toIso8601String().split('T')[1],
       'classType': classType,
@@ -71,5 +71,33 @@ class FootData {
       'imageUrl': imageUrl,
       'weight': weight,
     };
+  }
+
+  static String timeElapsedSince(BuildContext context, DateTime logTime) {
+    DateTime currentTime = DateTime.now();
+    Duration timeDifference = currentTime.difference(logTime);
+    int months = (currentTime.year - logTime.year) * 12 + currentTime.month - logTime.month;
+    int days = timeDifference.inDays;
+    int hours = timeDifference.inHours % 24;
+    int minutes = timeDifference.inMinutes % 60;
+
+    String timeDiffStr = "";
+
+    if (minutes > 0) {
+      if (timeDiffStr.isNotEmpty) timeDiffStr += ", ";
+      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateMinuteLabel', values: {'minute': minutes.toString()});
+    }
+    if (hours > 0) {
+      if (timeDiffStr.isNotEmpty) timeDiffStr += ", ";
+      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateHourLabel', values: {'hour': hours.toString()});
+    }
+    if (days > 0) {
+      if (timeDiffStr.isNotEmpty) timeDiffStr += ", ";
+      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateDayLabel', values: {'day': days.toString()});
+    }
+    if (months > 0) {
+      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateMonthLabel', values: {'month': months.toString()});
+    }
+    return timeDiffStr.isEmpty ? SetLocalizations.of(context).getText('profileHistoryDateMinuteLabel', values: {'minute': '1'}) : timeDiffStr;
   }
 }

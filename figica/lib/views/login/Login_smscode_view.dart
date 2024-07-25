@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fisica/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -105,7 +107,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
           ),
           title: Text(
               SetLocalizations.of(context).getText(
-                '71suwd6k' /* 인증 번호 입력 */,
+                'changePhoneCertifyButtonReturnLabel' /* 인증 번호 입력 */,
               ),
               style: AppFont.s18.overrides(color: AppColors.Black)),
           actions: [],
@@ -132,7 +134,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 0.0),
                         child: Text(
                             SetLocalizations.of(context).getText(
-                              '952lmtxg' /* 인증번호 */,
+                              'changePhoneCertifyInputNumberLabel' /* 인증번호 */,
                             ),
                             style: AppFont.s12),
                       ),
@@ -182,7 +184,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                                 children: [
                                   Text(
                                     SetLocalizations.of(context).getText(
-                                      'wowjsthd' /* 인증번호 재전송*/,
+                                      'changePhoneCertifyButtonRetryLabel' /* 인증번호 재전송*/,
                                     ),
                                   ),
                                 ],
@@ -202,21 +204,19 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                       height: 56.0,
                       child: LodingButtonWidget(
                         onPressed: () async {
-                          var Smsdata = AppStateNotifier.instance.Smsdata;
-
-                          await UserController.signUpWithPhone(Smsdata!['verificationId'], myController.text, Smsdata['setinfo'] == true)
-                              .then((value) {
+                          await UserController.AuthPhone(AppStateNotifier.instance.verificationId!, myController.text).then((value) {
                             if (value) {
-                              if (Smsdata['setinfo'] == true) {
+                              if (AppStateNotifier.instance.isSignUp) {
                                 context.goNamed('singup_userinfo');
                               } else {
+                                AppStateNotifier.instance.updateloginState(false);
                                 context.goNamed('home');
                               }
                             }
                           });
                         },
                         text: SetLocalizations.of(context).getText(
-                          't0ydhdm1' /* 인증하기 */,
+                          'changePhoneCertifyButtonConfirmLabel' /* 인증하기 */,
                         ),
                         options: LodingButtonOptions(
                           height: 40.0,
@@ -245,7 +245,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                           print('no');
                         },
                         text: SetLocalizations.of(context).getText(
-                          't0ydhdm1' /* 인증하기 */,
+                          'changePhoneCertifyButtonConfirmLabel' /* 인증하기 */,
                         ),
                         options: LodingButtonOptions(
                           height: 40.0,

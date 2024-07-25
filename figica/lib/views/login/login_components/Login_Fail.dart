@@ -1,8 +1,5 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fisica/index.dart';
-
 
 class LoginFailWidget extends StatefulWidget {
   final VoidCallback onConfirmed;
@@ -59,7 +56,7 @@ class _LoginFailWidgetState extends State<LoginFailWidget> {
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
                     child: Text(
                       SetLocalizations.of(context).getText(
-                        'l7iyr39a' /* Hello World */,
+                        'popupErrorLoginLabel' /* Hello World */,
                       ),
                       style: AppFont.s18,
                     ),
@@ -67,21 +64,21 @@ class _LoginFailWidgetState extends State<LoginFailWidget> {
                   if (widget.message == "phone")
                     Text(
                       SetLocalizations.of(context).getText(
-                        'onxlo4te' /* Hello World */,
+                        'popupErrorLoginPhoneDescription' /* Hello World */,
                       ),
                       style: AppFont.r16.overrides(color: AppColors.Gray500),
                     ),
                   if (widget.message == "email")
                     Text(
                       SetLocalizations.of(context).getText(
-                        'onxlo41w' /* Hello World */,
+                        'popupErrorLoginEmailDescription' /* Hello World */,
                       ),
                       style: AppFont.r16.overrides(color: AppColors.Gray500),
                     ),
                   if (widget.message == "pwfail")
                     Text(
                       SetLocalizations.of(context).getText(
-                        'onxtso41w' /* Hello World */,
+                        'popupErrorLoginPasswordDescription' /* Hello World */,
                       ),
                       style: AppFont.r16.overrides(color: AppColors.Gray500),
                     ),
@@ -98,7 +95,6 @@ class _LoginFailWidgetState extends State<LoginFailWidget> {
                     children: [
                       if (widget.message == "email" || widget.message == "phone")
                         Container(
-                          width: 140,
                           height: 30,
                           decoration: BoxDecoration(
                             color: AppColors.primary,
@@ -109,7 +105,7 @@ class _LoginFailWidgetState extends State<LoginFailWidget> {
                             children: [
                               Text(
                                 SetLocalizations.of(context).getText(
-                                  'onxlo4sfhw' /* 아직 회원이 아니라면 */,
+                                  'popupErrorLoginSuggestionLabel' /* 아직 회원이 아니라면 */,
                                 ),
                                 style: AppFont.s12,
                               ),
@@ -129,7 +125,7 @@ class _LoginFailWidgetState extends State<LoginFailWidget> {
                             context.pushNamed('agree_tos');
                           },
                           text: SetLocalizations.of(context).getText(
-                            'f1vk38nh' /* 회원 가입하기 */,
+                            'popupErrorLoginButtonSignupLabel' /* 회원 가입하기 */,
                           ),
                           options: LodingButtonOptions(
                             height: 40.0,
@@ -159,7 +155,7 @@ class _LoginFailWidgetState extends State<LoginFailWidget> {
                             widget.onConfirmed();
                           },
                           text: SetLocalizations.of(context).getText(
-                            '3787ocsp' /* 비밀번호 찾기 */,
+                            'completeLoginButtonFindPasswordLabel' /* 비밀번호 찾기 */,
                           ),
                           options: LodingButtonOptions(
                             height: 40.0,
@@ -185,7 +181,7 @@ class _LoginFailWidgetState extends State<LoginFailWidget> {
                         context.safePop();
                       },
                       text: SetLocalizations.of(context).getText(
-                        'ze1u6oze' /* 확인 */,
+                        'popupErrorLoginButtonConfirmLabel' /* 확인 */,
                       ),
                       options: LodingButtonOptions(
                         height: 40.0,

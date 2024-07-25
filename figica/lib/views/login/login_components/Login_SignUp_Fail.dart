@@ -1,8 +1,5 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fisica/index.dart';
-
 
 class SignupFailWidget extends StatefulWidget {
   final VoidCallback onConfirmed;
@@ -63,21 +60,21 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                   if (widget.message == "phone")
                     Text(
                       SetLocalizations.of(context).getText(
-                        'dlaltkdydwjs' /* Hello World */,
+                        'popupErrorSignupPhoneDuplicatedLabel' /* 이미 사용중인 전화번호 입니다. */,
                       ),
                       style: AppFont.s18,
                     ),
                   if (widget.message == "email")
                     Text(
                       SetLocalizations.of(context).getText(
-                        'dlaltkdydvel' /* Hello World */,
+                        'popupErrorSignupEmailDuplicatedLabel' /* Hello World */,
                       ),
                       style: AppFont.s18,
                     ),
                   if (widget.message == "pwfail")
                     Text(
                       SetLocalizations.of(context).getText(
-                        'onxtso41w' /* Hello World */,
+                        'popupErrorLoginPasswordDescription' /* Hello World */,
                       ),
                       style: AppFont.s18,
                     ),
@@ -86,7 +83,7 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                     child: Center(
                       child: Text(
                           SetLocalizations.of(context).getText(
-                            'rlwhsrowjd' /* Hello World */,
+                            'popupErrorSignupEmailDuplicatedDescription' /* 기존 계정으로 로그인 하거나 */,
                           ),
                           style: AppFont.r16.overrides(color: AppColors.Gray500),
                           textAlign: TextAlign.center),
@@ -112,7 +109,7 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                             context.push('/');
                           },
                           text: SetLocalizations.of(context).getText(
-                            'fhrmdls' /* 로그인으로 돌아가기*/,
+                            'popupErrorSignupEmailDuplicatedButtonReturnLabel' /* 로그인으로 돌아가기*/,
                           ),
                           options: LodingButtonOptions(
                             height: 40.0,
@@ -142,7 +139,7 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                             widget.onConfirmed();
                           },
                           text: SetLocalizations.of(context).getText(
-                            '3787ocsp' /* 비밀번호 찾기 */,
+                            'completeLoginButtonFindPasswordLabel' /* 비밀번호 찾기 */,
                           ),
                           options: LodingButtonOptions(
                             height: 40.0,
@@ -169,7 +166,7 @@ class _SignupFailWidgetState extends State<SignupFailWidget> {
                         widget.onConfirmed();
                       },
                       text: SetLocalizations.of(context).getText(
-                        'ze1u6oze' /* 확인 */,
+                        'popupErrorLoginButtonConfirmLabel' /* 확인 */,
                       ),
                       options: LodingButtonOptions(
                         height: 40.0,

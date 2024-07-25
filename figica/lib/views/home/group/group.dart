@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:fisica/index.dart';
 
@@ -14,12 +15,19 @@ class GroupWidget extends StatefulWidget {
 class _GroupWidgetState extends State<GroupWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late AppStateNotifier _appStateNotifier;
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
     _appStateNotifier = AppStateNotifier.instance;
     WidgetsBinding.instance.addPostFrameCallback((_) {});
+  }
+
+  Future<void> _refreshGroup() async {
+    // 새로고침할 때 실행할 비동기 함수
+    await GroupApi.findGroup();
+    _refreshController.refreshCompleted();
   }
 
   @override
@@ -43,44 +51,48 @@ class _GroupWidgetState extends State<GroupWidget> {
           appBar: AppBar(
             backgroundColor: groif ? AppColors.Gray850 : Color(0x00CCFF8B),
             automaticallyImplyLeading: false,
-            title: Text(SetLocalizations.of(context).getText('ze1uteze'), style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
-            actions: (!groif)
-                ? []
-                : <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.settings),
-                      onPressed: () {
-                        context.pushNamed(
-                          'groupSetting',
-                          extra: {'authority': 'LEADER', 'groupname': 'name'},
-                        );
+            title: Text(
+              SetLocalizations.of(context).getText('ze1uteze'),
+              style: AppFont.s18.overrides(color: AppColors.primaryBackground),
+            ),
+            actions: <Widget>[
+              if (_appStateNotifier.isGroup)
+                IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                    context.pushNamed(
+                      'groupSetting',
+                      extra: {
+                        'authority': appStateNotifier.myAuthority,
+                        'groupname': appStateNotifier.groupData!.first.groupName,
                       },
-                    ),
-                  ],
+                    );
+                  },
+                ),
+            ],
             centerTitle: false,
             elevation: 0.0,
           ),
-          body: result(),
+          body: SmartRefresher(
+            controller: _refreshController,
+            onRefresh: _refreshGroup,
+            child: _buildContent(),
+          ),
         ),
       );
     });
   }
 
-  Widget result() {
+  Widget _buildContent() {
+    print(_appStateNotifier.isGroup);
     print(_appStateNotifier.iswait);
+
     return _appStateNotifier.isGroup
         ? YesgroupScreen()
         : _appStateNotifier.iswait
-            ? WaitgroupScreen()
+            ? (_appStateNotifier.Groupstate != 'DECLINED')
+                ? WaitgroupScreen()
+                : NogroupScreen()
             : NogroupScreen();
-
-    // switch (groupStatus) {
-    //   case 'NO_GROUPS':
-    //     return NogroupScreen();
-    //   case 'waiting':
-    //     return WaitgroupScreen();
-    //   default:
-    //     return YesgroupScreen();
-    // }
   }
 }

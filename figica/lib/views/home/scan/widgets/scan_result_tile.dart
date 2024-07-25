@@ -78,11 +78,11 @@ class _ScanResultTileState extends State<ScanResultTile> {
   Text connectext(BuildContext context) {
     return (isConnected || widget.result.advertisementData.connectable)
         ? Text(
-            '연결 가능',
+            SetLocalizations.of(context).getText('settingAddDeviceConnectableLabel'),
             style: AppFont.r16.overrides(color: AppColors.Gray300, fontSize: 12),
           )
         : Text(
-            '연결 불가능',
+            SetLocalizations.of(context).getText('settingAddDeviceUnConnectableLabel'),
             style: AppFont.r16.overrides(color: AppColors.Gray300, fontSize: 12),
           );
   }

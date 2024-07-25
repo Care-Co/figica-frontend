@@ -28,6 +28,12 @@
       "deviceId": "R59N201ZJ0V"
     },
     {
+      "name": "Android tab",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "R54T3005PVK"
+    },
+    {
       "name": "iPhone 13",
       "request": "launch",
       "type": "dart",
@@ -53,11 +59,15 @@
     },
     {
       "name": "real Devices",
-      "configurations": ["Android real", "iPhone 13"]
+      "configurations": ["Android tab", "iPhone 13"]
     },
     {
-      "name": "real and vm ios",
-      "configurations": ["Android real", "iPhone 15"]
+      "name": "tab and vm ios",
+      "configurations": ["Android tab", "iPhone 15"]
+    },
+    {
+      "name": "13 and vm and",
+      "configurations": ["Android 3", "iPhone 13"]
     }
   ]
 }

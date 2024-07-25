@@ -1,5 +1,5 @@
 import 'package:fisica/components/Success_device.dart';
-import 'package:fisica/views/home/scan/Foot_Controller.dart';
+import 'package:fisica/service/Foot_Controller.dart';
 import 'package:fisica/views/home/scan/utils/extra.dart';
 import 'package:fisica/views/home/scan/widgets/scan_result_tile.dart';
 import 'package:fisica/views/home/scan/widgets/system_device_tile.dart';
@@ -29,6 +29,7 @@ class _FindBlueState extends State<FindBlue> {
   @override
   void initState() {
     super.initState();
+    _scanResults.clear();
 
     _scanResultsSubscription = FlutterBluePlus.scanResults.listen((results) {
       _scanResults = results;
@@ -63,13 +64,17 @@ class _FindBlueState extends State<FindBlue> {
         ),
       );
     }
+
     Future onScanPressed() async {
+      print('scan');
+      List<BluetoothDevice> connectedDevices = await FlutterBluePlus.connectedDevices;
+
       _scanResults.clear();
       try {
         _systemDevices = await FlutterBluePlus.systemDevices;
       } catch (e) {}
       try {
-        await FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
+        await FlutterBluePlus.startScan(withNames: ["Fisica Scale"], timeout: const Duration(seconds: 5));
       } catch (e) {}
       if (mounted) {
         setState(() {});
@@ -83,11 +88,11 @@ class _FindBlueState extends State<FindBlue> {
     }
 
     void onConnectPressed(BluetoothDevice device) {
-      device.connect(autoConnect: true, mtu: null).then((value) {
+      device.connect(autoConnect: false, mtu: null).then((value) {
         device.requestMtu(645);
         print(device.remoteId);
-        DataController.savedevice(device.remoteId.toString());
-        DataController.savedevicename(device.platformName.toString());
+        AppStateNotifier.instance.Updevice(device.platformName.toString());
+
         showAlignedDialog(
           context: context,
           isGlobal: true,
@@ -128,7 +133,7 @@ class _FindBlueState extends State<FindBlue> {
     Widget buildScanButton(BuildContext context) {
       if (FlutterBluePlus.isScanningNow) {
         return LodingButtonWidget(
-          text: '검색중...',
+          text: SetLocalizations.of(context).getText('settingAddDeviceButtonSearchingLabel'),
           onPressed: onStopPressed,
           options: LodingButtonOptions(
             height: 56.0,
@@ -147,7 +152,7 @@ class _FindBlueState extends State<FindBlue> {
         );
       } else {
         return LodingButtonWidget(
-            text: '검색',
+            text: SetLocalizations.of(context).getText('settingAddDeviceButtonSearchLabel'),
             options: LodingButtonOptions(
               height: 56.0,
               width: double.infinity,
@@ -199,6 +204,7 @@ class _FindBlueState extends State<FindBlue> {
         key: scaffoldKey,
         backgroundColor: AppColors.Black,
         appBar: AppBar(
+          surfaceTintColor: AppColors.Black,
           leading: AppIconButton(
             borderColor: Colors.transparent,
             borderRadius: 30,
@@ -213,9 +219,10 @@ class _FindBlueState extends State<FindBlue> {
               context.pop();
             },
           ),
-          backgroundColor: Color(0x00CCFF8B),
+          backgroundColor: AppColors.Black,
           automaticallyImplyLeading: false,
-          title: Text('디바이스 등록', style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
+          title: Text(SetLocalizations.of(context).getText('settingAddDeviceButtonReturnLabel'),
+              style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
           actions: [],
           centerTitle: false,
           elevation: 0.0,
@@ -264,7 +271,7 @@ class _FindBlueState extends State<FindBlue> {
                     height: 120,
                     child: Column(children: [
                       Text(
-                        '제품의 전원을 켜고 스마트폰 설정에서\n블루투스, GPS 연결을 켜주세요',
+                        SetLocalizations.of(context).getText('settingAddDeviceDescription'),
                         style: AppFont.r16.overrides(
                           color: AppColors.DarkenGreen,
                         ),
@@ -273,7 +280,7 @@ class _FindBlueState extends State<FindBlue> {
                     ]),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
+                    padding: const EdgeInsets.fromLTRB(24, 12, 24, 40),
                     child: buildScanButton(context),
                   )
                 ],

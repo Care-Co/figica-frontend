@@ -20,6 +20,7 @@ export 'utils/fisica_theme.dart';
 export 'utils/flutter_util.dart';
 export 'utils/internationalization.dart';
 export 'view_models/Data_Notifire.dart';
+export 'widgets/showCustomDialog.dart';
 
 export 'TestMode/Tester_Data_1.dart';
 export 'TestMode/Tester_Data_2.dart';
@@ -28,33 +29,31 @@ export 'TestMode/Tester_Menu.dart';
 export 'TestMode/Tester_Scan.dart';
 export 'TestMode/Tester_guide.dart';
 
-export 'views/home/group/CreateCode.dart' show CreateCodeWidget;
-export 'views/home/group/No_group_Screen.dart' show NogroupScreen;
-export 'views/home/group/Yes_group_Screen.dart' show YesgroupScreen;
-export 'views/home/group/creategroup_widget.dart' show CreategroupWidget;
+export 'views/home/group/No_group/CreateGroup/CreateGroup_CreateCode_view.dart' show CreateCodeWidget;
+export 'views/home/group/No_group/No_group_Screen.dart' show NogroupScreen;
+export 'views/home/group/Yes_group/Yes_group_Screen.dart' show YesgroupScreen;
+export 'views/home/group/No_group/CreateGroup/CreateGroup_NameInput_view.dart' show CreategroupWidget;
 export 'views/home/group/group.dart' show GroupWidget;
-export 'views/home/group/group_info_screen.dart' show GroupInfoScreen;
-export 'views/home/group/group_invitation_screen.dart' show GroupInvitationScreen;
+export 'views/home/group/No_group/JoinGroup/group_info_screen.dart' show GroupInfoScreen;
+export 'views/home/group/No_group/CreateGroup/CreateGroup_share_view.dart' show GroupInvitationScreen;
 export 'views/home/group/group_setting.dart' show GroupSetting;
-export 'views/home/group/join_group.dart' show JoingroupWidget;
+export 'views/home/group/No_group/JoinGroup/join_group.dart' show JoingroupWidget;
 export 'views/home/group/Wait_group_Screen.dart' show WaitgroupScreen;
 
-export 'views/home/group/settings/ChangeGroupName_screen.dart' show ChangeGroupNamePage;
-export 'views/home/group/settings/DeleteGroup_screen.dart' show DeleteGroupPage;
-export 'views/home/group/settings/GroupHistory_screen.dart' show GroupHistoryPage;
-export 'views/home/group/settings/GroupJoinRequests_screen.dart' show GroupJoinRequestsPage;
-export 'views/home/group/settings/InvitationCodeManage_screen.dart' show InvitationCodeManagementPage;
-export 'views/home/group/settings/InvitationHistory_screen.dart' show GroupJoinHistory;
-export 'views/home/group/settings/LeaveGroup_screen.dart' show LeaveGroupPage;
-export 'views/home/group/settings/MemberManage_screen.dart' show MemberManagementPage;
-export 'views/home/group/settings/NotificationSetting_screen.dart' show NotificationSettingsPage;
-export 'views/home/group/settings/PublicInfoSettings_screen.dart' show PublicInfoSettingsPage;
-export 'views/home/group/settings/Remove_member_screen.dart' show RemoveMemberPage;
-export 'views/home/group/settings/changeLeader_screen.dart' show ChangeLeaderPage;
+export 'views/home/group/Yes_group/settings/ChangeGroupName_screen.dart' show ChangeGroupNamePage;
+export 'views/home/group/Yes_group/settings/DeleteGroup_screen.dart' show DeleteGroupPage;
+export 'views/home/group/Yes_group/settings/GroupHistory_screen.dart' show GroupHistoryPage;
+export 'views/home/group/Yes_group/settings/GroupJoinRequests_screen.dart' show GroupJoinRequestsPage;
+export 'views/home/group/Yes_group/settings/Setting_CodeManage.dart' show InvitationCodeManagementPage;
+export 'views/home/group/Yes_group/settings/InvitationHistory_screen.dart' show GroupJoinHistory;
+export 'views/home/group/Yes_group/settings/MemberManage_screen.dart' show MemberManagementPage;
+export 'views/home/group/Yes_group/settings/NotificationSetting_screen.dart' show NotificationSettingsPage;
+export 'views/home/group/Yes_group/settings/PublicInfoSettings_screen.dart' show PublicInfoSettingsPage;
+export 'views/home/group/Yes_group/settings/Remove_member_screen.dart' show RemoveMemberPage;
+export 'views/home/group/Yes_group/settings/changeLeader_screen.dart' show ChangeLeaderPage;
 //home page
 export 'views/home/home_page/home_page_view.dart' show HomePageWidget;
 export 'views/home/home_page/avata_widget.dart' show Avata;
-export 'views/home/home_page/home_info.dart' show Homeinfo;
 //mypage
 export 'views/home/mypage/mypage_foot_view.dart' show Footreport;
 export 'views/home/mypage/mypage_avata_view.dart' show Myavata;
@@ -72,10 +71,10 @@ export 'views/home/scan/Foot_result.dart';
 
 export 'views/login/Login_email_pw_view.dart' show InputPwWidget;
 export 'views/login/Login_main.dart' show LoginWidget;
-export 'views/login/Login_singup_getid_view.dart' show GetidWidget;
-export 'views/login/Login_singup_info_view.dart' show UserInfoWidget;
-export 'views/login/Login_singup_pw_view.dart' show SetPwWidget;
-export 'views/login/Login_singup_tos_view.dart' show AgreeTosWidget;
+export 'views/login/Login_signup_getid_view.dart' show GetidWidget;
+export 'views/login/Login_signup_info_view.dart' show UserInfoWidget;
+export 'views/login/Login_signup_pw_view.dart' show SetPwWidget;
+export 'views/login/Login_signup_tos_view.dart' show AgreeTosWidget;
 export 'views/login/Login_smscode_view.dart' show SmscodeWidget;
 export 'views/login/ToS.dart' show certifyWidget;
 export 'views/login/checkemail.dart' show checkemailWidget;
@@ -85,7 +84,9 @@ export 'widgets/App_icon_button.dart';
 export 'widgets/BotNav_widget.dart';
 export 'widgets/Loding_button_widget.dart';
 export 'widgets/custom_input_field_widget.dart';
+export 'generated/l10n.dart';
 
-String mainurl = 'http://3.37.197.238:8080';
+//String mainurl = 'http://3.37.197.238:8080';
+String mainurl = 'https://carencoinc.com/kr/service';
 //http://203.232.210.68:8080
-String version = '1.0.14';
+String version = '1.0.17';

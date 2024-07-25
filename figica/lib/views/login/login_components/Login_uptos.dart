@@ -1,8 +1,8 @@
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';
-
 
 class UptosWidget extends StatefulWidget {
   final int index;
@@ -15,6 +15,10 @@ class UptosWidget extends StatefulWidget {
 }
 
 class _UptosWidgetState extends State<UptosWidget> {
+  String text = '';
+  String title = '';
+  String lang = '';
+
   @override
   void setState(VoidCallback callback) {
     super.setState(callback);
@@ -23,7 +27,13 @@ class _UptosWidgetState extends State<UptosWidget> {
   @override
   void initState() {
     super.initState();
-
+    loadTextFileContent(widget.index);
+    Locale? locale = SetLocalizations.getStoredLocale();
+    if (locale != null) {
+      lang = '${locale.languageCode}';
+    } else {
+      print('No locale stored');
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -32,20 +42,27 @@ class _UptosWidgetState extends State<UptosWidget> {
     super.dispose();
   }
 
-  Future<String> loadTextFileContent(int index) async {
-    String text = '';
+  void loadTextFileContent(int index) async {
     switch (index) {
       case 1:
-        text = await rootBundle.loadString('assets/text/service_agreement.txt');
+        text = (lang == 'ko')
+            ? await rootBundle.loadString('assets/text/service_agreement.txt')
+            : await rootBundle.loadString('assets/text/service_agreement_en.txt');
+        title = SetLocalizations.of(context).getText('signupHomeCheckboxTermsLabel' /* 이용 약관 동의 */
+            );
         break;
       case 2:
-        text = await rootBundle.loadString('assets/text/info_agreement.txt');
+        text = (lang == 'ko')
+            ? await rootBundle.loadString('assets/text/info_agreement.txt')
+            : await rootBundle.loadString('assets/text/info_agreement_en.txt');
+        title = SetLocalizations.of(context).getText('signupHomeCheckboxPrivacyLabel' /* 개인정보 수집 및 이용 동의*/
+            );
+
         break;
       case 3:
         text = await rootBundle.loadString('assets/text/ad_agreement.txt');
         break;
     }
-    return text;
   }
 
   @override
@@ -88,28 +105,11 @@ class _UptosWidgetState extends State<UptosWidget> {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
-                child: Text(
-                    SetLocalizations.of(context).getText(
-                      '3ylfl8cm' /* 서비스 이용약관  */,
-                    ),
-                    style: AppFont.b24),
+                child: Text(title, style: AppFont.b24),
               ),
               Expanded(
-                child: FutureBuilder<String>(
-                  future: loadTextFileContent(widget.index),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return SingleChildScrollView(
-                          child: Text(snapshot.data ?? '내용이 비어있습니다.', style: AppFont.r16),
-                        );
-                      }
-                    } else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
+                child: SingleChildScrollView(
+                  child: Text(text ?? '내용이 비어있습니다.', style: AppFont.r16),
                 ),
               ),
               Column(
@@ -126,7 +126,7 @@ class _UptosWidgetState extends State<UptosWidget> {
                         Navigator.pop(context);
                       },
                       text: SetLocalizations.of(context).getText(
-                        'hz0ov3hg' /* 동의 */,
+                        'signupHomeButtonReturnLabel' /* 동의 */,
                       ),
                       options: LodingButtonOptions(
                         height: 40.0,

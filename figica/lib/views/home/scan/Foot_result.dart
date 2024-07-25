@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:fisica/views/home/scan/scandata.dart';
-import 'package:fisica/views/home/scan/Foot_Controller.dart';
+import 'package:fisica/service/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fisica/index.dart';
+import 'package:provider/provider.dart';
 
 class FootResult extends StatefulWidget {
   final String mode;
@@ -18,12 +19,10 @@ class FootResult extends StatefulWidget {
 class _FootResultState extends State<FootResult> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var data;
-  final DraggableScrollableController _controller = DraggableScrollableController();
   bool main = true;
   @override
   void initState() {
     super.initState();
-    getData();
     showModalBottomSheetWithStates(context);
     if (widget.mode != 'main') {
       main = false;
@@ -37,19 +36,13 @@ class _FootResultState extends State<FootResult> {
     super.dispose();
   }
 
-  Future<void> getData() async {
-    var tempData = AppStateNotifier.instance.scandata;
-    print(tempData);
-    data = tempData;
-  }
-
   Future<void> showModalBottomSheetWithStates(BuildContext context) async {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       barrierColor: Colors.transparent,
-      builder: (context) => ScanData(mode: widget.mode),
+      builder: (context) => ScanData(mode: widget.mode, footdata: AppStateNotifier.instance.footdata!.first),
     );
   }
 
@@ -63,64 +56,63 @@ class _FootResultState extends State<FootResult> {
         ),
       );
     }
-    return GestureDetector(
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: AppColors.Black,
-        appBar: AppBar(
-          backgroundColor: Color(0x00CCFF8B),
-          automaticallyImplyLeading: false,
-          title: Text(
-            SetLocalizations.of(context).getText(
-              'xcmrjdju' /* Page Title */,
-            ),
-            style: AppFont.s18.overrides(color: AppColors.primaryBackground),
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.cancel,
-                size: 20,
-                color: AppColors.primaryBackground,
+    return Consumer<AppStateNotifier>(builder: (context, AppStateNotifier, child) {
+      data = AppStateNotifier.scandata;
+      return GestureDetector(
+        child: Scaffold(
+            key: scaffoldKey,
+            backgroundColor: AppColors.Black,
+            appBar: AppBar(
+              backgroundColor: Color(0x00CCFF8B),
+              automaticallyImplyLeading: false,
+              title: Text(
+                SetLocalizations.of(context).getText(
+                  'reportPlantarPressureLabel' /* Page Title */,
+                ),
+                style: AppFont.s18.overrides(color: AppColors.primaryBackground),
               ),
-              onPressed: () {
-                context.pushNamed('login');
-              },
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.close,
+                    size: 24,
+                    color: AppColors.primaryBackground,
+                  ),
+                  onPressed: () {
+                    context.pushNamed('login');
+                  },
+                ),
+              ],
+              centerTitle: false,
+              elevation: 0.0,
             ),
-          ],
-          centerTitle: false,
-          elevation: 0.0,
-        ),
-        body: FutureBuilder(
-          future: getData(), // 비동기 데이터 로드 함수
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text("데이터 로딩 중 에러 발생"));
-            }
-            return Column(
+            body: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: double.infinity,
-                  height: 327,
-                  decoration: BoxDecoration(color: Colors.transparent),
-                  child: Image.network(
-                    main ? data['imageUrl'] : data['footprintImageUrl'],
-                    width: 327,
-                    fit: BoxFit.contain,
+                if (data['imageUrl'] != null)
+                  Container(
+                    width: double.infinity,
+                    height: 327,
+                    decoration: BoxDecoration(color: Colors.transparent),
+                    child: Image.network(
+                      main ? data['imageUrl'] : data['footprintImageUrl'],
+                      width: 327,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
                 Container(
                   width: 252,
                   height: 52.0,
                   decoration: BoxDecoration(),
                   child: LodingButtonWidget(
-                    onPressed: () async {},
-                    text: '이상적인 Footprint와 비교하기',
+                    onPressed: () async {
+                      context.pushNamed('FootDetail', extra: main ? data['imageUrl'] : data['footprintImageUrl']);
+                    },
+                    text: SetLocalizations.of(context).getText(
+                      'reportPlantarPressureButtonCompareLabel' /*이상적인 Page Title */,
+                    ),
                     options: LodingButtonOptions(
                       height: 40.0,
                       padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
@@ -144,7 +136,9 @@ class _FootResultState extends State<FootResult> {
                           onPressed: () {
                             showModalBottomSheetWithStates(context);
                           },
-                          text: '리포트 상세 내용 보기',
+                          text: SetLocalizations.of(context).getText(
+                            'reportPlantarPressureDetailbutton' /*리포트 상세 내용 보기 */,
+                          ),
                           options: LodingButtonOptions(
                             height: 40.0,
                             padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
@@ -171,7 +165,9 @@ class _FootResultState extends State<FootResult> {
                           onPressed: () {
                             main ? context.goNamed('Footprint', extra: 'main') : context.goNamed('testFootprint', extra: 'tester');
                           },
-                          text: '다시 측정하기',
+                          text: SetLocalizations.of(context).getText(
+                            'reportPlantarPressureButtonRetryLabel' /* 다시 측정하기 */,
+                          ),
                           options: LodingButtonOptions(
                             height: 40.0,
                             padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
@@ -187,14 +183,15 @@ class _FootResultState extends State<FootResult> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 40,
+                      ),
                     ],
                   ),
                 ),
               ],
-            );
-          },
-        ),
-      ),
-    );
+            )),
+      );
+    });
   }
 }

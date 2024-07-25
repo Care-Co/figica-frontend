@@ -1,0 +1,592 @@
+{
+  "@@locale": "ko",
+
+  "loginHomeLabel": "만나서 반가워요!",
+  "@loginHomeLabel": {
+    "description": "로그인 홈 화면의 라벨"
+  },
+  "loginHomeDescription": "시작하기 위해서는 로그인이 필요해요",
+  "@loginHomeDescription": {
+    "description": "로그인 홈 화면의 설명"
+  },
+  "loginHomeSelectLanguageLabel": "Language",
+  "@loginHomeSelectLanguageLabel": {
+    "description": "언어 선택 라벨"
+  },
+  "loginHomeSelectPhoneLabel": "국가번호",
+  "@loginHomeSelectPhoneLabel": {
+    "description": "국가 번호 선택 라벨"
+  },
+  "loginHomeInputEmailLabel": "전화번호 또는 E-mail",
+  "@loginHomeInputEmailLabel": {
+    "description": "이메일 또는 전화번호 입력 라벨"
+  },
+  "loginHomeInputEmailHint": "전화번호 또는 E-mail을 입력해 주세요",
+  "@loginHomeInputEmailHint": {
+    "description": "이메일 또는 전화번호 입력 힌트"
+  },
+  "loginHomeInputEmailError": "@를 포함한 정확한 이메일을 입력해 주세요",
+  "@loginHomeInputEmailError": {
+    "description": "잘못된 이메일 입력 오류 메시지"
+  },
+  "loginHomeInputPhoneLabel": "전화번호",
+  "@loginHomeInputPhoneLabel": {
+    "description": "전화번호 입력 라벨"
+  },
+  "loginHomeInputPhoneHint": "",
+  "@loginHomeInputPhoneHint": {
+    "description": "전화번호 입력 힌트"
+  },
+  "loginHomeInputPhoneError": "010을 포함하여 숫자만 입력해 주세요",
+  "@loginHomeInputPhoneError": {
+    "description": "잘못된 전화번호 입력 오류 메시지"
+  },
+  "loginHomeButtonLoginLabel": "로그인",
+  "@loginHomeButtonLoginLabel": {
+    "description": "로그인 버튼 라벨"
+  },
+  "loginHomeButtonSignupLabel": "회원 가입하기",
+  "@loginHomeButtonSignupLabel": {
+    "description": "회원 가입 버튼 라벨"
+  },
+  "loginHomeButtonFindPasswordLabel": "휴대폰 번호를 변경하셨나요?",
+  "@loginHomeButtonFindPasswordLabel": {
+    "description": "비밀번호 찾기 버튼 라벨"
+  },
+  "loginHomeDividerLabel": "OR",
+  "@loginHomeDividerLabel": {
+    "description": "구분자 라벨"
+  },
+
+  "completeLoginLabel": "비밀번호를 \n입력해 주세요",
+  "@completeLoginLabel": {
+    "description": "로그인 완료 화면의 라벨"
+  },
+  "completeLoginInputPasswordLabel": "비밀번호",
+  "@completeLoginInputPasswordLabel": {
+    "description": "비밀번호 입력 라벨"
+  },
+  "completeLoginInputPasswordHint": "password",
+  "@completeLoginInputPasswordHint": {
+    "description": "비밀번호 입력 힌트"
+  },
+  "completeLoginButtonReturnLabel": "로그인",
+  "@completeLoginButtonReturnLabel": {
+    "description": "로그인 버튼 라벨"
+  },
+  "completeLoginButtonFindPasswordLabel": "비밀번호 찾기",
+  "@completeLoginButtonFindPasswordLabel": {
+    "description": "비밀번호 찾기 버튼 라벨"
+  },
+
+  "findPasswordLabel": "등록한 E-mail을 입력해주세요",
+  "@findPasswordLabel": {
+    "description": "비밀번호 찾기 화면의 라벨"
+  },
+  "findPasswordDescription": "E-mail 주소로 계정을 복구해 드릴 수 있습니다",
+  "@findPasswordDescription": {
+    "description": "비밀번호 찾기 화면의 설명"
+  },
+  "findPasswordInputEmailLabel": "E-mail",
+  "@findPasswordInputEmailLabel": {
+    "description": "이메일 입력 라벨"
+  },
+  "findPasswordInputEmailHint": "E-mail을 입력해 주세요",
+  "@findPasswordInputEmailHint": {
+    "description": "이메일 입력 힌트"
+  },
+  "findPasswordInputEmailError": "@를 포함한 정확한 이메일을 입력해 주세요",
+  "@findPasswordInputEmailError": {
+    "description": "잘못된 이메일 입력 오류 메시지"
+  },
+  "findPasswordButtonConfirmLabel": "확인",
+  "@findPasswordButtonConfirmLabel": {
+    "description": "확인 버튼 라벨"
+  },
+
+  "changePasswordLabel": "새로운 비밀번호를 입력해 주세요",
+  "@changePasswordLabel": {
+    "description": "비밀번호 변경 화면의 라벨"
+  },
+  "changePasswordInputPasswordLabel": "비밀번호",
+  "@changePasswordInputPasswordLabel": {
+    "description": "비밀번호 입력 라벨"
+  },
+  "changePasswordInputPasswordHint": "password",
+  "@changePasswordInputPasswordHint": {
+    "description": "비밀번호 입력 힌트"
+  },
+  "changePasswordInputPasswordError": "8 - 24자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요",
+  "@changePasswordInputPasswordError": {
+    "description": "잘못된 비밀번호 입력 오류 메시지"
+  },
+  "changePasswordCheckPasswordLabel": "비밀번호 확인",
+  "@changePasswordCheckPasswordLabel": {
+    "description": "비밀번호 확인 입력 라벨"
+  },
+  "changePasswordCheckPasswordHint": "password",
+  "@changePasswordCheckPasswordHint": {
+    "description": "비밀번호 확인 입력 힌트"
+  },
+  "changePasswordCheckPasswordError": "비밀번호가 일치하지 않습니다",
+  "@changePasswordCheckPasswordError": {
+    "description": "비밀번호 불일치 오류 메시지"
+  },
+  "changePasswordCheckPasswordSuccess": "비밀번호가 일치합니다",
+  "@changePasswordCheckPasswordSuccess": {
+    "description": "비밀번호 일치 성공 메시지"
+  },
+  "changePasswordButtonReturnLabel": "비밀번호 변경",
+  "@changePasswordButtonReturnLabel": {
+    "description": "비밀번호 변경 버튼 라벨"
+  },
+  "changePasswordButtonConfirmLabel": "확인",
+  "@changePasswordButtonConfirmLabel": {
+    "description": "확인 버튼 라벨"
+  },
+
+  "changePhoneLabel": "변경된 휴대전화번호를 \n다시 입력해 주세요",
+  "@changePhoneLabel": {
+    "description": "휴대전화 번호 변경 화면의 라벨"
+  },
+  "changePhoneInputPhoneLabel": "전화번호",
+  "@changePhoneInputPhoneLabel": {
+    "description": "전화번호 입력 라벨"
+  },
+  "changePhoneInputPhoneHint": "",
+  "@changePhoneInputPhoneHint": {
+    "description": "전화번호 입력 힌트"
+  },
+  "changePhoneInputPhoneError": "010을 포함하여 숫자만 입력해 주세요",
+  "@changePhoneInputPhoneError": {
+    "description": "잘못된 전화번호 입력 오류 메시지"
+  },
+  "changePhoneButtonReturnLabel": "휴대폰 번호 변경",
+  "@changePhoneButtonReturnLabel": {
+    "description": "휴대폰 번호 변경 버튼 라벨"
+  },
+  "changePhoneButtonNextLabel": "다음",
+  "@changePhoneButtonNextLabel": {
+    "description": "다음 버튼 라벨"
+  },
+  "changePhoneCertifyDescription": "인증번호가 오지 않으면 입력하신 정보가 정확한지 확인하여 주세요. \n인증번호는 받은 시점으로부터 5분간만 유효합니다. \n인증번호 재전송은 1일 최대 5회 가능합니다.",
+  "@changePhoneCertifyDescription": {
+    "description": "휴대전화 번호 인증 설명"
+  },
+  "changePhoneCertifyInputNumberLabel": "인증번호",
+  "@changePhoneCertifyInputNumberLabel": {
+    "description": "인증번호 입력 라벨"
+  },
+  "changePhoneCertifyInputNumberHint": "Certification Number",
+  "@changePhoneCertifyInputNumberHint": {
+    "description": "인증번호 입력 힌트"
+  },
+  "changePhoneCertifyButtonReturnLabel": "인증 번호 입력",
+  "@changePhoneCertifyButtonReturnLabel": {
+    "description": "인증 번호 입력 버튼 라벨"
+  },
+  "changePhoneCertifyButtonConfirmLabel": "인증하기",
+  "@changePhoneCertifyButtonConfirmLabel": {
+    "description": "인증하기 버튼 라벨"
+  },
+  "changePhoneCertifyButtonRetryLabel": "인증번호 재전송",
+  "@changePhoneCertifyButtonRetryLabel": {
+    "description": "인증번호 재전송 버튼 라벨"
+  },
+
+  "signupHomeLabel": "환영합니다!",
+  "@signupHomeLabel": {
+    "description": "회원 가입 홈 화면의 라벨"
+  },
+  "signupHomeDescription": "간단한 동의 후 \n케어엔코 서비스를 시작해 보세요",
+  "@signupHomeDescription": {
+    "description": "회원 가입 홈 화면의 설명"
+  },
+  "signupHomeCheckboxAcceptAllLabel": "약관 전체 동의",
+  "@signupHomeCheckboxAcceptAllLabel": {
+    "description": "전체 약관 동의 체크박스 라벨"
+  },
+  "signupHomeCheckboxTermsLabel": "이용 약관 동의",
+  "@signupHomeCheckboxTermsLabel": {
+    "description": "이용 약관 동의 체크 박스 라벨"
+  },
+  "signupHomeCheckboxPrivacyLabel": "개인정보 수집 및 이용 동의",
+  "@signupHomeCheckboxPrivacyLabel": {
+  "description": "개인정보 수집 및 이용 동의 체크박스 라벨"
+  },
+  "signupHomeButtonReturnLabel": "약관 동의",
+  "@signupHomeButtonReturnLabel": {
+  "description": "약관 동의 버튼 라벨"
+  },
+  "signupHomeButtonNextLabel": "다음",
+  "@signupHomeButtonNextLabel": {
+  "description": "다음 버튼 라벨"
+  },
+
+  "signupIdLabel": "Fisica 아이디로 사용할 \n전화번호 혹은 E-mail을 \n입력해 주세요",
+  "@signupIdLabel": {
+  "description": "회원 가입 ID 화면의 라벨"
+  },
+  "signupIdInputEmailLabel": "E-mail",
+  "@signupIdInputEmailLabel": {
+  "description": "이메일 입력 라벨"
+  },
+  "signupIdInputEmailHint": "E-mail을 입력해 주세요",
+  "@signupIdInputEmailHint": {
+  "description": "이메일 입력 힌트"
+  },
+  "signupIdInputEmailError": "@를 포함한 정확한 이메일을 입력해 주세요",
+  "@signupIdInputEmailError": {
+  "description": "잘못된 이메일 입력 오류 메시지"
+  },
+  "signupIdInputPhoneLabel": "전화번호",
+  "@signupIdInputPhoneLabel": {
+  "description": "전화번호 입력 라벨"
+  },
+  "signupIdInputPhoneHint": "",
+  "@signupIdInputPhoneHint": {
+  "description": "전화번호 입력 힌트"
+  },
+  "signupIdInputPhoneError": "010을 포함하여 숫자만 입력해 주세요",
+  "@signupIdInputPhoneError": {
+  "description": "잘못된 전화번호 입력 오류 메시지"
+  },
+  "signupIdSelectPhoneLabel": "국가번호",
+  "@signupIdSelectPhoneLabel": {
+  "description": "국가 번호 선택 라벨"
+  },
+  "signupIdButtonReturnLabel": "계정 생성",
+  "@signupIdButtonReturnLabel": {
+  "description": "계정 생성 버튼 라벨"
+  },
+  "signupIdButtonNextLabel": "다음",
+  "@signupIdButtonNextLabel": {
+  "description": "다음 버튼 라벨"
+  },
+
+  "signupPasswordLabel": "로그인 시 사용할 비밀번호를 입력해 주세요",
+  "@signupPasswordLabel": {
+  "description": "회원 가입 비밀번호 화면의 라벨"
+  },
+  "signupPasswordInputPasswordLabel": "비밀번호",
+  "@signupPasswordInputPasswordLabel": {
+  "description": "비밀번호 입력 라벨"
+  },
+  "signupPasswordInputPasswordHint": "password",
+  "@signupPasswordInputPasswordHint": {
+  "description": "비밀번호 입력 힌트"
+  },
+  "signupPasswordInputPasswordError": "8 - 24자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요",
+  "@signupPasswordInputPasswordError": {
+  "description": "잘못된 비밀번호 입력 오류 메시지"
+  },
+  "signupPasswordCheckPasswordLabel": "비밀번호 확인",
+  "@signupPasswordCheckPasswordLabel": {
+  "description": "비밀번호 확인 입력 라벨"
+  },
+  "signupPasswordCheckPasswordHint": "password",
+  "@signupPasswordCheckPasswordHint": {
+  "description": "비밀번호 확인 입력 힌트"
+  },
+  "signupPasswordCheckPasswordError": "비밀번호가 일치하지 않습니다",
+  "@signupPasswordCheckPasswordError": {
+  "description": "비밀번호 불일치 오류 메시지"
+  },
+  "signupPasswordCheckPasswordSuccess": "비밀번호가 일치합니다",
+  "@signupPasswordCheckPasswordSuccess": {
+  "description": "비밀번호 일치 성공 메시지"
+  },
+  "signupPasswordButtonReturnLabel": "비밀번호 입력",
+  "@signupPasswordButtonReturnLabel": {
+  "description": "비밀번호 입력 버튼 라벨"
+  },
+  "signupPasswordButtonNextLabel": "다음",
+  "@signupPasswordButtonNextLabel": {
+  "description": "다음 버튼 라벨"
+  },
+
+  "signupUserInfoLabel": "사용자 정보를 입력해 주세요",
+  "@signupUserInfoLabel": {
+  "description": "사용자 정보 입력 화면의 라벨"
+  },
+  "signupUserInfoInputLastNameLabel": "성",
+  "@signupUserInfoInputLastNameLabel": {
+  "description": "성 입력 라벨"
+  },
+  "signupUserInfoInputLastNameHint": "000",
+  "@signupUserInfoInputLastNameHint": {
+  "description": "성 입력 힌트"
+  },
+  "signupUserInfoInputFirstNameLabel": "이름",
+  "@signupUserInfoInputFirstNameLabel": {
+  "description": "이름 입력 라벨"
+  },
+  "signupUserInfoInputFirstNameHint": "000",
+  "@signupUserInfoInputFirstNameHint": {
+  "description": "이름 입력 힌트"
+  },
+  "signupUserInfoInputBirthLabel": "생년월일",
+  "@signupUserInfoInputBirthLabel": {
+  "description": "생년월일 입력 라벨"
+  },
+  "signupUserInfoInputBirthHint": "00/00/00",
+  "@signupUserInfoInputBirthHint": {
+  "description": "생년월일 입력 힌트"
+  },
+  "signupUserInfoInputHeightLabel": "신장(키)",
+  "@signupUserInfoInputHeightLabel": {
+  "description": "키 입력 라벨"
+  },
+  "signupUserInfoInputHeightHint": "000",
+  "@signupUserInfoInputHeightHint": {
+  "description": "키 입력 힌트"
+  },
+  "signupUserInfoInputWeightLabel": "체중(몸무게)",
+  "@signupUserInfoInputWeightLabel": {
+  "description": "체중 입력 라벨"
+  },
+  "signupUserInfoInputWeightHint": "000",
+  "@signupUserInfoInputWeightHint": {
+  "description": "체중 입력 힌트"
+  },
+  "signupUserInfoButtonReturnLabel": "회원 정보 입력",
+  "@signupUserInfoButtonReturnLabel": {
+  "description": "회원 정보 입력 버튼 라벨"
+  },
+  "signupUserInfoButtonCompleteLabel": "완료",
+  "@signupUserInfoButtonCompleteLabel": {
+  "description": "완료 버튼 라벨"
+  },
+  "signupUserInfoSelectCountryLabel": "국가",
+  "@signupUserInfoSelectCountryLabel": {
+  "description": "국가 선택 라벨"
+  },
+  "signupUserInfoButtonGenderLabel": "성별",
+  "@signupUserInfoButtonGenderLabel": {
+  "description": "성별 선택 라벨"
+  },
+  "signupUserInfoButtonGenderMaleLabel": "남성",
+  "@signupUserInfoButtonGenderMaleLabel": {
+  "description": "남성 선택 라벨"
+  },
+  "signupUserInfoButtonGenderFemaleLabel": "여성",
+  "@signupUserInfoButtonGenderFemaleLabel": {
+  "description": "여성 선택 라벨"
+  },
+
+  "popupErrorLoginLabel": "로그인할 수 없습니다",
+  "@popupErrorLoginLabel": {
+  "description": "로그인 오류 라벨"
+  },
+  "popupErrorLoginPhoneDescription": "전화번호를 확인할 수 없습니다",
+  "@popupErrorLoginPhoneDescription": {
+  "description": "전화번호 확인 오류 설명"
+  },
+  "popupErrorLoginEmailDescription": "E-mail을 확인할 수 없습니다",
+  "@popupErrorLoginEmailDescription": {
+  "description": "이메일 확인 오류 설명"
+  },
+  "popupErrorLoginPasswordDescription": "비밀번호가 일치하지 않습니다",
+  "@popupErrorLoginPasswordDescription": {
+  "description": "비밀번호 불일치 설명"
+  },
+  "popupErrorLoginSuggestionLabel": "아직 회원이 아니라면",
+  "@popupErrorLoginSuggestionLabel": {
+  "description": "회원이 아닌 경우 제안"
+  },
+  "popupErrorLoginButtonSignupLabel": "회원 가입하기",
+  "@popupErrorLoginButtonSignupLabel": {
+  "description": "회원 가입 버튼 라벨"
+  },
+  "popupErrorLoginButtonConfirmLabel": "확인",
+  "@popupErrorLoginButtonConfirmLabel": {
+  "description": "확인 버튼 라벨"
+  },
+
+  "popupErrorSignupPhoneDuplicatedLabel": "이미 사용중인 전화번호입니다.",
+  "@popupErrorSignupPhoneDuplicatedLabel": {
+  "description": "전화번호 중복 오류 라벨"
+  },
+  "popupErrorSignupPhoneDuplicatedDescription": "기존 계정으로 로그인하거나, \n다른 전화번호 혹은 E-mail로 \n회원 가입을 진행해 주세요.",
+  "@popupErrorSignupPhoneDuplicatedDescription": {
+  "description": "전화번호 중복 오류 설명"
+  },
+  "popupErrorSignupPhoneDuplicatedButtonReturnLabel": "로그인으로 돌아가기",
+  "@popupErrorSignupPhoneDuplicatedButtonReturnLabel": {
+  "description": "로그인으로 돌아가기 버튼 라벨"
+  },
+  "popupErrorSignupPhoneDuplicatedButtonConfirmLabel": "확인",
+  "@popupErrorSignupPhoneDuplicatedButtonConfirmLabel": {
+  "description": "확인 버튼 라벨"
+  },
+
+  "popupErrorSignupEmailDuplicatedLabel": "이미 사용중인 E-mail입니다.",
+  "@popupErrorSignupEmailDuplicatedLabel": {
+  "description": "이메일 중복 오류 라벨"
+  },
+  "popupErrorSignupEmailDuplicatedDescription": "기존 계정으로 로그인하거나, \n다른 전화번호 혹은 E-mail로 \n회원 가입을 진행해 주세요.",
+  "@popupErrorSignupEmailDuplicatedDescription": {
+  "description": "이메일 중복 오류 설명"
+  },
+  "popupErrorSignupEmailDuplicatedButtonReturnLabel": "로그인으로 돌아가기",
+  "@popupErrorSignupEmailDuplicatedButtonReturnLabel": {
+  "description": "로그인으로 돌아가기 버튼 라벨"
+  },
+  "popupErrorSignupEmailDuplicatedButtonConfirmLabel": "확인",
+  "@popupErrorSignupEmailDuplicatedButtonConfirmLabel": {
+  "description": "확인 버튼 라벨"
+  },
+
+  "popupErrorCertifyInvalidLabel": "인증 번호 오류",
+  "@popupErrorCertifyInvalidLabel": {
+  "description": "인증 번호 오류 라벨"
+  },
+  "popupErrorCertifyInvalidDescription": "전송된 인증번호 6자리를 정격 입력해 주세요",
+  "@popupErrorCertifyInvalidDescription": {
+  "description": "인증 번호 오류 설명"
+  },
+  "popupErrorCertifyInvalidSuggestion": "전화번호를 다시 입력하려면",
+  "@popupErrorCertifyInvalidSuggestion": {
+  "description": "인증 번호 오류 제안"
+  },
+  "popupErrorCertifyInvalidButtonReturnLabel": "처음으로 돌아가기",
+  "@popupErrorCertifyInvalidButtonReturnLabel": {
+  "description": "처음으로 돌아가기 버튼 라벨"
+  },
+  "popupErrorCertifyInvalidButtonResendLabel": "다시 전송하기",
+  "@popupErrorCertifyInvalidButtonResendLabel": {
+  "description": "다시 전송하기 버튼 라벨"
+  },
+
+  "popupErrorCertifyOverTryLabel": "인증 번호 횟수 초과",
+  "@popupErrorCertifyOverTryLabel": {
+  "description": "인증 번호 횟수 초과 라벨"
+  },
+  "popupErrorCertifyOverTryDescription": "해당 전화번호의 SMS인증 요청 제한 \n횟수를 초과하였습니다. \n24시간 후에 다시 시도해 주세요.",
+  "@popupErrorCertifyOverTryDescription": {
+  "description": "인증 번호 횟수 초과 설명"
+  },
+  "popupErrorCertifyOverTryButtonConfirmLabel": "확인",
+  "@popupErrorCertifyOverTryButtonConfirmLabel": {
+  "description": "확인 버튼 라벨"
+  },
+
+  "popupErrorNetworkLabel": "네트워크 오류",
+  "@popupErrorNetworkLabel": {
+  "description": "네트워크 오류 라벨"
+  },
+  "popupErrorNetworkResponseDescription": "서버 응답을 받지 못했습니다. \n네트워크 상태를 확인해 주세요. \n문제가 계속되면 잠시 기다린 후 \n다시 접속해 주세요!",
+  "@popupErrorNetworkResponseDescription": {
+  "description": "네트워크 오류 설명"
+  },
+  "popupErrorNetworkButtonConfirmLabel": "확인",
+  "@popupErrorNetworkButtonConfirmLabel": {
+  "description": "확인 버튼 라벨"
+  },
+
+  "popupErrorAppLabel": "어플리케이션 오류",
+  "@popupErrorAppLabel": {
+  "description": "어플리케이션 오류 라벨"
+  },
+  "popupErrorAppSignupDescription": "Fisica가 강제종료 되었습니다. \n회원가입을 이어서 계속 진행할까요?",
+  "@popupErrorAppSignupDescription": {
+  "description": "어플리케이션 회원가입 오류 설명"
+  },
+  "popupErrorAppSignupSuggestionLabel": "계속 회원가입을 진행하려면",
+  "@popupErrorAppSignupSuggestionLabel": {
+  "description": "회원가입 오류 제안"
+  },
+  "popupErrorAppSignupButtonContinueLabel": "이어서 진행하기",
+  "@popupErrorAppSignupButtonContinueLabel": {
+  "description": "이어서 진행하기 버튼 라벨"
+  },
+  "popupErrorAppSignupButtonReturnLabel": "처음으로 돌아가기",
+  "@popupErrorAppSignupButtonReturnLabel": {
+  "description": "처음으로 돌아가기 버튼 라벨"
+  },
+
+  "popupCompleteCertifyEmailLabel": "계정 E-mail로 \n인증링크 전송 완료",
+  "@popupCompleteCertifyEmailLabel": {
+  "description": "인증 링크 전송 완료 라벨"
+  },
+  "popupCompleteCertifyEmailDescription": "전화번호 변경을 위해 해당 계정의 \nE-mail로 인증링크를 전송하였습니다. \n본인 인증 후 전화번호를 변경하세요!",
+  "@popupCompleteCertifyEmailDescription": {
+  "description": "인증 링크 전송 완료 설명"
+  },
+  "popupCompleteCertifyEmailButtonResendLabel": "다시 전송하기",
+  "@popupCompleteCertifyEmailButtonResendLabel": {
+  "description": "다시 전송하기 버튼 라벨"
+  },
+  "popupCompleteCertifyEmailButtonReturnLabel": "처음으로 돌아가기",
+  "@popupCompleteCertifyEmailButtonReturnLabel": {
+  "description": "처음으로 돌아가기 버튼 라벨"
+  },
+
+  "popupResendCertifyLabel": "인증 번호 재전송",
+  "@popupResendCertifyLabel": {
+  "description": "인증 번호 재전송 라벨"
+  },
+  "popupResendCertifyDescription": "입력하신 전화번호를 다시 확인해 주세요",
+  "@popupResendCertifyDescription": {
+  "description": "인증 번호 재전송 설명"
+  },
+  "popupResendCertifyInfoLabel": "입력하신 전화번호는 다음과 같습니다.",
+  "@popupResendCertifyInfoLabel": {
+  "description": "전화번호 정보 라벨"
+  },
+  "popupResendCertifyInfoDescription": "010 - 1234 - 5678",
+  "@popupResendCertifyInfoDescription": {
+  "description": "전화번호 정보 설명"
+  },
+  "popupResendCertifyButtonResendLabel": "재전송하기",
+  "@popupResendCertifyButtonResendLabel": {
+  "description": "재전송하기 버튼 라벨"
+  },
+  "popupResendCertifyButtonModifyLabel": "전화번호 수정하기",
+  "@popupResendCertifyButtonModifyLabel": {
+  "description": "전화번호 수정하기 버튼 라벨"
+  },
+
+  "popupInfoTermsServiceLabel": "서비스 이용 약관",
+  "@popupInfoTermsServiceLabel": {
+  "description": "서비스 이용 약관 라벨"
+  },
+  "popupInfoTermsServiceButtonAgreeLabel": "동의하기",
+  "@popupInfoTermsServiceButtonAgreeLabel": {
+  "description": "동의하기 버튼 라벨"
+  },
+
+  "popupDecideChangePasswordLabel": "비밀번호 변경 취소",
+  "@popupDecideChangePasswordLabel": {
+  "description": "비밀번호 변경 취소 라벨"
+  },
+  "popupDecideChangePasswordDescription": "비밀번호 변경을 취소하고 \n로그인 화면으로 돌아갑니다",
+  "@popupDecideChangePasswordDescription": {
+  "description": "비밀번호 변경 취소 설명"
+  },
+  "popupDecideChangePasswordButtonContinueLabel": "계속 변경하기",
+  "@popupDecideChangePasswordButtonContinueLabel": {
+  "description": "계속 변경하기 버튼 라벨"
+  },
+  "popupDecideChangePasswordButtonReturnLabel": "처음으로 돌아가기",
+  "@popupDecideChangePasswordButtonReturnLabel": {
+  "description": "처음으로 돌아가기 버튼 라벨"
+  },
+
+  "popupDecideSignupLabel": "회원 가입을 취소할까요?",
+  "@popupDecideSignupLabel": {
+  "description": "회원 가입 취소 라벨"
+  },
+  "popupDecideSignupDescription": "취소하실 경우 모든 데이터가 삭제되며 \nFisica를 이용하기 위해서는 \n다시 회원가입을 진행해야 합니다.",
+  "@popupDecideSignupDescription": {
+  "description": "회원 가입 취소 설명"
+  },
+  "popupDecideSignupButtonContinueLabel": "계속 작성하기",
+  "@popupDecideSignupButtonContinueLabel": {
+  "description": "계속 작성하기 버튼 라벨"
+  },
+  "popupDecideSignupButtonReturnLabel": "회원가입 취소하기",
+  "@popupDecideSignupButtonReturnLabel": {
+  "description": "회원가입 취소하기 버튼 라벨"
+  }
+}

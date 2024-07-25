@@ -7,12 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1018044330468:android:f4623c8b98cbca933ad7f1",
+        "mobilesdk_app_id": "1:1018044330468:android:a15b17500b3fec7a3ad7f1",
         "android_client_info": {
-          "package_name": "com.mycompany.figico"
+          "package_name": "com.carenco.fisica"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1018044330468-3b0efntd1rjsvkm6asadm0vcerrvjpkb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.carenco.fisica",
+            "certificate_hash": "d95d7d579af6642eee825e2764168c62f71ee38c"
+          }
+        },
+        {
+          "client_id": "1018044330468-8n6vh0ic72ul57i6p6ia4grm0ekn9d3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDS9TADdQ5n4Bss4gG7oM4u0T_9qBJz2Jc"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1018044330468-8n6vh0ic72ul57i6p6ia4grm0ekn9d3q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1018044330468-eire81ghvo2luc6h5pg1fic14itgambk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.carenco.fisica"
+              }
+            }
+          ]
         }
       }
     }

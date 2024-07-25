@@ -82,8 +82,7 @@ class _FindBluetestState extends State<FindBluetest> {
       device.connect(autoConnect: false, mtu: null).then((value) {
         device.requestMtu(645);
         print(device.remoteId);
-        DataController.savedevice(device.remoteId.toString());
-        DataController.savedevicename(device.platformName.toString());
+        AppStateNotifier.instance.Updevice(device.platformName.toString());
         showAlignedDialog(
           context: context,
           isGlobal: true,

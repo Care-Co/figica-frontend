@@ -1,3 +1,11 @@
+import 'package:fisica/views/home/camera/vison.dart';
+import 'package:fisica/views/home/group/No_group/CreateGroup/CreateGroup_CreateCode_view.dart';
+import 'package:fisica/views/home/group/Yes_group/settings/Change_Leader.dart';
+import 'package:fisica/views/home/mypage/Settings/Setting_lang.dart';
+import 'package:fisica/views/home/mypage/Settings/deviceCalibration.dart';
+import 'package:fisica/views/home/mypage/Settings/deviceManage_screen.dart';
+import 'package:fisica/views/home/scan/Foot_detail.dart';
+
 import '/index.dart';
 export 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +19,22 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         redirect: (context, state) {
           final loggedIn = appStateNotifier.loggedIn;
           final loggingIn = state.matchedLocation.startsWith('/login');
-          if (!loggedIn && !loggingIn) {
+          final signingUp = state.matchedLocation.startsWith('/agree_tos');
+
+          if (!loggedIn && !loggingIn && !signingUp) {
             return '/login';
-          } else if (loggedIn && loggingIn) {
+          } else if (loggedIn && (loggingIn || signingUp)) {
             return '/';
+          } else if (!loggedIn && appStateNotifier.isSignUp && !signingUp && appStateNotifier.type == 'phone') {
+            return '/login/agree_tos/Get_id/singup_smscode';
+          } else if (!loggedIn && appStateNotifier.isLogin && appStateNotifier.type == 'phone') {
+            return '/login/smscode';
+          } else if (!loggedIn && appStateNotifier.isSignUp && appStateNotifier.firebaseToken != null && appStateNotifier.type == 'phone') {
+            return '/login/agree_tos/Get_id/singup_smscode/singup_userinfo';
           }
+          // else if (loggedIn && appStateNotifier.isSignUp && signingUp && appStateNotifier.type == 'phone') {
+          //   return '/login/agree_tos/Get_id/singup_smscode/singup_userinfo';
+          // }
           return null;
         },
         routes: <RouteBase>[
@@ -32,7 +51,30 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   builder: (context, state) {
                     return MySetting();
                   },
-                  routes: []),
+                  routes: [
+                    GoRoute(
+                        path: 'DevicerManager',
+                        name: 'DevicerManager',
+                        builder: (context, state) {
+                          return DevicerManagementPage();
+                        },
+                        routes: [
+                          GoRoute(
+                            path: 'DeviceCalibration',
+                            name: 'DeviceCalibration',
+                            builder: (context, state) {
+                              return DeviceCalibration();
+                            },
+                          )
+                        ]),
+                    GoRoute(
+                      path: 'SettingLang',
+                      name: 'SettingLang',
+                      builder: (context, state) {
+                        return SettingLang();
+                      },
+                    )
+                  ]),
               GoRoute(
                   name: 'Modiinfo',
                   path: 'Modiinfo',
@@ -52,6 +94,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   path: 'history',
                   builder: (context, state) {
                     return HistoryWidget();
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'FootDetail',
+                      name: 'FootDetail',
+                      builder: (context, state) {
+                        final url = state.extra as String;
+                        return FootDetail(
+                          url: url,
+                        );
+                      },
+                    ),
+                  ]),
+              GoRoute(
+                  path: 'visonScan',
+                  name: 'visonScan',
+                  builder: (context, state) {
+                    return VisonScan();
                   },
                   routes: []),
               GoRoute(
@@ -111,6 +171,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                           return MemberManagementPage();
                         },
                         routes: [
+                          GoRoute(
+                            name: 'Changeleader',
+                            path: 'Changeleader',
+                            builder: (context, state) {
+                              return ChangeLeader();
+                            },
+                          ),
                           GoRoute(
                             name: 'removeMember',
                             path: 'removeMember',
@@ -182,13 +249,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                         return GroupHistoryPage();
                       },
                     ),
-                    GoRoute(
-                      name: 'LeaveGroup',
-                      path: 'LeaveGroup',
-                      builder: (context, state) {
-                        return LeaveGroupPage();
-                      },
-                    )
                   ]),
               GoRoute(
                   name: 'Creategroup',
@@ -201,7 +261,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                       name: 'GroupCreatecode',
                       path: 'GroupCreatecode',
                       builder: (context, state) {
-                        return CreateCodeWidget();
+                        return GeneratCodeWidget();
                       },
                       routes: [
                         GoRoute(
@@ -339,13 +399,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                           },
                           routes: [
                             GoRoute(
-                              name: 'Set_pw',
-                              path: 'Set_pw',
-                              builder: (context, state) {
-                                final item = state.extra as String;
-                                return SetPwWidget(email: item);
-                              },
-                            ),
+                                name: 'Set_pw',
+                                path: 'Set_pw',
+                                builder: (context, state) {
+                                  final item = state.extra as String;
+                                  return SetPwWidget(email: item);
+                                },
+                                routes: [
+                                  GoRoute(
+                                    name: 'singup_Set_pw_userinfo',
+                                    path: 'singup_Set_pw_userinfo',
+                                    builder: (context, params) {
+                                      return UserInfoWidget();
+                                    },
+                                  ),
+                                ]),
                             GoRoute(
                                 name: 'singup_smscode',
                                 path: 'singup_smscode',

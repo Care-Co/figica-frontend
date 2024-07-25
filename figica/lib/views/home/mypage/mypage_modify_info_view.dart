@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fisica/index.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ModiUserInfoWidget extends StatefulWidget {
   const ModiUserInfoWidget({Key? key}) : super(key: key);
@@ -20,15 +21,24 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
   late Future<void> _userInfoFuture; // Variable to store the future
   var fiController = TextEditingController();
   var fiFocusNode = FocusNode();
-
   var namController = TextEditingController();
   var namFocusNode = FocusNode();
-
   var heController = TextEditingController();
   var heFocusNode = FocusNode();
-
   var weController = TextEditingController();
   var weFocusNode = FocusNode();
+  File? _image;
+
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
 
   Future<void> getData() async {
     data = AppStateNotifier.instance.userdata;
@@ -81,7 +91,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
       double height = heController.text.isEmpty ? 0.0 : double.parse(heController.text);
       double weight = weController.text.isEmpty ? 0.0 : double.parse(weController.text);
 
-      await UserController.modiProfile(data, finame, name, selectedGender, height, weight, dropDownValue).then((userData) {
+      await UserController.modiProfile(data, finame, name, selectedGender, height, weight).then((userData) {
         _appStateNotifier = AppStateNotifier.instance;
 
         context.goNamed('home');
@@ -89,6 +99,46 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
         print('Error fetching user data: $error');
       });
     }
+  }
+
+  void _showImagePickerOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('사진 갤러리 열기'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _pickImage(ImageSource.gallery);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.camera_alt),
+                title: Text('사진 촬영하기'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _pickImage(ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.delete),
+                title: Text('사진 삭제하기'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  setState(() {
+                    _image = null;
+                  });
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   void _showDatePicker() {
@@ -153,7 +203,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 5),
                 child: Text(
                     SetLocalizations.of(context).getText(
-                      'mglc61fj' /* Page Title */,
+                      'signupUserInfoButtonReturnLabel' /* Page Title */,
                     ),
                     style: AppFont.s18.overrides(color: AppColors.Black)),
               ),
@@ -166,7 +216,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
               borderWidth: 1,
               buttonSize: 60,
               icon: Icon(
-                Icons.cancel,
+                Icons.close,
                 color: Colors.black,
                 size: 30,
               ),
@@ -210,345 +260,313 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
               } else {
                 return SafeArea(
                   top: true,
-                  child: SingleChildScrollView(
-                    child: Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.85,
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(0, 20, 8, 0),
-                                        child: TextFormField(
-                                          controller: fiController,
-                                          focusNode: fiFocusNode,
-                                          autofocus: false,
-                                          obscureText: false,
-                                          decoration: InputDecoration(
-                                            label: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  SetLocalizations.of(context).getText(
-                                                    'ty7h9c9n' /*성 */,
-                                                  ),
-                                                  style: AppFont.s12.overrides(color: AppColors.Black),
-                                                ),
-                                                Container(
-                                                  height: 6, // Height of the dot
-                                                  width: 6, // Width of the dot
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: AppColors.red, // Color of the dot
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            labelStyle: AppFont.s12.overrides(color: AppColors.Black),
-                                            hintStyle: AppFont.s12,
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: AppColors.Gray200,
-                                                width: 1,
-                                              ),
-                                            ),
-                                            focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: AppColors.Gray200,
-                                                width: 1,
-                                              ),
-                                            ),
-                                            errorBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: AppColors.Gray200,
-                                                width: 1,
-                                              ),
-                                            ),
-                                            focusedErrorBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: AppColors.Gray200,
-                                                width: 1,
-                                              ),
-                                            ),
-                                          ),
-                                          style: AppFont.s12,
-                                          validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return 'Field cannot be empty';
-                                            }
-                                            bool isKorean = RegExp(r"[\uac00-\ud7af]").hasMatch(value);
-                                            bool isJapanese = RegExp(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9faf]").hasMatch(value);
-                                            if (isKorean && value.length > 2) {
-                                              return '한글은 2자 이하로 입력해주세요';
-                                            } else if (isJapanese && value.length > 20) {
-                                              return '日本語は20文字以内で入力してください';
-                                            } else if (!isKorean && !isJapanese && value.length > 12) {
-                                              return '영어는 12자 이하로 입력해주세요';
-                                            }
-                                            return null; // null means input is valid
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(8, 20, 0, 0),
-                                        child: TextFormField(
-                                          controller: namController,
-                                          focusNode: namFocusNode,
-                                          autofocus: false,
-                                          obscureText: false,
-                                          decoration: InputDecoration(
-                                            label: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  SetLocalizations.of(context).getText(
-                                                    'p9l0jbdf' /* Label here... */,
-                                                  ),
-                                                  style: AppFont.s12.overrides(color: AppColors.Black),
-                                                ),
-                                                Container(
-                                                  height: 6, // Height of the dot
-                                                  width: 6, // Width of the dot
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: AppColors.red, // Color of the dot
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            hintStyle: AppFont.s12,
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: AppColors.Gray200,
-                                                width: 1,
-                                              ),
-                                            ),
-                                            focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: AppColors.Gray200,
-                                                width: 1,
-                                              ),
-                                            ),
-                                            errorBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: AppColors.Gray200,
-                                                width: 1,
-                                              ),
-                                            ),
-                                            focusedErrorBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: AppColors.Gray200,
-                                                width: 1,
-                                              ),
-                                            ),
-                                          ),
-                                          style: AppFont.s12,
-                                          validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return 'Field cannot be empty';
-                                            }
-                                            bool isKorean = RegExp(r"[\uac00-\ud7af]").hasMatch(value);
-                                            bool isJapanese = RegExp(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9faf]").hasMatch(value);
-                                            if (isKorean && value.length > 15) {
-                                              return '한글은 15자 이하로 입력해주세요';
-                                            } else if (isJapanese && value.length > 20) {
-                                              return '日本語は20文字以内で入力してください';
-                                            } else if (!isKorean && !isJapanese && value.length > 20) {
-                                              return '영어는 20자 이하로 입력해주세요';
-                                            }
-                                            return null; // null means input is valid
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                  child: Container(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 40),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Center(
+                                  child: GestureDetector(
+                                onTap: () => _showImagePickerOptions(context),
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.grey[300],
+                                  backgroundImage: _image != null ? FileImage(_image!) : null,
+                                  child: _image == null
+                                      ? Icon(
+                                          Icons.camera_alt,
+                                          size: 50,
+                                          color: Colors.grey[800],
+                                        )
+                                      : null,
                                 ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              SetLocalizations.of(context).getText('cho9jtn4'),
-                                              style: AppFont.s12.overrides(color: AppColors.Black),
+                              )),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 8, 0),
+                                      child: TextFormField(
+                                        controller: fiController,
+                                        focusNode: fiFocusNode,
+                                        autofocus: false,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          label: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                SetLocalizations.of(context).getText(
+                                                  'signupUserInfoInputLastNameLabel' /*성 */,
+                                                ),
+                                                style: AppFont.s12.overrides(color: AppColors.Black),
+                                              ),
+                                              Container(
+                                                height: 6, // Height of the dot
+                                                width: 6, // Width of the dot
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: AppColors.red, // Color of the dot
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          labelStyle: AppFont.s12.overrides(color: AppColors.Black),
+                                          hintStyle: AppFont.s12,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: AppColors.Gray200,
+                                              width: 1,
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                              child: InkWell(
-                                                onTap: _showDatePicker,
-                                                child: Container(
-                                                    width: double.infinity,
-                                                    height: 20,
-                                                    decoration: BoxDecoration(
-                                                      border: Border(
-                                                        bottom: BorderSide(
-                                                          color: AppColors.Gray200,
-                                                          width: 1.0,
-                                                        ),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: AppColors.Gray200,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          errorBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: AppColors.Gray200,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          focusedErrorBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: AppColors.Gray200,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        style: AppFont.s12,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Field cannot be empty';
+                                          }
+                                          bool isKorean = RegExp(r"[\uac00-\ud7af]").hasMatch(value);
+                                          bool isJapanese = RegExp(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9faf]").hasMatch(value);
+                                          if (isKorean && value.length > 2) {
+                                            return '한글은 2자 이하로 입력해주세요';
+                                          } else if (isJapanese && value.length > 20) {
+                                            return '日本語は20文字以内で入力してください';
+                                          } else if (!isKorean && !isJapanese && value.length > 12) {
+                                            return '영어는 12자 이하로 입력해주세요';
+                                          }
+                                          return null; // null means input is valid
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(8, 20, 0, 0),
+                                      child: TextFormField(
+                                        controller: namController,
+                                        focusNode: namFocusNode,
+                                        autofocus: false,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          label: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                SetLocalizations.of(context).getText(
+                                                  'signupUserInfoInputFirstNameLabel' /* Label here... */,
+                                                ),
+                                                style: AppFont.s12.overrides(color: AppColors.Black),
+                                              ),
+                                              Container(
+                                                height: 6, // Height of the dot
+                                                width: 6, // Width of the dot
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: AppColors.red, // Color of the dot
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          hintStyle: AppFont.s12,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: AppColors.Gray200,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: AppColors.Gray200,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          errorBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: AppColors.Gray200,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          focusedErrorBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: AppColors.Gray200,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        style: AppFont.s12,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Field cannot be empty';
+                                          }
+                                          bool isKorean = RegExp(r"[\uac00-\ud7af]").hasMatch(value);
+                                          bool isJapanese = RegExp(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9faf]").hasMatch(value);
+                                          if (isKorean && value.length > 15) {
+                                            return '한글은 15자 이하로 입력해주세요';
+                                          } else if (isJapanese && value.length > 20) {
+                                            return '日本語は20文字以内で入力してください';
+                                          } else if (!isKorean && !isJapanese && value.length > 20) {
+                                            return '영어는 20자 이하로 입력해주세요';
+                                          }
+                                          return null; // null means input is valid
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            SetLocalizations.of(context).getText('signupUserInfoInputBirthLabel'),
+                                            style: AppFont.s12.overrides(color: AppColors.Black),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                                            child: InkWell(
+                                              onTap: _showDatePicker,
+                                              child: Container(
+                                                  width: double.infinity,
+                                                  height: 20,
+                                                  decoration: BoxDecoration(
+                                                    border: Border(
+                                                      bottom: BorderSide(
+                                                        color: AppColors.Gray200,
+                                                        width: 1.0,
                                                       ),
                                                     ),
-                                                    child: Text(
-                                                      selectedDate != null
-                                                          ? "${selectedDate!.year}/${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.day.toString().padLeft(2, '0')}"
-                                                          : "00/00/00",
-                                                      style: TextStyle(fontSize: 16),
-                                                    )),
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                                  ),
+                                                  child: Text(
+                                                    selectedDate != null
+                                                        ? "${selectedDate!.year}/${selectedDate!.month.toString().padLeft(2, '0')}/${selectedDate!.day.toString().padLeft(2, '0')}"
+                                                        : "00/00/00",
+                                                    style: TextStyle(fontSize: 16),
+                                                  )),
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 32, 0, 10),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        SetLocalizations.of(context).getText('tjdquf'),
-                                        style: AppFont.s12.overrides(color: AppColors.Black),
-                                      )
-                                    ],
                                   ),
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 32, 0, 10),
+                                child: Row(
                                   children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                        child: LodingButtonWidget(
-                                          onPressed: () {
-                                            setState(() {
-                                              selectedGender = 'MALE';
-                                            });
-                                          },
-                                          text: SetLocalizations.of(context).getText(
-                                            'b6pt2wpc' /* 남성 */,
-                                          ),
-                                          options: LodingButtonOptions(
-                                            height: 40,
-                                            padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                                            iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                            color: selectedGender == 'MALE' ? Colors.black : AppColors.primaryBackground,
-                                            textStyle: AppFont.s12.overrides(color: selectedGender == 'MALE' ? Colors.white : AppColors.Gray300),
-                                            elevation: 0,
-                                            borderSide: BorderSide(
-                                              color: AppColors.Gray300,
-                                              width: 1,
-                                            ),
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                        child: LodingButtonWidget(
-                                          onPressed: () {
-                                            setState(() {
-                                              selectedGender = 'FEMALE';
-                                            });
-                                          },
-                                          text: SetLocalizations.of(context).getText(
-                                            'wyai5zsz' /* 여성 */,
-                                          ),
-                                          options: LodingButtonOptions(
-                                            height: 40,
-                                            padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                                            iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                                            color: selectedGender == 'FEMALE' ? Colors.black : AppColors.primaryBackground,
-                                            textStyle: AppFont.s12.overrides(color: selectedGender == 'FEMALE' ? Colors.white : AppColors.Gray300),
-                                            elevation: 0,
-                                            borderSide: BorderSide(
-                                              color: AppColors.Gray300,
-                                              width: 1,
-                                            ),
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    Text(
+                                      SetLocalizations.of(context).getText('signupUserInfoButtonGenderLabel'),
+                                      style: AppFont.s12.overrides(color: AppColors.Black),
+                                    )
                                   ],
                                 ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(0, 32, 8, 0),
-                                        child: TextFormField(
-                                            controller: heController,
-                                            focusNode: heFocusNode,
-                                            autofocus: false,
-                                            obscureText: false,
-                                            decoration: InputDecoration(
-                                                labelText: SetLocalizations.of(context).getText(
-                                                  'dqi4qlg7' /* Label here... */,
-                                                ),
-                                                labelStyle: AppFont.s12.overrides(color: AppColors.Black),
-                                                hintStyle: AppFont.s12,
-                                                enabledBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: AppColors.Gray200,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                                focusedBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: AppColors.Gray200,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                                errorBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: AppColors.Gray200,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                                focusedErrorBorder: UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: AppColors.Gray200,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                                suffix: Text(
-                                                  'Cm',
-                                                  style: AppFont.r16.overrides(color: AppColors.Gray200),
-                                                )),
-                                            keyboardType: TextInputType.number,
-                                            style: AppFont.r16),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                      child: LodingButtonWidget(
+                                        onPressed: () {
+                                          setState(() {
+                                            selectedGender = 'MALE';
+                                          });
+                                        },
+                                        text: SetLocalizations.of(context).getText(
+                                          'signupUserInfoButtonGenderMaleLabel' /* 남성 */,
+                                        ),
+                                        options: LodingButtonOptions(
+                                          height: 40,
+                                          padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                                          iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                          color: selectedGender == 'MALE' ? Colors.black : AppColors.primaryBackground,
+                                          textStyle: AppFont.s12.overrides(color: selectedGender == 'MALE' ? Colors.white : AppColors.Gray300),
+                                          elevation: 0,
+                                          borderSide: BorderSide(
+                                            color: AppColors.Gray300,
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(8, 32, 0, 0),
-                                        child: TextFormField(
-                                          controller: weController,
-                                          focusNode: weFocusNode,
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                                      child: LodingButtonWidget(
+                                        onPressed: () {
+                                          setState(() {
+                                            selectedGender = 'FEMALE';
+                                          });
+                                        },
+                                        text: SetLocalizations.of(context).getText(
+                                          'signupUserInfoButtonGenderFemaleLabel' /* 여성 */,
+                                        ),
+                                        options: LodingButtonOptions(
+                                          height: 40,
+                                          padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                                          iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                                          color: selectedGender == 'FEMALE' ? Colors.black : AppColors.primaryBackground,
+                                          textStyle: AppFont.s12.overrides(color: selectedGender == 'FEMALE' ? Colors.white : AppColors.Gray300),
+                                          elevation: 0,
+                                          borderSide: BorderSide(
+                                            color: AppColors.Gray300,
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(0, 32, 8, 0),
+                                      child: TextFormField(
+                                          controller: heController,
+                                          focusNode: heFocusNode,
                                           autofocus: false,
                                           obscureText: false,
                                           decoration: InputDecoration(
                                               labelText: SetLocalizations.of(context).getText(
-                                                'a45ghbyh' /* Label here... */,
+                                                'signupUserInfoInputHeightLabel' /* Label here... */,
                                               ),
                                               labelStyle: AppFont.s12.overrides(color: AppColors.Black),
                                               hintStyle: AppFont.s12,
@@ -577,43 +595,88 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                                 ),
                                               ),
                                               suffix: Text(
-                                                'Kg',
+                                                'Cm',
                                                 style: AppFont.r16.overrides(color: AppColors.Gray200),
                                               )),
-                                          style: AppFont.r16,
                                           keyboardType: TextInputType.number,
-                                        ),
+                                          style: AppFont.r16),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(8, 32, 0, 0),
+                                      child: TextFormField(
+                                        controller: weController,
+                                        focusNode: weFocusNode,
+                                        autofocus: false,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                            labelText: SetLocalizations.of(context).getText(
+                                              'signupUserInfoInputWeightLabel' /* Label here... */,
+                                            ),
+                                            labelStyle: AppFont.s12.overrides(color: AppColors.Black),
+                                            hintStyle: AppFont.s12,
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: AppColors.Gray200,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: AppColors.Gray200,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            errorBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: AppColors.Gray200,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            focusedErrorBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: AppColors.Gray200,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            suffix: Text(
+                                              'Kg',
+                                              style: AppFont.r16.overrides(color: AppColors.Gray200),
+                                            )),
+                                        style: AppFont.r16,
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                              child: Container(
-                                  width: double.infinity,
-                                  height: 56.0,
-                                  child: LodingButtonWidget(
-                                    onPressed: () async {
-                                      finalbutton();
-                                    },
-                                    text: SetLocalizations.of(context).getText(
-                                      'tnwjd' /* 완료 */,
-                                    ),
-                                    options: LodingButtonOptions(
-                                      height: 40.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-                                      iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                      color: areFieldsValid ? Colors.black : AppColors.Gray200, // Change color based on validation
-                                      textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
-                                      elevation: 0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  )),
-                            ),
-                          ],
-                        ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            child: Container(
+                                width: double.infinity,
+                                height: 56.0,
+                                child: LodingButtonWidget(
+                                  onPressed: () async {
+                                    finalbutton();
+                                  },
+                                  text: SetLocalizations.of(context).getText(
+                                    'signupUserInfoButtonCompleteLabel' /* 완료 */,
+                                  ),
+                                  options: LodingButtonOptions(
+                                    height: 40.0,
+                                    padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                    color: areFieldsValid ? Colors.black : AppColors.Gray200, // Change color based on validation
+                                    textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                                    elevation: 0,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                )),
+                          ),
+                        ],
                       ),
                     ),
                   ),

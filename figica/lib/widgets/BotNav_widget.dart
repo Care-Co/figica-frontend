@@ -22,7 +22,6 @@ class _BotNavState extends State<BotNav> {
   }
 
   Future<void> noshow(BuildContext context) async {
-    print('show');
     showAlignedDialog(
       context: context,
       isGlobal: true,
@@ -45,8 +44,6 @@ class _BotNavState extends State<BotNav> {
   }
 
   Future<void> yesshow(BuildContext context) async {
-    print('show');
-
     showAlignedDialog(
       context: context,
       isGlobal: true,
@@ -70,9 +67,9 @@ class _BotNavState extends State<BotNav> {
 
   final List<Widget> _widgetOptions = <Widget>[
     HomePageWidget(),
-    GroupWidget(),
+    //GroupWidget(),
     Container(),
-    planWidget(),
+    //planWidget(),
     MypageWidget(),
   ];
 
@@ -83,11 +80,11 @@ class _BotNavState extends State<BotNav> {
         activeColorPrimary: AppColors.DarkenGreen,
         inactiveColorPrimary: Colors.grey,
       ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.group),
-        activeColorPrimary: AppColors.DarkenGreen,
-        inactiveColorPrimary: Colors.grey,
-      ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(Icons.group),
+      //   activeColorPrimary: AppColors.DarkenGreen,
+      //   inactiveColorPrimary: Colors.grey,
+      // ),
       PersistentBottomNavBarItem(
         icon: _buildSvgIcon('assets/icons/scan.svg'),
         activeColorPrimary: AppColors.DarkenGreen,
@@ -99,19 +96,18 @@ class _BotNavState extends State<BotNav> {
             return;
           }
 
-          String? device = await DataController.getdevice();
-          if (device == null) {
+          if (!AppStateNotifier.instance.isdevice) {
             noshow(_scaffoldKey.currentContext!); // Use scaffoldKey.currentContext
           } else {
             yesshow(_scaffoldKey.currentContext!); // Use scaffoldKey.currentContext
           }
         },
       ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.calendar_today),
-        activeColorPrimary: AppColors.DarkenGreen,
-        inactiveColorPrimary: Colors.grey,
-      ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(Icons.calendar_today),
+      //   activeColorPrimary: AppColors.DarkenGreen,
+      //   inactiveColorPrimary: Colors.grey,
+      // ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.person),
         activeColorPrimary: AppColors.DarkenGreen,
