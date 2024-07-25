@@ -57,14 +57,14 @@ class _CancleModiState extends State<CancleModi> {
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
                     child: Text(
                       SetLocalizations.of(context).getText(
-                        'vmfhvlfvuswl',
+                        'popupDecideProfileSettingLabel',
                       ),
                       style: AppFont.s18,
                     ),
                   ),
                   Text(
                     SetLocalizations.of(context).getText(
-                      'dhksfydhksy',
+                      'popupDecideProfileSettingDescription',
                     ),
                     style: AppFont.r16.overrides(color: AppColors.Gray500),
                   ),
@@ -87,7 +87,7 @@ class _CancleModiState extends State<CancleModi> {
                           widget.finalbutton();
                         },
                         text: SetLocalizations.of(context).getText(
-                          'ttnwjddhks',
+                          'popupDecideProfileSettingButtonConfirmLabel',
                         ),
                         options: LodingButtonOptions(
                           height: 40.0,
@@ -113,7 +113,7 @@ class _CancleModiState extends State<CancleModi> {
                         context.goNamed('home');
                       },
                       text: SetLocalizations.of(context).getText(
-                        'vuswlqskrlrl',
+                        'popupDecideProfileSettingButtonCancelLabel',
                       ),
                       options: LodingButtonOptions(
                         height: 40.0,

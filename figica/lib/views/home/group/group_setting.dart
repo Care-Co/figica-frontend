@@ -1,9 +1,9 @@
-import 'package:fisica/components/delete_group.dart';
-import 'package:fisica/components/exit_group.dart';
+import 'package:fisica/views/home/group/Yes_group/settings/delete_group.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';
+import 'package:provider/provider.dart';
 
 class GroupSetting extends StatefulWidget {
   final String authority;
@@ -27,47 +27,58 @@ class _GroupSettingState extends State<GroupSetting> {
   }
 
   _showLeaveGroupDialog() {
-    showAlignedDialog(
+    showCustomDialog(
       context: context,
-      isGlobal: true,
-      avoidOverflow: false,
-      targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-      followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-      builder: (dialogContext) {
-        return Material(
-          color: Colors.transparent,
-          child: GestureDetector(
-            child: Container(
-              height: 432,
-              width: 327,
-              child: ExitGroup(),
-            ),
-          ),
-        );
+      checkButtonColor: AppColors.red,
+      titleText: SetLocalizations.of(context).getText('rmfnqskrkrl'),
+      descriptionText: SetLocalizations.of(context).getText('rmfnqs'),
+      upperButtonText: SetLocalizations.of(context).getText('skrkrlqjxms'), //그룹 나가기
+      upperButtonFunction: () async {
+        await GroupApi.leaveGroup().then((value) async {
+          showCustomDialog(
+            context: context,
+            checkButtonColor: AppColors.DarkenGreen,
+            titleText: SetLocalizations.of(context).getText('skrkrldhksfy'),
+            descriptionText: SetLocalizations.of(context).getText('dhksfytjfaud'),
+            upperButtonText: SetLocalizations.of(context).getText('ze1u6oze'), //그룹 나가기
+            upperButtonFunction: () async {
+              context.goNamed('home');
+            },
+          );
+        });
+      },
+      lowerButtonText: SetLocalizations.of(context).getText('ehfkdrl'),
+      /* 이전으로 돌아가기 */
+      lowerButtonFunction: () {
+        context.safePop();
       },
     );
   }
 
   _showDeleteGroupDialog() {
     print("_showDeleteGroupDialog");
-    showAlignedDialog(
+    showCustomDialog(
       context: context,
-      isGlobal: true,
-      avoidOverflow: false,
-      targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-      followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-      builder: (dialogContext) {
-        return Material(
-          color: Colors.transparent,
-          child: GestureDetector(
-            child: Container(
-              height: 432,
-              width: 327,
-              child: DeleteGroup(name: widget.groupname),
-            ),
-          ),
-        );
+      checkButtonColor: AppColors.red,
+      titleText: SetLocalizations.of(context).getText('gktgkrf'),
+      descriptionText: SetLocalizations.of(context).getText('rmfnqs'),
+      upperButtonText: SetLocalizations.of(context).getText('rgklrkd'), //그룹 나가기
+      upperButtonFunction: () async {
+        await GroupApi.deleteGroup().then((value) async {
+          showCustomDialog(
+            context: context,
+            checkButtonColor: AppColors.DarkenGreen,
+            titleText: SetLocalizations.of(context).getText('skrkrldhksfy'),
+            descriptionText: SetLocalizations.of(context).getText('dhksfytjfaud'),
+            upperButtonText: SetLocalizations.of(context).getText('ze1u6oze'), //그룹 나가기
+            upperButtonFunction: () async {
+              context.goNamed('home');
+            },
+          );
+        });
       },
+      lowerButtonText: SetLocalizations.of(context).getText('cnlth'),
+      /* 이전으로 돌아가기 */
     );
   }
 
@@ -95,8 +106,9 @@ class _GroupSettingState extends State<GroupSetting> {
       '알림 설정': 'NotificationSetting',
       '그룹 히스토리': 'GroupHistory',
       '그룹 나가기': 'LeaveGroup',
+      '리더 변경 요청': 'Changeleader',
     };
-    final menuList = (widget.authority == 'LEADER') ? leaderMenu : userMenu;
+    final menuList = (widget.authority == 'GROUP_LEADER') ? leaderMenu : userMenu;
 
     if (isiOS) {
       SystemChrome.setSystemUIOverlayStyle(
@@ -107,9 +119,8 @@ class _GroupSettingState extends State<GroupSetting> {
       );
     }
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: GestureDetector(
+    return Consumer<AppStateNotifier>(builder: (context, AppStateNotifier, child) {
+      return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
@@ -149,11 +160,18 @@ class _GroupSettingState extends State<GroupSetting> {
                     Icons.arrow_forward_ios_outlined,
                     color: AppColors.Gray100,
                   ),
-                  onTap: () {
+                  onTap: () async {
                     if (menuTitle == '그룹 나가기') {
                       _showLeaveGroupDialog();
                     } else if (menuTitle == '그룹 삭제') {
                       _showDeleteGroupDialog();
+                    } else if (menuTitle == '초대 코드 관리') {
+                      await GroupApi.getAllInvitationCodes();
+                      print(AppStateNotifier.iscode);
+                      if (AppStateNotifier.iscode) {
+                        context.pushNamed('InvitationCodeManage');
+                      } else
+                        context.pushNamed('GroupCreatecode');
                     } else {
                       context.pushNamed(menuList[menuTitle]!);
                     }
@@ -161,7 +179,7 @@ class _GroupSettingState extends State<GroupSetting> {
                 );
               },
             ),
-          )),
-    );
+          ));
+    });
   }
 }

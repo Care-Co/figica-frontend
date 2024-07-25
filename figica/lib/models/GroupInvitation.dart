@@ -8,7 +8,7 @@ class Invitation {
   final String responseUserFirstName;
   final String responseUserLastName;
   final String status;
-  final Group group;
+  final Group? group;
 
   Invitation({
     required this.invitationId,
@@ -20,7 +20,7 @@ class Invitation {
     required this.responseUserFirstName,
     required this.responseUserLastName,
     required this.status,
-    required this.group,
+    this.group,
   });
 
   factory Invitation.fromJson(Map<String, dynamic> json) {
@@ -34,7 +34,7 @@ class Invitation {
       responseUserFirstName: json['responseUserFirstName'],
       responseUserLastName: json['responseUserLastName'],
       status: json['status'],
-      group: Group.fromJson(json['group']),
+      group: json['group'] != null ? Group.fromJson(json['group']) : null,
     );
   }
 
@@ -49,7 +49,7 @@ class Invitation {
       'responseUserFirstName': responseUserFirstName,
       'responseUserLastName': responseUserLastName,
       'status': status,
-      'group': group.toJson(),
+      'group': group?.toJson(),
     };
   }
 }

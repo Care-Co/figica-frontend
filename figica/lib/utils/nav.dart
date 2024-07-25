@@ -1,20 +1,14 @@
-import 'package:fisica/views/home/plan/createSchedule.dart';
-import 'package:fisica/widgets/BotNav_widget.dart';
-import 'package:fisica/views/home/group/CreateCode.dart';
-import 'package:fisica/views/home/group/settings/changeLeader_screen.dart';
-import 'package:fisica/views/home/mypage/mypage_histroy_view.dart';
-import 'package:fisica/views/home/mypage/mypage_modify_info_view.dart';
-import 'package:fisica/views/home/mypage/mypage_avata_view.dart';
-import 'package:fisica/views/home/mypage/mypage_setting_view.dart';
-import 'package:fisica/views/home/scan/Find_blue.dart';
-import 'package:fisica/views/home/scan/FootPrintScreen.dart';
-import 'package:fisica/views/home/scan/Foot_result.dart';
-import 'package:fisica/testmode.dart/TesterData.dart';
-import 'package:fisica/testmode.dart/test_tos_.dart';
-import 'package:flutter/material.dart';
-import '../views/home/group/group_setting.dart';
+import 'package:fisica/views/home/camera/vison.dart';
+import 'package:fisica/views/home/group/No_group/CreateGroup/CreateGroup_CreateCode_view.dart';
+import 'package:fisica/views/home/group/Yes_group/settings/Change_Leader.dart';
+import 'package:fisica/views/home/mypage/Settings/Setting_lang.dart';
+import 'package:fisica/views/home/mypage/Settings/deviceCalibration.dart';
+import 'package:fisica/views/home/mypage/Settings/deviceManage_screen.dart';
+import 'package:fisica/views/home/scan/Foot_detail.dart';
+
 import '/index.dart';
 export 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 
 const kTransitionInfoKey = '__transition_info__';
 
@@ -25,11 +19,22 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         redirect: (context, state) {
           final loggedIn = appStateNotifier.loggedIn;
           final loggingIn = state.matchedLocation.startsWith('/login');
-          if (!loggedIn && !loggingIn) {
+          final signingUp = state.matchedLocation.startsWith('/agree_tos');
+
+          if (!loggedIn && !loggingIn && !signingUp) {
             return '/login';
-          } else if (loggedIn && loggingIn) {
+          } else if (loggedIn && (loggingIn || signingUp)) {
             return '/';
+          } else if (!loggedIn && appStateNotifier.isSignUp && !signingUp && appStateNotifier.type == 'phone') {
+            return '/login/agree_tos/Get_id/singup_smscode';
+          } else if (!loggedIn && appStateNotifier.isLogin && appStateNotifier.type == 'phone') {
+            return '/login/smscode';
+          } else if (!loggedIn && appStateNotifier.isSignUp && appStateNotifier.firebaseToken != null && appStateNotifier.type == 'phone') {
+            return '/login/agree_tos/Get_id/singup_smscode/singup_userinfo';
           }
+          // else if (loggedIn && appStateNotifier.isSignUp && signingUp && appStateNotifier.type == 'phone') {
+          //   return '/login/agree_tos/Get_id/singup_smscode/singup_userinfo';
+          // }
           return null;
         },
         routes: <RouteBase>[
@@ -46,7 +51,30 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   builder: (context, state) {
                     return MySetting();
                   },
-                  routes: []),
+                  routes: [
+                    GoRoute(
+                        path: 'DevicerManager',
+                        name: 'DevicerManager',
+                        builder: (context, state) {
+                          return DevicerManagementPage();
+                        },
+                        routes: [
+                          GoRoute(
+                            path: 'DeviceCalibration',
+                            name: 'DeviceCalibration',
+                            builder: (context, state) {
+                              return DeviceCalibration();
+                            },
+                          )
+                        ]),
+                    GoRoute(
+                      path: 'SettingLang',
+                      name: 'SettingLang',
+                      builder: (context, state) {
+                        return SettingLang();
+                      },
+                    )
+                  ]),
               GoRoute(
                   name: 'Modiinfo',
                   path: 'Modiinfo',
@@ -66,6 +94,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   path: 'history',
                   builder: (context, state) {
                     return HistoryWidget();
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'FootDetail',
+                      name: 'FootDetail',
+                      builder: (context, state) {
+                        final url = state.extra as String;
+                        return FootDetail(
+                          url: url,
+                        );
+                      },
+                    ),
+                  ]),
+              GoRoute(
+                  path: 'visonScan',
+                  name: 'visonScan',
+                  builder: (context, state) {
+                    return VisonScan();
                   },
                   routes: []),
               GoRoute(
@@ -125,6 +171,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                           return MemberManagementPage();
                         },
                         routes: [
+                          GoRoute(
+                            name: 'Changeleader',
+                            path: 'Changeleader',
+                            builder: (context, state) {
+                              return ChangeLeader();
+                            },
+                          ),
                           GoRoute(
                             name: 'removeMember',
                             path: 'removeMember',
@@ -196,13 +249,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                         return GroupHistoryPage();
                       },
                     ),
-                    GoRoute(
-                      name: 'LeaveGroup',
-                      path: 'LeaveGroup',
-                      builder: (context, state) {
-                        return LeaveGroupPage();
-                      },
-                    )
                   ]),
               GoRoute(
                   name: 'Creategroup',
@@ -215,7 +261,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                       name: 'GroupCreatecode',
                       path: 'GroupCreatecode',
                       builder: (context, state) {
-                        return CreateCodeWidget();
+                        return GeneratCodeWidget();
                       },
                       routes: [
                         GoRoute(
@@ -275,54 +321,68 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   },
                 ),
                 GoRoute(
-                    name: 'Guest_agree_tos',
-                    path: 'Guest_agree_tos',
+                    name: 'Test_guide',
+                    path: 'Test_guide',
                     builder: (context, state) {
-                      return TestTos();
+                      return TesterGuide();
                     },
                     routes: [
                       GoRoute(
-                          path: 'TesterData',
-                          name: 'TesterData',
+                        name: 'Test_ErrorData',
+                        path: 'Test_ErrorData',
+                        builder: (context, state) {
+                          return TesterErrorData();
+                        },
+                      ),
+                      GoRoute(
+                          name: 'Tester_GetData1',
+                          path: 'Tester_GetData1',
                           builder: (context, state) {
-                            return TesterData();
+                            return TesterData1();
                           },
                           routes: [
                             GoRoute(
-                                path: 'testFootprint',
-                                name: 'testFootprint',
+                                name: 'Tester_GetData2',
+                                path: 'Tester_GetData2',
                                 builder: (context, state) {
-                                  final mode = state.extra as String;
-                                  return FootPrint(
-                                    mode: mode,
-                                  );
+                                  return TesterData2();
                                 },
                                 routes: [
                                   GoRoute(
-                                    path: 'testFootresult',
-                                    name: 'testFootresult',
-                                    builder: (context, state) {
-                                      final mode = state.extra as String;
+                                      name: 'Tester_menu',
+                                      path: 'Tester_menu',
+                                      builder: (context, state) {
+                                        return TesterMenu();
+                                      },
+                                      routes: [
+                                        GoRoute(
+                                            path: 'Teseter_Scan',
+                                            name: 'Teseter_Scan',
+                                            builder: (context, state) {
+                                              final divice = state.extra as int;
 
-                                      return FootResult(
-                                        mode: mode,
-                                      );
-                                    },
-                                  )
-                                ]),
-                            GoRoute(
-                              name: 'testFindBlue',
-                              path: 'testFindBlue',
-                              builder: (context, state) {
-                                final mode = state.extra as String;
+                                              return TesterScan(
+                                                divice: divice,
+                                              );
+                                            },
+                                            routes: [
+                                              GoRoute(
+                                                path: 'testFootresult',
+                                                name: 'testFootresult',
+                                                builder: (context, state) {
+                                                  final mode = state.extra as String;
 
-                                return FindBlue(
-                                  mode: mode,
-                                );
-                              },
-                            ),
+                                                  return FootResult(
+                                                    mode: mode,
+                                                  );
+                                                },
+                                              )
+                                            ]),
+                                      ]),
+                                ])
                           ])
                     ]),
+
                 //회원가입
                 GoRoute(
                     name: 'agree_tos',
@@ -339,13 +399,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                           },
                           routes: [
                             GoRoute(
-                              name: 'Set_pw',
-                              path: 'Set_pw',
-                              builder: (context, state) {
-                                final item = state.extra as String;
-                                return SetPwWidget(email: item);
-                              },
-                            ),
+                                name: 'Set_pw',
+                                path: 'Set_pw',
+                                builder: (context, state) {
+                                  final item = state.extra as String;
+                                  return SetPwWidget(email: item);
+                                },
+                                routes: [
+                                  GoRoute(
+                                    name: 'singup_Set_pw_userinfo',
+                                    path: 'singup_Set_pw_userinfo',
+                                    builder: (context, params) {
+                                      return UserInfoWidget();
+                                    },
+                                  ),
+                                ]),
                             GoRoute(
                                 name: 'singup_smscode',
                                 path: 'singup_smscode',

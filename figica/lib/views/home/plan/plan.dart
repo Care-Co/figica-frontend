@@ -91,21 +91,11 @@ class _planWidgetState extends State<planWidget> {
         appBar: AppBar(
           backgroundColor: AppColors.Gray850,
           automaticallyImplyLeading: false,
-          leading: AppIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 30.0,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
-            icon: Icon(
-              Icons.chevron_left,
-              color: Colors.black,
-              size: 30.0,
-            ),
-            onPressed: () async {
-              context.pop();
-            },
-          ),
-          title: Text('plan'),
+          title: Text(
+              SetLocalizations.of(context).getText(
+                '4a0fxxdm' /* 계정 생성 */,
+              ),
+              style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
           actions: [],
           centerTitle: false,
           elevation: 0.0,
@@ -192,9 +182,10 @@ class _planWidgetState extends State<planWidget> {
   void _showModalBottomSheet(BuildContext context, int buttonIndex) {
     if (buttonIndex == 0) {
       List<String> names = ['그룹 일정', '개인 일정'];
+      List<String> selectedValues = buttonTexts[buttonIndex].split(', ');
 
       Map<String, bool> checkboxes = {
-        for (var option in names) option: false,
+        for (var option in names) option: selectedValues.contains(option),
       };
 
       showModalBottomSheet(
@@ -210,6 +201,7 @@ class _planWidgetState extends State<planWidget> {
                   buttonTexts[buttonIndex] = '유형';
                 });
               } else {
+                print(value);
                 setState(() {
                   buttonTexts[buttonIndex] = value;
                 });
@@ -220,9 +212,10 @@ class _planWidgetState extends State<planWidget> {
       );
     } else if (buttonIndex == 1) {
       List<String> names = ['운동', '약복용', '병원', '측정하기', '기타'];
+      List<String> selectedValues = buttonTexts[buttonIndex].split(', ');
 
       Map<String, bool> checkboxes = {
-        for (var option in names) option: false,
+        for (var option in names) option: selectedValues.contains(option),
       };
 
       showModalBottomSheet(
@@ -248,11 +241,11 @@ class _planWidgetState extends State<planWidget> {
       );
     } else if (buttonIndex == 2) {
       List<String> names = ['최신순', '오래된순'];
+      List<String> selectedValues = buttonTexts[buttonIndex].split(', ');
 
       Map<String, bool> checkboxes = {
-        for (var option in names) option: false,
+        for (var option in names) option: selectedValues.contains(option),
       };
-
       showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -370,14 +363,14 @@ class _planWidgetState extends State<planWidget> {
                 height: 30.0,
                 padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                 iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                color: ["유형", "일정종류", "최신순"].contains(buttonTexts[index]) ? Colors.transparent : AppColors.primary,
+                color: ["유형", "일정 종류", "최신순"].contains(buttonTexts[index]) ? Colors.transparent : AppColors.primary,
                 textStyle: AppFont.s18.overrides(
                   fontSize: 12,
-                  color: ["유형", "일정종류", "최신순"].contains(buttonTexts[index]) ? AppColors.Gray300 : AppColors.Black,
+                  color: ["유형", "일정 종류", "최신순"].contains(buttonTexts[index]) ? AppColors.Gray300 : AppColors.Black,
                 ),
                 elevation: 0,
                 borderSide: BorderSide(
-                  color: ["유형", "일정종류", "최신순"].contains(buttonTexts[index]) ? AppColors.Gray300 : AppColors.primary,
+                  color: ["유형", "일정 종류", "최신순"].contains(buttonTexts[index]) ? AppColors.Gray300 : AppColors.primary,
                   width: 1.0,
                 ),
                 borderRadius: BorderRadius.circular(24.0),

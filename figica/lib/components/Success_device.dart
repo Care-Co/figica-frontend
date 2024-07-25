@@ -42,16 +42,13 @@ class _SuccessDeviceState extends State<SuccessDevice> {
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
                     child: Text(
                       SetLocalizations.of(context).getText(
-                        'elqkdltm' /* Hello World */,
+                        'popupCompleteAddDeviceLabel' /* Hello World */,
                       ),
                       style: AppFont.s18.overrides(color: AppColors.primaryBackground),
                     ),
                   ),
                   Text(
-                    widget.name +
-                        SetLocalizations.of(context).getText(
-                          'qksrkdk' /* Hello World */,
-                        ),
+                    SetLocalizations.of(context).getText('popupCompleteAddDeviceDescription' /* Hello World */, values: {'name': widget.name}),
                     style: AppFont.r16.overrides(color: AppColors.Gray300),
                     textAlign: TextAlign.center,
                   ),
@@ -71,12 +68,14 @@ class _SuccessDeviceState extends State<SuccessDevice> {
                       onPressed: () async {
                         if (widget.mode == 'main') {
                           context.goNamed('Footprint', extra: 'main');
-                        } else {
+                        } else if (widget.mode == 'tester') {
                           context.goNamed('testFootprint', extra: 'tester');
+                        } else if (widget.mode == 'cali') {
+                          context.goNamed('DeviceCalibration');
                         }
                       },
                       text: SetLocalizations.of(context).getText(
-                        'qmvldje' /*  */,
+                        'popupCompleteAddDeviceButtonScanLabel' /*  */,
                       ),
                       options: LodingButtonOptions(
                         height: 40.0,
@@ -103,7 +102,7 @@ class _SuccessDeviceState extends State<SuccessDevice> {
                           context.goNamed('home');
                         },
                         text: SetLocalizations.of(context).getText(
-                          'ze1u6oze' /*  */,
+                          'popupCompleteAddDeviceButtonConfirmLabel' /*  */,
                         ),
                         options: LodingButtonOptions(
                           height: 40.0,

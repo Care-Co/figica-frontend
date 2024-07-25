@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fisica/index.dart';
 
@@ -88,7 +86,7 @@ class _CodeErrorState extends State<CodeError> {
                       height: 56.0,
                       child: LodingButtonWidget(
                         onPressed: () async {
-                          context.pushNamed('HomePage');
+                          context.goNamed('home');
                         },
                         text: SetLocalizations.of(context).getText('ghadmfhdlehd' /* 홈으로 이동 */
                             ),

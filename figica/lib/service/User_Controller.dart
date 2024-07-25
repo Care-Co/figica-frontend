@@ -8,15 +8,13 @@ import 'package:http/http.dart' as http;
 import 'package:fisica/index.dart';
 
 class UserController {
-  static const _keyToken = 'jwtToken';
-  static const _uid = 'uid';
   static const _testuserdata = 'testuserdata';
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static String linkurl = mainurl;
 
   //유효성 검사
   static Future<bool> validate(String text, String inputType) async {
-    var url = Uri.parse('$linkurl/api/v1/validate');
+    var url = Uri.parse('$linkurl/validate');
     var headers = {'accept': '*/*', 'Content-Type': 'application/json'};
     var body = inputType == 'phone' ? jsonEncode({'phoneNumber': text}) : jsonEncode({'email': text});
     try {
@@ -32,7 +30,6 @@ class UserController {
     } catch (e) {
       print(e);
       loggerNoStack.i('계정 존재');
-
       return false;
     }
   }
@@ -46,6 +43,7 @@ class UserController {
 
       if (newToken != null) {
         AppStateNotifier.instance.UpToken(newToken, false);
+        await AppStateNotifier.instance.UpfirebaseToken(newToken);
       }
       return true;
     } catch (e) {
@@ -68,14 +66,42 @@ class UserController {
     }
   }
 
-  static Future<bool> signUpWithPhone(String verificationId, String smsCode, bool info) async {
+  static Future<bool> AuthEmail(String email, String password) async {
+    try {
+      loggerNoStack.t({'Name': 'AuthEmail', 'email': email, 'password': password});
+      late UserCredential userCredential;
+      if (AppStateNotifier.instance.isSignUp) {
+        userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      } else if (AppStateNotifier.instance.isLogin) {
+        userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      }
+
+      String? newToken = await userCredential.user?.getIdToken();
+
+      if (newToken != null && AppStateNotifier.instance.isSignUp) {
+        await AppStateNotifier.instance.UpfirebaseToken(newToken);
+      } else if (newToken != null && AppStateNotifier.instance.isLogin) {
+        await CreateNewToken(newToken);
+      }
+      return true;
+    } catch (e) {
+      loggerNoStack.e(e);
+      return false;
+    }
+  }
+
+  static Future<bool> AuthPhone(String verificationId, String smsCode) async {
+    print(verificationId);
+    print(smsCode);
     PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
     try {
       final getfiretoken = await FirebaseAuth.instance.signInWithCredential(credential);
       final String? newToken = await getfiretoken.user?.getIdToken();
       print("firebase Token: $newToken");
-      if (newToken != null) {
-        AppStateNotifier.instance.UpToken(newToken, false);
+      if (newToken != null && AppStateNotifier.instance.isSignUp) {
+        await AppStateNotifier.instance.UpfirebaseToken(newToken);
+      } else if (newToken != null && AppStateNotifier.instance.isLogin) {
+        await CreateNewToken(newToken);
       }
     } on FirebaseAuthException catch (e) {
       loggerNoStack.e(e);
@@ -100,15 +126,13 @@ class UserController {
       return;
     }
 
-    var url = Uri.parse('$linkurl/api/v1/users/$uid');
+    var url = Uri.parse('$linkurl/users/$uid');
     var headers = {'accept': '*/*', 'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
 
     var response = await http.delete(url, headers: headers);
     if (response.statusCode == 200) {
       print(response.body);
-      await DataController.removedata();
-      await DataController.removedevice();
-      await UserController.removeToken();
+      await AppStateNotifier.instance.logout();
     } else {
       print(response.statusCode);
     }
@@ -116,83 +140,92 @@ class UserController {
 
   // 토큰 생성
   static Future<void> CreateNewToken(String token) async {
-    print('CreateNewToken');
     try {
-      final response = await http.post(
-        Uri.parse('$linkurl/api/v1/jwt'),
-        headers: <String, String>{
-          'accept': '*/*',
-          'Authorization': 'Bearer $token',
-        },
-      );
+      final url = Uri.parse('$linkurl/auth/tokens?firebaseToken=$token');
+
+      final response = await http.post(url);
+      loggerNoStack.t({'Name': 'CreateNewToken', 'url': url});
+
       if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
+        String decodedBody = utf8.decode(response.bodyBytes);
+        var jsonResponse = jsonDecode(decodedBody);
+        loggerNoStack.i(jsonResponse);
+
         String newtoken = jsonResponse['token']['accessToken'];
+        String refreshToken = jsonResponse['token']['refreshToken'];
         await AppStateNotifier.instance.UpToken(newtoken, true);
+        await AppStateNotifier.instance.UprefreshToken(refreshToken);
+      } else {}
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  static Future<void> RefreshNewToken(String token) async {
+    try {
+      final url = Uri.parse('$linkurl/auth/access-token?refreshToken=$token');
+      final response = await http.post(url);
+      loggerNoStack.t({'Name': 'RefreshNewToken', 'url': url});
+      if (response.statusCode == 200) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        var jsonResponse = jsonDecode(decodedBody);
+        loggerNoStack.i(jsonResponse);
+
+        String refreshToken = jsonResponse['token']['accessToken'];
+
+        await AppStateNotifier.instance.UpToken(refreshToken, true);
       } else {
-        print(response.statusCode);
+        loggerNoStack.e(response.body);
       }
     } catch (e) {
       print('Error: $e');
     }
   }
 
-  // // 토큰 가져오기
-  // static Future<String?> getsavedToken() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   if (prefs.getString(_keyToken) == null) {
-  //     return null;
-  //   } else {
-  //     return prefs.getString(_keyToken);
-  //   }
-  // }
-
-  // 토큰 삭제
-  static Future<String?> removeToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_keyToken);
-    AppStateNotifier.instance.delete();
-    print('removeToken');
-    return null;
-  }
-
-  static Future<bool> singUpInputdata(
+  static Future<bool> signUpInputData(
       String birthday, String firstName, String lastName, String gender, double height, double weight, String optionRegion) async {
-    final url = Uri.parse('$linkurl/api/v1/signup/completeRegistrationProcess');
-    final String? token = await AppStateNotifier.instance.getToken2();
+    String token = await AppStateNotifier.instance.firebaseToken!;
+    print(token);
+
+    final url = Uri.parse('$linkurl/users').replace(queryParameters: {
+      'firstName': firstName,
+      'lastName': lastName,
+      'gender': gender,
+      'birthday': birthday,
+      //'region': optionRegion,
+      'height': height.toString(),
+      'weight': weight.toString(),
+      'firebaseToken': token,
+    });
+
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     };
-    final body = jsonEncode({
-      "birthday": birthday,
-      'firstName': firstName,
-      "lastName": lastName,
-      "gender": gender,
-      "height": height,
-      "weight": weight,
-      //"region": optionRegion
-    });
-    loggerNoStack.t({'Name': 'singUpInputdata', 'url': url, 'body': body});
+    loggerNoStack.t({'Name': 'signUpInputData', 'url': url});
+
     try {
-      final response = await http.post(url, headers: headers, body: body);
+      final response = await http.post(url, headers: headers);
+      print(response.body);
       if (response.statusCode == 201) {
         String decodedBody = utf8.decode(response.bodyBytes);
         var jsonResponse = jsonDecode(decodedBody);
-        loggerNoStack.i(jsonResponse);
-        await AppStateNotifier.instance.UpToken(jsonResponse['token']['accessToken'], true);
+        print(jsonResponse);
+
+        String newtoken = jsonResponse['token']['accessToken'];
+        String refreshToken = jsonResponse['token']['refreshToken'];
+        await AppStateNotifier.instance.UpToken(newtoken, true);
+        await AppStateNotifier.instance.UprefreshToken(refreshToken);
 
         AppStateNotifier.instance.UpUserInfo(UserData.fromJson(jsonResponse['data']));
         return true;
       } else {
-        loggerNoStack.e(response.body);
-
+        print(response.body);
         return false;
       }
     } catch (e) {
-      loggerNoStack.e(e);
-
+      print(e);
       return false;
     }
   }
@@ -212,48 +245,37 @@ class UserController {
     await savetester(body);
   }
 
-  static Future<bool> modiProfile(
-      String birthday, String firstName, String lastName, String gender, double height, double weight, String optionRegion) async {
-    print('Start -------- modiProfile');
+  static Future<bool> modiProfile(String birthday, String firstName, String lastName, String gender, double height, double weight) async {
     String? uid = AppStateNotifier.instance.userdata?.uid;
     final String? token = await AppStateNotifier.instance.apiToken;
-    print(token);
 
-    final url = Uri.parse('$linkurl/api/v1/users/${uid}');
-    print(url);
+    final url =
+        Uri.parse('$linkurl/users/${uid}?firstName=$firstName&lastName=$lastName&gender=$gender&birthday=$birthday&height=$height&weight=$weight');
 
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     };
-    final body = jsonEncode({
-      'firstName': firstName,
-      "lastName": lastName,
-      "gender": gender,
-      "birthday": birthday,
-      "region": optionRegion,
-      "height": height,
-      "weight": weight
-    });
-    print(body.toString());
+    final body =
+        jsonEncode({'firstName': firstName, "lastName": lastName, "gender": gender, "birthday": birthday, "height": height, "weight": weight});
+    loggerNoStack.t({'Name': 'modiProfile', 'url': url, 'body': body});
 
     try {
       final response = await http.put(url, headers: headers, body: body);
-      print(response.body);
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         String decodedBody = utf8.decode(response.bodyBytes);
-        print(decodedBody);
 
-        print('Response data: $decodedBody');
         var jsonResponse = jsonDecode(decodedBody);
+        loggerNoStack.i(jsonResponse);
+
         AppStateNotifier.instance.UpUserInfo(UserData.fromJson(jsonResponse['data']));
         return true;
       } else {
-        print('Failed to update profile: ${response.statusCode}');
         var jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
+        loggerNoStack.e(jsonResponse);
+
         return false;
       }
     } catch (e) {
@@ -262,22 +284,24 @@ class UserController {
     }
   }
 
-  static Future<void> getprofile(String token) async {
-    final url = Uri.parse('$linkurl/api/v1/profile');
+  static Future<bool> getprofile(String token) async {
+    final url = Uri.parse('$linkurl/profile');
 
     final response = await http.get(
       url,
       headers: {'accept': '*/*', 'Authorization': 'Bearer $token'},
     );
-    loggerNoStack.t({'Name': 'getprofile', 'url': url});
+    loggerNoStack.t({'Name': 'getprofile', 'url': url, 'token': token});
 
     if (response.statusCode == 200) {
       loggerNoStack.i(response.body);
       String decodedBody = utf8.decode(response.bodyBytes);
       var jsonResponse = jsonDecode(decodedBody);
       AppStateNotifier.instance.UpUserInfo(UserData.fromJson(jsonResponse['data']));
+      return true;
     } else {
-      loggerNoStack.w(response.body);
+      loggerNoStack.e(response.body);
+      return false;
     }
   }
 
@@ -305,75 +329,6 @@ class UserController {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_testuserdata);
     print('removedata');
-    return null;
-  }
-}
-
-//------------------------DataController-------------------------------//
-class DataController {
-  static const _apiData = 'apiData';
-  static const _foothistory = 'foothistory';
-  static const _weighthistory = 'weighthistory';
-  static const _device = 'device';
-  static const _platformName = 'platformName';
-  static const _userdata = 'userdata';
-
-  static Future<void> removedata() async {
-    print('Removing data');
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove(_apiData);
-      await prefs.remove(_weighthistory);
-      await prefs.remove(_foothistory);
-      await prefs.remove(_userdata).then((value) => print('Data removal completed successfully.'));
-    } catch (e) {
-      print('Error removing data: $e');
-      throw 'Failed to remove data';
-    }
-  }
-
-  static Future<void> savedevice(String device) async {
-    print('savedevice');
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_device, device.toString());
-  }
-
-  static Future<void> savedevicename(String platformName) async {
-    print('savedevicename');
-    print(platformName);
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_platformName, platformName.toString());
-  }
-
-  static Future<String?> getdevice() async {
-    print('getdevice');
-    final prefs = await SharedPreferences.getInstance();
-
-    print(prefs.getString(_device));
-    if (prefs.getString(_device) == null) {
-      print('isnull');
-      return null;
-    } else {
-      return prefs.getString(_device);
-    }
-  }
-
-  static Future<String?> getdevicename() async {
-    print('getdevicename');
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.getString(_platformName) == null) {
-      return null;
-    } else {
-      return prefs.getString(_platformName);
-    }
-  }
-
-  // 디바이스 삭제
-  static Future<String?> removedevice() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_device);
-    await prefs.remove(_platformName);
-    print('removeall');
     return null;
   }
 }

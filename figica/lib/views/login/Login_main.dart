@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fisica/auth/auth_service.dart';
 
 import '../../widgets/flutter_drop_down.dart';
@@ -29,6 +31,14 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   void initState() {
     super.initState();
+    Locale? locale = SetLocalizations.getStoredLocale();
+    if (locale != null) {
+      dropDownValue = '${locale.languageCode}' == 'ko' ? '한국어' : 'English';
+      print(dropDownValue);
+      print('Stored locale: ${locale.languageCode}_${locale.countryCode}');
+    } else {
+      print('No locale stored');
+    }
   }
 
   void _updateInputType(String newInputType) {
@@ -47,60 +57,67 @@ class _LoginWidgetState extends State<LoginWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
+      onVerticalDragStart: (details) => FocusScope.of(context).unfocus(), // 수직 드래그 종료 시 키보드 숨김
       child: Scaffold(
         key: _scaffoldKey,
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         backgroundColor: AppColors.primaryBackground,
         body: SafeArea(
           top: true,
-          child: SingleChildScrollView(
-            //reverse: true,
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.97,
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(24.0, 30.0, 24.0, 0.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            padding: EdgeInsetsDirectional.fromSTEB(24.0, 30.0, 24.0, 24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildHeader(context),
+                CustomInputField(
+                  controller: _myController,
+                  onStatusChanged: _updateInputType,
+                  onSelected: (value) {
+                    selectedValue = value;
+                    print("Selected value: $selectedValue");
+                  },
+                  onSubmitted: (value) {
+                    print("Selected value: $selectedValue");
+                    _handleOnPressed;
+                  },
+                ),
+                _buildLanguageDropDown(context),
+                SizedBox(
+                  height: 50,
+                ),
+                Column(
                   children: [
-                    _buildHeader(context),
-                    _buildLanguageDropDown(context),
-                    _buildPhoneNumberInput(context),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 40),
-                      child: Column(
-                        children: [
-                          _buildLoginButton(context),
-                          _buildphoneButton(context),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Divider(
-                                  color: AppColors.Gray200,
-                                  thickness: 1.0,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8),
-                                child: Text('OR', style: AppFont.r16.overrides(color: AppColors.Gray200, fontSize: 12)),
-                              ),
-                              Expanded(
-                                child: Divider(
-                                  color: AppColors.Gray200,
-                                  thickness: 1.0,
-                                ),
-                              ),
-                            ],
+                    _buildLoginButton(context),
+                    _buildphoneButton(context),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Divider(
+                            color: AppColors.Gray200,
+                            thickness: 1.0,
                           ),
-                          _buildSingupButton(context)
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: Text('OR', style: AppFont.r16.overrides(color: AppColors.Gray200, fontSize: 12)),
+                        ),
+                        Expanded(
+                          child: Divider(
+                            color: AppColors.Gray200,
+                            thickness: 1.0,
+                          ),
+                        ),
+                      ],
                     ),
+                    _buildSingupButton(context),
                   ],
                 ),
-              ),
+              ],
             ),
           ),
         ),
@@ -110,23 +127,24 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   Future<void> _handleOnPressed() async {
     if (_inputType == 'none') return;
-
-    String id = getIdForInputType();
+    String id = _inputType == 'phone' ? selectedValue + _myController.text.substring(1) : _myController.text;
     bool exists = await UserController.validate(id, _inputType);
     print(exists);
     if (exists) {
       await _showLoginFailDialog();
     } else {
       if (_inputType == 'phone') {
-        await _authService.sendSmsCode(id, false, _onSmsCodeSent);
+        AppStateNotifier.instance.Uptype('phone');
+        await _handlePhoneVerification(id);
+        FocusScope.of(context).unfocus();
       } else if (_inputType == 'email') {
-        _navigateToPasswordInput(id);
+        AppStateNotifier.instance.Uptype('email');
+        AppStateNotifier.instance.updateSignUpState(false);
+        AppStateNotifier.instance.updateloginState(true);
+        context.pushNamed('Input_pw', extra: id);
+        FocusScope.of(context).unfocus();
       }
     }
-  }
-
-  String getIdForInputType() {
-    return _inputType == 'phone' ? selectedValue + _myController.text.substring(1) : _myController.text;
   }
 
   Future<void> _showLoginFailDialog() async {
@@ -157,44 +175,31 @@ class _LoginWidgetState extends State<LoginWidget> {
     ).then((value) => setState(() {}));
   }
 
-  void _onSmsCodeSent() {
-    print("SMS 코드가 성공적으로 전송되었습니다!");
-    context.pushNamed('smscode');
-  }
-
   Future<void> _handlePhoneVerification(String id) async {
-    FirebaseAuth _auth = FirebaseAuth.instance;
-    await _auth.verifyPhoneNumber(
+    print(id);
+
+    FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: id,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        if (mounted) {
-          print('인증 문자 수신');
-          // 필요한 추가 로직
-        }
+      verificationCompleted: (PhoneAuthCredential) {},
+      verificationFailed: (error) {
+        // 오류 메시지 출력 및 처리
+        print("인증 실패: ${error.code}");
+        print("인증 실패: ${error.message}");
+        print("인증 실패: ${error.tenantId}");
+        AppStateNotifier.instance.updateloginState(false);
       },
-      verificationFailed: (FirebaseAuthException e) {
-        if (mounted) {
-          print('인증 문자 전송 실패');
-        }
+      codeSent: (verificationId, forceResendingToken) {
+        print("SMS 코드가 성공적으로 전송되었습니다!");
+        AppStateNotifier.instance.updateSignUpState(false);
+        AppStateNotifier.instance.updateloginState(true);
+        AppStateNotifier.instance.UpverificationId(verificationId);
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => SmscodeWidget(verificationId: verificationId, isSingUp: true)));
+        context.pushNamed('smscode');
       },
-      codeSent: (String verificationId, int? resendToken) async {
-        if (mounted) {
-          print('인증 문자 전송');
-          _verificationId = verificationId;
-          Navigator.of(context).pushNamed('smscode', arguments: {'verificationId': _verificationId, 'phone': id, 'setinfo': 'false'});
-        }
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        if (mounted) {
-          // 타임아웃 로직 처리
-        }
+      codeAutoRetrievalTimeout: (verificationId) {
+        print("자동 검색 시간 초과");
       },
     );
-  }
-
-  void _navigateToPasswordInput(String id) {
-    context.pushNamed('Input_pw', extra: id);
-    FocusScope.of(context).unfocus();
   }
 
   Widget _buildHeader(BuildContext context) {
@@ -213,20 +218,43 @@ class _LoginWidgetState extends State<LoginWidget> {
                 fit: BoxFit.cover,
               ),
             ),
-            Text(version), // Version should be dynamic if needed
+            Column(
+              children: [
+                Text(version),
+                LodingButtonWidget(
+                  onPressed: () async {
+                    context.goNamed('Test_guide');
+                  },
+                  text: '테스트 모드',
+                  options: LodingButtonOptions(
+                    height: 30.0,
+                    padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                    iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    color: AppColors.primaryBackground,
+                    textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.Black),
+                    elevation: 0,
+                    borderSide: BorderSide(
+                      color: AppColors.Black,
+                      width: 1.0,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+              ],
+            ), // Version should be dynamic if needed
           ],
         ),
         const SizedBox(height: 8),
         Text(
             SetLocalizations.of(context).getText(
-              'zvrvccdi' /* 만나서 반가워요! */,
+              'loginHomeLabel',
+              /* 만나서 반가워요! */
             ),
             style: AppFont.b24),
         const SizedBox(height: 4),
         Text(
-            SetLocalizations.of(context).getText(
-              'yf2ziwdh' /* 시작하기 위해서는 로그인이 필요해요 */,
-            ),
+            SetLocalizations.of(context).getText('loginHomeDescription' /* 시작하기 위해서는 로그인이 필요해요 */
+                ),
             style: AppFont.r16),
       ],
     );
@@ -239,11 +267,11 @@ class _LoginWidgetState extends State<LoginWidget> {
         const Text('Language', style: TextStyle(fontSize: 12)),
         const SizedBox(height: 8),
         FlutterDropDown<String>(
-          controller: dropDownValueController ??= FormFieldController<String>(null),
+          controller: dropDownValueController ??= FormFieldController<String>(dropDownValue),
           options: [
             '한국어',
             'English',
-            '日本語',
+            //'日本語',
           ],
           onChanged: (val) async {
             setState(() => dropDownValue = val);
@@ -251,9 +279,10 @@ class _LoginWidgetState extends State<LoginWidget> {
               setAppLanguage(context, 'ko');
             } else if (val == 'English') {
               setAppLanguage(context, 'en');
-            } else if (val == '日本語') {
-              setAppLanguage(context, 'ja');
             }
+            // else if (val == '日本語') {
+            //   setAppLanguage(context, 'ja');
+            // }
           },
           width: double.infinity,
           height: 38.0,
@@ -279,35 +308,13 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 
-  Widget _buildPhoneNumberInput(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-            SetLocalizations.of(context).getText(
-              'n7oaur8t' /* 전화 번호 또는 */,
-            ),
-            style: AppFont.s12),
-        const SizedBox(height: 8),
-        CustomInputField(
-          controller: _myController,
-          onStatusChanged: _updateInputType,
-          onSelected: (value) {
-            selectedValue = value;
-            print("Selected value: $selectedValue");
-          },
-        )
-      ],
-    );
-  }
-
   Widget _buildLoginButton(BuildContext context) {
     return Container(
         width: double.infinity,
         height: 56.0,
         child: LodingButtonWidget(
           onPressed: _handleOnPressed,
-          text: SetLocalizations.of(context).getText('20tycjvp'), // "로그인"
+          text: SetLocalizations.of(context).getText('loginHomeButtonLoginLabel'), // "로그인"
           options: LodingButtonOptions(
             height: 40.0,
             padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
@@ -329,9 +336,8 @@ class _LoginWidgetState extends State<LoginWidget> {
         onPressed: () async {
           context.pushNamed('agree_tos');
         },
-        text: SetLocalizations.of(context).getText(
-          'f1vk38nh' /* 회원 가입하기 */,
-        ),
+        text: SetLocalizations.of(context).getText('loginHomeButtonSignupLabel' /* 회원 가입하기 */
+            ),
         options: LodingButtonOptions(
           height: 40.0,
           padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
@@ -362,7 +368,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           decoration: TextDecoration.underline,
         ),
         SetLocalizations.of(context).getText(
-          'f1vk38cs' /* 전화번호 변경 */,
+          'loginHomeButtonFindPasswordLabel' /* 전화번호 변경 */,
         ),
       ),
     );

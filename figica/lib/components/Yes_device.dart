@@ -31,33 +31,43 @@ class _YesDiviceState extends State<YesDivice> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextButton(
+              Container(
+                width: 100,
+                child: TextButton(
+                    onPressed: () {
+                      context.goNamed('Footprint', extra: 'main');
+                    },
+                    child: Text(
+                      SetLocalizations.of(context).getText(
+                        'scanPlantarPressureLabel' /*  */,
+                      ),
+                      style: AppFont.s12.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                      textAlign: TextAlign.center,
+                    )),
+              ),
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 18, 0, 16),
+                  child: Dash(
+                    direction: Axis.vertical,
+                    length: 26, // 점선의 길이
+                    dashLength: 2, // 각 점의 길이
+                    dashColor: AppColors.primaryBackground, // 점선의 색상
+                  )),
+              Container(
+                width: 100,
+                child: TextButton(
                   onPressed: () {
-                    context.goNamed('Footprint', extra: 'main');
+                    context.goNamed('visonScan', extra: 'main');
                   },
                   child: Text(
                     SetLocalizations.of(context).getText(
-                      'whrwjdjkq' /*  */,
+                      'scanVisionLabel' /*  */,
                     ),
                     style: AppFont.s12.overrides(fontSize: 16, color: AppColors.primaryBackground),
-                  )),
-              // Padding(
-              //     padding: const EdgeInsets.fromLTRB(0, 18, 0, 16),
-              //     child: Dash(
-              //       direction: Axis.vertical,
-              //       length: 26, // 점선의 길이
-              //       dashLength: 2, // 각 점의 길이
-              //       dashColor: AppColors.primaryBackground, // 점선의 색상
-              //     )),
-              // TextButton(
-              //   onPressed: () {},
-              //   child: Text(
-              //     SetLocalizations.of(context).getText(
-              //       'qlwjsqnsjr' /*  */,
-              //     ),
-              //     style: AppFont.s12.overrides(fontSize: 16, color: AppColors.primaryBackground),
-              //   ),
-              // )
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
             ],
           )),
     );

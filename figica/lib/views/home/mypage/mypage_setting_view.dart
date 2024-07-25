@@ -1,6 +1,5 @@
-import 'package:fisica/components/delete_group.dart';
-import 'package:fisica/components/exit_group.dart';
 import 'package:fisica/views/home/mypage/mypage_components/out_popup.dart';
+import 'package:fisica/views/login/login_components/Login_uptos.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,15 +77,15 @@ class _MySettingState extends State<MySetting> {
   @override
   Widget build(BuildContext context) {
     final Map<String, String> Menu = {
-      '디바이스 관리': 'MemberManage',
-      '알림 설정': 'GroupJoinRequest',
-      '언어 설정': 'ChangeGroupName',
-      '로그인 방식 추가': 'InvitationCodeManage',
-      '전화번호 변경': 'DeleteGroup',
-      '개인정보 처리방침': 'PublicInfoSetting',
-      '서비스 이용 약관': 'NotificationSetting',
-      '로그아웃': 'GroupHistory',
-      '서비스 탈퇴': 'GroupHistory',
+      'settingButtonDeviceLabel': 'DevicerManager',
+      //'알림 설정': 'GroupJoinRequest',
+      'settingButtonLanguageLabel': 'SettingLang',
+      //'로그인 방식 추가': 'InvitationCodeManage',
+      //'전화번호 변경': 'DeleteGroup',
+      'settingButtonPrivacyPolicyLabel': 'PublicInfoSetting',
+      'settingButtonTermsServiceLabel': 'NotificationSetting',
+      'settingButtonLogoutLabel': 'GroupHistory',
+      'settingButtonWithdrawalLabel': 'GroupHistory',
     };
 
     if (isiOS) {
@@ -106,6 +105,7 @@ class _MySettingState extends State<MySetting> {
             key: scaffoldKey,
             backgroundColor: AppColors.Black,
             appBar: AppBar(
+              backgroundColor: AppColors.Black,
               leading: AppIconButton(
                 borderColor: Colors.transparent,
                 borderRadius: 30.0,
@@ -120,11 +120,10 @@ class _MySettingState extends State<MySetting> {
                   context.pop();
                 },
               ),
-              backgroundColor: Color(0x00CCFF8B),
               automaticallyImplyLeading: false,
               title: Text(
                   SetLocalizations.of(context).getText(
-                    'tjfwjd' /* 설정  */,
+                    'settingButtonReturnLabel' /* 설정  */,
                   ),
                   style: AppFont.s18.overrides(color: AppColors.primaryBackground)),
               centerTitle: false,
@@ -133,20 +132,61 @@ class _MySettingState extends State<MySetting> {
             body: ListView.builder(
               itemCount: Menu.length,
               itemBuilder: (context, index) {
-                String menuTitle = Menu.keys.elementAt(index);
+                String menuKey = Menu.keys.elementAt(index);
+                String menuTitle = SetLocalizations.of(context).getText(menuKey);
                 return ListTile(
                   title: Text(menuTitle, style: AppFont.s12.overrides(fontSize: 16, color: AppColors.Gray100)),
                   trailing: Icon(
                     Icons.arrow_forward_ios_outlined,
                     color: AppColors.Gray100,
                   ),
-                  onTap: () {
-                    if (menuTitle == '로그아웃') {
+                  onTap: () async {
+                    if (menuKey == 'settingButtonLogoutLabel') {
                       _showLeaveDialog();
-                    } else if (menuTitle == '서비스 탈퇴') {
+                    } else if (menuKey == 'settingButtonWithdrawalLabel') {
                       _showDeleteDialog();
+                    } else if (menuKey == 'settingButtonPrivacyPolicyLabel') {
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        enableDrag: false,
+                        context: context,
+                        builder: (context) {
+                          return GestureDetector(
+                            child: Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: Container(
+                                  height: MediaQuery.sizeOf(context).height * 0.6,
+                                  child: UptosWidget(
+                                    index: 2,
+                                    onAgree: (value) {},
+                                  )),
+                            ),
+                          );
+                        },
+                      ).then((value) => safeSetState(() {}));
+                    } else if (menuKey == 'settingButtonTermsServiceLabel') {
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        enableDrag: false,
+                        context: context,
+                        builder: (context) {
+                          return GestureDetector(
+                            child: Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: Container(
+                                  height: MediaQuery.sizeOf(context).height * 0.6,
+                                  child: UptosWidget(
+                                    index: 1,
+                                    onAgree: (value) {},
+                                  )),
+                            ),
+                          );
+                        },
+                      ).then((value) => safeSetState(() {}));
                     } else {
-                      context.pushNamed(Menu[menuTitle]!);
+                      context.pushNamed(Menu[menuKey]!);
                     }
                   },
                 );

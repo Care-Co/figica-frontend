@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1070443989491-vel2vp7brdtddbbh9mmun8o92mr0j00g.apps.googleusercontent.com</string>
+	<string>1018044330468-eire81ghvo2luc6h5pg1fic14itgambk.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1070443989491-vel2vp7brdtddbbh9mmun8o92mr0j00g</string>
+	<string>com.googleusercontent.apps.1018044330468-eire81ghvo2luc6h5pg1fic14itgambk</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>1070443989491-704dg7qrb63evcdt01jrk8opcs8dq0cv.apps.googleusercontent.com</string>
+	<string>1018044330468-3b0efntd1rjsvkm6asadm0vcerrvjpkb.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyACoii8KMLbBoE6p8TEOVg95qtNNizVhVY</string>
+	<string>AIzaSyC7aS9qC3KauDcKEKE2MRnJCIrOGdzOT7Q</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1070443989491</string>
+	<string>1018044330468</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.mycompany.figico</string>
+	<string>com.carenco.fisica</string>
 	<key>PROJECT_ID</key>
-	<string>carencouserinfo</string>
+	<string>fisicatest-fc73a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>carencouserinfo.appspot.com</string>
+	<string>fisicatest-fc73a.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1070443989491:ios:f4aa59447e130a8c2aea86</string>
-	<key>DATABASE_URL</key>
-	<string>https://carencouserinfo-default-rtdb.firebaseio.com</string>
+	<string>1:1018044330468:ios:92bbb323cffb0ede3ad7f1</string>
 </dict>
 </plist>

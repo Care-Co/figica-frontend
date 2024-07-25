@@ -40,26 +40,6 @@ class AuthService {
     );
   }
 
-  Future<void> sendSmsCode(String phoneNumber, bool setinfo, VoidCallback onCodeSent) async {
-    try {
-      await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) async {},
-        verificationFailed: (FirebaseAuthException e) {
-          print("SMS 인증 실패: ${e.message}");
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          print(verificationId);
-          AppStateNotifier.instance.verificationId({'setinfo': setinfo, 'phone': phoneNumber, 'verificationId': verificationId});
-          onCodeSent();
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {},
-      );
-    } catch (e) {
-      print("SMS 코드 전송 중 오류가 발생했습니다: $e");
-    }
-  }
-
   // SMS 코드 확인 함수
   Future<void> verifySmsCode(String verificationId, String smsCode) async {
     try {
@@ -77,4 +57,6 @@ class AuthService {
       print("SMS 코드 인증 중 오류가 발생했습니다: $e");
     }
   }
+
+  static logout() {}
 }

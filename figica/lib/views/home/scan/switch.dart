@@ -1,11 +1,14 @@
 import 'package:fisica/index.dart';
-import 'package:fisica/views/home/scan/Foot_Controller.dart';
+import 'package:fisica/models/FootData.dart';
+import 'package:fisica/service/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class ToggleImageSwitch extends StatefulWidget {
   final String mode;
-  const ToggleImageSwitch({Key? key, required this.mode}) : super(key: key);
+  final int type;
+
+  const ToggleImageSwitch({Key? key, required this.mode, required this.type}) : super(key: key);
 
   @override
   _ToggleImageSwitchState createState() => _ToggleImageSwitchState();
@@ -13,7 +16,6 @@ class ToggleImageSwitch extends StatefulWidget {
 
 class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
   late String gender;
-  String type = '';
   String image = '';
   List<String> imageList = [];
   bool main = true;
@@ -22,24 +24,21 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
 
   int _currentIndex = 0;
   Future<void> getData() async {
-    var typedata = AppStateNotifier.instance.scandata;
-    print(typedata);
     var data = AppStateNotifier.instance.userdata;
 
-    print(data);
     var genderset = data!.gender ?? 'MALE';
     gender = genderset.toLowerCase();
 
-    settype(typedata!['classType']);
+    settype(widget.type);
   }
 
-  Future<void> getData2() async {
-    var typedata = AppStateNotifier.instance.scandata;
+  // Future<void> getData2() async {
+  //   var typedata = AppStateNotifier.instance.scandata;
 
-    gender = typedata!['gender'].toLowerCase();
+  //   gender = typedata!['gender'].toLowerCase();
 
-    settype(typedata['footprintClassType']);
-  }
+  //   settype(typedata['footprintClassType']);
+  // }
 
   void settype(int typeint) {
     image = 'assets/bodygrapic';
@@ -79,17 +78,13 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
     imageList.add('assets/bodygrapic/$type/$gender/front.png');
     imageList.add('assets/bodygrapic/$type/$gender/side.png');
     imageList.add('assets/bodygrapic/$type/$gender/back.png');
-    print(imageList.length);
   }
 
   void getImagePath4(String type) {
-    print(type);
-    print(gender);
     imageList.add('assets/bodygrapic/$type/$gender/front.png');
     imageList.add('assets/bodygrapic/$type/$gender/side_l.png');
     imageList.add('assets/bodygrapic/$type/$gender/side_r.png');
     imageList.add('assets/bodygrapic/$type/$gender/back.png');
-    print(imageList.length);
   }
 
   @override
@@ -97,8 +92,7 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
     super.initState();
 
     if (widget.mode != 'main') {
-      print('test');
-      getData2();
+      // getData2();
     } else
       getData();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
@@ -112,7 +106,18 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> labels = imageList.length == 4 ? ['전면', '좌측면', '우측면', '후면'] : ['전면', '측면', '후면'];
+    final List<String> labels = imageList.length == 4
+        ? [
+            SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonFrontLabel'),
+            SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonLSideLabel'),
+            SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonRSideLabel'),
+            SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonBackLabel')
+          ]
+        : [
+            SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonFrontLabel'),
+            SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonSideLabel'),
+            SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonBackLabel')
+          ];
     final int totalSwitches = labels.length; // 전환 스위치의 총 개수
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

@@ -2,20 +2,41 @@ import 'package:fisica/utils/fisica_theme.dart';
 import 'package:fisica/widgets/flutter_drop_down.dart';
 import 'package:fisica/utils/form_field_controller.dart';
 import 'package:fisica/utils/internationalization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class CustomInputField extends StatefulWidget {
   final TextEditingController controller;
   final Function(String) onStatusChanged;
   final Function(String) onSelected;
+  final Function(String) onSubmitted;
 
-  CustomInputField({Key? key, required this.controller, required this.onStatusChanged, required this.onSelected}) : super(key: key);
+  CustomInputField({
+    Key? key,
+    required this.controller,
+    required this.onStatusChanged,
+    required this.onSelected,
+    required this.onSubmitted,
+  }) : super(key: key);
 
   @override
   _CustomInputFieldState createState() => _CustomInputFieldState();
 }
 
 class _CustomInputFieldState extends State<CustomInputField> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  FormFieldController<String>? dropDownValueController2;
+  String? selectedDropdownValue = '+82';
+
+  String inputType = 'none';
+  TextInputType keyboardType = TextInputType.text;
+
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode phoneFocusNode = FocusNode();
+  FocusNode noneFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -28,34 +49,27 @@ class _CustomInputFieldState extends State<CustomInputField> {
     super.dispose();
   }
 
-  FormFieldController<String>? dropDownValueController2;
-  String? selectedDropdownValue = '+82';
-
-  String inputType = 'none';
-
-  TextInputType keyboardType = TextInputType.text;
-
-  FocusNode emailFocusNode = FocusNode();
-  FocusNode phoneFocusNode = FocusNode();
-  FocusNode noneFocusNode = FocusNode();
-
   String? emailValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return '이메일을 입력해주세요.';
+      return SetLocalizations.of(context).getText(
+        'loginHomeInputEmailHint', // 전화번호 또는 E-mail을 입력해 주세요
+      );
     } else if (!value.contains('@')) {
       return SetLocalizations.of(context).getText(
-        '8u5gojh7' /* @를 포함한 정확한 이메일을 입력해 주세요 */,
+        'loginHomeInputEmailError', // @를 포함한 정확한 이메일을 입력해 주세요
       );
     }
-    return null; // 유효한 경우 null을 반환
+    return null;
   }
 
   String? phoneValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return '전화번호를 입력해주세요.';
+      return SetLocalizations.of(context).getText(
+        'loginHomeInputEmailHint', // 전화번호 또는 E-mail을 입력해 주세요
+      );
     } else if (!value.startsWith('010')) {
       return SetLocalizations.of(context).getText(
-        '8u5gojhdg' /* 010 */,
+        'loginHomeInputPhoneError', // '010을 포함하여 숫자만 입력해 주세요
       );
     }
     return null;
@@ -86,6 +100,12 @@ class _CustomInputFieldState extends State<CustomInputField> {
         _updateKeyboard(inputType);
       });
     }
+
+    // 폼 상태를 검증하여 오류 메시지를 업데이트
+    if (_formKey.currentState != null) {
+      _formKey.currentState!.validate();
+    }
+
     widget.onStatusChanged(inputType);
   }
 
@@ -109,224 +129,276 @@ class _CustomInputFieldState extends State<CustomInputField> {
 
   @override
   Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: _buildInputField(),
+    );
+  }
+
+  Widget _buildInputField() {
     switch (inputType) {
       case 'none':
-        return TextFormField(
-          controller: widget.controller,
-          focusNode: noneFocusNode,
-          decoration: InputDecoration(
-            hintText: SetLocalizations.of(context).getText(
-              'n7oaur8tc',
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              SetLocalizations.of(context).getText('loginHomeInputEmailLabel'),
+              style: AppFont.s12,
             ),
-            hintStyle: AppFont.r16.overrides(color: AppColors.Gray300),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: AppColors.Gray200,
-                width: 2.0,
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: widget.controller,
+              focusNode: noneFocusNode,
+              onFieldSubmitted: (value) {
+                widget.onSubmitted;
+              },
+              decoration: InputDecoration(
+                hintText: SetLocalizations.of(context).getText(
+                  'loginHomeInputEmailHint',
+                ),
+                hintStyle: AppFont.r16.overrides(color: AppColors.Gray300),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.Gray200,
+                    width: 2.0,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.Gray200,
+                    width: 2.0,
+                  ),
+                ),
+                errorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.Gray200,
+                    width: 2.0,
+                  ),
+                ),
+                focusedErrorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.Gray200,
+                    width: 2.0,
+                  ),
+                ),
+                suffixIcon: widget.controller.text.isNotEmpty
+                    ? InkWell(
+                        child: Container(
+                          height: 10,
+                          width: 10,
+                          decoration: BoxDecoration(
+                            color: AppColors.Gray100,
+                            shape: BoxShape.circle,
+                          ),
+                          margin: EdgeInsets.all(14),
+                          child: Icon(
+                            Icons.clear,
+                            color: AppColors.Gray500,
+                            size: 10,
+                          ),
+                        ),
+                        onTap: () {
+                          widget.controller.clear();
+                        },
+                      )
+                    : null,
               ),
+              style: AppFont.r16.overrides(color: AppColors.Gray700),
+              keyboardType: keyboardType,
             ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: AppColors.Gray200,
-                width: 2.0,
-              ),
-            ),
-            errorBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: AppColors.Gray200,
-                width: 2.0,
-              ),
-            ),
-            focusedErrorBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: AppColors.Gray200,
-                width: 2.0,
-              ),
-            ),
-            suffixIcon: widget.controller.text.isNotEmpty
-                ? InkWell(
-                    child: Container(
-                      height: 10,
-                      width: 10,
-                      decoration: BoxDecoration(
-                        color: AppColors.Gray100, // 연한 회색 배경
-                        shape: BoxShape.circle,
-                      ),
-                      margin: EdgeInsets.all(14),
-                      child: Icon(
-                        Icons.clear, // 취소 아이콘 사용
-                        color: AppColors.Gray500, size: 10,
-                      ),
-                    ),
-                    onTap: () {
-                      widget.controller.clear();
-                    },
-                  )
-                : null,
-          ),
-          style: AppFont.r16.overrides(color: AppColors.Gray700),
-          keyboardType: keyboardType,
+          ],
         );
       case 'email':
-        return TextFormField(
-          controller: widget.controller,
-          focusNode: emailFocusNode,
-          autofocus: false,
-          decoration: InputDecoration(
-            labelStyle: AppFont.r16.overrides(color: AppColors.Gray500),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: AppColors.Gray200,
-                width: 2.0,
-              ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              SetLocalizations.of(context).getText('loginHomeInputEmailLabel'),
+              style: AppFont.s12,
             ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: AppColors.Gray200,
-                width: 2.0,
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: widget.controller,
+              focusNode: emailFocusNode,
+              autofocus: false,
+              onFieldSubmitted: (value) {
+                print('bbb');
+                widget.onSubmitted;
+              },
+              decoration: InputDecoration(
+                labelStyle: AppFont.r16.overrides(color: AppColors.Gray500),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.Gray200,
+                    width: 2.0,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.Gray200,
+                    width: 2.0,
+                  ),
+                ),
+                errorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.Gray200,
+                    width: 2.0,
+                  ),
+                ),
+                focusedErrorBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.Gray200,
+                    width: 2.0,
+                  ),
+                ),
+                suffixIcon: widget.controller.text.isNotEmpty
+                    ? InkWell(
+                        child: Container(
+                          height: 10,
+                          width: 10,
+                          decoration: BoxDecoration(
+                            color: AppColors.Gray100,
+                            shape: BoxShape.circle,
+                          ),
+                          margin: EdgeInsets.all(14),
+                          child: Icon(
+                            Icons.clear,
+                            color: AppColors.Gray500,
+                            size: 10,
+                          ),
+                        ),
+                        onTap: () {
+                          widget.controller.clear();
+                        },
+                      )
+                    : null,
+                errorText: emailValidator(widget.controller.text),
               ),
+              style: AppFont.r16.overrides(color: AppColors.Gray700),
+              keyboardType: keyboardType,
+              validator: emailValidator,
             ),
-            errorBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: AppColors.Gray200,
-                width: 2.0,
-              ),
-            ),
-            focusedErrorBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: AppColors.Gray200,
-                width: 2.0,
-              ),
-            ),
-            suffixIcon: widget.controller.text.isNotEmpty
-                ? InkWell(
-                    child: Container(
-                      height: 10,
-                      width: 10,
-                      decoration: BoxDecoration(
-                        color: AppColors.Gray100, // 연한 회색 배경
-                        shape: BoxShape.circle,
-                      ),
-                      margin: EdgeInsets.all(14),
-                      child: Icon(
-                        Icons.clear, // 취소 아이콘 사용
-                        color: AppColors.Gray500, size: 10,
-                      ),
-                    ),
-                    onTap: () {
-                      widget.controller.clear();
-                    },
-                  )
-                : null,
-            errorText: emailValidator(widget.controller.text),
-          ),
-          style: AppFont.r16.overrides(color: AppColors.Gray700),
-          keyboardType: keyboardType,
-          validator: emailValidator,
+          ],
         );
-      // 이메일 필드 구성
       case 'phone':
         return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               flex: 1,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 10.5, 0, 0),
-                child: Column(
-                  children: [
-                    FlutterDropDown<String>(
-                      controller: dropDownValueController2 ??= FormFieldController<String>("+82"),
-                      hintText: '+82',
-                      options: ['+1', '+91', '+82', '+81'],
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedDropdownValue = newValue ?? '+82';
-                        });
-                        widget.onSelected(selectedDropdownValue!);
-                      },
-                      height: 38.0,
-                      textStyle: AppFont.r16.overrides(color: AppColors.Gray500),
-                      icon: Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: AppColors.Gray500,
-                        size: 20.0,
-                      ),
-                      elevation: 2.0,
-                      borderColor: AppColors.Gray200,
-                      borderWidth: 1.0,
-                      borderRadius: 8.0,
-                      borderStyle: 'bottom',
-                      margin: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 4.0),
-                      hidesUnderline: true,
-                      isSearchable: false,
-                      isMultiSelect: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    SetLocalizations.of(context).getText('loginHomeSelectPhoneLabel'),
+                    style: AppFont.s12,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  FlutterDropDown<String>(
+                    controller: dropDownValueController2 ??= FormFieldController<String>("+82"),
+                    hintText: '+82',
+                    options: ['+1', '+91', '+82', '+81'],
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedDropdownValue = newValue ?? '+82';
+                      });
+                      widget.onSelected(selectedDropdownValue!);
+                    },
+                    height: 38.0,
+                    textStyle: AppFont.r16.overrides(color: AppColors.Gray500),
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: AppColors.Gray500,
+                      size: 20.0,
                     ),
-                  ],
-                ),
+                    elevation: 2.0,
+                    borderColor: AppColors.Gray200,
+                    borderWidth: 1.0,
+                    borderRadius: 8.0,
+                    borderStyle: 'bottom',
+                    margin: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 4.0),
+                    hidesUnderline: true,
+                    isSearchable: false,
+                    isMultiSelect: false,
+                  ),
+                ],
               ),
             ),
+            const SizedBox(width: 16),
             Expanded(
               flex: 2,
-              child: TextFormField(
-                  controller: widget.controller,
-                  focusNode: phoneFocusNode,
-                  decoration: InputDecoration(
-                    labelStyle: AppFont.r16,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.Gray200,
-                        width: 1.0,
-                      ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.Gray200,
-                        width: 1.0,
-                      ),
-                    ),
-                    errorBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.Gray200,
-                        width: 1.0,
-                      ),
-                    ),
-                    focusedErrorBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.Gray200,
-                        width: 1.0,
-                      ),
-                    ),
-                    suffixIcon: widget.controller.text.isNotEmpty
-                        ? InkWell(
-                            child: Container(
-                              height: 10,
-                              width: 10,
-                              decoration: BoxDecoration(
-                                color: AppColors.Gray100, // 연한 회색 배경
-                                shape: BoxShape.circle,
-                              ),
-                              margin: EdgeInsets.all(14),
-                              child: Icon(
-                                Icons.clear, // 취소 아이콘 사용
-                                color: AppColors.Gray500, size: 10,
-                              ),
-                            ),
-                            onTap: () {
-                              widget.controller.clear();
-                            },
-                          )
-                        : null,
-                    errorText: phoneValidator(widget.controller.text),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    SetLocalizations.of(context).getText('loginHomeInputPhoneLabel'),
+                    style: AppFont.s12,
                   ),
-                  style: AppFont.r16.overrides(color: AppColors.Gray700),
-                  keyboardType: keyboardType,
-                  validator: phoneValidator),
+                  TextFormField(
+                      controller: widget.controller,
+                      focusNode: phoneFocusNode,
+                      onFieldSubmitted: (value) {
+                        widget.onSubmitted;
+                      },
+                      decoration: InputDecoration(
+                        labelStyle: AppFont.r16,
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.Gray200,
+                            width: 1.0,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.Gray200,
+                            width: 1.0,
+                          ),
+                        ),
+                        errorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.Gray200,
+                            width: 1.0,
+                          ),
+                        ),
+                        focusedErrorBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.Gray200,
+                            width: 1.0,
+                          ),
+                        ),
+                        suffixIcon: widget.controller.text.isNotEmpty
+                            ? InkWell(
+                                child: Container(
+                                  height: 10,
+                                  width: 10,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.Gray100,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  margin: EdgeInsets.all(14),
+                                  child: Icon(
+                                    Icons.clear,
+                                    color: AppColors.Gray500,
+                                    size: 10,
+                                  ),
+                                ),
+                                onTap: () {
+                                  widget.controller.clear();
+                                },
+                              )
+                            : null,
+                        errorText: phoneValidator(widget.controller.text),
+                      ),
+                      style: AppFont.r16.overrides(color: AppColors.Gray700),
+                      keyboardType: keyboardType,
+                      validator: phoneValidator),
+                ],
+              ),
             ),
           ],
         );
-      // 전화번호 필드 구성
       default:
         return Container(); // 기본값
     }

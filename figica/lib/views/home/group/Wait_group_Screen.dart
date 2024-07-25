@@ -54,7 +54,7 @@ class _WaitgroupScreenState extends State<WaitgroupScreen> {
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                                       child: Text(
-                                          AppStateNotifier.instance.groupInvitation!.first.group.groupName +
+                                          AppStateNotifier.instance.groupInvitation!.first.group!.groupName +
                                               SetLocalizations.of(context).getText(
                                                 'ghkrdlsanswk' /* 기다려 */,
                                               ),
@@ -99,7 +99,7 @@ class _WaitgroupScreenState extends State<WaitgroupScreen> {
                                             SetLocalizations.of(context).getText(
                                                   'dkssod' /*22 */,
                                                 ) +
-                                                AppStateNotifier.instance.groupInvitation!.first.group.groupName +
+                                                AppStateNotifier.instance.groupInvitation!.first.group!.groupName +
                                                 SetLocalizations.of(context).getText(
                                                   'dafdf' /*22 */,
                                                 ),

@@ -35,12 +35,12 @@ class _CheckExitState extends State<OkPopup> {
     // 상태에 따라 내용 업데이트
     setState(() {
       if (widget.state == 'logout_ok') {
-        mainText = gs('fhdnrkdtn');
-        subText = gs('ektlgodkf');
+        mainText = gs('popupCompleteLogoutLabel');
+        subText = gs('popupCompleteLogoutDescription');
         action = logout;
       } else if (widget.state == 'singout_ok') {
-        mainText = gs('xkfehldks');
-        subText = gs('dkssud');
+        mainText = gs('popupCompleteWithdrawalLabel');
+        subText = gs('popupCompleteWithdrawalDescription');
         action = logout;
       }
     });
@@ -105,7 +105,7 @@ class _CheckExitState extends State<OkPopup> {
                         action();
                       },
                       text: SetLocalizations.of(context).getText(
-                        'ze1u6oze' /* 확인 */,
+                        'popupCompleteGroupJoinRequestButtonConfirmLabel' /* 확인 */,
                       ),
                       options: LodingButtonOptions(
                         height: 40.0,

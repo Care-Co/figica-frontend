@@ -1,3 +1,4 @@
+import 'package:fisica/utils/local.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +12,7 @@ class SetLocalizations {
 
   static SetLocalizations of(BuildContext context) => Localizations.of<SetLocalizations>(context, SetLocalizations)!;
 
-  static List<String> languages() => ['ko', 'en', 'ja'];
+  static List<String> languages() => ['ko', 'en'];
 
   static late SharedPreferences _prefs;
   static Future initialize() async => _prefs = await SharedPreferences.getInstance();
@@ -21,48 +22,22 @@ class SetLocalizations {
     return locale != null && locale.isNotEmpty ? createLocale(locale) : null;
   }
 
+  String _replacePlaceholders(String text, Map<String, String> values) {
+    values.forEach((key, value) {
+      text = text.replaceAll('{$key}', value);
+    });
+    return text;
+  }
+
   String get languageCode => locale.toString();
-  String? get languageShortCode => _languagesWithShortCode.contains(locale.toString()) ? '${locale.toString()}_short' : null;
   int get languageIndex => languages().contains(languageCode) ? languages().indexOf(languageCode) : 0;
-  String getText(String key) => (kTranslationsMap[key] ?? {})[locale.toString()] ?? '';
-  String getVariableText({
-    String? koText = '',
-    String? enText = '',
-    String? jaText = '',
-  }) =>
-      [koText, enText, jaText][languageIndex] ?? '';
-  static const Set<String> _languagesWithShortCode = {
-    'ar',
-    'az',
-    'ca',
-    'cs',
-    'da',
-    'de',
-    'dv',
-    'en',
-    'es',
-    'et',
-    'fi',
-    'fr',
-    'gr',
-    'he',
-    'hi',
-    'hu',
-    'it',
-    'km',
-    'ku',
-    'mn',
-    'ms',
-    'no',
-    'pt',
-    'ro',
-    'ru',
-    'rw',
-    'sv',
-    'th',
-    'uk',
-    'vi',
-  };
+  String getText(String key, {Map<String, String>? values}) {
+    String text = (kTranslationsMap[key] ?? {})[locale.toString()] ?? '';
+    if (values != null && values.isNotEmpty) {
+      text = _replacePlaceholders(text, values);
+    }
+    return text;
+  }
 }
 
 class SetLocalizationsDelegate extends LocalizationsDelegate<SetLocalizations> {
@@ -90,7 +65,7 @@ Locale createLocale(String language) => language.contains('_')
       )
     : Locale(language);
 
-final kTranslationsMap = <Map<String, Map<String, String>>>[
+final TranslationsMap = <Map<String, Map<String, String>>>[
   {
     'ze1u6oze': {
       'ko': '확인',
@@ -133,7 +108,12 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ja': '',
     },
     'tofhqkfrmf': {
-      'ko': '유효 기간이 72시간 남았습니다.',
+      'ko': '유효 기간이',
+      'en': '',
+      'ja': '',
+    },
+    'frmf': {
+      'ko': '시간 남았습니다.',
       'en': '',
       'ja': '',
     },
@@ -767,48 +747,48 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'rmfnqskrkrl': {
+      'ko': '그룹을 나갈까요?',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'rmfnqs': {
+      'ko': '그룹에서 나가면\n 더이상 그룹 멤버들과 함께\n건강 관리를 진행할 수 없어요.',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'skrkrldhksfy': {
+      'ko': '그룹 나가기 완료',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'dhksfytjfaud': {
+      'ko': '그룹을 나갔습니다.\n그룹 기능을 다시 이용하려면 \n새로운 그룹을 생성하거나\n다른 그룹에 가입해야 해요.',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'skrkrlqjxms': {
+      'ko': '그룹 나가기',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'elqlkdl': {
+      'ko': '디바이스 관리',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'emdfhrsh': {
+      'ko': '등록된 디바이스가 없습니다',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'ecnrk': {
+      'ko': '디바이스 추가하기',
       'en': '',
       'ja': '',
     },
-    '': {
-      'ko': '',
+    'dltkdwjrdls': {
+      'ko': '이상 적인 족저압',
       'en': '',
       'ja': '',
     },
@@ -1206,7 +1186,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ja': '',
     },
     '378s7orpp': {
-      'ko': '비밀번호를 입력해주세요',
+      'ko': '비밀번호를\n입력해주세요',
       'en': '',
       'ja': '',
     },

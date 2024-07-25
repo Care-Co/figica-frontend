@@ -1,0 +1,592 @@
+{
+  "@@locale": "en",
+
+  "loginHomeLabel": "Nice to meet you!",
+  "@loginHomeLabel": {
+    "description": "Label on the login home screen"
+  },
+  "loginHomeDescription": "You need to log in to get started",
+  "@loginHomeDescription": {
+    "description": "Description on the login home screen"
+  },
+  "loginHomeSelectLanguageLabel": "Language",
+  "@loginHomeSelectLanguageLabel": {
+    "description": "Label for language selection"
+  },
+  "loginHomeSelectPhoneLabel": "Country Code",
+  "@loginHomeSelectPhoneLabel": {
+    "description": "Label for country code selection"
+  },
+  "loginHomeInputEmailLabel": "Phone number or E-mail",
+  "@loginHomeInputEmailLabel": {
+    "description": "Label for email or phone input"
+  },
+  "loginHomeInputEmailHint": "Please enter your phone number or E-mail",
+  "@loginHomeInputEmailHint": {
+    "description": "Hint for email or phone input"
+  },
+  "loginHomeInputEmailError": "Please enter a valid email including @",
+  "@loginHomeInputEmailError": {
+    "description": "Error message for invalid email"
+  },
+  "loginHomeInputPhoneLabel": "Phone number",
+  "@loginHomeInputPhoneLabel": {
+    "description": "Label for phone input"
+  },
+  "loginHomeInputPhoneHint": "",
+  "@loginHomeInputPhoneHint": {
+    "description": "Hint for phone input"
+  },
+  "loginHomeInputPhoneError": "Please enter numbers only",
+  "@loginHomeInputPhoneError": {
+    "description": "Error message for invalid phone number"
+  },
+  "loginHomeButtonLoginLabel": "Log in",
+  "@loginHomeButtonLoginLabel": {
+    "description": "Label for login button"
+  },
+  "loginHomeButtonSignupLabel": "Sign up",
+  "@loginHomeButtonSignupLabel": {
+    "description": "Label for signup button"
+  },
+  "loginHomeButtonFindPasswordLabel": "Did you change your phone number?",
+  "@loginHomeButtonFindPasswordLabel": {
+    "description": "Label for find password button"
+  },
+  "loginHomeDividerLabel": "OR",
+  "@loginHomeDividerLabel": {
+    "description": "Label for divider"
+  },
+
+  "completeLoginLabel": "Please enter \nyour password",
+  "@completeLoginLabel": {
+    "description": "Label for complete login screen"
+  },
+  "completeLoginInputPasswordLabel": "Password",
+  "@completeLoginInputPasswordLabel": {
+    "description": "Label for password input"
+  },
+  "completeLoginInputPasswordHint": "password",
+  "@completeLoginInputPasswordHint": {
+    "description": "Hint for password input"
+  },
+  "completeLoginButtonReturnLabel": "Log in",
+  "@completeLoginButtonReturnLabel": {
+    "description": "Label for return button"
+  },
+  "completeLoginButtonFindPasswordLabel": "Find password",
+  "@completeLoginButtonFindPasswordLabel": {
+    "description": "Label for find password button"
+  },
+
+  "findPasswordLabel": "Please enter the registered E-mail",
+  "@findPasswordLabel": {
+    "description": "Label for find password screen"
+  },
+  "findPasswordDescription": "We can recover your account via the E-mail address",
+  "@findPasswordDescription": {
+    "description": "Description for find password screen"
+  },
+  "findPasswordInputEmailLabel": "E-mail",
+  "@findPasswordInputEmailLabel": {
+    "description": "Label for email input"
+  },
+  "findPasswordInputEmailHint": "Please enter your E-mail",
+  "@findPasswordInputEmailHint": {
+    "description": "Hint for email input"
+  },
+  "findPasswordInputEmailError": "Please enter a valid email including @",
+  "@findPasswordInputEmailError": {
+    "description": "Error message for invalid email"
+  },
+  "findPasswordButtonConfirmLabel": "Confirm",
+  "@findPasswordButtonConfirmLabel": {
+    "description": "Label for confirm button"
+  },
+
+  "changePasswordLabel": "Please enter a new password",
+  "@changePasswordLabel": {
+    "description": "Label for change password screen"
+  },
+  "changePasswordInputPasswordLabel": "Password",
+  "@changePasswordInputPasswordLabel": {
+    "description": "Label for password input"
+  },
+  "changePasswordInputPasswordHint": "password",
+  "@changePasswordInputPasswordHint": {
+    "description": "Hint for password input"
+  },
+  "changePasswordInputPasswordError": "Please use 8 - 24 characters including uppercase/lowercase letters, numbers, and special characters",
+  "@changePasswordInputPasswordError": {
+    "description": "Error message for invalid password"
+  },
+  "changePasswordCheckPasswordLabel": "Confirm password",
+  "@changePasswordCheckPasswordLabel": {
+    "description": "Label for confirm password input"
+  },
+  "changePasswordCheckPasswordHint": "password",
+  "@changePasswordCheckPasswordHint": {
+    "description": "Hint for confirm password input"
+  },
+  "changePasswordCheckPasswordError": "Passwords do not match",
+  "@changePasswordCheckPasswordError": {
+    "description": "Error message for mismatched passwords"
+  },
+  "changePasswordCheckPasswordSuccess": "Passwords match",
+  "@changePasswordCheckPasswordSuccess": {
+    "description": "Success message for matched passwords"
+  },
+  "changePasswordButtonReturnLabel": "Change password",
+  "@changePasswordButtonReturnLabel": {
+    "description": "Label for change password button"
+  },
+  "changePasswordButtonConfirmLabel": "Confirm",
+  "@changePasswordButtonConfirmLabel": {
+    "description": "Label for confirm button"
+  },
+
+  "changePhoneLabel": "Please re-enter the changed phone number",
+  "@changePhoneLabel": {
+    "description": "Label for change phone screen"
+  },
+  "changePhoneInputPhoneLabel": "Phone number",
+  "@changePhoneInputPhoneLabel": {
+    "description": "Label for phone number input"
+  },
+  "changePhoneInputPhoneHint": "",
+  "@changePhoneInputPhoneHint": {
+    "description": "Hint for phone number input"
+  },
+  "changePhoneInputPhoneError": "Please enter numbers only",
+  "@changePhoneInputPhoneError": {
+    "description": "Error message for invalid phone number"
+  },
+  "changePhoneButtonReturnLabel": "Change phone number",
+  "@changePhoneButtonReturnLabel": {
+    "description": "Label for change phone number button"
+  },
+  "changePhoneButtonNextLabel": "Next",
+  "@changePhoneButtonNextLabel": {
+    "description": "Label for next button"
+  },
+  "changePhoneCertifyDescription": "If you do not receive the verification number, please check if the information you entered is correct. \nThe verification number is valid for 5 minutes from the time you receive it. \nYou can resend the verification number up to 5 times a day.",
+  "@changePhoneCertifyDescription": {
+    "description": "Description for phone number certification"
+  },
+  "changePhoneCertifyInputNumberLabel": "Verification number",
+  "@changePhoneCertifyInputNumberLabel": {
+    "description": "Label for verification number input"
+  },
+  "changePhoneCertifyInputNumberHint": "Verification Number",
+  "@changePhoneCertifyInputNumberHint": {
+    "description": "Hint for verification number input"
+  },
+  "changePhoneCertifyButtonReturnLabel": "Enter verification number",
+  "@changePhoneCertifyButtonReturnLabel": {
+    "description": "Label for enter verification number button"
+  },
+  "changePhoneCertifyButtonConfirmLabel": "Verify",
+  "@changePhoneCertifyButtonConfirmLabel": {
+    "description": "Label for verify button"
+  },
+  "changePhoneCertifyButtonRetryLabel": "Resend verification number",
+  "@changePhoneCertifyButtonRetryLabel": {
+    "description": "Label for resend verification number button"
+  },
+
+  "signupHomeLabel": "Welcome!",
+  "@signupHomeLabel": {
+    "description": "Label for signup home screen"
+  },
+  "signupHomeDescription": "Start using Care&Co services \nafter a simple agreement",
+  "@signupHomeDescription": {
+    "description": "Description for signup home screen"
+  },
+  "signupHomeCheckboxAcceptAllLabel": "Agree to all terms",
+  "@signupHomeCheckboxAcceptAllLabel": {
+    "description": "Label for accept all terms checkbox"
+  },
+  "signupHomeCheckboxTermsLabel": "Agree to terms of use",
+  "@signupHomeCheckboxTermsLabel": {
+    "description": "Label for terms of use checkbox"
+  },
+  "signupHomeCheckboxPrivacyLabel": "Agree to collection and use of personal information",
+  "@signupHomeCheckboxPrivacyLabel": {
+    "description": "Label for privacy checkbox"
+  },
+  "signupHomeButtonReturnLabel": "Agree to terms",
+  "@signupHomeButtonReturnLabel": {
+    "description": "Label for agree to terms button"
+  },
+  "signupHomeButtonNextLabel": "Next",
+  "@signupHomeButtonNextLabel": {
+  "description": "Label for next button"
+  },
+
+  "signupIdLabel": "Please enter the phone number or E-mail \nto use as your Fisica ID",
+  "@signupIdLabel": {
+  "description": "Label for signup ID screen"
+  },
+  "signupIdInputEmailLabel": "E-mail",
+  "@signupIdInputEmailLabel": {
+  "description": "Label for email input"
+  },
+  "signupIdInputEmailHint": "Please enter your E-mail",
+  "@signupIdInputEmailHint": {
+  "description": "Hint for email input"
+  },
+  "signupIdInputEmailError": "Please enter a valid email including @",
+  "@signupIdInputEmailError": {
+  "description": "Error message for invalid email"
+  },
+  "signupIdInputPhoneLabel": "Phone number",
+  "@signupIdInputPhoneLabel": {
+  "description": "Label for phone number input"
+  },
+  "signupIdInputPhoneHint": "",
+  "@signupIdInputPhoneHint": {
+  "description": "Hint for phone number input"
+  },
+  "signupIdInputPhoneError": "Please enter numbers only",
+  "@signupIdInputPhoneError": {
+  "description": "Error message for invalid phone number"
+  },
+  "signupIdSelectPhoneLabel": "Country Code",
+  "@signupIdSelectPhoneLabel": {
+  "description": "Label for country code selection"
+  },
+  "signupIdButtonReturnLabel": "Create account",
+  "@signupIdButtonReturnLabel": {
+  "description": "Label for create account button"
+  },
+  "signupIdButtonNextLabel": "Next",
+  "@signupIdButtonNextLabel": {
+  "description": "Label for next button"
+  },
+
+  "signupPasswordLabel": "Please enter the password to use when logging in",
+  "@signupPasswordLabel": {
+  "description": "Label for signup password screen"
+  },
+  "signupPasswordInputPasswordLabel": "Password",
+  "@signupPasswordInputPasswordLabel": {
+  "description": "Label for password input"
+  },
+  "signupPasswordInputPasswordHint": "password",
+  "@signupPasswordInputPasswordHint": {
+  "description": "Hint for password input"
+  },
+  "signupPasswordInputPasswordError": "Please use 8 - 24 characters including uppercase/lowercase letters, numbers, and special characters",
+  "@signupPasswordInputPasswordError": {
+  "description": "Error message for invalid password"
+  },
+  "signupPasswordCheckPasswordLabel": "Confirm password",
+  "@signupPasswordCheckPasswordLabel": {
+  "description": "Label for confirm password input"
+  },
+  "signupPasswordCheckPasswordHint": "password",
+  "@signupPasswordCheckPasswordHint": {
+  "description": "Hint for confirm password input"
+  },
+  "signupPasswordCheckPasswordError": "Passwords do not match",
+  "@signupPasswordCheckPasswordError": {
+  "description": "Error message for mismatched passwords"
+  },
+  "signupPasswordCheckPasswordSuccess": "Passwords match",
+  "@signupPasswordCheckPasswordSuccess": {
+  "description": "Success message for matched passwords"
+  },
+  "signupPasswordButtonReturnLabel": "Enter password",
+  "@signupPasswordButtonReturnLabel": {
+  "description": "Label for enter password button"
+  },
+  "signupPasswordButtonNextLabel": "Next",
+  "@signupPasswordButtonNextLabel": {
+  "description": "Label for next button"
+  },
+
+  "signupUserInfoLabel": "Please enter user information",
+  "@signupUserInfoLabel": {
+  "description": "Label for user information screen"
+  },
+  "signupUserInfoInputLastNameLabel": "Last name",
+  "@signupUserInfoInputLastNameLabel": {
+  "description": "Label for last name input"
+  },
+  "signupUserInfoInputLastNameHint": "000",
+  "@signupUserInfoInputLastNameHint": {
+  "description": "Hint for last name input"
+  },
+  "signupUserInfoInputFirstNameLabel": "First name",
+  "@signupUserInfoInputFirstNameLabel": {
+  "description": "Label for first name input"
+  },
+  "signupUserInfoInputFirstNameHint": "000",
+  "@signupUserInfoInputFirstNameHint": {
+  "description": "Hint for first name input"
+  },
+  "signupUserInfoInputBirthLabel": "Date of birth",
+  "@signupUserInfoInputBirthLabel": {
+  "description": "Label for birth date input"
+  },
+  "signupUserInfoInputBirthHint": "00/00/00",
+  "@signupUserInfoInputBirthHint": {
+  "description": "Hint for birth date input"
+  },
+  "signupUserInfoInputHeightLabel": "Height",
+  "@signupUserInfoInputHeightLabel": {
+  "description": "Label for height input"
+  },
+  "signupUserInfoInputHeightHint": "000",
+  "@signupUserInfoInputHeightHint": {
+  "description": "Hint for height input"
+  },
+  "signupUserInfoInputWeightLabel": "Weight",
+  "@signupUserInfoInputWeightLabel": {
+  "description": "Label for weight input"
+  },
+  "signupUserInfoInputWeightHint": "000",
+  "@signupUserInfoInputWeightHint": {
+  "description": "Hint for weight input"
+  },
+  "signupUserInfoButtonReturnLabel": "Enter user information",
+  "@signupUserInfoButtonReturnLabel": {
+  "description": "Label for enter user information button"
+  },
+  "signupUserInfoButtonCompleteLabel": "Complete",
+  "@signupUserInfoButtonCompleteLabel": {
+  "description": "Label for complete button"
+  },
+  "signupUserInfoSelectCountryLabel": "Country",
+  "@signupUserInfoSelectCountryLabel": {
+  "description": "Label for country selection"
+  },
+  "signupUserInfoButtonGenderLabel": "Gender",
+  "@signupUserInfoButtonGenderLabel": {
+  "description": "Label for gender selection"
+  },
+  "signupUserInfoButtonGenderMaleLabel": "Male",
+  "@signupUserInfoButtonGenderMaleLabel": {
+  "description": "Label for male gender selection"
+  },
+  "signupUserInfoButtonGenderFemaleLabel": "Female",
+  "@signupUserInfoButtonGenderFemaleLabel": {
+  "description": "Label for female gender selection"
+  },
+
+  "popupErrorLoginLabel": "Cannot log in",
+  "@popupErrorLoginLabel": {
+  "description": "Label for login error"
+  },
+  "popupErrorLoginPhoneDescription": "Cannot verify phone number",
+  "@popupErrorLoginPhoneDescription": {
+  "description": "Description for phone verification error"
+  },
+  "popupErrorLoginEmailDescription": "Cannot verify E-mail",
+  "@popupErrorLoginEmailDescription": {
+  "description": "Description for email verification error"
+  },
+  "popupErrorLoginPasswordDescription": "Passwords do not match",
+  "@popupErrorLoginPasswordDescription": {
+  "description": "Description for password mismatch error"
+  },
+  "popupErrorLoginSuggestionLabel": "If you are not a member yet",
+  "@popupErrorLoginSuggestionLabel": {
+  "description": "Suggestion for non-members"
+  },
+  "popupErrorLoginButtonSignupLabel": "Sign up",
+  "@popupErrorLoginButtonSignupLabel": {
+  "description": "Label for signup button"
+  },
+  "popupErrorLoginButtonConfirmLabel": "Confirm",
+  "@popupErrorLoginButtonConfirmLabel": {
+  "description": "Label for confirm button"
+  },
+
+  "popupErrorSignupPhoneDuplicatedLabel": "Phone number already in use.",
+  "@popupErrorSignupPhoneDuplicatedLabel": {
+  "description": "Label for phone duplication error"
+  },
+  "popupErrorSignupPhoneDuplicatedDescription": "Please log in with an existing account or \nproceed with sign up using a different phone number or E-mail.",
+  "@popupErrorSignupPhoneDuplicatedDescription": {
+  "description": "Description for phone duplication error"
+  },
+  "popupErrorSignupPhoneDuplicatedButtonReturnLabel": "Return to log in",
+  "@popupErrorSignupPhoneDuplicatedButtonReturnLabel": {
+  "description": "Label for return to login button"
+  },
+  "popupErrorSignupPhoneDuplicatedButtonConfirmLabel": "Confirm",
+  "@popupErrorSignupPhoneDuplicatedButtonConfirmLabel": {
+  "description": "Label for confirm button"
+  },
+
+  "popupErrorSignupEmailDuplicatedLabel": "E-mail already in use.",
+  "@popupErrorSignupEmailDuplicatedLabel": {
+  "description": "Label for email duplication error"
+  },
+  "popupErrorSignupEmailDuplicatedDescription": "Please log in with an existing account or \nproceed with sign up using a different phone number or E-mail.",
+  "@popupErrorSignupEmailDuplicatedDescription": {
+  "description": "Description for email duplication error"
+  },
+  "popupErrorSignupEmailDuplicatedButtonReturnLabel": "Return to log in",
+  "@popupErrorSignupEmailDuplicatedButtonReturnLabel": {
+  "description": "Label for return to login button"
+  },
+  "popupErrorSignupEmailDuplicatedButtonConfirmLabel": "Confirm",
+  "@popupErrorSignupEmailDuplicatedButtonConfirmLabel": {
+  "description": "Label for confirm button"
+  },
+
+  "popupErrorCertifyInvalidLabel": "Verification number error",
+  "@popupErrorCertifyInvalidLabel": {
+  "description": "Label for verification number error"
+  },
+  "popupErrorCertifyInvalidDescription": "Please enter the 6-digit verification number sent",
+  "@popupErrorCertifyInvalidDescription": {
+  "description": "Description for invalid verification number"
+  },
+  "popupErrorCertifyInvalidSuggestion":"To re-enter the phone number",
+  "@popupErrorCertifyInvalidSuggestion": {
+  "description": "Suggestion for invalid verification number"
+  },
+  "popupErrorCertifyInvalidButtonReturnLabel": "Return to start",
+  "@popupErrorCertifyInvalidButtonReturnLabel": {
+  "description": "Label for return to start button"
+  },
+  "popupErrorCertifyInvalidButtonResendLabel": "Resend",
+  "@popupErrorCertifyInvalidButtonResendLabel": {
+  "description": "Label for resend button"
+  },
+
+  "popupErrorCertifyOverTryLabel": "Verification number attempt exceeded",
+  "@popupErrorCertifyOverTryLabel": {
+  "description": "Label for exceeded verification attempts"
+  },
+  "popupErrorCertifyOverTryDescription": "You have exceeded the SMS verification request limit \nfor this phone number. \nPlease try again after 24 hours.",
+  "@popupErrorCertifyOverTryDescription": {
+  "description": "Description for exceeded verification attempts"
+  },
+  "popupErrorCertifyOverTryButtonConfirmLabel": "Confirm",
+  "@popupErrorCertifyOverTryButtonConfirmLabel": {
+  "description": "Label for confirm button"
+  },
+
+  "popupErrorNetworkLabel": "Network error",
+  "@popupErrorNetworkLabel": {
+  "description": "Label for network error"
+  },
+  "popupErrorNetworkResponseDescription": "Failed to receive server response. \nPlease check your network status. \nIf the problem persists, please wait a moment and \ntry again!",
+  "@popupErrorNetworkResponseDescription": {
+  "description": "Description for network error"
+  },
+  "popupErrorNetworkButtonConfirmLabel": "Confirm",
+  "@popupErrorNetworkButtonConfirmLabel": {
+  "description": "Label for confirm button"
+  },
+
+  "popupErrorAppLabel": "Application error",
+  "@popupErrorAppLabel": {
+  "description": "Label for application error"
+  },
+  "popupErrorAppSignupDescription": "Fisica has been forcibly closed. \nWould you like to continue with the sign up?",
+  "@popupErrorAppSignupDescription": {
+  "description": "Description for application signup error"
+  },
+  "popupErrorAppSignupSuggestionLabel": "To continue with the sign up",
+  "@popupErrorAppSignupSuggestionLabel": {
+  "description": "Suggestion for continuing signup"
+  },
+  "popupErrorAppSignupButtonContinueLabel": "Continue",
+  "@popupErrorAppSignupButtonContinueLabel": {
+  "description": "Label for continue button"
+  },
+  "popupErrorAppSignupButtonReturnLabel": "Return to start",
+  "@popupErrorAppSignupButtonReturnLabel": {
+  "description": "Label for return to start button"
+  },
+
+  "popupCompleteCertifyEmailLabel": "Verification link sent \nto account E-mail",
+  "@popupCompleteCertifyEmailLabel": {
+  "description": "Label for email certification"
+  },
+  "popupCompleteCertifyEmailDescription": "A verification link has been sent to the account’s \nE-mail to change the phone number. \nPlease verify yourself and change the phone number!",
+  "@popupCompleteCertifyEmailDescription": {
+  "description": "Description for email certification"
+  },
+  "popupCompleteCertifyEmailButtonResendLabel": "Resend",
+  "@popupCompleteCertifyEmailButtonResendLabel": {
+  "description": "Label for resend button"
+  },
+  "popupCompleteCertifyEmailButtonReturnLabel": "Return to start",
+  "@popupCompleteCertifyEmailButtonReturnLabel": {
+  "description": "Label for return to start button"
+  },
+
+  "popupResendCertifyLabel": "Resend verification number",
+  "@popupResendCertifyLabel": {
+  "description": "Label for resend verification number"
+  },
+  "popupResendCertifyDescription": "Please check the phone number you entered again",
+  "@popupResendCertifyDescription": {
+  "description": "Description for resend verification number"
+  },
+  "popupResendCertifyInfoLabel": "The phone number you entered is as follows.",
+  "@popupResendCertifyInfoLabel": {
+  "description": "Label for phone number info"
+  },
+  "popupResendCertifyInfoDescription": "010 - 1234 - 5678",
+  "@popupResendCertifyInfoDescription": {
+  "description": "Description for phone number info"
+  },
+  "popupResendCertifyButtonResendLabel": "Resend",
+  "@popupResendCertifyButtonResendLabel": {
+  "description": "Label for resend button"
+  },
+  "popupResendCertifyButtonModifyLabel": "Modify phone number",
+  "@popupResendCertifyButtonModifyLabel": {
+  "description": "Label for modify phone number button"
+  },
+
+  "popupInfoTermsServiceLabel": "Terms of Service",
+  "@popupInfoTermsServiceLabel": {
+  "description": "Label for terms of service"
+  },
+  "popupInfoTermsServiceButtonAgreeLabel": "Agree",
+  "@popupInfoTermsServiceButtonAgreeLabel": {
+  "description": "Label for agree button"
+  },
+
+  "popupDecideChangePasswordLabel": "Cancel password change",
+  "@popupDecideChangePasswordLabel": {
+  "description": "Label for cancel password change"
+  },
+  "popupDecideChangePasswordDescription": "Cancel the password change and \nreturn to the login screen",
+  "@popupDecideChangePasswordDescription": {
+  "description": "Description for cancel password change"
+  },
+  "popupDecideChangePasswordButtonContinueLabel": "Continue changing",
+  "@popupDecideChangePasswordButtonContinueLabel": {
+  "description": "Label for continue changing button"
+  },
+  "popupDecideChangePasswordButtonReturnLabel": "Return to start",
+  "@popupDecideChangePasswordButtonReturnLabel": {
+  "description": "Label for return to start button"
+  },
+
+  "popupDecideSignupLabel": "Cancel sign up?",
+  "@popupDecideSignupLabel": {
+  "description": "Label for cancel signup"
+  },
+  "popupDecideSignupDescription": "If you cancel, all data will be deleted and \nyou will need to sign up again to use Fisica.",
+  "@popupDecideSignupDescription": {
+  "description": "Description for cancel signup"
+  },
+  "popupDecideSignupButtonContinueLabel": "Continue",
+  "@popupDecideSignupButtonContinueLabel": {
+  "description": "Label for continue button"
+  },
+  "popupDecideSignupButtonReturnLabel": "Cancel sign up",
+  "@popupDecideSignupButtonReturnLabel": {
+  "description": "Label for cancel signup button"
+  }
+}

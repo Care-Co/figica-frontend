@@ -1,8 +1,9 @@
+import 'package:fisica/auth/auth_service.dart';
 import 'package:fisica/components/check_cancel_invite.dart';
 import 'package:fisica/components/check_delete_group.dart';
 import 'package:fisica/components/check_exit_group.dart';
 import 'package:fisica/views/home/mypage/mypage_components/ok_pop.dart';
-import 'package:fisica/views/home/scan/Foot_Controller.dart';
+import 'package:fisica/service/Foot_Controller.dart';
 
 import 'package:flutter/material.dart';
 
@@ -47,24 +48,28 @@ class _ExitserviceState extends State<Exitservice> {
     // 상태에 따라 내용 업데이트
     setState(() {
       if (widget.state == 'logout') {
-        mainText = gs('rpwjddktn');
-        subText = gs('dkffkashsh');
-        buttonText1 = gs('fhrmdktn');
-        buttonText2 = gs('cnlth');
+        mainText = gs('popupDecideLogoutLabel');
+        subText = gs('popupDecideLogoutDescription');
+        buttonText1 = gs('popupDecideLogoutButtonConfirmLabel');
+        buttonText2 = gs('popupDecideLogoutButtonCancelLabel');
         action = logout;
       } else if (widget.state == 'singout') {
-        mainText = gs('xkfxhl');
-        subText = gs('dldydahtgo');
-        buttonText1 = gs('xkfehldks');
-        buttonText2 = gs('cnlth');
+        mainText = gs('popupDecideWithdrawalLabel');
+        subText = gs('popupDecideWithdrawalDescription');
+        buttonText1 = gs('popupDecideWithdrawalButtonConfirmLabel');
+        buttonText2 = gs('popupDecideWithdrawalButtonCancelLabel');
         action = singout;
+      } else if (widget.state == 'deldevice') {
+        mainText = gs('popupInfoDeviceDeleteLabel');
+        subText = gs('popupInfoDeviceDeleteDescription');
+        buttonText1 = gs('popupInfoDeviceDeleteButtonConfirmLabel');
+        buttonText2 = gs('popupInfoDeviceDeleteButtonCancelLabel');
+        action = deldevice;
       }
     });
   }
 
   Future<void> logout() async {
-    print('logout');
-    await AppStateNotifier.instance.logout();
     showAlignedDialog(
       context: context,
       isGlobal: true,
@@ -84,11 +89,12 @@ class _ExitserviceState extends State<Exitservice> {
         );
       },
     );
+    print('logout');
+    await AuthService.logout();
+    await AppStateNotifier.instance.logout();
   }
 
   Future<void> singout() async {
-    await UserController.deleteUser();
-
     showAlignedDialog(
       context: context,
       isGlobal: true,
@@ -108,6 +114,29 @@ class _ExitserviceState extends State<Exitservice> {
         );
       },
     );
+    await UserController.deleteUser();
+  }
+
+  Future<void> disconnectAllBluetoothDevices() async {
+    // 현재 연결된 모든 블루투스 기기 목록을 가져옵니다.
+    List<BluetoothDevice> connectedDevices = await FlutterBluePlus.connectedDevices;
+    print(connectedDevices);
+
+    // 각 기기와의 연결을 끊습니다.
+    for (BluetoothDevice device in connectedDevices) {
+      try {
+        await device.disconnect();
+        print('Disconnected from ${device.platformName}');
+      } catch (e) {
+        print('Error disconnecting from ${device.platformName}: $e');
+      }
+    }
+  }
+
+  Future<void> deldevice() async {
+    AppStateNotifier.instance.removedevice();
+    await disconnectAllBluetoothDevices;
+    context.pop();
   }
 
   @override

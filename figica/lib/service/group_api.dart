@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:fisica/main.dart';
+import 'package:fisica/models/Code.dart';
 
 import 'package:fisica/models/GroupData.dart';
 import 'package:fisica/models/GroupHistory.dart';
@@ -50,11 +51,11 @@ class GroupCheckList {
 class GroupApi {
   static String linkurl = mainurl;
 
+  //그룹 찾기
   static Future<void> findGroup() async {
     String? token = AppStateNotifier.instance.apiToken;
-
     String? uid = AppStateNotifier.instance.userdata?.uid;
-    final url = Uri.parse('$linkurl/api/v1/users/$uid/groups');
+    final url = Uri.parse('$linkurl/users/$uid/groups');
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
@@ -65,24 +66,30 @@ class GroupApi {
     if (response.statusCode == 200) {
       final responseBody = utf8.decode(response.bodyBytes);
       final jsonBody = json.decode(responseBody);
+      print(jsonBody);
       loggerNoStack.i(jsonBody);
 
       if (jsonBody['data'] != null && jsonBody['data'].isNotEmpty) {
         List<GroupData> data = (jsonBody['data'] as List).map((m) => GroupData.fromJson(m)).toList();
         AppStateNotifier.instance.UpGroupData(data);
+        await GroupApi.getGroupInvitationByUser();
+        await GroupApi.GroupHistoryData();
       } else {
         loggerNoStack.w('No group');
+        AppStateNotifier.instance.resetgroup();
       }
     } else {
       loggerNoStack.e(response.body);
+      AppStateNotifier.instance.resetgroup();
     }
   }
 
+  // 그룹 대기 확인
   static Future<void> getGroupInvitationByUser() async {
     String? token = AppStateNotifier.instance.apiToken;
     String? uid = AppStateNotifier.instance.userdata?.uid;
 
-    final url = Uri.parse('$linkurl/api/v1/users/$uid/invitations');
+    final url = Uri.parse('$linkurl/users/$uid/invitations');
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
@@ -92,45 +99,15 @@ class GroupApi {
       url,
       headers: headers,
     );
-    loggerNoStack.t({'Name': 'findGrgetGroupInvitationByUseroup', 'url': url});
+    loggerNoStack.t({'Name': 'getGroupInvitationByUser', 'url': url});
 
     if (response.statusCode == 200) {
       final responseBody = utf8.decode(response.bodyBytes);
       final jsonBody = json.decode(responseBody);
-      //loggerNoStack.i(jsonBody);
+      loggerNoStack.i(jsonBody);
       if (jsonBody['data'] != null && jsonBody['data'].isNotEmpty) {
         List<Invitation> data = (jsonBody['data'] as List).map((m) => Invitation.fromJson(m)).toList();
-        AppStateNotifier.instance.UpGroupInvited(data);
-      } else {
-        loggerNoStack.w('No invited');
-      }
-    } else {
-      loggerNoStack.e(response.body);
-    }
-  }
 
-  static Future<void> getGroupInvitationByLeader() async {
-    String? token = AppStateNotifier.instance.apiToken;
-    String? uid = AppStateNotifier.instance.userdata?.uid;
-
-    final url = Uri.parse('$linkurl/api/v1/users/$uid/invitations');
-    final headers = {
-      'accept': '*/*',
-      'Authorization': 'Bearer $token',
-    };
-
-    final response = await http.get(
-      url,
-      headers: headers,
-    );
-    loggerNoStack.t({'Name': 'findGrgetGroupInvitationByUseroup', 'url': url});
-
-    if (response.statusCode == 200) {
-      final responseBody = utf8.decode(response.bodyBytes);
-      final jsonBody = json.decode(responseBody);
-      //loggerNoStack.i(jsonBody);
-      if (jsonBody['data'] != null && jsonBody['data'].isNotEmpty) {
-        List<Invitation> data = (jsonBody['data'] as List).map((m) => Invitation.fromJson(m)).toList();
         AppStateNotifier.instance.UpGroupInvited(data);
       } else {
         loggerNoStack.w('No invited');
@@ -145,7 +122,7 @@ class GroupApi {
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
 
-    final url = Uri.parse('$linkurl/api/v1/users/$uid/history/$groupId');
+    final url = Uri.parse('$linkurl/users/$uid/history/$groupId');
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
@@ -172,7 +149,7 @@ class GroupApi {
     String? token = AppStateNotifier.instance.apiToken;
     String? uid = AppStateNotifier.instance.userdata?.uid;
 
-    final url = Uri.parse("$linkurl/api/v1/users/$uid/groups");
+    final url = Uri.parse("$linkurl/users/$uid/groups");
     final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
     final body = jsonEncode({"groupName": groupName});
     final response = await http.post(url, headers: headers, body: body);
@@ -192,19 +169,67 @@ class GroupApi {
   }
 
   static Future<void> deleteGroup() async {
-    print('RemoveGroup');
+    print('deleteGroup');
     String? token = AppStateNotifier.instance.apiToken;
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
-    print(groupId);
 
-    final url = Uri.parse('$linkurl/api/v1/users/$uid/groups/$groupId');
+    final url = Uri.parse('$linkurl/users/$uid/groups/$groupId');
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     };
-    loggerNoStack.t({'Name': 'GroupHistoryData', 'url': url});
+    loggerNoStack.t({'Name': 'deleteGroup', 'url': url});
+
+    final response = await http.delete(url, headers: headers);
+    if (response.statusCode == 200) {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.i(jsonBody);
+      AppStateNotifier.instance.resetgroup();
+    } else {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.e(jsonBody);
+    }
+  }
+
+  static Future<void> leaveGroup() async {
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    String? groupId = AppStateNotifier.instance.groupData!.first.groupId;
+    final url = Uri.parse('$linkurl/users/$uid/members/$groupId');
+    final headers = {
+      'accept': '*/*',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+    loggerNoStack.t({'Name': 'leaveGroup', 'url': url});
+
+    final response = await http.delete(url, headers: headers);
+    if (response.statusCode == 200) {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.i(jsonBody);
+      AppStateNotifier.instance.resetgroup();
+    } else {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.e(jsonBody);
+    }
+  }
+
+  static Future<void> KickGroup(String memberId) async {
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    final url = Uri.parse('$linkurl/members/$memberId');
+    final headers = {
+      'accept': '*/*',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+    loggerNoStack.t({'Name': 'KickGroup', 'url': url});
 
     final response = await http.delete(url, headers: headers);
     if (response.statusCode == 200) {
@@ -218,116 +243,165 @@ class GroupApi {
     }
   }
 
-  // static Future<void> removeMemberByGroupmember() async {
-  //   print('RemoveGroup');
-  //   String? token = await UserController.getsavedToken();
-  //   String? uid = await DataController.getuseruid();
-  //   String? groupId = await GroupStorageManager.loadGroupId();
-  //   print(token);
-  //   try {
-  //     final url = Uri.parse('$linkurl/api/v1/users/$uid/groups/$groupId');
-  //     final headers = {
-  //       'accept': '*/*',
-  //       'Authorization': 'Bearer $token',
-  //       'Content-Type': 'application/json',
-  //     };
-  //     final response = await http.delete(url, headers: headers);
-  //     if (response.statusCode == 201) {
-  //       final responseData = jsonDecode(response.body);
-  //       print('RemoveGroup response${responseData}');
-  //     } else {
-  //       print('Error: ${response.statusCode}');
-  //       print('Error message: ${response.body}');
-  //     }
-  //   } catch (e) {
-  //     print('Error occurred: $e');
-  //   }
-  // }
-
-  static Future<void> updateGroupInvitationByGroupLeader(String type, String userUid) async {
+  //참여신청 관리
+  static Future<List<Invitation>> getInvitationByGroupId() async {
     String? token = AppStateNotifier.instance.apiToken;
-    final apiUrl = Uri.parse('$linkurl/api/groups/updateGroupInvitationByGroupLeader');
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
+
+    final url = Uri.parse("$linkurl/users/$uid/groups/$groupId/invitations");
     final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
-    final body = jsonEncode({"status": type, "userUid": userUid});
+    final response = await http.get(url, headers: headers);
+    loggerNoStack.t({'Name': 'getInvitationByGroupId', 'url': url});
+    print(response.statusCode);
 
-    final response = await http.post(apiUrl, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.i(jsonBody['data']);
 
-    print(body);
+      List<Invitation> invitations = (jsonBody['data'] as List).map((data) => Invitation.fromJson(data)).toList();
+      return invitations;
+    } else {
+      loggerNoStack.e(response.body);
+      throw Exception('Fail');
+    }
+  }
+
+  //취소,거절,승인
+  static Future<void> updateInvitation(String type, String invitationId) async {
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    final url = Uri.parse('$linkurl/users/$uid/invitation/$invitationId?status=$type');
+    final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
+    final response = await http.put(url, headers: headers);
+    loggerNoStack.t({'Name': 'updateInvitation', 'url': url});
+
+    if (response.statusCode == 200) {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.i(jsonBody['data']);
+      await GroupApi.findGroup();
+    } else {
+      final responseBody = utf8.decode(response.bodyBytes);
+      final jsonBody = json.decode(responseBody);
+      loggerNoStack.e(jsonBody['data']);
+      throw Exception('Fail');
+    }
+  }
+
+  static Future<void> updateInvitationCode(String type, String code) async {
+    String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    final url = Uri.parse('$linkurl/users/$uid/invitation-codes/$code?status=$type');
+    final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
+    final response = await http.put(url, headers: headers);
+    loggerNoStack.t({'Name': 'updateInvitationCode', 'url': url});
 
     if (response.statusCode == 200) {
       print('Request successful');
       print('Response body: ${response.body}');
     } else {
       print('Request failed with status: ${response.statusCode}');
-      print('Response body: ${response.body}');
     }
   }
 
-  static Future<String> createInvitationCode() async {
+//초대 코드 생성
+  static Future<void> createInvitationCode() async {
     String? token = AppStateNotifier.instance.apiToken;
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
     try {
-      final url = Uri.parse("$linkurl/api/v1/users/$uid/groups/$groupId/invitation-codes");
+      final url = Uri.parse("$linkurl/users/$uid/groups/$groupId/invitation-codes");
       final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
       final response = await http.post(url, headers: headers);
       loggerNoStack.t({'Name': 'createInvitationCode', 'url': url});
 
       if (response.statusCode == 201) {
-        final responseData = jsonDecode(response.body);
-        final groupInvitationCode = responseData['data']['code'];
         loggerNoStack.i(response.body);
-        return groupInvitationCode;
+        String decodedBody = utf8.decode(response.bodyBytes);
+        var jsonResponse = jsonDecode(decodedBody);
+        AppStateNotifier.instance.UpGroupTicket(GroupTicket.fromJson(jsonResponse['data']));
       } else {
         loggerNoStack.i(response.body);
-        return 'none';
       }
     } catch (e) {
       print(e);
-      return 'none';
     }
   }
 
-//초대했는지 여부 확인
-  static Future<String> fetchGroupByInvitationCode(String invitationCode) async {
+  static Future<void> getAllInvitationCodes() async {
     String? token = AppStateNotifier.instance.apiToken;
     String? uid = AppStateNotifier.instance.userdata?.uid;
-    final url = Uri.parse("$linkurl/api/v1/users/$uid/invitations/$invitationCode");
+    String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
+
+    try {
+      final url = Uri.parse("$linkurl/users/$uid/groups/$groupId/invitation-codes");
+      final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
+      final response = await http.get(url, headers: headers);
+      loggerNoStack.t({'Name': 'getAllInvitationCodes', 'url': url});
+
+      if (response.statusCode == 200) {
+        loggerNoStack.i(response.body);
+        String decodedBody = utf8.decode(response.bodyBytes);
+        var jsonResponse = jsonDecode(decodedBody);
+        var dataList = jsonResponse['data'];
+        for (var item in dataList) {
+          if (item['status'] == 'ACTIVE') {
+            AppStateNotifier.instance.UpGroupTicket(GroupTicket.fromJson(item));
+          }
+        }
+      } else {
+        loggerNoStack.e(response.body);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  //초대 코드로 그룹 찾기
+
+  static Future<Map<String, dynamic>> getGroupByInvitationCode(String invitationCode) async {
+    String? token = AppStateNotifier.instance.apiToken;
+    final url = Uri.parse("$linkurl/invitation-codes/$invitationCode/group");
     final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
-    final response = await http.post(url, headers: headers);
+    final response = await http.get(url, headers: headers);
 
-    loggerNoStack.t({'Name': 'fetchGroupByInvitationCode', 'url': url});
+    loggerNoStack.t({'Name': 'getGroupByInvitationCode', 'url': url});
 
-    if (response.statusCode == 201) {
-      var groupData = utf8.decode(response.bodyBytes);
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      final groupData = responseData['data'];
       loggerNoStack.i(response.body);
       return groupData;
     } else {
-      loggerNoStack.i(response.body);
+      loggerNoStack.e(response.body);
       throw Exception('Failed to fetch group by invitation code');
     }
   }
 
 //초대 생성
-  static Future<bool> createGroupInvitation(String code) async {
+  static Future<bool> createInvitation(String code) async {
     String? token = AppStateNotifier.instance.apiToken;
     String? uid = AppStateNotifier.instance.userdata?.uid;
 
-    final url = Uri.parse('$linkurl//api/v1/users/$uid/invitation/$code');
+    final url = Uri.parse('$linkurl/users/$uid/invitations/$code');
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     };
 
-    final response = await http.put(
+    final response = await http.post(
       url,
       headers: headers,
     );
-    loggerNoStack.t({'Name': 'createGroupInvitation', 'url': url});
+    loggerNoStack.t({'Name': 'createInvitation', 'url': url});
 
     if (response.statusCode == 201) {
       loggerNoStack.i(response.body);
+      await GroupApi.getGroupInvitationByUser();
+
       return true;
     } else {
       print('초대 요청이 실패하였습니다. 상태 코드: ${response.statusCode}');
@@ -336,7 +410,7 @@ class GroupApi {
     }
   }
 
-//초대 내역 확인
+//초대 내역 확인?
   static Future<String> getGroupInvitations() async {
     String? token = AppStateNotifier.instance.apiToken;
     final url = Uri.parse('$linkurl/api/groups/getGroupInvitationsByGroupLeader');
@@ -358,7 +432,7 @@ class GroupApi {
     }
   }
 
-//초대 수락
+//초대 수락?
   Future<void> updateGroupInvitation(String token, String status, String userUid) async {
     final url = Uri.parse('$linkurl/api/groups/updateGroupInvitationByGroupLeader');
     final headers = {
@@ -400,7 +474,7 @@ class GroupApi {
     String? token = AppStateNotifier.instance.apiToken;
     String? uid = AppStateNotifier.instance.userdata?.uid;
 
-    final url = Uri.parse('$linkurl/api/v1/users/${uid}/invitation/${invitationId}');
+    final url = Uri.parse('$linkurl/users/${uid}/invitation/${invitationId}');
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
@@ -425,78 +499,50 @@ class GroupApi {
     }
   }
 
-  static Future<void> removeMemberByGroupleader(String memberUid) async {
+  static Future<bool> updateGroupLeader(String memberUid) async {
     String? token = AppStateNotifier.instance.apiToken;
-    print(memberUid);
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
 
-    String apiUrl = '$linkurl/api/groups/removeMemberByGroupleader?memberUid=$memberUid';
-
-    try {
-      final response = await http.delete(
-        Uri.parse(apiUrl),
-        headers: {
-          'accept': '*/*',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        print('Request successful');
-      } else {
-        print('Request failed with status: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error: $error');
-    }
-  }
-
-  static Future<void> updateGroupLeader(String memberUid) async {
-    String? token = AppStateNotifier.instance.apiToken;
-    print(memberUid);
-
-    final url = Uri.parse('$linkurl/api/groups/updateGroup');
+    final url = Uri.parse('$linkurl/users/$uid/groups/$groupId?newGroupLeaderUid=$memberUid');
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     };
 
-    final data = {
-      'newGroupLeaderUid': memberUid,
-    };
-
     final response = await http.put(
       url,
       headers: headers,
-      body: json.encode(data),
     );
+    loggerNoStack.t({'Name': 'updateGroupLeader', 'url': url});
 
     if (response.statusCode == 200) {
       print(json.decode(utf8.decode(response.bodyBytes)));
+      return true;
     } else {
       print('updateGroupLeader 실패하였습니다. 상태 코드: ${response.statusCode}');
+      return false;
     }
   }
 
-  static Future<void> updateGroupName(String name) async {
+  static Future<void> updateGroupname(String name) async {
     String? token = AppStateNotifier.instance.apiToken;
+    String? uid = AppStateNotifier.instance.userdata?.uid;
+    String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
 
-    final url = Uri.parse('$linkurl/api/groups/updateGroup');
+    final url = Uri.parse('$linkurl/users/$uid/groups/$groupId?newGroupName=$name');
     final headers = {
       'accept': '*/*',
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     };
 
-    final data = {
-      'newGroupName': name,
-    };
-
     final response = await http.put(
       url,
       headers: headers,
-      body: json.encode(data),
     );
+    loggerNoStack.t({'Name': 'updateGroupname', 'url': url});
 
     if (response.statusCode == 200) {
       loggerNoStack.i(response.body);

@@ -1,4 +1,3 @@
-import 'package:fisica/views/home/home_page/home_info.dart';
 import 'package:fisica/views/home/home_page/avata_widget.dart';
 import 'package:fisica/models/FootData.dart';
 import 'package:fisica/views/home/mypage/widgets/my_scandata.dart';
@@ -18,6 +17,7 @@ class _MyavataState extends State<Myavata> {
   double rightPosition = 0;
   bool detailstate = false;
   bool detailinfo = false;
+
   var mydata;
 
   void togglePositionAndControls() {
@@ -69,6 +69,9 @@ class _MyavataState extends State<Myavata> {
     }
     return Consumer<AppStateNotifier>(builder: (context, appStateNotifier, child) {
       foot = appStateNotifier.footdata;
+      double screenHeight = MediaQuery.of(context).size.height;
+      double screenWidth = MediaQuery.of(context).size.width;
+      double containerHeight = screenHeight * 0.5;
 
       return GestureDetector(
         child: Scaffold(
@@ -79,7 +82,19 @@ class _MyavataState extends State<Myavata> {
               titleSpacing: 10,
               backgroundColor: AppColors.Black,
               automaticallyImplyLeading: false,
-              title: Text(SetLocalizations.of(context).getText('sodkqkxk')),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 15, 0, 5),
+                    child: Text(
+                      SetLocalizations.of(context).getText('profileAvatarLabel',
+                          values: {'name': '${appStateNotifier.userdata!.firstName}${appStateNotifier.userdata!.lastName}'}),
+                      style: AppFont.s18.overrides(color: AppColors.primaryBackground),
+                    ),
+                  ),
+                ],
+              ),
               actions: [
                 IconButton(
                   icon: Icon(
@@ -93,17 +108,17 @@ class _MyavataState extends State<Myavata> {
                 ),
               ],
             ),
-            body: SafeArea(
-              top: true,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Avata(
-                    height: 400,
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 100.0),
+                  child: Avata(
+                    height: containerHeight,
                   ),
-                  MyScanData(),
-                ],
-              ),
+                ),
+                MyScanData(),
+              ],
             )),
       );
     });
