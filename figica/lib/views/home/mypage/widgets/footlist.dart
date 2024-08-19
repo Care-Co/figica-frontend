@@ -1,5 +1,5 @@
 import 'package:fisica/index.dart';
-import 'package:fisica/service/Foot_Controller.dart';
+import 'package:fisica/utils/service/Foot_Controller.dart';
 import 'package:fisica/utils/TypeManager.dart';
 import 'package:fisica/views/home/mypage/widgets/deleteList.dart';
 import 'package:fisica/widgets/snackbar.dart';
@@ -224,7 +224,9 @@ class _FootListState extends State<FootList> {
                                   SetLocalizations.of(context).getText(
                                     'historyPlantarPressureDetailTimeLabel',
                                     values: {
-                                      'time': DateFormat('a hh:mm', '${locale!.languageCode}_${locale!.countryCode}').format(item.measuredTime)
+                                      'time': DateFormat(
+                                              'a hh:mm', (locale?.languageCode == null) ? 'ko_KR' : '${locale!.languageCode}_${locale.countryCode}')
+                                          .format(item.measuredTime)
                                     },
                                   ),
                                   style: AppFont.r16.overrides(fontSize: 12, color: AppColors.Gray500),

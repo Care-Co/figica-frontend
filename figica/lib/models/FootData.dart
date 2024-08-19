@@ -76,28 +76,46 @@ class FootData {
   static String timeElapsedSince(BuildContext context, DateTime logTime) {
     DateTime currentTime = DateTime.now();
     Duration timeDifference = currentTime.difference(logTime);
-    int months = (currentTime.year - logTime.year) * 12 + currentTime.month - logTime.month;
-    int days = timeDifference.inDays;
+
+    int years = currentTime.year - logTime.year;
+    int months = currentTime.month - logTime.month;
+    int days = currentTime.day - logTime.day;
     int hours = timeDifference.inHours % 24;
     int minutes = timeDifference.inMinutes % 60;
 
+    // Adjust for negative values
+    if (minutes < 0) {
+      minutes += 60;
+      hours--;
+    }
+    if (hours < 0) {
+      hours += 24;
+      days--;
+    }
+    if (days < 0) {
+      months--;
+      DateTime previousMonth = DateTime(currentTime.year, currentTime.month - 1, logTime.day);
+      days += DateTime(currentTime.year, currentTime.month, 0).difference(previousMonth).inDays;
+    }
+    if (months < 0) {
+      months += 12;
+      years--;
+    }
+
     String timeDiffStr = "";
 
-    if (minutes > 0) {
-      if (timeDiffStr.isNotEmpty) timeDiffStr += ", ";
+    if (years > 0) {
+      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateYearLabel', values: {'year': years.toString()});
+    } else if (months > 0) {
+      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateMonthLabel', values: {'month': months.toString()});
+    } else if (days > 0) {
+      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateDayLabel', values: {'day': days.toString()});
+    } else if (hours > 0) {
+      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateHourLabel', values: {'hour': hours.toString()});
+    } else if (minutes > 0) {
       timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateMinuteLabel', values: {'minute': minutes.toString()});
     }
-    if (hours > 0) {
-      if (timeDiffStr.isNotEmpty) timeDiffStr += ", ";
-      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateHourLabel', values: {'hour': hours.toString()});
-    }
-    if (days > 0) {
-      if (timeDiffStr.isNotEmpty) timeDiffStr += ", ";
-      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateDayLabel', values: {'day': days.toString()});
-    }
-    if (months > 0) {
-      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateMonthLabel', values: {'month': months.toString()});
-    }
+
     return timeDiffStr.isEmpty ? SetLocalizations.of(context).getText('profileHistoryDateMinuteLabel', values: {'minute': '1'}) : timeDiffStr;
   }
 }

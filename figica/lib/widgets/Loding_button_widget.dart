@@ -156,7 +156,7 @@ class _LodingButtonWidgetState extends State<LodingButtonWidget> {
         }
         return widget.options.hoverColor == null ? null : Colors.transparent;
       }),
-      padding: MaterialStateProperty.all(widget.options.padding ?? const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0)),
+      padding: MaterialStateProperty.all(widget.options.padding ?? const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0)),
       elevation: MaterialStateProperty.resolveWith<double?>(
         (states) {
           if (states.contains(MaterialState.hovered) && widget.options.hoverElevation != null) {

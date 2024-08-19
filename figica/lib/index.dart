@@ -14,20 +14,20 @@ export 'package:flutter_localizations/flutter_localizations.dart';
 export 'package:flutter_svg/svg.dart';
 export 'package:flutter_web_plugins/url_strategy.dart';
 export 'package:model_viewer_plus/model_viewer_plus.dart';
-export 'service/User_Controller.dart';
-export 'service/group_api.dart';
+export 'utils/service/User_Controller.dart';
+export 'utils/service/group_api.dart';
 export 'utils/fisica_theme.dart';
 export 'utils/flutter_util.dart';
 export 'utils/internationalization.dart';
-export 'view_models/Data_Notifire.dart';
+export 'utils/Data_Notifire.dart';
 export 'widgets/showCustomDialog.dart';
 
-export 'TestMode/Tester_Data_1.dart';
-export 'TestMode/Tester_Data_2.dart';
-export 'TestMode/Tester_ErrorData.dart';
-export 'TestMode/Tester_Menu.dart';
-export 'TestMode/Tester_Scan.dart';
-export 'TestMode/Tester_guide.dart';
+export 'views/TestMode/Tester_Data_1.dart';
+export 'views/TestMode/Tester_Data_2.dart';
+export 'views/TestMode/Tester_ErrorData.dart';
+export 'views/TestMode/Tester_Menu.dart';
+export 'views/TestMode/Tester_Scan.dart';
+export 'views/TestMode/Tester_guide.dart';
 
 export 'views/home/group/No_group/CreateGroup/CreateGroup_CreateCode_view.dart' show CreateCodeWidget;
 export 'views/home/group/No_group/No_group_Screen.dart' show NogroupScreen;
@@ -69,16 +69,16 @@ export 'views/home/scan/Find_blue.dart';
 export 'views/home/scan/FootPrintScreen.dart';
 export 'views/home/scan/Foot_result.dart';
 
-export 'views/login/Login_email_pw_view.dart' show InputPwWidget;
-export 'views/login/Login_main.dart' show LoginWidget;
-export 'views/login/Login_signup_getid_view.dart' show GetidWidget;
-export 'views/login/Login_signup_info_view.dart' show UserInfoWidget;
-export 'views/login/Login_signup_pw_view.dart' show SetPwWidget;
-export 'views/login/Login_signup_tos_view.dart' show AgreeTosWidget;
-export 'views/login/Login_smscode_view.dart' show SmscodeWidget;
-export 'views/login/ToS.dart' show certifyWidget;
-export 'views/login/checkemail.dart' show checkemailWidget;
-export 'views/login/login_components/Login_Fail.dart';
+export 'views/auth/Login_email_pw_view.dart' show InputPwWidget;
+export 'views/1_ Landing_Screen.dart' show LandingScreen;
+export 'views/auth/Login_signup_getid_view.dart' show GetidWidget;
+export 'views/auth/Login_signup_info_view.dart' show UserInfoWidget;
+export 'views/auth/Login_signup_pw_view.dart' show SetPwWidget;
+export 'views/auth/1.1_Agreement_Screen.dart' show AgreeTosWidget;
+export 'views/auth/Login_smscode_view.dart' show SmscodeWidget;
+export 'views/auth/ToS.dart' show certifyWidget;
+export 'views/auth/checkemail.dart' show checkemailWidget;
+export 'views/auth/login_components/Login_Fail.dart';
 
 export 'widgets/App_icon_button.dart';
 export 'widgets/BotNav_widget.dart';
@@ -88,5 +88,7 @@ export 'generated/l10n.dart';
 
 //String mainurl = 'http://3.37.197.238:8080';
 String mainurl = 'https://carencoinc.com/kr/service';
+//String mainurl = 'https://carencoinc.com/it/service';
+
 //http://203.232.210.68:8080
-String version = '1.0.17';
+String version = 'v1.0';

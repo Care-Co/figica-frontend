@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:fisica/views/home/scan/scandata.dart';
-import 'package:fisica/service/Foot_Controller.dart';
+import 'package:fisica/utils/service/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

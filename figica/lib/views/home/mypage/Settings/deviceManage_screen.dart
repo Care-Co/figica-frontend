@@ -102,13 +102,13 @@ class _DevicerManagementPageState extends State<DevicerManagementPage> {
                       SizedBox(height: 20),
                       _buildaddDevice(context),
                       SizedBox(height: 20),
-                      _buildcaliDevice(context)
+                      //_buildcaliDevice(context)
                     ] else ...[
                       _buildDevice(context),
                       SizedBox(height: 20),
                       _buildyesDevice(context),
                       SizedBox(height: 20),
-                      _buildcaliDevice(context)
+                      //_buildcaliDevice(context)
                     ]
                   ],
                 ),

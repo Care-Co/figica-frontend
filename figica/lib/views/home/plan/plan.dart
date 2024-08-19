@@ -285,7 +285,7 @@ class _planWidgetState extends State<planWidget> {
       height: 360,
       displayCloseIcon: false,
       buttonWidth: 300,
-      buttonText: '선택',
+      buttonText: SetLocalizations.of(context).getText('select'),
       displayButtonIcon: false,
       buttonTextStyle: const TextStyle(color: Colors.white),
       buttonSingleColor: AppColors.Black,

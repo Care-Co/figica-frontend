@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: "none"
 
-version: 1.0.0+16
+version: 1.0.1+1
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
@@ -92,12 +92,16 @@ dependencies:
   colored_text: ^0.0.1
   image_picker: ^1.1.2
   filter_list: ^1.0.0
-
+  location_picker_flutter_map: ^1.2.1
+  flutter_compass: ^0.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.1.7
   intl_utils: ^2.5.0
+  video_player: ^2.1.15
+  flutter_unity_widget: ^2022.2.1
+  flutter_flavorizr: ^2.2.3
 
 flutter_intl:
   enabled: true

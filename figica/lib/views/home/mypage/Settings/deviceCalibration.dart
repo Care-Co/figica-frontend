@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:fisica/views/home/scan/scandata.dart';
-import 'package:fisica/service/Foot_Controller.dart';
+import 'package:fisica/utils/service/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -116,14 +116,13 @@ class _DeviceCalibrationState extends State<DeviceCalibration> {
       var characteristics = service.characteristics;
       for (BluetoothCharacteristic c in characteristics) {
         if (c.properties.write) {
-          await c.write(utf8.encode("AT+SCALE=2400"));
           List<int> value = await c.read();
           String decodedString = String.fromCharCodes(value);
           print(decodedString);
           readWeight(c);
 
           double weightDouble = 0;
-          int calyvalue = 2400;
+          int calyvalue = -11600;
           int count = 0;
           while (weightDouble > targetweight + 0.5 || weightDouble < targetweight - 0.5) {
             await c.write(utf8.encode("AT+SCALE=$calyvalue"));
@@ -135,28 +134,42 @@ class _DeviceCalibrationState extends State<DeviceCalibration> {
             List<int> weight = await c.read();
             String weightString = String.fromCharCodes(weight);
             String prefix = "AT+WEIGHT=";
-            String finalweigh = weightString.replaceFirst(prefix, '').replaceAll('-', '');
+            String finalweigh = weightString.replaceFirst(prefix, '');
             weightDouble = double.parse(finalweigh);
             print(weightDouble);
 
-            double difference = weightDouble - targetweight;
+            if (!weightDouble.isNegative) {
+              double difference = weightDouble - targetweight;
 
-            if (difference.abs() > 50) {
-              calyvalue += (difference > 0) ? 500 : -500;
-            } else if (difference.abs() > 20) {
-              calyvalue += (difference > 0) ? 200 : -200;
-            } else if (difference.abs() > 3) {
-              calyvalue += (difference > 0) ? 100 : -100;
-            } else if (difference.abs() > 1) {
-              calyvalue += (difference > 0) ? 50 : -50;
+              if (difference.abs() > 50) {
+                calyvalue -= (difference > 0) ? 500 : -500;
+              } else if (difference.abs() > 20) {
+                calyvalue -= (difference > 0) ? 200 : -200;
+              } else if (difference.abs() > 3) {
+                calyvalue -= (difference > 0) ? 100 : -100;
+              } else if (difference.abs() > 1) {
+                calyvalue -= (difference > 0) ? 50 : -50;
+              } else {
+                break;
+              }
             } else {
-              break;
+              double difference = weightDouble + targetweight;
+              if (difference.abs() > 50) {
+                calyvalue += (difference > 0) ? 500 : -500;
+              } else if (difference.abs() > 20) {
+                calyvalue += (difference > 0) ? 200 : -200;
+              } else if (difference.abs() > 3) {
+                calyvalue += (difference > 0) ? 100 : -100;
+              } else if (difference.abs() > 1) {
+                calyvalue += (difference > 0) ? 50 : -50;
+              } else {
+                break;
+              }
             }
 
-            print(difference > 0 ? 'up' : 'down');
             count++;
 
-            if (count >= 300) {
+            if (count >= 50) {
               break;
             }
             print('count ' + count.toString());
@@ -175,7 +188,7 @@ class _DeviceCalibrationState extends State<DeviceCalibration> {
     String weightString = String.fromCharCodes(weight);
 
     String prefix = "AT+WEIGHT=";
-    String finalweigh = weightString.replaceFirst(prefix, '').replaceAll('-', '');
+    String finalweigh = weightString.replaceFirst(prefix, '');
 
     print(finalweigh);
     return double.parse(finalweigh);
@@ -189,11 +202,11 @@ class _DeviceCalibrationState extends State<DeviceCalibration> {
   }
 
   Future<void> calibrateScale(double goalWeight) async {
-    int sensitivity = 2400; // 초기 민감도
-    int minSensitivity = 100; // 민감도의 최소값
+    int sensitivity = -11600; // 초기 민감도
+    int minSensitivity = -50000; // 민감도의 최소값
     int maxSensitivity = 50000; // 민감도의 최대값
     double measuredWeight;
-    const int maxIterations = 20; // 최대 반복 횟수
+    const int maxIterations = 10; // 최대 반복 횟수
     int iteration = 0;
 
     List<BluetoothService> services = await cndevice.discoverServices();
@@ -363,6 +376,7 @@ class _DeviceCalibrationState extends State<DeviceCalibration> {
 
     return Consumer<AppStateNotifier>(builder: (context, AppStateNotifier, child) {
       return GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
             key: scaffoldKey,
             backgroundColor: AppColors.Black,
@@ -512,7 +526,7 @@ class _DeviceCalibrationState extends State<DeviceCalibration> {
                               child: LodingButtonWidget(
                                 onPressed: () async {
                                   print(double.parse(_controller.text));
-                                  calibrateScale(double.parse(_controller.text));
+                                  setScale(double.parse(_controller.text));
                                 },
                                 text: 'calibration',
                                 options: LodingButtonOptions(
@@ -535,7 +549,7 @@ class _DeviceCalibrationState extends State<DeviceCalibration> {
                               height: 56.0,
                               child: LodingButtonWidget(
                                 onPressed: () async {
-                                  get();
+                                  setzero();
                                 },
                                 text: 'zero',
                                 options: LodingButtonOptions(

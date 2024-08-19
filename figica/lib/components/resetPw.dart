@@ -1,9 +1,7 @@
 import 'package:fisica/auth/auth_service.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:fisica/index.dart';
-
 
 class resetPwWidget extends StatefulWidget {
   final String email;
@@ -60,14 +58,14 @@ class _resetPwWidgetState extends State<resetPwWidget> {
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
                     child: Text(
                       SetLocalizations.of(context).getText(
-                        'dlswmdfldzm' /* Hello World */,
+                        'changePasswordpopuptitle' /* Hello World */,
                       ),
                       style: AppFont.s18,
                     ),
                   ),
                   Text(
                     SetLocalizations.of(context).getText(
-                      'qhsans' /* Hello World */,
+                      'changePasswordpopupScript' /* Hello World */,
                     ),
                     style: AppFont.r16.overrides(color: AppColors.Gray500),
                   ),
@@ -80,37 +78,6 @@ class _resetPwWidgetState extends State<resetPwWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 3, 0, 12),
-                    child: Container(
-                      width: double.infinity,
-                      height: 56.0,
-                      child: LodingButtonWidget(
-                        onPressed: () async {
-                          await _authService.resetPassword(
-                            email: widget.email,
-                            context: context,
-                          );
-                        },
-                        text: SetLocalizations.of(context).getText(
-                          'souektlwjsthd' /* 다시 전송하기 */,
-                        ),
-                        options: LodingButtonOptions(
-                          height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                          color: AppColors.primaryBackground,
-                          textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.Black),
-                          elevation: 0,
-                          borderSide: BorderSide(
-                            color: AppColors.Black,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                    ),
-                  ),
                   Container(
                     width: double.infinity,
                     height: 56.0,
@@ -119,7 +86,7 @@ class _resetPwWidgetState extends State<resetPwWidget> {
                         context.pushNamed('login');
                       },
                       text: SetLocalizations.of(context).getText(
-                        'cjdmadmfh' /*처음으로 돌아가기 */,
+                        'changePasswordButtonConfirmLabel' /*처음으로 돌아가기 */,
                       ),
                       options: LodingButtonOptions(
                         height: 40.0,

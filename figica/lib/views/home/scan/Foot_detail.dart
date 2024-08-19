@@ -20,6 +20,9 @@ class _FootDetailState extends State<FootDetail> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var data;
   bool main = true;
+  String? firstName;
+  String? lastName;
+  Map<String, dynamic>? testerData;
   @override
   void initState() {
     super.initState();
@@ -43,7 +46,14 @@ class _FootDetailState extends State<FootDetail> {
       );
     }
     return Consumer<AppStateNotifier>(builder: (context, AppStateNotifier, child) {
-      data = AppStateNotifier.scandata;
+      if (AppStateNotifier.userdata?.firstName == null) {
+        firstName = 'test';
+        lastName = 'er';
+      } else {
+        firstName = AppStateNotifier.userdata!.firstName;
+        lastName = AppStateNotifier.userdata!.lastName;
+      }
+
       return GestureDetector(
         child: Scaffold(
             key: scaffoldKey,
@@ -99,8 +109,8 @@ class _FootDetailState extends State<FootDetail> {
                           decoration: BoxDecoration(color: AppColors.Black, borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
                           child: Center(
                             child: Text(
-                              SetLocalizations.of(context).getText('reportPlantarPressureCompareButtonAbnormalLabel',
-                                  values: {'name': AppStateNotifier.userdata!.firstName + AppStateNotifier.userdata!.lastName}),
+                              SetLocalizations.of(context)
+                                  .getText('reportPlantarPressureCompareButtonAbnormalLabel', values: {'name': "${firstName}${lastName}"}),
                               style: AppFont.s18.overrides(color: AppColors.primaryBackground, fontSize: 16),
                             ),
                           ),
