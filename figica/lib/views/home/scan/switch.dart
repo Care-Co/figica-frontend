@@ -1,6 +1,6 @@
 import 'package:fisica/index.dart';
 import 'package:fisica/models/FootData.dart';
-import 'package:fisica/service/Foot_Controller.dart';
+import 'package:fisica/utils/service/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -26,19 +26,17 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
   Future<void> getData() async {
     var data = AppStateNotifier.instance.userdata;
 
-    var genderset = data!.gender ?? 'MALE';
+    var genderset = data?.gender ?? 'MALE';
     gender = genderset.toLowerCase();
 
     settype(widget.type);
   }
 
-  // Future<void> getData2() async {
-  //   var typedata = AppStateNotifier.instance.scandata;
+  Future<void> getData2() async {
+    gender = 'male';
 
-  //   gender = typedata!['gender'].toLowerCase();
-
-  //   settype(typedata['footprintClassType']);
-  // }
+    settype(widget.type);
+  }
 
   void settype(int typeint) {
     image = 'assets/bodygrapic';
@@ -90,9 +88,8 @@ class _ToggleImageSwitchState extends State<ToggleImageSwitch> {
   @override
   void initState() {
     super.initState();
-
     if (widget.mode != 'main') {
-      // getData2();
+      getData2();
     } else
       getData();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));

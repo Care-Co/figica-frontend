@@ -91,7 +91,9 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
       double height = heController.text.isEmpty ? 0.0 : double.parse(heController.text);
       double weight = weController.text.isEmpty ? 0.0 : double.parse(weController.text);
 
-      await UserController.modiProfile(data, finame, name, selectedGender, height, weight).then((userData) {
+      await UserController.uploadProfileImage(_image);
+
+      await UserController.modiProfile(data, finame, name, selectedGender, height, weight, _image).then((userData) {
         _appStateNotifier = AppStateNotifier.instance;
 
         context.goNamed('home');
@@ -158,12 +160,12 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
       height: 360,
       displayCloseIcon: false,
       buttonWidth: 300,
-      buttonText: '선택',
+      buttonText: SetLocalizations.of(context).getText('select'),
       displayButtonIcon: false,
       buttonTextStyle: const TextStyle(color: Colors.white),
       buttonSingleColor: AppColors.Black,
       minDateTime: DateTime(1800, 1, 1),
-      maxDateTime: DateTime(2021, 8, 2),
+      maxDateTime: DateTime.now(),
     ).show(context);
   }
 
@@ -190,6 +192,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
     }
 
     return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: AppColors.primaryBackground,
@@ -598,7 +601,6 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                                 'Cm',
                                                 style: AppFont.r16.overrides(color: AppColors.Gray200),
                                               )),
-                                          keyboardType: TextInputType.number,
                                           style: AppFont.r16),
                                     ),
                                   ),
@@ -645,7 +647,6 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                               style: AppFont.r16.overrides(color: AppColors.Gray200),
                                             )),
                                         style: AppFont.r16,
-                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                   ),

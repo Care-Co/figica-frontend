@@ -21,29 +21,6 @@ class _AvataState extends State<Avata> {
     super.initState();
   }
 
-  void _onHorizontalDragUpdate(DragUpdateDetails details) {
-    print('_onHorizontalDragUpdate2');
-
-    setState(() {
-      _currentRotation += details.delta.dx * 0.1; // Adjust the sensitivity as needed
-    });
-  }
-
-  void _onHorizontalDragUpdate2(DragUpdateDetails details) {
-    print('_onHorizontalDragUpdate2');
-    setState(() {
-      _currentRotation += details.delta.dx * 0.5; // Adjust the sensitivity as needed
-    });
-  }
-
-  void _resetRotation() {
-    print('_resetRotation');
-
-    setState(() {
-      _currentRotation = 30;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<AppStateNotifier>(builder: (context, appStateNotifier, child) {
@@ -67,27 +44,23 @@ class _AvataState extends State<Avata> {
             ),
             if (typeManager.typeOk)
               Positioned(
-                child: GestureDetector(
-                  onHorizontalDragUpdate: _onHorizontalDragUpdate,
-                  onVerticalDragUpdate: _onHorizontalDragUpdate2,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: Container(
-                      height: widget.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: ModelViewer(
-                        backgroundColor: Colors.transparent,
-                        src: typeManager.typeAvt,
-                        alt: 'A 3D model of an astronaut',
-                        autoRotate: false,
-                        cameraControls: true,
-                        disableZoom: false,
-                        disablePan: false,
-                        disableTap: false,
-                        cameraOrbit: "30deg 90deg auto",
-                        minCameraOrbit: "auto 90deg auto",
-                        maxCameraOrbit: "auto 90deg auto",
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Container(
+                    height: widget.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: ModelViewer(
+                      backgroundColor: Colors.transparent,
+                      src: typeManager.typeAvt,
+                      alt: 'A 3D model of an astronaut',
+                      autoRotate: false,
+                      cameraControls: true,
+                      disableZoom: true,
+                      disablePan: true,
+                      disableTap: true,
+                      cameraOrbit: "30deg 90deg auto",
+                      minCameraOrbit: "auto 90deg auto",
+                      maxCameraOrbit: "auto 90deg auto",
                     ),
                   ),
                 ),

@@ -114,13 +114,7 @@ class _MypageWidgetState extends State<MypageWidget> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              _buildUserInfo(context),
-                              _buildButtons(context),
-                            ],
-                          ),
+                          _buildUserInfo(context),
                           SizedBox(
                             height: 16,
                           ),
@@ -161,47 +155,63 @@ class _MypageWidgetState extends State<MypageWidget> {
   }
 
   Widget _buildUserInfo(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: ClipOval(
-            child: data?.photoUrl != null
-                ? Image.network(
-                    data?.photoUrl ?? '',
-                    width: 60.0,
-                    height: 60.0,
-                    fit: BoxFit.cover,
-                  )
-                : Container(
-                    width: 60.0,
-                    height: 60.0,
-                    color: Colors.black,
-                  ),
-          ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '${data?.firstName}  ${data?.lastName}',
-              style: AppFont.b24.overrides(color: AppColors.primaryBackground),
+    return Container(
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: ClipOval(
+              child: data?.photoUrl != null
+                  ? Image.network(
+                      data?.photoUrl ?? '',
+                      width: 60.0,
+                      height: 60.0,
+                      fit: BoxFit.cover,
+                    )
+                  : Container(
+                      width: 60.0,
+                      height: 60.0,
+                      color: Colors.black,
+                    ),
             ),
-            Row(
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  SetLocalizations.of(context).getText('profileage', values: {'age': '${calculateAge(data?.birthday)}'}) + ' | ',
-                  style: AppFont.s12.overrides(color: AppColors.Gray300),
+                Container(
+                  child: Text(
+                    '${data?.firstName}  ${data?.lastName}',
+                    style: AppFont.b24.overrides(color: AppColors.primaryBackground),
+                  ),
                 ),
-                Text(
-                  data?.gender ?? '',
-                  style: AppFont.s12.overrides(color: AppColors.Gray300),
-                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            SetLocalizations.of(context).getText('profileage', values: {'age': '${calculateAge(data?.birthday)}'}) + ' | ',
+                            style: AppFont.s12.overrides(color: AppColors.Gray300),
+                          ),
+                          Text(
+                            (data?.gender == 'FEMALE')
+                                ? SetLocalizations.of(context).getText('signupUserInfoButtonGenderMaleLabel')
+                                : SetLocalizations.of(context).getText('signupUserInfoButtonGenderFemaleLabel'),
+                            style: AppFont.s12.overrides(color: AppColors.Gray300),
+                          ),
+                        ],
+                      ),
+                      _buildButtons(context),
+                    ],
+                  ),
+                )
               ],
-            )
-          ],
-        ),
-      ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

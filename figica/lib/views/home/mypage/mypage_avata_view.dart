@@ -1,5 +1,5 @@
-import 'package:fisica/views/home/home_page/avata_widget.dart';
 import 'package:fisica/models/FootData.dart';
+import 'package:fisica/views/home/home_page/unity_widget.dart';
 import 'package:fisica/views/home/mypage/widgets/my_scandata.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -113,7 +113,7 @@ class _MyavataState extends State<Myavata> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 100.0),
-                  child: Avata(
+                  child: UnityWidgetWrapper(
                     height: containerHeight,
                   ),
                 ),

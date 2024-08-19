@@ -1,5 +1,7 @@
+import 'package:fisica/auth/auth_service.dart';
+import 'package:fisica/components/resetPw.dart';
 import 'package:fisica/views/home/mypage/mypage_components/out_popup.dart';
-import 'package:fisica/views/login/login_components/Login_uptos.dart';
+import 'package:fisica/views/auth/login_components/Login_uptos.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +16,7 @@ class MySetting extends StatefulWidget {
 
 class _MySettingState extends State<MySetting> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final AuthService _authService = AuthService();
 
   @override
   void initState() {
@@ -69,6 +72,37 @@ class _MySettingState extends State<MySetting> {
     );
   }
 
+  // void findPw() async {
+  //   try {
+  //     await _authService.resetPassword(
+  //       email: AppStateNotifier.instance.userdata.,
+  //       context: context,
+  //     );
+  //     await showAlignedDialog(
+  //       context: context,
+  //       isGlobal: true,
+  //       avoidOverflow: false,
+  //       targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+  //       followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+  //       builder: (dialogContext) {
+  //         return Material(
+  //           color: Colors.transparent,
+  //           child: GestureDetector(
+  //             child: Container(
+  //               height: 432,
+  //               width: 327,
+  //               child: resetPwWidget(email: widget.email),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ).then((value) => setState(() {}));
+  //   } on FirebaseAuthException catch (e) {
+  //     print(e.code);
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
   @override
   void dispose() {
     super.dispose();
@@ -80,6 +114,7 @@ class _MySettingState extends State<MySetting> {
       'settingButtonDeviceLabel': 'DevicerManager',
       //'알림 설정': 'GroupJoinRequest',
       'settingButtonLanguageLabel': 'SettingLang',
+      //'popupErrorLoginLabel5': 'SettingLang',
       //'로그인 방식 추가': 'InvitationCodeManage',
       //'전화번호 변경': 'DeleteGroup',
       'settingButtonPrivacyPolicyLabel': 'PublicInfoSetting',

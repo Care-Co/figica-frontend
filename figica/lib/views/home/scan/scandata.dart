@@ -1,5 +1,5 @@
 import 'package:fisica/models/FootData.dart';
-import 'package:fisica/service/Foot_Controller.dart';
+import 'package:fisica/utils/service/Foot_Controller.dart';
 import 'package:fisica/utils/TypeManager.dart';
 import 'package:fisica/views/home/scan/switch.dart';
 import 'package:flutter/material.dart';

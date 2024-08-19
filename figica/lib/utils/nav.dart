@@ -1,4 +1,5 @@
-import 'package:fisica/views/home/camera/vison.dart';
+import 'package:fisica/views/home/camera/video.dart';
+import 'package:fisica/views/home/camera/vision.dart';
 import 'package:fisica/views/home/group/No_group/CreateGroup/CreateGroup_CreateCode_view.dart';
 import 'package:fisica/views/home/group/Yes_group/settings/Change_Leader.dart';
 import 'package:fisica/views/home/mypage/Settings/Setting_lang.dart';
@@ -18,26 +19,196 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         refreshListenable: appStateNotifier,
         redirect: (context, state) {
           final loggedIn = appStateNotifier.loggedIn;
-          final loggingIn = state.matchedLocation.startsWith('/login');
+          final loggingIn = state.matchedLocation.startsWith('/LandingScreen');
           final signingUp = state.matchedLocation.startsWith('/agree_tos');
 
           if (!loggedIn && !loggingIn && !signingUp) {
-            return '/login';
+            return '/LandingScreen';
           } else if (loggedIn && (loggingIn || signingUp)) {
             return '/';
           } else if (!loggedIn && appStateNotifier.isSignUp && !signingUp && appStateNotifier.type == 'phone') {
-            return '/login/agree_tos/Get_id/singup_smscode';
+            return '/LandingScreen/agree_tos/Get_id/singup_smscode';
           } else if (!loggedIn && appStateNotifier.isLogin && appStateNotifier.type == 'phone') {
-            return '/login/smscode';
+            return '/LandingScreen/smscode';
           } else if (!loggedIn && appStateNotifier.isSignUp && appStateNotifier.firebaseToken != null && appStateNotifier.type == 'phone') {
-            return '/login/agree_tos/Get_id/singup_smscode/singup_userinfo';
+            return '/LandingScreen/agree_tos/Get_id/singup_smscode/singup_userinfo';
           }
           // else if (loggedIn && appStateNotifier.isSignUp && signingUp && appStateNotifier.type == 'phone') {
-          //   return '/login/agree_tos/Get_id/singup_smscode/singup_userinfo';
+          //   return '/LandingScreen/agree_tos/Get_id/singup_smscode/singup_userinfo';
           // }
           return null;
         },
         routes: <RouteBase>[
+          GoRoute(
+              name: 'LandingScreen',
+              path: '/LandingScreen',
+              builder: (context, state) {
+                return LandingScreen();
+              },
+              routes: [
+                GoRoute(
+                  name: 'Input_pw',
+                  path: 'Input_pw',
+                  builder: (context, state) {
+                    final item = state.extra as String;
+                    return InputPwWidget(email: item);
+                  },
+                ),
+                //로그인 sms코드
+                GoRoute(
+                  name: 'smscode',
+                  path: 'smscode',
+                  builder: (context, state) {
+                    return SmscodeWidget();
+                  },
+                ),
+                GoRoute(
+                    name: 'Test_guide',
+                    path: 'Test_guide',
+                    builder: (context, state) {
+                      return TesterGuide();
+                    },
+                    routes: [
+                      GoRoute(
+                        name: 'Test_ErrorData',
+                        path: 'Test_ErrorData',
+                        builder: (context, state) {
+                          return TesterErrorData();
+                        },
+                      ),
+                      GoRoute(
+                          name: 'Tester_GetData1',
+                          path: 'Tester_GetData1',
+                          builder: (context, state) {
+                            return TesterData1();
+                          },
+                          routes: [
+                            GoRoute(
+                                name: 'Tester_GetData2',
+                                path: 'Tester_GetData2',
+                                builder: (context, state) {
+                                  return TesterData2();
+                                },
+                                routes: [
+                                  GoRoute(
+                                      name: 'Tester_menu',
+                                      path: 'Tester_menu',
+                                      builder: (context, state) {
+                                        return TesterMenu();
+                                      },
+                                      routes: [
+                                        GoRoute(
+                                            path: 'testvisionScan',
+                                            name: 'testvisionScan',
+                                            builder: (context, state) {
+                                              final mode = state.extra as String;
+                                              return VisionScan(
+                                                mode: mode,
+                                              );
+                                            },
+                                            routes: []),
+                                        GoRoute(
+                                            path: 'VideoUpload',
+                                            name: 'VideoUpload',
+                                            builder: (context, state) {
+                                              return VideoUpload();
+                                            },
+                                            routes: []),
+                                        GoRoute(
+                                            path: 'Teseter_Scan',
+                                            name: 'Teseter_Scan',
+                                            builder: (context, state) {
+                                              final divice = state.extra as int;
+                                              return TesterScan(
+                                                divice: divice,
+                                              );
+                                            },
+                                            routes: [
+                                              GoRoute(
+                                                  path: 'testFootresult',
+                                                  name: 'testFootresult',
+                                                  builder: (context, state) {
+                                                    final mode = state.extra as String;
+
+                                                    return FootResult(
+                                                      mode: mode,
+                                                    );
+                                                  },
+                                                  routes: [
+                                                    GoRoute(
+                                                      path: 'testFootDetail',
+                                                      name: 'testFootDetail',
+                                                      builder: (context, state) {
+                                                        final url = state.extra as String;
+                                                        return FootDetail(
+                                                          url: url,
+                                                        );
+                                                      },
+                                                    ),
+                                                  ])
+                                            ]),
+                                      ]),
+                                ])
+                          ])
+                    ]),
+
+                //회원가입
+                GoRoute(
+                    name: 'agree_tos',
+                    path: 'agree_tos',
+                    builder: (context, state) {
+                      return AgreeTosWidget();
+                    },
+                    routes: [
+                      GoRoute(
+                          name: 'Get_id',
+                          path: 'Get_id',
+                          builder: (context, state) {
+                            return GetidWidget();
+                          },
+                          routes: [
+                            GoRoute(
+                                name: 'Set_pw',
+                                path: 'Set_pw',
+                                builder: (context, state) {
+                                  final item = state.extra as String;
+                                  return SetPwWidget(email: item);
+                                },
+                                routes: [
+                                  GoRoute(
+                                    name: 'singup_Set_pw_userinfo',
+                                    path: 'singup_Set_pw_userinfo',
+                                    builder: (context, params) {
+                                      return UserInfoWidget();
+                                    },
+                                  ),
+                                ]),
+                            GoRoute(
+                                name: 'singup_smscode',
+                                path: 'singup_smscode',
+                                builder: (context, state) {
+                                  return SmscodeWidget();
+                                },
+                                routes: [
+                                  GoRoute(
+                                    name: 'singup_userinfo',
+                                    path: 'singup_userinfo',
+                                    builder: (context, params) {
+                                      return UserInfoWidget();
+                                    },
+                                  ),
+                                ]),
+
+                            //회원가입 sms코드
+                          ])
+                    ]),
+                GoRoute(
+                  path: 'check_email',
+                  builder: (context, state) {
+                    return checkemailWidget();
+                  },
+                )
+              ]),
           GoRoute(
             name: 'home',
             path: '/',
@@ -108,10 +279,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     ),
                   ]),
               GoRoute(
-                  path: 'visonScan',
-                  name: 'visonScan',
+                  path: 'visionScan',
+                  name: 'visionScan',
                   builder: (context, state) {
-                    return VisonScan();
+                    final mode = state.extra as String;
+                    return VisionScan(
+                      mode: mode,
+                    );
                   },
                   routes: []),
               GoRoute(
@@ -295,151 +469,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             ],
           ),
 
-          //login
-
-          GoRoute(
-              name: 'login',
-              path: '/login',
-              builder: (context, state) {
-                return LoginWidget();
-              },
-              routes: [
-                GoRoute(
-                  name: 'Input_pw',
-                  path: 'Input_pw',
-                  builder: (context, state) {
-                    final item = state.extra as String;
-                    return InputPwWidget(email: item);
-                  },
-                ),
-                //로그인 sms코드
-                GoRoute(
-                  name: 'smscode',
-                  path: 'smscode',
-                  builder: (context, state) {
-                    return SmscodeWidget();
-                  },
-                ),
-                GoRoute(
-                    name: 'Test_guide',
-                    path: 'Test_guide',
-                    builder: (context, state) {
-                      return TesterGuide();
-                    },
-                    routes: [
-                      GoRoute(
-                        name: 'Test_ErrorData',
-                        path: 'Test_ErrorData',
-                        builder: (context, state) {
-                          return TesterErrorData();
-                        },
-                      ),
-                      GoRoute(
-                          name: 'Tester_GetData1',
-                          path: 'Tester_GetData1',
-                          builder: (context, state) {
-                            return TesterData1();
-                          },
-                          routes: [
-                            GoRoute(
-                                name: 'Tester_GetData2',
-                                path: 'Tester_GetData2',
-                                builder: (context, state) {
-                                  return TesterData2();
-                                },
-                                routes: [
-                                  GoRoute(
-                                      name: 'Tester_menu',
-                                      path: 'Tester_menu',
-                                      builder: (context, state) {
-                                        return TesterMenu();
-                                      },
-                                      routes: [
-                                        GoRoute(
-                                            path: 'Teseter_Scan',
-                                            name: 'Teseter_Scan',
-                                            builder: (context, state) {
-                                              final divice = state.extra as int;
-
-                                              return TesterScan(
-                                                divice: divice,
-                                              );
-                                            },
-                                            routes: [
-                                              GoRoute(
-                                                path: 'testFootresult',
-                                                name: 'testFootresult',
-                                                builder: (context, state) {
-                                                  final mode = state.extra as String;
-
-                                                  return FootResult(
-                                                    mode: mode,
-                                                  );
-                                                },
-                                              )
-                                            ]),
-                                      ]),
-                                ])
-                          ])
-                    ]),
-
-                //회원가입
-                GoRoute(
-                    name: 'agree_tos',
-                    path: 'agree_tos',
-                    builder: (context, state) {
-                      return AgreeTosWidget();
-                    },
-                    routes: [
-                      GoRoute(
-                          name: 'Get_id',
-                          path: 'Get_id',
-                          builder: (context, state) {
-                            return GetidWidget();
-                          },
-                          routes: [
-                            GoRoute(
-                                name: 'Set_pw',
-                                path: 'Set_pw',
-                                builder: (context, state) {
-                                  final item = state.extra as String;
-                                  return SetPwWidget(email: item);
-                                },
-                                routes: [
-                                  GoRoute(
-                                    name: 'singup_Set_pw_userinfo',
-                                    path: 'singup_Set_pw_userinfo',
-                                    builder: (context, params) {
-                                      return UserInfoWidget();
-                                    },
-                                  ),
-                                ]),
-                            GoRoute(
-                                name: 'singup_smscode',
-                                path: 'singup_smscode',
-                                builder: (context, state) {
-                                  return SmscodeWidget();
-                                },
-                                routes: [
-                                  GoRoute(
-                                    name: 'singup_userinfo',
-                                    path: 'singup_userinfo',
-                                    builder: (context, params) {
-                                      return UserInfoWidget();
-                                    },
-                                  ),
-                                ]),
-
-                            //회원가입 sms코드
-                          ])
-                    ]),
-                GoRoute(
-                  path: 'check_email',
-                  builder: (context, state) {
-                    return checkemailWidget();
-                  },
-                )
-              ]),
+          //LandingScreen
         ]);
 
 extension NavParamExtensions on Map<String, String?> {
