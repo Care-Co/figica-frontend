@@ -73,9 +73,39 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Log in',
     },
     'completeLoginButtonFindPasswordLabel': {
-      'ko': '비밀번호 찾기',
-      'en': 'Find password',
+      'ko': '비밀번호 재설정',
+      'en': 'Reset your password',
     },
+    //--------------------------
+    'tkwlsgkdk': {
+      'ko': 'Vision 분석용\n사진 촬영 완료',
+      'en': 'For Vision Analytics\nPhoto taken',
+    },
+    'rlekfu': {
+      'ko': '{name}님의 건강 정보를 담은\n디지털 - 트윈 아바타를 생성해 드릴게요.\n잠시만 기다려 주세요!',
+      'en': '{name} with your health information\ndigital-twin avatar with your health information.\nPlease be patient!',
+    },
+    'xmrwjdkglr': {
+      'ko': '측정 하기',
+      'en': 'Instrument measurements',
+    },
+    'tkwlsckh': {
+      'ko': '사진 촬영',
+      'en': 'Shooting photo',
+    },
+    'ehddutkd': {
+      'ko': '동영상 촬영',
+      'en': 'Shooting video',
+    },
+    'titketset': {
+      'ko': '데이터 수집 진행',
+      'en': 'Proceed with data collection',
+    },
+    'tnwlqdy': {
+      'ko': '수집 종료',
+      'en': 'End ingestion',
+    },
+
     'findPasswordLabel': {
       'ko': '등록한 E-mail을 입력해주세요',
       'en': 'Please enter the registered E-mail',
@@ -135,6 +165,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'changePasswordButtonReturnLabel': {
       'ko': '비밀번호 변경',
       'en': 'Change password',
+    },
+    'changePasswordpopuptitle': {
+      'ko': '비밀번호 재설정 E-mail 전송',
+      'en': 'Send password reset email',
+    },
+    'changePasswordpopupScript': {
+      'ko': '비밀번호를 재설정할 수 있는 링크를 {name}님의 E-mail로 전송했어요.\n링크를 눌러 비밀번호 재설정을\n진행해 주세요!',
+      'en': 'We\'ve sent a link to reset your \npassword to {name}\'s email,\n please click the link to reset your password!',
     },
     'changePasswordButtonConfirmLabel': {
       'ko': '확인',
@@ -372,6 +410,15 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'popupErrorLoginLabel': {
       'ko': '로그인할 수 없습니다',
       'en': 'Cannot log in',
+    },
+    //-----------------
+    'popupErrorLoginLabel5': {
+      'ko': '비밀번호 재설정',
+      'en': 'Cannot log in',
+    },
+    'popupErrorLoginLabel6': {
+      'ko': '비밀번호를 5회 잘못 입력하셨습니다.\n비밀번호를 잊으셨다면 회원가입을 한 이메일을 통해 재설정할 수 있어요',
+      'en': 'You have entered your password incorrectly 5 times.\nIf you forgot your password, you can reset it via the email you signed up with',
     },
     'popupErrorLoginPhoneDescription': {
       'ko': '전화번호를 확인할 수 없습니다',
@@ -692,11 +739,12 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Weight',
     },
     'reportPlantarPressureNomalLabel': {
-      'ko': '정상 족저압으로\n 통증 부위를 분석할 수 없습니다',
-      'en': 'With normal plantar pressure\n pain area cannot be analysed with normal plantar pressure',
+      'ko': '정상 족저압으로\n통증 부위를 분석할 수 없습니다',
+      'en':
+          'With normal plantar pressure\n pain area cannot be analysed with normal plantar pressurepain area cannot be analysed with normal plantar pressure',
     },
     'reportPlantarPressureDetailPainLabel': {
-      'ko': '다음과 같은 부위에\n 통증이 느껴질 수 있어요',
+      'ko': '다음과 같은 부위에 \n통증이 느껴질 수 있어요',
       'en': 'You may feel pain\n in the following areas',
     },
     'reportPlantarPressureDetailPainButtonFrontLabel': {
@@ -720,7 +768,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Right side',
     },
     'reportPlantarPressureDetailSymptomLabel': {
-      'ko': '다음과 같은 증상이\n발생할 수 있어요',
+      'ko': '다음과 같은\n증상이 발생할 수 있어요',
       'en': 'The following\nsymptoms may occur',
     },
     'reportPlantarPressureButtonCompareLabel': {
@@ -2879,6 +2927,212 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'PossibleConditionsScript6e': {
       'ko': '척추가 똑바르지 못하고 한 쪽으로 휘어있는 상태',
       'en': 'A condition where the spine is not straight and curves to one side.',
+    },
+    'medical_history': {
+      'ko': '병력',
+      'en': 'Medical History',
+    },
+    'medical_history_detail': {
+      'ko': '자세한 병력 사항을 입력해 주세요',
+      'en': 'Please enter detailed medical history',
+    },
+    'no_medical_history': {
+      'ko': '병력 사항이 없습니다',
+      'en': 'No medical history',
+    },
+    'next': {
+      'ko': '다음',
+      'en': 'Next',
+    },
+    'occupation': {
+      'ko': '직업',
+      'en': 'Occupation',
+    },
+    'select': {
+      'ko': '선택',
+      'en': 'Select',
+    },
+    'management': {
+      'ko': '경영/관리직',
+      'en': 'Management',
+    },
+    'professional': {
+      'ko': '전문직(의사, 변호사, 약사 등)',
+      'en': 'Professional (doctor, lawyer, pharmacist, etc.)',
+    },
+    'freelancer': {
+      'ko': '프리랜서',
+      'en': 'Freelancer',
+    },
+    'office_technical': {
+      'ko': '사무/ 기술직',
+      'en': 'Office/Technical',
+    },
+    'sales_service': {
+      'ko': '판매/서비스직',
+      'en': 'Sales/Service',
+    },
+    'manual_labor': {
+      'ko': '기능/작업/단순노무직',
+      'en': 'Manual Labor',
+    },
+    'agriculture_fishing': {
+      'ko': '농/림/어/축산업',
+      'en': 'Agriculture/Fishing',
+    },
+    'self_employed': {
+      'ko': '자영업',
+      'en': 'Self-employed',
+    },
+    'housewife': {
+      'ko': '주부',
+      'en': 'Housewife',
+    },
+    'student': {
+      'ko': '학생',
+      'en': 'Student',
+    },
+    'unemployed': {
+      'ko': '무직',
+      'en': 'Unemployed',
+    },
+    'other': {
+      'ko': '기타',
+      'en': 'Other',
+    },
+    'residence': {
+      'ko': '거주지',
+      'en': 'Residence',
+    },
+    'address_search': {
+      'ko': '건물, 지번 또는 도로명 검색',
+      'en': 'Search by building, lot number or road name',
+    },
+    'detailed_address': {
+      'ko': '상세 주소 작성(선택)',
+      'en': 'Enter detailed address (optional)',
+    },
+    'input_complete': {
+      'ko': '입력 완료',
+      'en': 'Input complete',
+    },
+    'start': {
+      'ko': '시작하기',
+      'en': 'Start',
+    },
+    'trial_mode_process': {
+      'ko': '체험 모드 프로세스 안내',
+      'en': 'Walk through the trial mode process',
+    },
+    'health_info': {
+      'ko': '건강 및 개인정보를 입력해 주세요',
+      'en': 'Enter health and personal information',
+    },
+    'bluetooth_connection': {
+      'ko': '블루투스를 통해 족저압 측정 기기와 연결합니다',
+      'en': 'Connect to the plantar pressure measurement device via Bluetooth',
+    },
+    'device_search': {
+      'ko': '기기 검색을 통해 명시된 디바이스와 서비스를 연결해 주세요',
+      'en': 'Participant Information Entry',
+    },
+    'follow_instructions': {
+      'ko': '지시에 따라 족저압을 측정해 주세요',
+      'en': 'Follow the instructions to measure plantar pressure',
+    },
+    'bluetooth_switch': {
+      'ko': '데이터 검증을 위해 다른 기기로 블루투스 연결을 변경합니다',
+      'en': 'Switch Bluetooth connection to another device for data validation',
+    },
+    'wait': {
+      'ko': '잠시 기다려 주세요',
+      'en': 'Please wait',
+    },
+    'measure_again': {
+      'ko': '새로 연결된 기기 위로 올라가 족저압을 측정해 주세요',
+      'en': 'Step onto the newly connected device to measure plantar pressure again',
+    },
+    'review_report': {
+      'ko': '족저압 리포트를 확인하고, 처음으로 돌아가 주세요',
+      'en': 'Review the plantar pressure report and go back to the beginning',
+    },
+    'go_back': {
+      'ko': '중간에 오류가 발생했나요?',
+      'en': 'Did an error occur midway?',
+    },
+    'error': {
+      'ko': '시작하기',
+      'en': 'Start',
+    },
+    'start_button': {
+      'ko': '중도 오류 시 데이터 복구',
+      'en': 'Recover data in case of error',
+    },
+    'data_recovery': {
+      'ko': '이름과 생년월일을 입력하고 데이터를 복구해 주세요',
+      'en': 'Enter your name and date of birth to recover data',
+    },
+    'enter_name_dob': {
+      'ko': '체험자 정보 입력',
+      'en': 'Participant Information Entry',
+    },
+    'participant_info_entry': {
+      'ko': '항목의 우측 상단 붉은 점 표시는 필수 입력 요소입니다',
+      'en': 'A red dot at the top right corner of the item indicates a required field.',
+    },
+    'required_field': {
+      'ko': '시작하기 버튼을 누르면 시작됩니다.',
+      'en': 'Press the start button to begin.',
+    },
+    'start_instructions': {
+      'ko': '체험자 정보 입력에서\n 건강 및 개인정보를 입력해 주세요.',
+      'en': 'Please enter health and personal information\n in the participant information entry.',
+    },
+    'enter_health_info': {
+      'ko': '정보 입력을 완료하면 블루투스를 통해\n 족저압 측정 기기와 연결합니다\n 기기 검색을 통해 인식되면 디바이스와\n 서비스를 연결해 주세요.',
+      'en':
+          'After completing the information entry,\nconnect to the plantar pressure\nmeasurement device via Bluetooth.\nWhen the device is recognized through \ndevice search,\nplease connect the device and service.',
+    },
+    'bluetooth_connection_instructions': {
+      'ko': '지시에 따라 족저압을 측정해 주세요.',
+      'en': 'Follow the instructions to \nmeasure plantar pressure.',
+    },
+    'measure_instructions': {
+      'ko': '데이터 검증을 위해 다른 기기로\n 블루투스 연결을 변경합니다\n 자동으로 변경되니 잠시만 기다려 주세요',
+      'en':
+          'For data verification, Bluetooth connection \nwill be switched to another device.\n Please wait a moment as it switches \nautomatically.',
+    },
+    'bluetooth_switch_instructions': {
+      'ko': '새로 연결된 기기 위로 올라가\n 족저압을 측정해 주세요.',
+      'en': 'Step onto the newly connected device \nto measure plantar pressure again.',
+    },
+    'measure_again_instructions': {
+      'ko': '족저압 리포트를 확인하고 처음으로 돌아가\n 주세요.',
+      'en': 'Review the plantar pressure report \nand return to the beginning.',
+    },
+    'review_report_instructions': {
+      'ko': '시작하기',
+      'en': 'start',
+    },
+    'start_button_instructions': {
+      'ko': '체험자 정보 입력',
+      'en': 'participant information entry.',
+    },
+    'participant_info_entry_instructions': {
+      'ko': '족저압 측정 기기와 연결',
+      'en': 'connect to the plantar pressure \nmeasurement device',
+    },
+    'bluetooth_connection_info': {
+      'ko': '족저압을 측정',
+      'en': 'measure plantar pressure',
+    },
+    'measure_plantar_pressure_info': {
+      'ko': '블루투스 연결을 변경',
+      'en': 'Bluetooth connection will be switched',
+    },
+    'bluetooth_switch_info': {
+      'ko': '족저압 리포트를 확인',
+      'en': 'Review the plantar pressure report',
     },
   },
 ].reduce((a, b) => a..addAll(b));

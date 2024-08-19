@@ -93,7 +93,6 @@ class _MyAppState extends State<MyApp> {
         FlutterBluePlus.turnOn();
       }
     });
-
     Future.delayed(Duration(milliseconds: 500), () {
       _appStateNotifier.stopShowingSplashImage();
     });

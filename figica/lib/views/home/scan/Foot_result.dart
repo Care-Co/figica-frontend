@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:fisica/views/TestMode/Tester_Scandata.dart';
 import 'package:fisica/views/home/scan/scandata.dart';
-import 'package:fisica/service/Foot_Controller.dart';
+import 'package:fisica/utils/service/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -42,7 +43,7 @@ class _FootResultState extends State<FootResult> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       barrierColor: Colors.transparent,
-      builder: (context) => ScanData(mode: widget.mode, footdata: AppStateNotifier.instance.footdata!.first),
+      builder: (context) => main ? ScanData(mode: widget.mode, footdata: AppStateNotifier.instance.footdata!.first) : Scantest(mode: widget.mode),
     );
   }
 
@@ -79,7 +80,7 @@ class _FootResultState extends State<FootResult> {
                     color: AppColors.primaryBackground,
                   ),
                   onPressed: () {
-                    context.pushNamed('login');
+                    main ? context.pushNamed('login') : context.pushNamed('Tester_menu');
                   },
                 ),
               ],
@@ -97,7 +98,7 @@ class _FootResultState extends State<FootResult> {
                     height: 327,
                     decoration: BoxDecoration(color: Colors.transparent),
                     child: Image.network(
-                      main ? data['imageUrl'] : data['footprintImageUrl'],
+                      data['imageUrl'],
                       width: 327,
                       fit: BoxFit.contain,
                     ),
@@ -108,7 +109,7 @@ class _FootResultState extends State<FootResult> {
                   decoration: BoxDecoration(),
                   child: LodingButtonWidget(
                     onPressed: () async {
-                      context.pushNamed('FootDetail', extra: main ? data['imageUrl'] : data['footprintImageUrl']);
+                      main ? context.pushNamed('FootDetail', extra: data['imageUrl']) : context.pushNamed('testFootDetail', extra: data['imageUrl']);
                     },
                     text: SetLocalizations.of(context).getText(
                       'reportPlantarPressureButtonCompareLabel' /*이상적인 Page Title */,
@@ -163,7 +164,7 @@ class _FootResultState extends State<FootResult> {
                         decoration: BoxDecoration(),
                         child: LodingButtonWidget(
                           onPressed: () {
-                            main ? context.goNamed('Footprint', extra: 'main') : context.goNamed('testFootprint', extra: 'tester');
+                            main ? context.goNamed('Footprint', extra: 'main') : context.goNamed('Teseter_Scan', extra: 2);
                           },
                           text: SetLocalizations.of(context).getText(
                             'reportPlantarPressureButtonRetryLabel' /* 다시 측정하기 */,

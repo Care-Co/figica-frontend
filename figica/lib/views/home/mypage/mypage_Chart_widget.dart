@@ -1,7 +1,7 @@
 import 'package:fisica/index.dart';
 import 'package:fisica/models/WeightData.dart';
 import 'package:fisica/views/home/mypage/widgets/calendar.dart';
-import 'package:fisica/service/Foot_Controller.dart';
+import 'package:fisica/utils/service/Foot_Controller.dart';
 import 'package:fisica/views/home/mypage/widgets/deleteList.dart';
 import 'package:fisica/widgets/snackbar.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -511,6 +511,11 @@ class _ChartState extends State<Chart> {
                     },
                   ),
                 ),
+                if (isshow)
+                  Container(
+                    width: 327,
+                    height: 60.0,
+                  )
               ],
             ),
           ),

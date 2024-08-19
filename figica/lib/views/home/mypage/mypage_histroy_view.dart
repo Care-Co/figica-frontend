@@ -2,7 +2,7 @@ import 'package:fisica/models/FootData.dart';
 import 'package:fisica/models/WeightData.dart';
 import 'package:fisica/views/home/mypage/mypage_Chart_widget.dart';
 import 'package:fisica/views/home/mypage/mypage_foot_view.dart';
-import 'package:fisica/service/Foot_Controller.dart';
+import 'package:fisica/utils/service/Foot_Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';

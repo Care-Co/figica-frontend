@@ -1,5 +1,5 @@
 import 'package:fisica/components/Success_device.dart';
-import 'package:fisica/service/Foot_Controller.dart';
+import 'package:fisica/utils/service/Foot_Controller.dart';
 import 'package:fisica/views/home/scan/utils/extra.dart';
 import 'package:fisica/views/home/scan/widgets/scan_result_tile.dart';
 import 'package:fisica/views/home/scan/widgets/system_device_tile.dart';
@@ -74,7 +74,7 @@ class _FindBlueState extends State<FindBlue> {
         _systemDevices = await FlutterBluePlus.systemDevices;
       } catch (e) {}
       try {
-        await FlutterBluePlus.startScan(withNames: ["Fisica Scale"], timeout: const Duration(seconds: 5));
+        await FlutterBluePlus.startScan(withNames: ["Fisica Scale", "Scale2"], timeout: const Duration(seconds: 5));
       } catch (e) {}
       if (mounted) {
         setState(() {});

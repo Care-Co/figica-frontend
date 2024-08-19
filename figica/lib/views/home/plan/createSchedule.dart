@@ -56,12 +56,12 @@ class _AddSchedulePageState extends State<AddSchedulePage> {
       height: 360,
       displayCloseIcon: false,
       buttonWidth: 300,
-      buttonText: '선택',
+      buttonText: SetLocalizations.of(context).getText('select'),
       displayButtonIcon: false,
       buttonTextStyle: const TextStyle(color: Colors.white),
       buttonSingleColor: AppColors.Black,
       minDateTime: DateTime(1800, 1, 1),
-      maxDateTime: DateTime(2021, 8, 2),
+      maxDateTime: DateTime.now(),
     ).show(context);
   }
 

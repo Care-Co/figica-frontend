@@ -3,7 +3,7 @@ import 'package:fisica/components/check_cancel_invite.dart';
 import 'package:fisica/components/check_delete_group.dart';
 import 'package:fisica/components/check_exit_group.dart';
 import 'package:fisica/views/home/mypage/mypage_components/ok_pop.dart';
-import 'package:fisica/service/Foot_Controller.dart';
+import 'package:fisica/utils/service/Foot_Controller.dart';
 
 import 'package:flutter/material.dart';
 

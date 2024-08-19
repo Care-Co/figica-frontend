@@ -108,7 +108,7 @@ B)To allow media organisations, etc. to report or broadcast the media and conten
 (7) The company may change the posting location of the post without changing the contents of the original post due to the judgment of the company's operating policy, company merger, transfer of services, etc. 
 Article 15 (Processing and Provision of Data) 
 (1) The "Company" organizes the data collected from the "Members" by various methods of analysis., can be analyzed and used as "statistical data" and "research data.
-(2) The data collected from the "Member" includes data such as foot pressure data directly measured by the "Member", data such as weight data measured at the same time, data such as test records and medical images directly uploaded by the "Member", and the work of the "Member" and other usage history. 
+(2) The data collected from the "Member" includes data such as foot pressure data directly /System/Library/CoreServices/Finder.app/Contents/Resources/MyLibraries/SharedDocuments.cannedSearchmeasured by the "Member", data such as weight data measured at the same time, data such as test records and medical images directly uploaded by the "Member", and the work of the "Member" and other usage history. 
 Article 16 (Provision of data) 
 (1) Health data such as low foot pressure and weight measured by the "member" through the "device" and the height and age entered by the "member" for smooth use of the serviceSensitive information such as and analysis data based on this may be provided and used for the purpose of each of the following subparagraphs with the consent of the "Members" or to the applicable person.
 1.	 Hospitals and medical institutions

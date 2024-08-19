@@ -2,6 +2,7 @@ import 'package:fisica/utils/TypeManager.dart';
 import 'package:fisica/views/home/home_page/avata_widget.dart';
 import 'package:fisica/models/FootData.dart';
 import 'package:fisica/models/UserData.dart';
+import 'package:fisica/views/home/home_page/unity_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';
@@ -20,9 +21,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   bool detailinfo = false;
   UserData? data;
   List<FootData>? foot;
+  bool _isUnityLoaded = false;
 
   void togglePositionAndControls() {
     print('togglePositionAndControls');
+
     setState(() {
       rightPosition = rightPosition == 0 ? -150 : 0;
       detailstate = !detailstate;
@@ -49,15 +52,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
-        ),
-      );
-    }
-
     return Consumer<AppStateNotifier>(builder: (context, AppStateNotifier, child) {
       double screenHeight = MediaQuery.of(context).size.height;
       double screenWidth = MediaQuery.of(context).size.width;
@@ -93,32 +87,33 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                   child: Stack(
                     children: [
-                      Positioned(
-                        right: rightPosition,
-                        child: Avata(
-                          height: containerHeight,
-                        ),
-                      ),
-                      if (!detailstate) ...[
-                        Positioned(
-                          right: rightPosition,
-                          child: InkWell(
-                            splashColor: Colors.transparent, // 물결 효과 없애기
-                            highlightColor: Colors.transparent, // 하이라이트 효과 없애기
-                            hoverColor: Colors.transparent, // 호버 색상 없애기
-                            onTap: togglePositionAndControls,
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              height: containerHeight,
+                      if (!AppStateNotifier.datalod)
+                        // Positioned(
+                        //   right: rightPosition,
+                        //   child: UnityWidgetWrapper(
+                        //     height: containerHeight,
+                        //   ),
+                        // ),
+                        if (!detailstate) ...[
+                          Positioned(
+                            right: rightPosition,
+                            child: InkWell(
+                              splashColor: Colors.transparent, // 물결 효과 없애기
+                              highlightColor: Colors.transparent, // 하이라이트 효과 없애기
+                              hoverColor: Colors.transparent, // 호버 색상 없애기
+                              onTap: togglePositionAndControls,
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: containerHeight,
+                              ),
                             ),
                           ),
-                        ),
-                        _buildUserinfo(context, AppStateNotifier),
-                        if (foot != null) Positioned(top: 100, child: _buildScaninfo(context, AppStateNotifier)),
-                      ] else ...[
-                        Positioned(right: 24, bottom: 90, child: _buildcontroller(context, AppStateNotifier)),
-                        Positioned(top: 20, child: _buildtogle(context))
-                      ],
+                          _buildUserinfo(context, AppStateNotifier),
+                          if (foot != null) Positioned(top: 100, child: _buildScaninfo(context, AppStateNotifier)),
+                        ] else ...[
+                          Positioned(right: 24, bottom: 90, child: _buildcontroller(context, AppStateNotifier)),
+                          Positioned(top: 20, child: _buildtogle(context))
+                        ],
                       if (detailinfo && detailstate)
                         Padding(
                           padding: const EdgeInsets.only(top: 100),
@@ -146,7 +141,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             style: AppFont.r16.overrides(color: AppColors.Gray200),
           ),
           Text(
-            SetLocalizations.of(context).getText('homeGreetingUserLabel', values: {'name': '${data?.firstName}${data?.lastName}'}),
+            SetLocalizations.of(context).getText('homeGreetingUserLabel', values: {'name': '${data?.firstName} ${data?.lastName}'}),
             style: AppFont.b24.overrides(color: AppColors.primaryBackground),
           )
         ],
@@ -205,7 +200,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 style: AppFont.s12.overrides(color: AppColors.Gray300),
                               ),
                               Text(
-                                AppStateNotifier.userdata?.height.toString() ?? 'N/A' + 'cm',
+                                (AppStateNotifier.userdata?.height.toString() ?? 'N/A') + 'cm',
                                 style: AppFont.s18.overrides(color: AppColors.primaryBackground),
                               )
                             ],
@@ -226,7 +221,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 style: AppFont.s12.overrides(color: AppColors.Gray300),
                               ),
                               Text(
-                                AppStateNotifier.userdata?.weight.toString() ?? 'N/A' + 'kg',
+                                (AppStateNotifier.userdata?.weight.toString() ?? 'N/A') + 'kg',
                                 style: AppFont.s18.overrides(color: AppColors.primaryBackground),
                               )
                             ],
@@ -257,7 +252,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         children: [
           Container(
               width: 232,
-              height: 152,
+              height: 172,
               decoration: ShapeDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,

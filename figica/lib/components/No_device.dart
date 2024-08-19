@@ -67,6 +67,7 @@ class _NoDiviceState extends State<NoDivice> {
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () async {
+                        Navigator.pop(context);
                         context.pushNamed('FindBlue', extra: 'main');
                       },
                       text: SetLocalizations.of(context).getText(

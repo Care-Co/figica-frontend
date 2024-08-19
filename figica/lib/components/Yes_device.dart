@@ -57,7 +57,7 @@ class _YesDiviceState extends State<YesDivice> {
                 width: 100,
                 child: TextButton(
                   onPressed: () {
-                    context.goNamed('visonScan', extra: 'main');
+                    context.goNamed('visionScan', extra: 'main');
                   },
                   child: Text(
                     SetLocalizations.of(context).getText(
