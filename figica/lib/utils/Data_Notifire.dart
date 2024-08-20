@@ -21,6 +21,7 @@ class AppStateNotifier extends ChangeNotifier {
   String? _token;
   String? _firebasetoken;
   String? _retoken;
+  DateTime? _expiresIn;
   String? _testuid;
   String? _type;
   bool _testdivice2 = false;
@@ -52,6 +53,7 @@ class AppStateNotifier extends ChangeNotifier {
   String? get apiToken => _token;
   String? get firebaseToken => _firebasetoken;
   String? get reToken => _retoken;
+  DateTime? get expiresIn => _expiresIn;
   String? get testuid => _testuid;
   String? get type => _type;
   bool get datalod => _datalod;
@@ -174,16 +176,22 @@ class AppStateNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> isrefresh() async {
-    await UserController.getprofile(_token!).then((value) async {
-      if (value) {
-        apicall();
-      } else {
-        print('refresh');
-        print(_retoken!);
+  Future<String?> getAccessToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? expiresInStr = prefs.getString('expiresIn');
+    print("expiresInStr = " + expiresInStr.toString());
+    if (expiresInStr != null) {
+      DateTime expiresIn = DateTime.parse(expiresInStr);
+      if (DateTime.now().isAfter(expiresIn)) {
         await UserController.RefreshNewToken(_retoken!);
+        return _token;
+      } else {
+        print('not refresh');
+        return _token;
       }
-    });
+    }
+    print('not refresh');
+    return _token;
   }
 
   //-------------------Shared Preferences Helper------------------//
@@ -200,7 +208,11 @@ class AppStateNotifier extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
     String? retoken = prefs.getString('refreshToken');
-
+    String? expiresInStr = prefs.getString('expiresIn');
+    DateTime? expiresIn;
+    if (expiresInStr != null) {
+      expiresIn = DateTime.parse(expiresInStr);
+    }
     if (token == null || token.isEmpty) {
       print('Token is empty.');
       return false; // 토큰이 비어있으므로 false 반환
@@ -209,6 +221,7 @@ class AppStateNotifier extends ChangeNotifier {
     String? userdata = prefs.getString('userdata');
     _token = token; // 비어 있지 않을 경우에만
     _retoken = retoken;
+    _expiresIn = expiresIn;
 
     if (userdata != null) {
       _userdata = UserData.fromJsonString(userdata);
@@ -237,9 +250,11 @@ class AppStateNotifier extends ChangeNotifier {
     DateTime monthsBefore = DateTime(now.year, now.month - 3, now.day);
     String fromDate = DateFormat('yyyy/MM/dd').format(monthsBefore);
     String fromDate2 = DateFormat('yyyy-MM-dd').format(monthsBefore);
+    //토큰 유효시간 검사
+    String? calltoken = await getAccessToken();
     printprov('-------------------------------------get all api--------------------------------------');
     printprov('------------------------------------유저 프로파일 api--------------------------------------');
-    await UserController.getprofile(_token!);
+    await UserController.getprofile(calltoken!);
     printprov('-------------------------------------족저압 히스토리 api--------------------------------------');
     await FootprintApi.getfoothistory('${fromDate}', '${toDate}');
     printprov('-------------------------------------체중 히스토리 api--------------------------------------');
@@ -271,16 +286,20 @@ class AppStateNotifier extends ChangeNotifier {
   }
 
   Future<void> UpToken(String token, bool update) async {
+    DateTime expiryTime = DateTime.now().add(Duration(minutes: 15));
     try {
       loggerNoStack.t({
         'Name': 'UpToken',
         'token': token,
+        'expiryTime': expiryTime,
       });
+
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token);
-
+      await prefs.setString('expiresIn', expiryTime.toIso8601String());
       if (update) {
         _token = token;
+        _expiresIn = expiresIn;
         await AppStateNotifier.instance.apicall();
         notifyListeners();
       }
@@ -474,6 +493,7 @@ class AppStateNotifier extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     _token = null;
     _testuid = null;
+    _expiresIn = null;
 
     _firebasetoken = null;
     await prefs.remove('refreshToken');

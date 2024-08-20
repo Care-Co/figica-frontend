@@ -83,7 +83,7 @@ class _resetPwWidgetState extends State<resetPwWidget> {
                     height: 56.0,
                     child: LodingButtonWidget(
                       onPressed: () async {
-                        context.pushNamed('login');
+                        context.pushNamed('LandingScreen');
                       },
                       text: SetLocalizations.of(context).getText(
                         'changePasswordButtonConfirmLabel' /*처음으로 돌아가기 */,

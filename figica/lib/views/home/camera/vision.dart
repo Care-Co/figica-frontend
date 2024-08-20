@@ -75,7 +75,8 @@ class _VisionScanState extends State<VisionScan> {
 
   Future<void> _uploadImages() async {
     String linkurl = mainurl;
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? testuid = AppStateNotifier.instance.testuid;
 
@@ -108,9 +109,10 @@ class _VisionScanState extends State<VisionScan> {
       if (response.statusCode == 200) {
         print('Upload successful');
         print(await response.stream.bytesToString());
-
+//TODOdi
         showCustomDialog(
           context: context,
+          backGroundtype: 'black',
           checkButtonColor: AppColors.red,
           titleText: SetLocalizations.of(context).getText('tkwlsgkdk'),
           descriptionText: SetLocalizations.of(context).getText('rlekfu',

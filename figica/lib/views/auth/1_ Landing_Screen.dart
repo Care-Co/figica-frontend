@@ -1,5 +1,6 @@
-import '../widgets/flutter_drop_down.dart';
-import '../utils/form_field_controller.dart';
+import '../../utils/DialogManager.dart';
+import '../../widgets/flutter_drop_down.dart';
+import '../../utils/form_field_controller.dart';
 import 'package:flutter/material.dart';
 
 import '/index.dart';
@@ -140,7 +141,18 @@ class _LandingScreenState extends State<LandingScreen> {
       bool exists = await UserController.validate(id, _inputType);
       print(exists);
       if (exists) {
-        await _showLoginFailDialog();
+        await DialogManager.showDialogByType(
+            context: context,
+            dialogType: _inputType,
+            getupperButtonFunction: () {
+              context.safePop();
+              context.pushNamed('agree_tos');
+              //setState(_myController.clear);
+            },
+            getlowerButtonFunction: () {
+              context.safePop();
+              setState(_myController.clear);
+            }).then((value) => setState(() {}));
       } else {
         if (_inputType == 'phone') {
           AppStateNotifier.instance.Uptype('phone');
@@ -155,43 +167,16 @@ class _LandingScreenState extends State<LandingScreen> {
         }
       }
     } on Exception catch (e) {
-      await showCustomDialog(
-        context: context,
-        checkButtonColor: AppColors.red,
-        titleText: SetLocalizations.of(context).getText('popupErrorNetworkLabel'),
-        descriptionText: SetLocalizations.of(context).getText('popupErrorNetworkResponseDescription'),
-        upperButtonText: SetLocalizations.of(context).getText('popupErrorNetworkButtonConfirmLabel'),
-        upperButtonFunction: () => context.pushNamed('home'),
-      );
+      await DialogManager.showDialogByType(
+          context: context,
+          dialogType: 'networkError',
+          getupperButtonFunction: () {
+            context.safePop();
+          },
+          getlowerButtonFunction: () {
+            context.safePop();
+          }).then((value) => setState(() {}));
     }
-  }
-
-  Future<void> _showLoginFailDialog() async {
-    FocusScope.of(context).unfocus();
-    await showAlignedDialog(
-      context: context,
-      isGlobal: true,
-      avoidOverflow: false,
-      targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-      followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-      builder: (dialogContext) {
-        return Material(
-          color: Colors.transparent,
-          child: GestureDetector(
-            child: Container(
-              height: 432,
-              width: 327,
-              child: LoginFailWidget(
-                onConfirmed: () {
-                  setState(_myController.clear);
-                },
-                message: _inputType,
-              ),
-            ),
-          ),
-        );
-      },
-    ).then((value) => setState(() {}));
   }
 
   Future<void> _handlePhoneVerification(String id) async {

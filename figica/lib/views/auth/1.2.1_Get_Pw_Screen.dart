@@ -1,6 +1,6 @@
 import 'package:fisica/auth/auth_service.dart';
 import 'package:fisica/components/resetPw.dart';
-import 'package:fisica/views/auth/login_components/Login_over.dart';
+import 'package:fisica/utils/DialogManager.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,8 +49,7 @@ class _InputPwWidgetState extends State<InputPwWidget> {
     final pw = pwController.text;
     print(widget.email);
     print(pw);
-
-    await UserController.signInWithEmail(widget.email, pw).then((value) {
+    await UserController.signInWithEmail(widget.email, pw).then((value) async {
       if (value) {
         AppStateNotifier.instance.updateloginState(false);
         context.goNamed('home');
@@ -58,59 +57,31 @@ class _InputPwWidgetState extends State<InputPwWidget> {
         count++;
         print(value);
         if (count < 5)
-          showAlignedDialog(
-            context: context,
-            isGlobal: true,
-            avoidOverflow: false,
-            targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-            followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-            builder: (dialogContext) {
-              return Material(
-                color: Colors.transparent,
-                child: GestureDetector(
-                  child: Container(
-                    height: 432,
-                    width: 327,
-                    child: LoginFailWidget(
-                        onConfirmed: () {
-                          setState(() {
-                            pwController.clear();
-                            findPw();
-                          });
-                        },
-                        message: "pwfail"),
-                  ),
-                ),
-              );
-            },
-          ).then((value) => setState(() {}));
+          await DialogManager.showDialogByType(
+              context: context,
+              dialogType: 'pwfail',
+              getupperButtonFunction: () {
+                setState(() {
+                  pwController.clear();
+                  findPw();
+                });
+              },
+              getlowerButtonFunction: () {
+                context.safePop();
+              }).then((value) => setState(() {}));
         else if (count >= 5) {
-          showAlignedDialog(
-            context: context,
-            isGlobal: true,
-            avoidOverflow: false,
-            targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-            followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-            builder: (dialogContext) {
-              return Material(
-                color: Colors.transparent,
-                child: GestureDetector(
-                  child: Container(
-                    height: 432,
-                    width: 327,
-                    child: LoginOverWidget(
-                        onConfirmed: () {
-                          setState(() {
-                            pwController.clear();
-                            findPw();
-                          });
-                        },
-                        message: "pwfail"),
-                  ),
-                ),
-              );
-            },
-          ).then((value) => setState(() {}));
+          await DialogManager.showDialogByType(
+              context: context,
+              dialogType: 'over',
+              getupperButtonFunction: () {
+                setState(() {
+                  pwController.clear();
+                  findPw();
+                });
+              },
+              getlowerButtonFunction: () {
+                context.safePop();
+              }).then((value) => setState(() {}));
         }
       }
     });
@@ -125,25 +96,14 @@ class _InputPwWidgetState extends State<InputPwWidget> {
         email: widget.email,
         context: context,
       );
-      await showAlignedDialog(
-        context: context,
-        isGlobal: true,
-        avoidOverflow: false,
-        targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-        followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-        builder: (dialogContext) {
-          return Material(
-            color: Colors.transparent,
-            child: GestureDetector(
-              child: Container(
-                height: 432,
-                width: 327,
-                child: resetPwWidget(email: widget.email),
-              ),
-            ),
-          );
-        },
-      ).then((value) => setState(() {}));
+      await DialogManager.showDialogByType(
+              context: context,
+              dialogType: 'resetPW',
+              getupperButtonFunction: () {
+                context.goNamed('LandingScreen');
+              },
+              getlowerButtonFunction: () {})
+          .then((value) => setState(() {}));
     } on FirebaseAuthException catch (e) {
       print(e.code);
     } catch (e) {

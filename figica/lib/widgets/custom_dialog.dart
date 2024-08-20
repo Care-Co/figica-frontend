@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:fisica/index.dart';
 
 class CustomDialog extends StatelessWidget {
+  final String backGroundtype;
+
   final Color checkButtonColor;
   final String titleText;
   final String descriptionText;
   final String upperButtonText;
   final VoidCallback upperButtonFunction;
-  final String? lowerButtonText; // 선택적
-  final VoidCallback? lowerButtonFunction; // 선택적
-  final String? name; // 추가적인 이름 변수
+  final String? lowerButtonText;
+  final VoidCallback? lowerButtonFunction;
+  final String? name;
 
   const CustomDialog({
     Key? key,
+    required this.backGroundtype,
     required this.checkButtonColor,
     required this.titleText,
     required this.descriptionText,
@@ -25,11 +28,13 @@ class CustomDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color backGroundColor = backGroundtype == 'black' ? AppColors.Gray850 : AppColors.primaryBackground;
+    final Color fontColor = backGroundtype == 'black' ? AppColors.primaryBackground : AppColors.Black;
     return Container(
       width: 327,
-      height: lowerButtonText != null ? 432 : 366, // 버튼 개수에 따라 높이 조정
+      height: lowerButtonText != null ? 432 : 366,
       decoration: BoxDecoration(
-        color: AppColors.Gray850,
+        color: backGroundColor,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
@@ -54,7 +59,7 @@ class CustomDialog extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(0, 8, 0, 20),
                     child: Text(
                       titleText,
-                      style: AppFont.s18.overrides(color: AppColors.primaryBackground),
+                      style: AppFont.s18.overrides(color: fontColor),
                     ),
                   ),
                   Text(
@@ -84,8 +89,8 @@ class CustomDialog extends StatelessWidget {
                           options: LodingButtonOptions(
                             padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                             iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                            color: AppColors.primaryBackground,
-                            textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.Black),
+                            color: fontColor,
+                            textStyle: AppFont.s18.overrides(fontSize: 16, color: backGroundColor),
                             elevation: 0,
                             borderSide: BorderSide(
                               color: Colors.transparent,
@@ -110,7 +115,7 @@ class CustomDialog extends StatelessWidget {
                           height: 56.0,
                           child: LodingButtonWidget(
                             onPressed: () async {
-                              lowerButtonFunction ?? context.safePop();
+                              lowerButtonFunction!();
                             },
                             text: lowerButtonText!,
                             options: LodingButtonOptions(
@@ -118,10 +123,10 @@ class CustomDialog extends StatelessWidget {
                               padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                               iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                               color: Colors.transparent,
-                              textStyle: AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                              textStyle: AppFont.s18.overrides(fontSize: 16, color: fontColor),
                               elevation: 0,
                               borderSide: BorderSide(
-                                color: AppColors.primaryBackground,
+                                color: fontColor,
                                 width: 1.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),

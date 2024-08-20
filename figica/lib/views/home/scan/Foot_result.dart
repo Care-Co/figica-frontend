@@ -24,12 +24,14 @@ class _FootResultState extends State<FootResult> {
   @override
   void initState() {
     super.initState();
-    showModalBottomSheetWithStates(context);
     if (widget.mode != 'main') {
       main = false;
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    // addPostFrameCallback을 사용하여 initState 이후에 모달을 표시하도록 함
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showModalBottomSheetWithStates(context);
+    });
   }
 
   @override
@@ -80,7 +82,7 @@ class _FootResultState extends State<FootResult> {
                     color: AppColors.primaryBackground,
                   ),
                   onPressed: () {
-                    main ? context.pushNamed('login') : context.pushNamed('Tester_menu');
+                    main ? context.pushNamed('LandingScreen') : context.pushNamed('Tester_menu');
                   },
                 ),
               ],

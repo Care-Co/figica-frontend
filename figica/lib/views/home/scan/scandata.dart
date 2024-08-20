@@ -15,7 +15,6 @@ class ScanData extends StatefulWidget {
   _ScanDataState createState() => _ScanDataState();
 }
 
-// StatefulWidget의 상태를 관리하는 클래스
 class _ScanDataState extends State<ScanData> {
   var data;
   List<ClassType> classTypes = [];

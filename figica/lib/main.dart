@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
 
     _appStateNotifier.loadSaveUserData().then((isSuccess) async {
       if (isSuccess) {
-        await _appStateNotifier.isrefresh();
+        _appStateNotifier.apicall();
       } else {
         print('Omit data call');
       }

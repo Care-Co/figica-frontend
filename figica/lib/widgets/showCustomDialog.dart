@@ -3,6 +3,7 @@ import 'package:aligned_dialog/aligned_dialog.dart';
 import 'custom_dialog.dart';
 
 Future<void> showCustomDialog({
+  required String backGroundtype,
   required BuildContext context,
   required Color checkButtonColor,
   required String titleText,
@@ -24,6 +25,7 @@ Future<void> showCustomDialog({
         color: Colors.transparent,
         child: GestureDetector(
           child: CustomDialog(
+            backGroundtype: backGroundtype,
             checkButtonColor: checkButtonColor,
             titleText: titleText,
             descriptionText: descriptionText,

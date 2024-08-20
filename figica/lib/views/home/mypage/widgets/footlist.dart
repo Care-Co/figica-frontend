@@ -21,9 +21,11 @@ class _FootListState extends State<FootList> {
     super.initState();
   }
 
+//TODOdi
   void showdelAllDialog(List<String> allFootprints) {
     showCustomDialog(
       context: context,
+      backGroundtype: 'black',
       checkButtonColor: AppColors.red,
       titleText: SetLocalizations.of(context).getText('popupDecideDeleteReportPlantarPressureAllLabel'),
       descriptionText: SetLocalizations.of(context).getText('popupDecideDeleteReportPlantarPressureAllDescription'),
@@ -49,10 +51,12 @@ class _FootListState extends State<FootList> {
       print(isshow);
     });
   }
+//TODOdi
 
   void showdelSomeDialog(List<String> selectedFootprints) {
     showCustomDialog(
       context: context,
+      backGroundtype: 'black',
       checkButtonColor: AppColors.red,
       titleText: SetLocalizations.of(context).getText(
         'popupDecideDeleteReportPlantarPressureSelectedLabel',

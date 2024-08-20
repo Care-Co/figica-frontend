@@ -255,7 +255,7 @@ class _ChartState extends State<Chart> {
                             scrollDirection: Axis.horizontal,
                             child: Container(
                               width: chartWidth - 10,
-                              height: 200,
+                              height: 180,
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(35, 35, 35, 10),
                                 child: LineChart(
@@ -275,9 +275,11 @@ class _ChartState extends State<Chart> {
     });
   }
 
+//TODOdi
   void showdelAllDialog(List<String> allFootprints) {
     showCustomDialog(
       context: context,
+      backGroundtype: 'black',
       checkButtonColor: AppColors.red,
       titleText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllLabel'),
       descriptionText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllDescription'),
@@ -305,10 +307,12 @@ class _ChartState extends State<Chart> {
     });
   }
 
+//TODOdi
   void showdelSomeDialog(List<String> selectedFootprints) {
     showCustomDialog(
       context: context,
       checkButtonColor: AppColors.red,
+      backGroundtype: 'black',
       titleText: SetLocalizations.of(context).getText(
         'popupDecideDeleteReportWeightLabel',
         values: {
@@ -338,13 +342,13 @@ class _ChartState extends State<Chart> {
     return Stack(
       children: [
         Container(
-          height: 340,
+          height: 280,
           width: double.infinity,
           decoration: BoxDecoration(
             color: AppColors.primaryBackground,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(32), // 상단 왼쪽 모서리 둥글게
-              topRight: Radius.circular(32), // 상단 오른쪽 모서리 둥글게
+              topLeft: Radius.circular(32),
+              topRight: Radius.circular(32),
             ),
           ),
           child: Padding(

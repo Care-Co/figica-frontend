@@ -12,7 +12,7 @@ class ScheduleService {
 
   static Future<bool> createScheduleInputData(String category, String title, String description, int maxDailyNotifications, String startDate,
       String endDate, String startTime, String endTime, List<int> repeatDays, List<String> notificationTimes, String notificationOption) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
     String? uid = AppStateNotifier.instance.userdata?.uid;
     final url = Uri.parse('$linkurl/users/$uid/schedule');
     final headers = {
@@ -53,7 +53,7 @@ class ScheduleService {
   }
 
   static Future<void> getScheduleData(String from, String to) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
     String? uid = AppStateNotifier.instance.userdata?.uid;
     final url = Uri.parse('$linkurl/users/$uid/schedule?from=$from&to=$to');
     final headers = {

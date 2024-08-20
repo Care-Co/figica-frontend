@@ -25,11 +25,13 @@ class _GroupSettingState extends State<GroupSetting> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
+//TODOdi
 
   _showLeaveGroupDialog() {
     showCustomDialog(
       context: context,
       checkButtonColor: AppColors.red,
+      backGroundtype: 'black',
       titleText: SetLocalizations.of(context).getText('rmfnqskrkrl'),
       descriptionText: SetLocalizations.of(context).getText('rmfnqs'),
       upperButtonText: SetLocalizations.of(context).getText('skrkrlqjxms'), //그룹 나가기
@@ -37,6 +39,7 @@ class _GroupSettingState extends State<GroupSetting> {
         await GroupApi.leaveGroup().then((value) async {
           showCustomDialog(
             context: context,
+            backGroundtype: 'black',
             checkButtonColor: AppColors.DarkenGreen,
             titleText: SetLocalizations.of(context).getText('skrkrldhksfy'),
             descriptionText: SetLocalizations.of(context).getText('dhksfytjfaud'),
@@ -54,11 +57,14 @@ class _GroupSettingState extends State<GroupSetting> {
       },
     );
   }
+//TODOdi
 
   _showDeleteGroupDialog() {
     print("_showDeleteGroupDialog");
     showCustomDialog(
       context: context,
+      backGroundtype: 'black',
+
       checkButtonColor: AppColors.red,
       titleText: SetLocalizations.of(context).getText('gktgkrf'),
       descriptionText: SetLocalizations.of(context).getText('rmfnqs'),
@@ -67,6 +73,8 @@ class _GroupSettingState extends State<GroupSetting> {
         await GroupApi.deleteGroup().then((value) async {
           showCustomDialog(
             context: context,
+            backGroundtype: 'black',
+
             checkButtonColor: AppColors.DarkenGreen,
             titleText: SetLocalizations.of(context).getText('skrkrldhksfy'),
             descriptionText: SetLocalizations.of(context).getText('dhksfytjfaud'),

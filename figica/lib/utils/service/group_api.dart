@@ -53,7 +53,8 @@ class GroupApi {
 
   //그룹 찾기
   static Future<void> findGroup() async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     final url = Uri.parse('$linkurl/users/$uid/groups');
     final headers = {
@@ -86,7 +87,8 @@ class GroupApi {
 
   // 그룹 대기 확인
   static Future<void> getGroupInvitationByUser() async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
 
     final url = Uri.parse('$linkurl/users/$uid/invitations');
@@ -118,7 +120,8 @@ class GroupApi {
   }
 
   static Future<void> GroupHistoryData() async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
 
@@ -146,7 +149,8 @@ class GroupApi {
 
   //그룹 생성
   static Future<bool> createGroup(String groupName) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
 
     final url = Uri.parse("$linkurl/users/$uid/groups");
@@ -170,7 +174,8 @@ class GroupApi {
 
   static Future<void> deleteGroup() async {
     print('deleteGroup');
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
 
@@ -196,7 +201,8 @@ class GroupApi {
   }
 
   static Future<void> leaveGroup() async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData!.first.groupId;
     final url = Uri.parse('$linkurl/users/$uid/members/$groupId');
@@ -221,7 +227,8 @@ class GroupApi {
   }
 
   static Future<void> KickGroup(String memberId) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     final url = Uri.parse('$linkurl/members/$memberId');
     final headers = {
@@ -245,7 +252,8 @@ class GroupApi {
 
   //참여신청 관리
   static Future<List<Invitation>> getInvitationByGroupId() async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
 
@@ -270,7 +278,8 @@ class GroupApi {
 
   //취소,거절,승인
   static Future<void> updateInvitation(String type, String invitationId) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     final url = Uri.parse('$linkurl/users/$uid/invitation/$invitationId?status=$type');
     final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
@@ -291,7 +300,8 @@ class GroupApi {
   }
 
   static Future<void> updateInvitationCode(String type, String code) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     final url = Uri.parse('$linkurl/users/$uid/invitation-codes/$code?status=$type');
     final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
@@ -308,7 +318,8 @@ class GroupApi {
 
 //초대 코드 생성
   static Future<void> createInvitationCode() async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
     try {
@@ -331,7 +342,8 @@ class GroupApi {
   }
 
   static Future<void> getAllInvitationCodes() async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
 
@@ -362,7 +374,8 @@ class GroupApi {
   //초대 코드로 그룹 찾기
 
   static Future<Map<String, dynamic>> getGroupByInvitationCode(String invitationCode) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     final url = Uri.parse("$linkurl/invitation-codes/$invitationCode/group");
     final headers = {"accept": "*/*", "Authorization": "Bearer $token", "Content-Type": "application/json"};
     final response = await http.get(url, headers: headers);
@@ -382,7 +395,8 @@ class GroupApi {
 
 //초대 생성
   static Future<bool> createInvitation(String code) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
 
     final url = Uri.parse('$linkurl/users/$uid/invitations/$code');
@@ -412,7 +426,8 @@ class GroupApi {
 
 //초대 내역 확인?
   static Future<String> getGroupInvitations() async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     final url = Uri.parse('$linkurl/api/groups/getGroupInvitationsByGroupLeader');
     final headers = {
       'accept': '*/*',
@@ -471,7 +486,8 @@ class GroupApi {
   }
 
   static Future<void> updateGroupInvitationByUser(String status, String invitationId) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
 
     final url = Uri.parse('$linkurl/users/${uid}/invitation/${invitationId}');
@@ -500,7 +516,8 @@ class GroupApi {
   }
 
   static Future<bool> updateGroupLeader(String memberUid) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
 
@@ -527,7 +544,8 @@ class GroupApi {
   }
 
   static Future<void> updateGroupname(String name) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? groupId = AppStateNotifier.instance.groupData?.first.groupId;
 

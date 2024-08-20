@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:fisica/auth/auth_service.dart';
-import 'package:fisica/views/auth/login_components/Login_SignUp_Fail.dart';
+import 'package:fisica/utils/DialogManager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fisica/index.dart';
@@ -20,7 +20,7 @@ class _GetidWidgetState extends State<GetidWidget> {
   final AuthService _authService = AuthService();
   bool isLoading = false; // 로딩 상태 변수 추가
 
-  String inputType = 'none'; // 'email', 'phone', 'none'
+  String _inputType = 'none'; // 'email', 'phone', 'none'
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -35,10 +35,10 @@ class _GetidWidgetState extends State<GetidWidget> {
     super.dispose();
   }
 
-  void _updateInputType(String status) {
-    setState(() {
-      inputType = status;
-    });
+  void _updateInputType(String newInputType) {
+    if (_inputType != newInputType) {
+      setState(() => _inputType = newInputType);
+    }
   }
 
   String? get _emailValidator {
@@ -80,72 +80,40 @@ class _GetidWidgetState extends State<GetidWidget> {
       print('next');
       String input = myController.text;
 
-      if (inputType == 'email') {
-        bool exists = await UserController.validate(input, inputType);
+      if (_inputType == 'email') {
+        bool exists = await UserController.validate(input, _inputType);
         if (!exists) {
           FocusScope.of(context).unfocus();
-          await showAlignedDialog(
-            context: context,
-            isGlobal: true,
-            avoidOverflow: false,
-            targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-            followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-            builder: (dialogContext) {
-              return Material(
-                color: Colors.transparent,
-                child: GestureDetector(
-                  child: Container(
-                    height: 432,
-                    width: 327,
-                    child: SignupFailWidget(
-                        onConfirmed: () {
-                          setState(() {
-                            myController.clear(); // 텍스트 필드 초기화
-                          });
-                        },
-                        message: inputType),
-                  ),
-                ),
-              );
-            },
-          ).then((value) => setState(() {}));
+          await DialogManager.showDialogByType(
+              context: context,
+              dialogType: _inputType + "sign",
+              getupperButtonFunction: () {
+                context.pushNamed('LandingScreen');
+              },
+              getlowerButtonFunction: () {
+                context.safePop();
+              }).then((value) => setState(() {}));
         } else {
           context.pushNamed('Set_pw', extra: input);
         }
-      } else if (inputType == 'phone') {
+      } else if (_inputType == 'phone') {
         final phoneNumberVal = selectedValue + myController.text.substring(1);
         setState(() {
           isLoading = true;
         }); // 로딩 상태를 true로 설정
 
-        await UserController.validate(phoneNumberVal, inputType).then((exists) async {
+        await UserController.validate(phoneNumberVal, _inputType).then((exists) async {
           if (!exists) {
             FocusScope.of(context).unfocus();
-            await showAlignedDialog(
-              context: context,
-              isGlobal: true,
-              avoidOverflow: false,
-              targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-              followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
-              builder: (dialogContext) {
-                return Material(
-                  color: Colors.transparent,
-                  child: GestureDetector(
-                    child: Container(
-                      height: 432,
-                      width: 327,
-                      child: SignupFailWidget(
-                          onConfirmed: () {
-                            setState(() {
-                              myController.clear(); // 텍스트 필드 초기화
-                            });
-                          },
-                          message: inputType),
-                    ),
-                  ),
-                );
-              },
-            ).then((value) => setState(() {
+            await DialogManager.showDialogByType(
+                context: context,
+                dialogType: _inputType + "sign",
+                getupperButtonFunction: () {
+                  context.pushNamed('LandingScreen');
+                },
+                getlowerButtonFunction: () {
+                  context.safePop();
+                }).then((value) => setState(() {
                   isLoading = false;
                 }));
           } else {
