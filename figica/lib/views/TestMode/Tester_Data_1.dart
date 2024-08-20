@@ -855,7 +855,7 @@ class _TesterData1State extends State<TesterData1> {
                                 if (userData) {
                                   context.goNamed('Tester_menu');
                                 } else if (!userData) {
-                                  context.pushNamed('login');
+                                  context.pushNamed('LandingScreen');
                                 }
                                 ;
                               }

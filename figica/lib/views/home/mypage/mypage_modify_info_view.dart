@@ -1,5 +1,6 @@
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:fisica/models/UserData.dart';
+import 'package:fisica/utils/DialogManager.dart';
 
 import 'package:fisica/utils/form_field_controller.dart';
 import 'package:fisica/views/home/mypage/mypage_components/Cancle_modi.dart';
@@ -91,7 +92,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
       double height = heController.text.isEmpty ? 0.0 : double.parse(heController.text);
       double weight = weController.text.isEmpty ? 0.0 : double.parse(weController.text);
 
-      await UserController.uploadProfileImage(_image);
+      if (_image != null) await UserController.uploadProfileImage(_image);
 
       await UserController.modiProfile(data, finame, name, selectedGender, height, weight, _image).then((userData) {
         _appStateNotifier = AppStateNotifier.instance;
@@ -224,6 +225,17 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                 size: 30,
               ),
               onPressed: () async {
+                await DialogManager.showDialogByType(
+                  context: context,
+                  dialogType: 'modify',
+                  getupperButtonFunction: () {
+                    finalbutton();
+                  },
+                  getlowerButtonFunction: () {
+                    context.goNamed('home');
+                  },
+                ).then((value) => setState(() {}));
+
                 await showAlignedDialog(
                   context: context,
                   isGlobal: true,

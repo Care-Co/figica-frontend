@@ -275,9 +275,11 @@ class _ChartState extends State<Chart> {
     });
   }
 
+//TODOdi
   void showdelAllDialog(List<String> allFootprints) {
     showCustomDialog(
       context: context,
+      backGroundtype: 'black',
       checkButtonColor: AppColors.red,
       titleText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllLabel'),
       descriptionText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllDescription'),
@@ -305,10 +307,12 @@ class _ChartState extends State<Chart> {
     });
   }
 
+//TODOdi
   void showdelSomeDialog(List<String> selectedFootprints) {
     showCustomDialog(
       context: context,
       checkButtonColor: AppColors.red,
+      backGroundtype: 'black',
       titleText: SetLocalizations.of(context).getText(
         'popupDecideDeleteReportWeightLabel',
         values: {

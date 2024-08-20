@@ -80,7 +80,7 @@ class _FootResultState extends State<FootResult> {
                     color: AppColors.primaryBackground,
                   ),
                   onPressed: () {
-                    main ? context.pushNamed('login') : context.pushNamed('Tester_menu');
+                    main ? context.pushNamed('LandingScreen') : context.pushNamed('Tester_menu');
                   },
                 ),
               ],

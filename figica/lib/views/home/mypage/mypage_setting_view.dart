@@ -1,7 +1,7 @@
 import 'package:fisica/auth/auth_service.dart';
 import 'package:fisica/components/resetPw.dart';
 import 'package:fisica/views/home/mypage/mypage_components/out_popup.dart';
-import 'package:fisica/views/auth/login_components/Login_uptos.dart';
+import 'package:fisica/views/auth/login_components/1.1.1_Agreement_PopUp.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -85,8 +85,10 @@ class _VideoUploadState extends State<VideoUpload> {
       if (response.statusCode == 200) {
         print('Upload successful');
         AppStateNotifier.instance.vid2Up();
+        //TODOdi
         showCustomDialog(
           context: context,
+          backGroundtype: 'black',
           checkButtonColor: AppColors.DarkenGreen,
           titleText: SetLocalizations.of(context).getText('ok_Vision'),
           descriptionText: SetLocalizations.of(context).getText('ok_Vision_Script'),

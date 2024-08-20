@@ -108,9 +108,10 @@ class _VisionScanState extends State<VisionScan> {
       if (response.statusCode == 200) {
         print('Upload successful');
         print(await response.stream.bytesToString());
-
+//TODOdi
         showCustomDialog(
           context: context,
+          backGroundtype: 'black',
           checkButtonColor: AppColors.red,
           titleText: SetLocalizations.of(context).getText('tkwlsgkdk'),
           descriptionText: SetLocalizations.of(context).getText('rlekfu',

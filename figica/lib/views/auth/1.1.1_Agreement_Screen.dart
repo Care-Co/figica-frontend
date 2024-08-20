@@ -1,4 +1,4 @@
-import 'login_components/Login_uptos.dart';
+import 'login_components/1.1.1_Agreement_PopUp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

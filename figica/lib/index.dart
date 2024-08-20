@@ -69,16 +69,14 @@ export 'views/home/scan/Find_blue.dart';
 export 'views/home/scan/FootPrintScreen.dart';
 export 'views/home/scan/Foot_result.dart';
 
-export 'views/auth/Login_email_pw_view.dart' show InputPwWidget;
-export 'views/1_ Landing_Screen.dart' show LandingScreen;
-export 'views/auth/Login_signup_getid_view.dart' show GetidWidget;
-export 'views/auth/Login_signup_info_view.dart' show UserInfoWidget;
-export 'views/auth/Login_signup_pw_view.dart' show SetPwWidget;
-export 'views/auth/1.1_Agreement_Screen.dart' show AgreeTosWidget;
-export 'views/auth/Login_smscode_view.dart' show SmscodeWidget;
-export 'views/auth/ToS.dart' show certifyWidget;
+export 'views/auth/1.2.1_Get_Pw_Screen.dart' show InputPwWidget;
+export 'views/auth/1_ Landing_Screen.dart' show LandingScreen;
+export 'views/auth/1.1.2_Get_Id_Screen.dart' show GetidWidget;
+export 'views/auth/1.1.4_UserInfo_Screen.dart' show UserInfoWidget;
+export 'views/auth/1.1.3_Set_Pw_Screen.dart' show SetPwWidget;
+export 'views/auth/1.1.1_Agreement_Screen.dart' show AgreeTosWidget;
+export 'views/auth/1.2.2_smscode_Screen.dart' show SmscodeWidget;
 export 'views/auth/checkemail.dart' show checkemailWidget;
-export 'views/auth/login_components/Login_Fail.dart';
 
 export 'widgets/App_icon_button.dart';
 export 'widgets/BotNav_widget.dart';

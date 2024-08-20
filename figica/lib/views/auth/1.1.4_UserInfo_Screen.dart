@@ -1,4 +1,5 @@
 import 'package:bottom_picker/bottom_picker.dart';
+import 'package:fisica/utils/DialogManager.dart';
 
 import 'package:fisica/widgets/flutter_drop_down.dart';
 import 'package:fisica/auth/auth_service.dart';
@@ -118,23 +119,18 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
               size: 30,
             ),
             onPressed: () async {
-              await showCustomDialog(
-                context: context,
-                checkButtonColor: AppColors.red,
-                titleText: SetLocalizations.of(context).getText('popupDecideSignupLabel'),
-                descriptionText: SetLocalizations.of(context).getText('popupDecideSignupDescription'),
-                upperButtonText: SetLocalizations.of(context).getText('popupDecideSignupButtonReturnLabel'),
-                upperButtonFunction: () async {
-                  await _authService.deleteUser();
-                  await AppStateNotifier.instance.logout();
-                  context.goNamed('login');
-                },
-                lowerButtonText: SetLocalizations.of(context).getText('popupDecideSignupButtonContinueLabel'),
-                /* 계속 작성하기 */
-                lowerButtonFunction: () {
-                  context.safePop();
-                },
-              ).then((value) => setState(() {}));
+              await DialogManager.showDialogByType(
+                  context: context,
+                  dialogType: 'userdata',
+                  getupperButtonFunction: () async {
+                    context.safePop();
+                    await _authService.deleteUser();
+                    await AppStateNotifier.instance.logout();
+                    context.goNamed('LandingScreen');
+                  },
+                  getlowerButtonFunction: () {
+                    context.safePop();
+                  }).then((value) => setState(() {}));
             },
           ),
           title: Column(

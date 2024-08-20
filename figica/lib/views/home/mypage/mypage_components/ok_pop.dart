@@ -47,7 +47,7 @@ class _CheckExitState extends State<OkPopup> {
   }
 
   void logout() {
-    context.goNamed('login');
+    context.goNamed('LandingScreen');
   }
 
   Widget build(BuildContext context) {
