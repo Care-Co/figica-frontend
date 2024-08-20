@@ -80,22 +80,12 @@ class FootData {
     int years = currentTime.year - logTime.year;
     int months = currentTime.month - logTime.month;
     int days = currentTime.day - logTime.day;
-    int hours = timeDifference.inHours % 24;
-    int minutes = timeDifference.inMinutes % 60;
 
-    // Adjust for negative values
-    if (minutes < 0) {
-      minutes += 60;
-      hours--;
-    }
-    if (hours < 0) {
-      hours += 24;
-      days--;
-    }
+    // 날짜 조정
     if (days < 0) {
+      final previousMonth = DateTime(currentTime.year, currentTime.month - 1);
+      days += DateTime(currentTime.year, currentTime.month, 0).day;
       months--;
-      DateTime previousMonth = DateTime(currentTime.year, currentTime.month - 1, logTime.day);
-      days += DateTime(currentTime.year, currentTime.month, 0).difference(previousMonth).inDays;
     }
     if (months < 0) {
       months += 12;
@@ -110,12 +100,13 @@ class FootData {
       timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateMonthLabel', values: {'month': months.toString()});
     } else if (days > 0) {
       timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateDayLabel', values: {'day': days.toString()});
-    } else if (hours > 0) {
-      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateHourLabel', values: {'hour': hours.toString()});
-    } else if (minutes > 0) {
-      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateMinuteLabel', values: {'minute': minutes.toString()});
+    } else if (timeDifference.inHours > 0) {
+      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateHourLabel', values: {'hour': timeDifference.inHours.toString()});
+    } else if (timeDifference.inMinutes > 0) {
+      timeDiffStr = SetLocalizations.of(context).getText('profileHistoryDateMinuteLabel', values: {'minute': timeDifference.inMinutes.toString()});
     }
 
+    // 결과가 없으면 최소 1분 전으로 설정
     return timeDiffStr.isEmpty ? SetLocalizations.of(context).getText('profileHistoryDateMinuteLabel', values: {'minute': '1'}) : timeDiffStr;
   }
 }
