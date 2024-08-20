@@ -75,7 +75,8 @@ class _VisionScanState extends State<VisionScan> {
 
   Future<void> _uploadImages() async {
     String linkurl = mainurl;
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     String? testuid = AppStateNotifier.instance.testuid;
 

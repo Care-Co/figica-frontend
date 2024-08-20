@@ -23,7 +23,8 @@ class FootprintApi {
   static Future<bool?> footScan(String rawdata) async {
     String date = printUTCTime();
     bool va = false;
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
 
     var url = Uri.parse('$linkurl/users/$uid/footprints');
@@ -58,7 +59,8 @@ class FootprintApi {
   static Future<bool?> testfootScan(List datalist) async {
     String date = printUTCTime();
     bool va = false;
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.testuid;
 
     var url = Uri.parse('$linkurl/test/users/$uid/footprints');
@@ -90,7 +92,8 @@ class FootprintApi {
   }
 
   static Future<void> getfoothistory(String from, String to) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     if (token == null || uid == null) {
       loggerNoStack.e('토큰이나 UID가 null입니다.');
@@ -127,7 +130,8 @@ class FootprintApi {
     String toDate = DateFormat('yyyy/MM/dd').format(now);
     DateTime monthsBefore = DateTime(now.year, now.month - 3, now.day);
     String fromDate = DateFormat('yyyy/MM/dd').format(monthsBefore);
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     if (token == null || uid == null) {
       loggerNoStack.e('토큰이나 UID가 null입니다.');
@@ -156,7 +160,8 @@ class FootprintApi {
     String toDate = DateFormat('yyyy/MM/dd').format(now);
     DateTime monthsBefore = DateTime(now.year, now.month - 3, now.day);
     String fromDate = DateFormat('yyyy/MM/dd').format(monthsBefore);
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     if (token == null || uid == null) {
       loggerNoStack.e('토큰이나 UID가 null입니다.');
@@ -185,7 +190,8 @@ class FootprintApi {
     String toDate = DateFormat('yyyy/MM/dd').format(now);
     DateTime monthsBefore = DateTime(now.year, now.month - 3, now.day);
     String fromDate = DateFormat('yyyy/MM/dd').format(monthsBefore);
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     if (token == null || uid == null) {
       loggerNoStack.e('토큰이나 UID가 null입니다.');
@@ -210,7 +216,8 @@ class FootprintApi {
   }
 
   static Future<void> getweighthistory(String from, String to) async {
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     if (token == null || uid == null) {
       loggerNoStack.e('토큰이나 UID가 null입니다.');

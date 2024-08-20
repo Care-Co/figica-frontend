@@ -118,7 +118,7 @@ class UserController {
   static Future<void> deleteUser() async {
     print('deleteUser');
     // final String? token = await UserController.getsavedToken();
-    String? token = AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
     String? uid = AppStateNotifier.instance.userdata?.uid;
     if (token == null || uid == null) {
       loggerNoStack.e('토큰이나 UID가 null입니다.');
@@ -232,7 +232,7 @@ class UserController {
   static Future<bool> modiProfile(
       String birthday, String firstName, String lastName, String gender, double height, double weight, File? image) async {
     String? uid = AppStateNotifier.instance.userdata?.uid;
-    final String? token = await AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
 
     final url =
         Uri.parse('$linkurl/users/${uid}?firstName=$firstName&lastName=$lastName&gender=$gender&birthday=$birthday&height=$height&weight=$weight');
@@ -271,7 +271,7 @@ class UserController {
 
   static Future<void> uploadProfileImage(File? image) async {
     String? uid = AppStateNotifier.instance.userdata?.uid;
-    final String? token = await AppStateNotifier.instance.apiToken;
+    final String? token = await AppStateNotifier.instance.getAccessToken();
 
     var headers = {
       'Authorization': 'Bearer $token',
