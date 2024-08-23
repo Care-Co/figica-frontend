@@ -189,9 +189,10 @@ class AppStateNotifier extends ChangeNotifier {
         print('not refresh');
         return _token;
       }
+    } else {
+      await UserController.RefreshNewToken(_retoken!);
+      return _token;
     }
-    print('not refresh');
-    return _token;
   }
 
   //-------------------Shared Preferences Helper------------------//
@@ -233,6 +234,7 @@ class AppStateNotifier extends ChangeNotifier {
       loggerNoStack.d({
         'retoken': truncateString(retoken!),
         'token': truncateString(token),
+        'expiresInStr': expiresInStr,
       });
       loggerNoStack.d(_userdata);
       notifyListeners();

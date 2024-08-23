@@ -25,22 +25,20 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   usePathUrlStrategy();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    await FirebaseAppCheck.instance.activate(
+      androidProvider: AndroidProvider.playIntegrity,
+      appleProvider: AppleProvider.deviceCheck,
+    );
     print('Firebase 초기화 성공');
   } catch (e) {
     print('Firebase 초기화 실패: $e');
   }
-  await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug,
-    appleProvider: AppleProvider.deviceCheck,
-  );
+
   await SetLocalizations.initialize();
 
   runApp(

@@ -171,8 +171,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Send password reset email',
     },
     'changePasswordpopupScript': {
-      'ko': '비밀번호를 재설정할 수 있는 링크를 {name}님의 E-mail로 전송했어요.\n링크를 눌러 비밀번호 재설정을\n진행해 주세요!',
-      'en': 'We\'ve sent a link to reset your \npassword to {name}\'s email,\n please click the link to reset your password!',
+      'ko': '비밀번호를 재설정할 수 있는 링크를 회원님의 E-mail로 전송했어요.\n링크를 눌러 비밀번호 재설정을\n진행해 주세요!',
+      'en': 'We\'ve sent a link to reset your \n password to your email,\n please click the link to reset your password!',
     },
     'changePasswordButtonConfirmLabel': {
       'ko': '확인',
@@ -392,8 +392,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Complete',
     },
     'signupUserInfoSelectCountryLabel': {
-      'ko': '국가',
-      'en': 'Country',
+      'ko': '국가(언어)',
+      'en': 'Country(Language)',
     },
     'signupUserInfoButtonGenderLabel': {
       'ko': '성별',

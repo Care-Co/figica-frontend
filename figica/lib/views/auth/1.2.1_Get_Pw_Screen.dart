@@ -212,7 +212,7 @@ class _InputPwWidgetState extends State<InputPwWidget> {
                             ),
                             focusNode: FocusNode(skipTraversal: true),
                             child: Icon(
-                              pwVisibility ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                              pwVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                               color: Color(0xFF757575),
                               size: 15,
                             ),
