@@ -1,12 +1,31 @@
 import 'package:fisica/index.dart';
 import 'package:fisica/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
-import 'package:retrofit/dio.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:mime/mime.dart';
+import 'package:http_parser/http_parser.dart';
+
+class ContentTypeChecker {
+  // 서버에서 지원하는 Content-Type 목록
+  static final List<String> supportedContentTypes = [
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+  ];
+
+  // 파일의 MIME 타입을 확인하고, 서버에서 지원하는지 검사하는 함수
+  static bool isSupportedContentType(String filePath) {
+    final mimeType = lookupMimeType(filePath);
+    print(mimeType);
+    return mimeType != null && supportedContentTypes.contains(mimeType.toLowerCase());
+  }
+}
 
 class VisionScan extends StatefulWidget {
   final String mode;
@@ -26,10 +45,15 @@ class _VisionScanState extends State<VisionScan> {
   Future<File> _compressImage(File file) async {
     final img.Image? image = img.decodeImage(file.readAsBytesSync());
     if (image != null) {
-      final img.Image resizedImage = img.copyResize(image, width: 800); // 가로 크기를 800으로 조정
+      final img.Image resizedImage = img.copyResize(image, width: 800);
       final Directory tempDir = await getTemporaryDirectory();
-      final String filePath = path.join(tempDir.path, 'compressed_${path.basename(file.path)}');
-      final File compressedFile = File(filePath)..writeAsBytesSync(img.encodeJpg(resizedImage, quality: 85)); // 품질을 85로 설정하여 압축
+
+      // 원본 파일 이름을 가져오고 확장자를 .jpg로 변경
+      final String fileName = path.basenameWithoutExtension(file.path);
+      final String newFilePath = path.join(tempDir.path, '$fileName.jpg');
+
+      // JPEG 파일로 저장
+      final File compressedFile = File(newFilePath)..writeAsBytesSync(img.encodeJpg(resizedImage, quality: 85));
 
       print('Original file size: ${file.lengthSync()} bytes');
       print('Compressed file size: ${compressedFile.lengthSync()} bytes');
@@ -41,21 +65,73 @@ class _VisionScanState extends State<VisionScan> {
   }
 
   Future<void> _captureImage(String side) async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      final File tempFile = File(pickedFile.path);
-      final File compressedFile = await _compressImage(tempFile);
-      setState(() {
-        if (side == 'front') {
-          _frontImage = compressedFile;
-        } else if (side == 'back') {
-          _backImage = compressedFile;
-        } else if (side == 'left') {
-          _leftImage = compressedFile;
-        } else if (side == 'right') {
-          _rightImage = compressedFile;
-        }
-      });
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        final File tempFile = File(pickedFile.path);
+        final File compressedFile = await _compressImage(tempFile);
+        //final File compressedFile = tempFile;
+
+        setState(() {
+          if (side == 'front') {
+            _frontImage = compressedFile;
+          } else if (side == 'back') {
+            _backImage = compressedFile;
+          } else if (side == 'left') {
+            _leftImage = compressedFile;
+          } else if (side == 'right') {
+            _rightImage = compressedFile;
+          }
+        });
+      }
+    } on PlatformException catch (e) {
+      print(e);
+      if (e.code == 'camera_access_denied') {
+        _showPermissionDeniedDialog();
+      }
+    }
+  }
+
+  void _showPermissionDeniedDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text('갤러리 접근 권한 필요'),
+        content: Text('이미지 업로드를 위해 갤러리 접근 권한이 필요합니다. 설정에서 권한을 허용해주세요.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('취소'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _openAppSettings();
+            },
+            child: Text('설정 열기'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _openAppSettings() async {
+    if (Platform.isIOS) {
+      final Uri url = Uri.parse('app-settings:');
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      } else {
+        print('설정을 열 수 없습니다.');
+      }
+    } else if (Platform.isAndroid) {
+      final Uri url = Uri.parse('package:${Platform.isAndroid}');
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      } else {
+        print('설정을 열 수 없습니다.');
+      }
     }
   }
 
@@ -73,12 +149,38 @@ class _VisionScanState extends State<VisionScan> {
     });
   }
 
+  void checkFileHeader(String filePath) {
+    try {
+      if (ContentTypeChecker.isSupportedContentType(filePath)) {
+        print('Supported Content-Type');
+      } else {
+        print('Unsupported Content-Type');
+      }
+    } catch (e) {
+      print('Error reading file: $e');
+    }
+  }
+
+  MediaType _getMediaType(String mimeType, File file) {
+    if (mimeType == 'application/octet-stream') {
+      final fileExtension = file.path.split('.').last.toLowerCase();
+      if (fileExtension == 'jpg' || fileExtension == 'jpeg') {
+        return MediaType('image', 'jpeg');
+      } else if (fileExtension == 'png') {
+        return MediaType('image', 'png');
+      } else {
+        throw UnsupportedError('Unsupported file extension: $fileExtension');
+      }
+    } else {
+      return MediaType.parse(mimeType);
+    }
+  }
+
   Future<void> _uploadImages() async {
     String linkurl = mainurl;
     final String? token = await AppStateNotifier.instance.getAccessToken();
 
     String? uid = AppStateNotifier.instance.userdata?.uid;
-    String? testuid = AppStateNotifier.instance.testuid;
 
     var headers = {
       'Authorization': 'Bearer $token',
@@ -89,43 +191,58 @@ class _VisionScanState extends State<VisionScan> {
       Uri.parse('$linkurl/users/$uid/pose-estimation'),
     );
 
+    checkFileHeader(_frontImage!.path);
+    // MIME 타입 확인 및 설정
+    String? frontMimeType = lookupMimeType(_frontImage!.path) ?? 'application/octet-stream';
+    String? backMimeType = lookupMimeType(_backImage!.path) ?? 'application/octet-stream';
+
+    // MIME 타입이 application/octet-stream이라면 수동으로 설정
+    MediaType frontMediaType;
+    MediaType backMediaType;
+
+    frontMediaType = _getMediaType(frontMimeType, _frontImage!);
+    backMediaType = _getMediaType(backMimeType, _backImage!);
+    request.files.add(await http.MultipartFile.fromPath(
+      'file1', _frontImage!.path, contentType: frontMediaType,
+      //contentType: MediaType('image', 'jpeg'),
+    ));
+    request.files.add(await http.MultipartFile.fromPath(
+      'file2', _backImage!.path, contentType: backMediaType,
+      //contentType: MediaType('image', 'jpeg'),
+    ));
+    print(_frontImage!.path);
+    print(_backImage!.path);
     request.headers.addAll(headers);
     print(request);
     print(request.headers);
 
-    request.files.add(await http.MultipartFile.fromPath(
-      'file1',
-      _frontImage!.path,
-    ));
-    request.files.add(await http.MultipartFile.fromPath(
-      'file2',
-      _backImage!.path,
-    ));
-    print(_frontImage!.path);
-
     try {
       var response = await request.send();
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('Upload successful');
         print(await response.stream.bytesToString());
 //TODOdi
         showCustomDialog(
           context: context,
           backGroundtype: 'black',
-          checkButtonColor: AppColors.red,
+          checkButtonColor: AppColors.primary,
           titleText: SetLocalizations.of(context).getText('tkwlsgkdk'),
           descriptionText: SetLocalizations.of(context).getText('rlekfu',
               values: {'name': "${AppStateNotifier.instance.userdata!.firstName} ${AppStateNotifier.instance.userdata!.lastName}"}),
-          upperButtonText: SetLocalizations.of(context).getText('popupDecideDeleteReportPlantarPressureAllButtonConfirmLabel'),
+          upperButtonText: SetLocalizations.of(context).getText('popupErrorLoginButtonConfirmLabel'),
           upperButtonFunction: () async {
-            context.pushNamed('home');
+            context.pushReplacementNamed('home');
           },
-          /* 이전으로 돌아가기 */
         );
       } else {
         print('Request failed with status: ${response.statusCode}');
-        print('Response body: ${response.reasonPhrase}');
+        print('Response reason phrase: ${response.reasonPhrase}');
+        print('Response headers: ${response.headers}');
+
+        // 응답 본문(body)을 출력합니다.
+        final responseBody = await response.stream.bytesToString();
+        print('Response body: $responseBody');
       }
     } catch (e) {
       print('Upload failed with error: $e');
@@ -134,29 +251,45 @@ class _VisionScanState extends State<VisionScan> {
 
   Future<void> _uploadtestImages() async {
     print('_uploadtestImages');
-    String linkurl = mainurl;
-    String? testuid = AppStateNotifier.instance.testuid;
+    String? uid = AppStateNotifier.instance.testuid;
+    String? frontMimeType = lookupMimeType(_frontImage!.path) ?? 'application/octet-stream';
+    String? backMimeType = lookupMimeType(_backImage!.path) ?? 'application/octet-stream';
+    String? rMimeType = lookupMimeType(_frontImage!.path) ?? 'application/octet-stream';
+    String? lMimeType = lookupMimeType(_backImage!.path) ?? 'application/octet-stream';
 
+    // MIME 타입이 application/octet-stream이라면 수동으로 설정
+    MediaType frontMediaType;
+    MediaType backMediaType;
+    MediaType rMediaType;
+    MediaType lMediaType;
+    frontMediaType = _getMediaType(frontMimeType, _frontImage!);
+    backMediaType = _getMediaType(backMimeType, _backImage!);
+    rMediaType = _getMediaType(rMimeType, _rightImage!);
+    lMediaType = _getMediaType(lMimeType, _leftImage!);
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('$linkurl/test/users/$testuid/pose-estimation'),
+      Uri.parse('https://carencoinc.com/it/service/test/users/$uid/pose-estimation'),
     );
 
     request.files.add(await http.MultipartFile.fromPath(
       'files',
       _frontImage!.path,
+      contentType: frontMediaType,
     ));
     request.files.add(await http.MultipartFile.fromPath(
       'files',
       _backImage!.path,
+      contentType: backMediaType,
     ));
     request.files.add(await http.MultipartFile.fromPath(
       'files',
       _leftImage!.path,
+      contentType: lMediaType,
     ));
     request.files.add(await http.MultipartFile.fromPath(
       'files',
       _rightImage!.path,
+      contentType: rMediaType,
     ));
 
     try {
@@ -174,7 +307,12 @@ class _VisionScanState extends State<VisionScan> {
         context.goNamed('Tester_menu');
       } else {
         print('Request failed with status: ${response.statusCode}');
-        print('Response body: ${response.reasonPhrase}');
+        print('Response reason phrase: ${response.reasonPhrase}');
+        print('Response headers: ${response.headers}');
+
+        // 응답 본문(body)을 출력합니다.
+        final responseBody = await response.stream.bytesToString();
+        print('Response body: $responseBody');
       }
     } catch (e) {
       print('Upload failed with error: $e');
@@ -243,7 +381,7 @@ class _VisionScanState extends State<VisionScan> {
         ),
         backgroundColor: AppColors.Black,
         title: Text(
-          '사진 업로드 하기',
+          SetLocalizations.of(context).getText('uploadimage'),
           style: AppFont.s18.overrides(color: AppColors.primaryBackground),
         ),
       ),
@@ -254,24 +392,24 @@ class _VisionScanState extends State<VisionScan> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildCaptureButton('전면', 'front', _frontImage),
+                _buildCaptureButton(SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonFrontLabel'), 'front', _frontImage),
                 SizedBox(width: 20),
-                _buildCaptureButton('후면', 'back', _backImage),
+                _buildCaptureButton(SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonBackLabel'), 'back', _backImage),
               ],
             ),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildCaptureButton('왼쪽 측면', 'left', _leftImage),
+                _buildCaptureButton(SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonLSideLabel'), 'left', _leftImage),
                 SizedBox(width: 20),
-                _buildCaptureButton('오른쪽 측면', 'right', _rightImage),
+                _buildCaptureButton(SetLocalizations.of(context).getText('reportPlantarPressureDetailPainButtonRSideLabel'), 'right', _rightImage),
               ],
             ),
             SizedBox(height: 20),
             Row(
               children: [
-                Text('이미지 확인', style: TextStyle(fontSize: 16, color: Colors.white)),
+                Text(SetLocalizations.of(context).getText('checkimage'), style: TextStyle(fontSize: 16, color: Colors.white)),
               ],
             ),
             SizedBox(height: 10),
@@ -295,7 +433,7 @@ class _VisionScanState extends State<VisionScan> {
                           ? _uploadImages
                           : _uploadtestImages
                       : null,
-                  text: '이미지 업로드',
+                  text: SetLocalizations.of(context).getText('uploadimage'),
                   options: LodingButtonOptions(
                     height: 40.0,
                     padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),

@@ -18,7 +18,7 @@ class TesterData2 extends StatefulWidget {
 class _TesterData2State extends State<TesterData2> {
   DateTime? selectedDate;
   String selectedJob = '';
-  String? selectedDropdownValue = '+82';
+  String? selectedDropdownValue = '+39';
 
   Future<void> _showLocationPicker() async {
     final result = await Navigator.of(context).push(
@@ -176,9 +176,9 @@ class _TesterData2State extends State<TesterData2> {
     String? phoneValidator(String? value) {
       if (value == null || value.isEmpty) {
         return SetLocalizations.of(context).getText(
-          'loginHomeInputEmailHint', // 전화번호 또는 E-mail을 입력해 주세요
+          'loginHomeInputPhoneError', // 전화번호 또는 E-mail을 입력해 주세요
         );
-      } else if (!value.startsWith('010')) {
+      } else if (!value.startsWith('02')) {
         return SetLocalizations.of(context).getText(
           'loginHomeInputPhoneError', // '010을 포함하여 숫자만 입력해 주세요
         );
@@ -189,7 +189,7 @@ class _TesterData2State extends State<TesterData2> {
     String? emailValidator(String? value) {
       if (value == null || value.isEmpty) {
         return SetLocalizations.of(context).getText(
-          'loginHomeInputEmailHint', // 전화번호 또는 E-mail을 입력해 주세요
+          'loginHomeInputEmailError', // 전화번호 또는 E-mail을 입력해 주세요
         );
       } else if (!value.contains('@')) {
         return SetLocalizations.of(context).getText(
@@ -333,12 +333,12 @@ class _TesterData2State extends State<TesterData2> {
                               height: 10,
                             ),
                             FlutterDropDown<String>(
-                              controller: dropDownValueControllerT ??= FormFieldController<String>("+82"),
-                              hintText: '+82',
-                              options: ['+1', '+91', '+82', '+81'],
+                              controller: dropDownValueControllerT ??= FormFieldController<String>("+39"),
+                              hintText: '+39',
+                              options: ['+1', '+91', '+82', '+81', '+39'],
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  selectedDropdownValue = newValue ?? '+82';
+                                  selectedDropdownValue = newValue ?? '+39';
                                 });
                               },
                               height: 38.0,
@@ -454,7 +454,7 @@ class _TesterData2State extends State<TesterData2> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          SetLocalizations.of(context).getText('loginHomeInputEmailLabel'),
+                          SetLocalizations.of(context).getText('settingEmailInputEmailLabel'),
                           style: AppFont.s12,
                         ),
                         const SizedBox(height: 8),

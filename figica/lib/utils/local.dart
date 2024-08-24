@@ -97,6 +97,19 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '동영상 촬영',
       'en': 'Shooting video',
     },
+    'dudtkdtjsxor': {
+      'ko': '영상 선택',
+      'en': 'Select video',
+    },
+    'dudtkdjdqhfem': {
+      'ko': '영상 업로드 하기',
+      'en': 'Upload video',
+    },
+    'ok_Vision': {
+      'ko': '영상 업로드 성공',
+      'en': 'Upload video',
+    },
+
     'titketset': {
       'ko': '데이터 수집 진행',
       'en': 'Proceed with data collection',
@@ -766,6 +779,15 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'reportPlantarPressureDetailPainButtonRSideLabel': {
       'ko': '우측면',
       'en': 'Right side',
+    },
+    //-------------------------//
+    'checkimage': {
+      'ko': '이미지 확인',
+      'en': 'Check image',
+    },
+    'uploadimage': {
+      'ko': '이미지 업로드',
+      'en': 'Upload image',
     },
     'reportPlantarPressureDetailSymptomLabel': {
       'ko': '다음과 같은\n증상이 발생할 수 있어요',

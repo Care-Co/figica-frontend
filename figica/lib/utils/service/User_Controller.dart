@@ -369,7 +369,7 @@ class UserController {
       if (detailedAddress != null && detailedAddress.isNotEmpty && detailedAddress != '') 'detailedAddress': detailedAddress,
     };
 
-    final uri = Uri.https('carencoinc.com', '/kr/service/test/users', queryParams);
+    final uri = Uri.https('carencoinc.com', '/it/service/test/users', queryParams);
 
     loggerNoStack.t({
       'Name': 'testGetAuth',
@@ -454,7 +454,7 @@ class UserController {
       "lastName": lastName,
     };
 
-    final uri = Uri.https('carencoinc.com', '/kr/service/test/users', queryParams);
+    final uri = Uri.https('carencoinc.com', '/it/service/test/users', queryParams);
 
     loggerNoStack.t({
       'Name': 'recoverGetAuth',

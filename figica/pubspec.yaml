@@ -102,6 +102,8 @@ dev_dependencies:
   video_player: ^2.1.15
   flutter_unity_widget: ^2022.2.1
   flutter_flavorizr: ^2.2.3
+  permission_handler: ^11.3.1
+  http_parser: ^4.0.0
 
 flutter_intl:
   enabled: true
