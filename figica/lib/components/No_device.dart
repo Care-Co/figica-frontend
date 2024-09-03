@@ -68,8 +68,8 @@ class _NoDiviceState extends State<NoDivice> {
                     child: LodingButtonWidget(
                       onPressed: () async {
                         Navigator.pop(context);
-                        //context.pushNamed('FindBlue', extra: 'main');
-                        context.goNamed('visionScan', extra: 'main');
+                        context.pushNamed('FindBlue', extra: 'main');
+                        //context.goNamed('visionScan', extra: 'main');
                       },
                       text: SetLocalizations.of(context).getText(
                         'scanNoDeviceButtonConfirmLabel' /* 확인 */,

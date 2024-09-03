@@ -47,11 +47,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               },
               routes: [
                 GoRoute(
-                  name: 'Input_pw',
-                  path: 'Input_pw',
+                  name: 'getPwScreen',
+                  path: 'getPwScreen',
                   builder: (context, state) {
                     final item = state.extra as String;
-                    return InputPwWidget(email: item);
+                    return getPwScreen(email: item);
                   },
                 ),
                 //로그인 sms코드

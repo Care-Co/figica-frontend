@@ -12751,40 +12751,6 @@ IL_0067:
 		return;
 	}
 }
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void InvokableCall_3_Invoke_m227A71CA1C5BE7B18C3F5B41022C02EEC6D2C36E_gshared (InvokableCall_3_tFB16EAFDFD52A876B6AC8566273E0DF14BC7D4C2* __this, Il2CppFullySharedGenericAny ___0_args0, Il2CppFullySharedGenericAny ___1_args1, Il2CppFullySharedGenericAny ___2_args2, const RuntimeMethod* method) 
-{
-	const uint32_t SizeOf_T1_tDD0CBCE6751A7AA6283525B34926445E9E8AE9CD = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 6));
-	const uint32_t SizeOf_T2_t96DEF47C17C0A95AF6486BBDB3BF783D23B0EEA4 = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7));
-	const uint32_t SizeOf_T3_tF187F110CB8F78B82DCD38B6B40A536930C3073A = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 8));
-	const Il2CppFullySharedGenericAny L_4 = alloca(SizeOf_T1_tDD0CBCE6751A7AA6283525B34926445E9E8AE9CD);
-	const Il2CppFullySharedGenericAny L_5 = alloca(SizeOf_T2_t96DEF47C17C0A95AF6486BBDB3BF783D23B0EEA4);
-	const Il2CppFullySharedGenericAny L_6 = alloca(SizeOf_T3_tF187F110CB8F78B82DCD38B6B40A536930C3073A);
-	bool V_0 = false;
-	{
-		UnityAction_3_t63FCFB2F4A79E45F22B316176EBC03C84C95F6A6* L_0 = __this->___Delegate;
-		bool L_1;
-		L_1 = BaseInvokableCall_AllowInvoke_m7BBC3A3F424104A84947708ECF8EEF74707F7661((Delegate_t*)L_0, NULL);
-		V_0 = L_1;
-		bool L_2 = V_0;
-		if (!L_2)
-		{
-			goto IL_001f;
-		}
-	}
-	{
-		UnityAction_3_t63FCFB2F4A79E45F22B316176EBC03C84C95F6A6* L_3 = __this->___Delegate;
-		il2cpp_codegen_memcpy(L_4, (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 6)) ? ___0_args0 : &___0_args0), SizeOf_T1_tDD0CBCE6751A7AA6283525B34926445E9E8AE9CD);
-		il2cpp_codegen_memcpy(L_5, (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7)) ? ___1_args1 : &___1_args1), SizeOf_T2_t96DEF47C17C0A95AF6486BBDB3BF783D23B0EEA4);
-		il2cpp_codegen_memcpy(L_6, (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 8)) ? ___2_args2 : &___2_args2), SizeOf_T3_tF187F110CB8F78B82DCD38B6B40A536930C3073A);
-		NullCheck(L_3);
-		UnityAction_3_Invoke_mE615ABA5961DC9AD3ABC88CC15D598673506F791_inline(L_3, (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 6)) ? L_4: *(void**)L_4), (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 7)) ? L_5: *(void**)L_5), (il2cpp_codegen_class_is_value_type(il2cpp_rgctx_data_no_init(method->klass->rgctx_data, 8)) ? L_6: *(void**)L_6), il2cpp_rgctx_method(method->klass->rgctx_data, 9));
-	}
-
-IL_001f:
-	{
-		return;
-	}
-}
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool InvokableCall_3_Find_mFDC729A8DDD8DB8404CDE29ADB7F48E31F24BAD8_gshared (InvokableCall_3_tFB16EAFDFD52A876B6AC8566273E0DF14BC7D4C2* __this, RuntimeObject* ___0_targetObj, MethodInfo_t* ___1_method, const RuntimeMethod* method) 
 {
 	bool V_0 = false;

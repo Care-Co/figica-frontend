@@ -762,7 +762,6 @@ class _TesterData1State extends State<TesterData1> {
                           ),
                         ),
                         style: AppFont.r16,
-                        keyboardType: TextInputType.number,
                       ),
                     ),
                     Padding(

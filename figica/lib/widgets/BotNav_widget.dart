@@ -70,7 +70,7 @@ class _BotNavState extends State<BotNav> {
     //GroupWidget(),
     Container(),
     //planWidget(),
-    MypageWidget(),
+    MyPageLanding(),
   ];
 
   List<PersistentBottomNavBarItem> _navBarsItems() {

@@ -81,12 +81,12 @@ class _CustomInputFieldState extends State<CustomInputField> {
     TextInputType newKeyboardType = TextInputType.text;
 
     if (input.length >= 2) {
-      if (isNumeric(input.substring(0, 2))) {
+      if (isPhoneNumber(input)) {
         newInputType = 'phone';
-        newKeyboardType = TextInputType.phone;
-      } else if (isAlphabet(input.substring(0, 2))) {
+        newKeyboardType = TextInputType.text;
+      } else {
         newInputType = 'email';
-        newKeyboardType = TextInputType.emailAddress;
+        newKeyboardType = TextInputType.text;
       }
     }
 
@@ -107,6 +107,11 @@ class _CustomInputFieldState extends State<CustomInputField> {
     }
 
     widget.onStatusChanged(inputType);
+  }
+
+  bool isPhoneNumber(String s) {
+    // 숫자, 소괄호, 마침표, 하이픈 이외의 문자가 포함되어 있으면 false 반환
+    return RegExp(r'^[0-9().\-]+$').hasMatch(s);
   }
 
   void _updateKeyboard(String inputType) {

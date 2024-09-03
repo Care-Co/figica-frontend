@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'index.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 var logger = Logger();
 
@@ -31,8 +31,9 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     await FirebaseAppCheck.instance.activate(
-      androidProvider: AndroidProvider.playIntegrity,
+      //androidProvider: AndroidProvider.playIntegrity,
       appleProvider: AppleProvider.deviceCheck,
+      androidProvider: AndroidProvider.playIntegrity,
     );
     print('Firebase 초기화 성공');
   } catch (e) {

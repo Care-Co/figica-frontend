@@ -1,12 +1,26 @@
 import 'package:fisica/index.dart';
+import 'package:fisica/widgets/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
+//------------------ using ex -----------------//
+//  await DialogManager.showDialogByType(
+//           context: context,
+//           dialogType: 'networkError',
+//           getupperButtonFunction: () {
+//             context.safePop();
+//           },
+//           getlowerButtonFunction: () {
+//             context.safePop();
+//           }).then((value) => setState(() {}));
+//     }
 class DialogManager {
   static Future<void> showDialogByType({
     required BuildContext context,
     required String dialogType,
     required VoidCallback getupperButtonFunction,
     required VoidCallback getlowerButtonFunction,
+    String? getdescriptionText,
+    bool? barrierDismissible,
   }) async {
     String backGroundtype;
     String titleText;
@@ -21,6 +35,7 @@ class DialogManager {
       //1_Landing_Screen 네트워크에러
       case 'networkError':
         backGroundtype = 'white';
+        barrierDismissible = true;
         titleText = SetLocalizations.of(context).getText('popupErrorNetworkLabel');
         checkButtonColor = AppColors.red;
         descriptionText = SetLocalizations.of(context).getText('popupErrorNetworkResponseDescription');
@@ -31,6 +46,8 @@ class DialogManager {
       //1_Landing_Screen 전화번호 사용중
       case 'phone':
         backGroundtype = 'white';
+        barrierDismissible = true;
+
         titleText = SetLocalizations.of(context).getText('popupErrorLoginLabel');
         checkButtonColor = AppColors.red;
         descriptionText = SetLocalizations.of(context).getText('popupErrorLoginPhoneDescription');
@@ -43,6 +60,8 @@ class DialogManager {
       //1_Landing_Screen 이메일 사용중
       case 'email':
         backGroundtype = 'white';
+        barrierDismissible = true;
+
         titleText = SetLocalizations.of(context).getText('popupErrorLoginLabel');
         checkButtonColor = AppColors.red;
         descriptionText = SetLocalizations.of(context).getText('popupErrorLoginEmailDescription');
@@ -55,6 +74,8 @@ class DialogManager {
       //1.1.2 get_id 전화번호 사용중
       case 'phonesign':
         backGroundtype = 'white';
+        barrierDismissible = true;
+
         titleText = SetLocalizations.of(context).getText('popupErrorSignupPhoneDuplicatedLabel');
         checkButtonColor = AppColors.red;
         descriptionText = SetLocalizations.of(context).getText('popupErrorSignupPhoneDuplicatedDescription');
@@ -67,6 +88,8 @@ class DialogManager {
       //1.1.2 get_id 이메일 사용중
       case 'emailsign':
         backGroundtype = 'white';
+        barrierDismissible = true;
+
         titleText = SetLocalizations.of(context).getText('popupErrorSignupEmailDuplicatedLabel');
         checkButtonColor = AppColors.red;
         descriptionText = SetLocalizations.of(context).getText('popupErrorSignupEmailDuplicatedDescription');
@@ -78,6 +101,8 @@ class DialogManager {
       //1.1.4 회원가입 취소
       case 'userdata':
         backGroundtype = 'white';
+        barrierDismissible = true;
+
         titleText = SetLocalizations.of(context).getText('popupDecideSignupLabel');
         checkButtonColor = AppColors.red;
         descriptionText = SetLocalizations.of(context).getText('popupDecideSignupDescription');
@@ -89,6 +114,8 @@ class DialogManager {
       //1.2.1 비밀번호 에러 5번 이내
       case 'pwfail':
         backGroundtype = 'white';
+        barrierDismissible = true;
+
         titleText = SetLocalizations.of(context).getText('popupErrorLoginLabel');
         checkButtonColor = AppColors.red;
         descriptionText = SetLocalizations.of(context).getText('popupErrorLoginPasswordDescription');
@@ -100,13 +127,24 @@ class DialogManager {
       //1.2.1 비밀번호 에러 5번 초과
       case 'over':
         backGroundtype = 'white';
-        titleText = SetLocalizations.of(context).getText('completeLoginButtonFindPasswordLabel');
+        barrierDismissible = false;
+
+        titleText = SetLocalizations.of(context).getText('rPwjdakwrla');
         checkButtonColor = AppColors.red;
         descriptionText = SetLocalizations.of(context).getText('popupErrorLoginLabel6');
-        upperButtonText = SetLocalizations.of(context).getText('completeLoginButtonFindPasswordLabel');
+        upperButtonText = SetLocalizations.of(context).getText('popupErrorLoginButtonConfirmLabel');
         upperButtonFunction = getupperButtonFunction;
-        lowerButtonText = SetLocalizations.of(context).getText('popupErrorLoginButtonConfirmLabel');
-        lowerButtonFunction = getlowerButtonFunction;
+        break;
+      case 'overhome':
+        backGroundtype = 'white';
+        barrierDismissible = true;
+
+        titleText = SetLocalizations.of(context).getText('rPwjdakwrla');
+        checkButtonColor = AppColors.red;
+        descriptionText = getdescriptionText!;
+        upperButtonText = SetLocalizations.of(context).getText('popupErrorLoginButtonConfirmLabel');
+        upperButtonFunction = getupperButtonFunction;
+
         break;
       //1.2.1 비밀번호 재설정 확인
       case 'resetPW':
@@ -140,16 +178,30 @@ class DialogManager {
     }
 
     // 공통적인 showCustomDialog 호출
-    await showCustomDialog(
-      backGroundtype: backGroundtype,
+    await showAlignedDialog(
       context: context,
-      checkButtonColor: checkButtonColor,
-      titleText: titleText,
-      descriptionText: descriptionText,
-      upperButtonText: upperButtonText,
-      upperButtonFunction: upperButtonFunction,
-      lowerButtonText: lowerButtonText,
-      lowerButtonFunction: lowerButtonFunction,
+      isGlobal: true,
+      avoidOverflow: false,
+      targetAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+      followerAnchor: AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+      barrierDismissible: barrierDismissible ?? true,
+      builder: (dialogContext) {
+        return Material(
+          color: Colors.transparent,
+          child: GestureDetector(
+            child: CustomDialog(
+              backGroundtype: backGroundtype,
+              checkButtonColor: checkButtonColor,
+              titleText: titleText,
+              descriptionText: descriptionText,
+              upperButtonText: upperButtonText,
+              upperButtonFunction: upperButtonFunction,
+              lowerButtonText: lowerButtonText,
+              lowerButtonFunction: lowerButtonFunction,
+            ),
+          ),
+        );
+      },
     );
   }
 }

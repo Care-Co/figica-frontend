@@ -87,33 +87,42 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                   child: Stack(
                     children: [
-                      if (!AppStateNotifier.datalod)
-                        // Positioned(
-                        //   right: rightPosition,
-                        //   child: UnityWidgetWrapper(
-                        //     height: containerHeight,
-                        //   ),
-                        // ),
-                        if (!detailstate) ...[
+                      if (!AppStateNotifier.datalod) ...[
+                        if (Platform.isIOS)
                           Positioned(
                             right: rightPosition,
-                            child: InkWell(
-                              splashColor: Colors.transparent, // 물결 효과 없애기
-                              highlightColor: Colors.transparent, // 하이라이트 효과 없애기
-                              hoverColor: Colors.transparent, // 호버 색상 없애기
-                              onTap: togglePositionAndControls,
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: containerHeight,
-                              ),
+                            child: UnityWidgetWrapper(
+                              height: containerHeight,
                             ),
                           ),
-                          _buildUserinfo(context, AppStateNotifier),
-                          if (foot != null) Positioned(top: 100, child: _buildScaninfo(context, AppStateNotifier)),
-                        ] else ...[
-                          Positioned(right: 24, bottom: 90, child: _buildcontroller(context, AppStateNotifier)),
-                          Positioned(top: 20, child: _buildtogle(context))
-                        ],
+                        if (Platform.isAndroid)
+                          Positioned(
+                            right: rightPosition,
+                            child: Avata(
+                              height: containerHeight,
+                            ),
+                          ),
+                      ],
+                      if (!detailstate) ...[
+                        Positioned(
+                          right: rightPosition,
+                          child: InkWell(
+                            splashColor: Colors.transparent, // 물결 효과 없애기
+                            highlightColor: Colors.transparent, // 하이라이트 효과 없애기
+                            hoverColor: Colors.transparent, // 호버 색상 없애기
+                            onTap: togglePositionAndControls,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: containerHeight,
+                            ),
+                          ),
+                        ),
+                        _buildUserinfo(context, AppStateNotifier),
+                        if (foot != null) Positioned(top: 100, child: _buildScaninfo(context, AppStateNotifier)),
+                      ] else ...[
+                        Positioned(right: 24, bottom: 90, child: _buildcontroller(context, AppStateNotifier)),
+                        Positioned(top: 20, child: _buildtogle(context))
+                      ],
                       if (detailinfo && detailstate)
                         Padding(
                           padding: const EdgeInsets.only(top: 100),

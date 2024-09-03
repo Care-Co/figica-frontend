@@ -50,6 +50,18 @@
       "request": "launch",
       "type": "dart",
       "deviceId": "8A253750-B0A9-458F-A814-4E2969F63194"
+    },
+    {
+      "name": "tta ios",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "00008030-0009796C21F0802E"
+    },
+    {
+      "name": "tta and",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "ce0917192d67c80404"
     }
   ],
   "compounds": [
@@ -68,6 +80,10 @@
     {
       "name": "13 and vm and",
       "configurations": ["Android 3", "iPhone 13"]
+    },
+    {
+      "name": "tta",
+      "configurations": ["tta and", "tta ios"]
     }
   ]
 }

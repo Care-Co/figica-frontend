@@ -77,10 +77,19 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Reset your password',
     },
     //--------------------------
+    'rPwjdakwrla': {
+      'ko': '계정 비활성화',
+      'en': 'Account inactivity',
+    },
+    'rudrh': {
+      'ko': '{minutes}분 {seconds}초 후 다시 시도해주세요',
+      'en': 'Please try again in {minutes} minutes {seconds}.',
+    },
     'tkwlsgkdk': {
       'ko': 'Vision 분석용\n사진 촬영 완료',
       'en': 'For Vision Analytics\nPhoto taken',
     },
+
     'rlekfu': {
       'ko': '{name}님의 건강 정보를 담은\n디지털 - 트윈 아바타를 생성해 드릴게요.\n잠시만 기다려 주세요!',
       'en': '{name} with your health information\ndigital-twin avatar with your health information.\nPlease be patient!',
@@ -107,7 +116,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'ok_Vision': {
       'ko': '영상 업로드 성공',
-      'en': 'Upload video',
+      'en': 'Video uploaded successfully',
     },
 
     'titketset': {
@@ -430,8 +439,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Cannot log in',
     },
     'popupErrorLoginLabel6': {
-      'ko': '비밀번호를 5회 잘못 입력하셨습니다.\n비밀번호를 잊으셨다면 회원가입을 한 이메일을 통해 재설정할 수 있어요',
-      'en': 'You have entered your password incorrectly 5 times.\nIf you forgot your password, you can reset it via the email you signed up with',
+      'ko': '비밀번호를 잘못 입력하셨습니다.\n5분간 계정이 비활성화 됩니다.\n5분후 다시 시도해 주세요',
+      'en': 'You entered the wrong password.\nYour account will be disabled for 5 minutes.\nPlease try again in 5 minutes',
     },
     'popupErrorLoginPhoneDescription': {
       'ko': '전화번호를 확인할 수 없습니다',
