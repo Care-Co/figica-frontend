@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SmscodeWidget extends StatefulWidget {
-  const SmscodeWidget({Key? key}) : super(key: key);
+  final String phone;
+
+  const SmscodeWidget({Key? key, required this.phone}) : super(key: key);
 
   @override
   _SmscodeWidgetState createState() => _SmscodeWidgetState();
@@ -22,7 +24,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       if (_seconds == 0) {
         _resetTimer();
-        // Perform any action when the timer reaches 0
+        context.pushNamed('home');
       } else {
         setState(() {
           _seconds--;
@@ -54,6 +56,22 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
       setState(() {});
     });
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  void _resendVerificationCode() {
+    final phoneNumberVal = widget.phone; // 전화번호 설정
+    FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phoneNumberVal,
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {
+        print('Verification Failed: ${e.message}');
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        print('Verification Code Sent Again');
+        AppStateNotifier.instance.UpverificationId(verificationId); // 업데이트된 verificationId 저장
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
   }
 
   bool _errorText1() {
@@ -176,7 +194,7 @@ class _SmscodeWidgetState extends State<SmscodeWidget> {
                               focusNode: FocusNode(skipTraversal: true),
                               onTap: () {
                                 _resetTimer();
-
+                                _resendVerificationCode();
                                 _startTimer();
                               },
                               child: Column(

@@ -155,6 +155,7 @@ class _MyPageLandingState extends State<MyPageLanding> {
   }
 
   Widget _buildUserInfo(BuildContext context) {
+    print(data?.gender);
     return Container(
       child: Row(
         children: [
@@ -196,7 +197,7 @@ class _MyPageLandingState extends State<MyPageLanding> {
                             style: AppFont.s12.overrides(color: AppColors.Gray300),
                           ),
                           Text(
-                            (data?.gender == 'FEMALE')
+                            (data?.gender == 'MALE')
                                 ? SetLocalizations.of(context).getText('signupUserInfoButtonGenderMaleLabel')
                                 : SetLocalizations.of(context).getText('signupUserInfoButtonGenderFemaleLabel'),
                             style: AppFont.s12.overrides(color: AppColors.Gray300),

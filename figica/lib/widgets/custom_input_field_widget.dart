@@ -78,22 +78,18 @@ class _CustomInputFieldState extends State<CustomInputField> {
   void _onTextChanged() {
     String input = widget.controller.text;
     String newInputType = 'none';
-    TextInputType newKeyboardType = TextInputType.text;
 
     if (input.length >= 2) {
       if (isPhoneNumber(input)) {
         newInputType = 'phone';
-        newKeyboardType = TextInputType.text;
       } else {
         newInputType = 'email';
-        newKeyboardType = TextInputType.text;
       }
     }
 
     if (newInputType != inputType) {
       setState(() {
         inputType = newInputType;
-        keyboardType = newKeyboardType;
       });
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -116,10 +112,13 @@ class _CustomInputFieldState extends State<CustomInputField> {
 
   void _updateKeyboard(String inputType) {
     if (inputType == 'email') {
+      // 이메일 입력 필드로 포커스 이동
       FocusScope.of(context).requestFocus(emailFocusNode);
     } else if (inputType == 'phone') {
+      // 전화번호 입력 필드로 포커스 이동
       FocusScope.of(context).requestFocus(phoneFocusNode);
     } else {
+      // 포커스를 아무 입력 필드에도 두지 않음
       FocusScope.of(context).requestFocus(noneFocusNode);
     }
   }
@@ -227,8 +226,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
               focusNode: emailFocusNode,
               autofocus: false,
               onFieldSubmitted: (value) {
-                print('bbb');
-                widget.onSubmitted;
+                widget.onSubmitted(value); // 전달된 값 처리
               },
               decoration: InputDecoration(
                 labelStyle: AppFont.r16.overrides(color: AppColors.Gray500),
@@ -280,7 +278,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
                 errorText: emailValidator(widget.controller.text),
               ),
               style: AppFont.r16.overrides(color: AppColors.Gray700),
-              keyboardType: keyboardType,
               validator: emailValidator,
             ),
           ],
@@ -345,7 +342,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                       controller: widget.controller,
                       focusNode: phoneFocusNode,
                       onFieldSubmitted: (value) {
-                        widget.onSubmitted;
+                        widget.onSubmitted(value);
                       },
                       decoration: InputDecoration(
                         labelStyle: AppFont.r16,
@@ -397,7 +394,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
                         errorText: phoneValidator(widget.controller.text),
                       ),
                       style: AppFont.r16.overrides(color: AppColors.Gray700),
-                      keyboardType: keyboardType,
                       validator: phoneValidator),
                 ],
               ),

@@ -16,8 +16,8 @@ class UserController {
 
   //유효성 검사
   static Future<ValidateData?> validate(String text, String inputType) async {
-    inputType == 'phone' ? jsonEncode({'phoneNumber': text}) : jsonEncode({'email': text});
-    var url = inputType == 'phone' ? Uri.parse('$linkurl/validate?phoneNumber=$text') : Uri.parse('$linkurl/validate?email=$text');
+    String encodedText = Uri.encodeComponent(text);
+    var url = inputType == 'phone' ? Uri.parse('$linkurl/validate?phoneNumber=$encodedText') : Uri.parse('$linkurl/validate?email=$text');
     var headers = {'accept': '*/*', 'Content-Type': 'application/json'};
 
     try {
@@ -31,10 +31,11 @@ class UserController {
         ValidateData validateData = ValidateData.fromJson(jsonResponse['data']);
         return validateData;
       } else {
+        print('null');
         return null;
       }
     } catch (e) {
-      throw e;
+      return null;
     }
   }
 
@@ -296,7 +297,11 @@ class UserController {
     }
   }
 
-  static Future<void> uploadProfileImage(File? image) async {
+  static Future<void> uploadProfileImage(bool isimage, File? image) async {
+    print('image');
+    print(isimage);
+    print(image);
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     final String? token = await AppStateNotifier.instance.getAccessToken();
 
@@ -306,15 +311,17 @@ class UserController {
 
     var request = http.MultipartRequest(
       'PUT',
-      Uri.parse('$linkurl/users/$uid/photo'),
+      Uri.parse('$linkurl/users/$uid/photo?upload=$isimage'),
     );
 
     request.headers.addAll(headers);
 
-    request.files.add(await http.MultipartFile.fromPath(
-      'file',
-      image?.path ?? '',
-    ));
+    isimage
+        ? request.files.add(await http.MultipartFile.fromPath(
+            'file',
+            image?.path ?? '',
+          ))
+        : null;
     loggerNoStack.t({'Name': 'uploadProfileImage', 'request': request, 'file': image?.path});
 
     try {

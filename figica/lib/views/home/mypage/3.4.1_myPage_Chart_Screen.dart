@@ -278,26 +278,28 @@ class _ChartState extends State<Chart> {
 //TODOdi
   void showdelAllDialog(List<String> allFootprints) {
     showCustomDialog(
-      context: context,
-      backGroundtype: 'black',
-      checkButtonColor: AppColors.red,
-      titleText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllLabel'),
-      descriptionText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllDescription'),
-      upperButtonText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllButtonConfirmLabel'),
-      upperButtonFunction: () async {
-        //todo 모든 리포트 삭제
-        FootprintApi.deleteAllWegith();
-        // for (String item in allFootprints) {
-        //   FootprintApi.deleteSomePrint(item);
-        // }
-        showCustomSnackBar(context, SetLocalizations.of(context).getText('historyDeleteWeightAllToast'));
+        context: context,
+        backGroundtype: 'black',
+        checkButtonColor: AppColors.red,
+        titleText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllLabel'),
+        descriptionText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllDescription'),
+        upperButtonText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllButtonConfirmLabel'),
+        upperButtonFunction: () async {
+          //todo 모든 리포트 삭제
+          FootprintApi.deleteAllWegith();
+          // for (String item in allFootprints) {
+          //   FootprintApi.deleteSomePrint(item);
+          // }
+          showCustomSnackBar(context, SetLocalizations.of(context).getText('historyDeleteWeightAllToast'));
 
-        print(allFootprints);
-        context.safePop();
-      },
-      lowerButtonText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllButtonCancelLabel'),
-      /* 이전으로 돌아가기 */
-    );
+          print(allFootprints);
+          context.safePop();
+        },
+        lowerButtonText: SetLocalizations.of(context).getText('popupDecideDeleteReportWeightAllButtonCancelLabel'),
+        /* 이전으로 돌아가기 */
+        lowerButtonFunction: () {
+          context.safePop();
+        });
   }
 
   void showcheckbox() {

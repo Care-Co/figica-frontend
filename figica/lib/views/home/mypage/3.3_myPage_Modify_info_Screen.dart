@@ -72,6 +72,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
   String dropDownValue = 'KR';
   FormFieldController<String>? dropDownValueController;
   late AppStateNotifier _appStateNotifier;
+  bool isDelete = false;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -92,7 +93,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
       double height = heController.text.isEmpty ? 0.0 : double.parse(heController.text);
       double weight = weController.text.isEmpty ? 0.0 : double.parse(weController.text);
 
-      if (_image != null) await UserController.uploadProfileImage(_image);
+      if ((_image != null) || isDelete) await UserController.uploadProfileImage(!isDelete, _image);
 
       await UserController.modiProfile(data, finame, name, selectedGender, height, weight, _image).then((userData) {
         _appStateNotifier = AppStateNotifier.instance;
@@ -117,6 +118,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                 onTap: () {
                   Navigator.of(context).pop();
                   _pickImage(ImageSource.gallery);
+                  isDelete = false;
                 },
               ),
               ListTile(
@@ -125,6 +127,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                 onTap: () {
                   Navigator.of(context).pop();
                   _pickImage(ImageSource.camera);
+                  isDelete = false;
                 },
               ),
               ListTile(
@@ -134,6 +137,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                   Navigator.of(context).pop();
                   setState(() {
                     _image = null;
+                    isDelete = true;
                   });
                 },
               ),
@@ -291,16 +295,18 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                     child: GestureDetector(
                                   onTap: () => _showImagePickerOptions(context),
                                   child: CircleAvatar(
-                                    radius: 50,
-                                    backgroundColor: Colors.grey[300],
-                                    backgroundImage: _image != null ? FileImage(_image!) : null,
-                                    child: _image == null
-                                        ? Icon(
-                                            Icons.camera_alt,
-                                            size: 50,
-                                            color: Colors.grey[800],
-                                          )
-                                        : null,
+                                    radius: 60.0,
+                                    backgroundColor: Colors.black,
+                                    backgroundImage: !isDelete
+                                        ? (_image != null
+                                            ? FileImage(_image!) as ImageProvider
+                                            : (data?.photoUrl != null
+                                                ? NetworkImage(data!.photoUrl!) as ImageProvider
+                                                : null)) // isDelete가 false일 때만 이미지 표시
+                                        : null, // isDelete가 true일 경우 아무것도 표시하지 않음
+                                    child: !isDelete && _image == null && data?.photoUrl == null
+                                        ? Icon(Icons.person, color: Colors.white) // 이미지가 없을 때 기본 아이콘 표시
+                                        : null, // isDelete가 true일 경우 아무것도 표시하지 않음
                                   ),
                                 )),
                                 Row(
@@ -517,6 +523,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                         child: LodingButtonWidget(
                                           onPressed: () {
                                             setState(() {
+                                              print('MALE');
                                               selectedGender = 'MALE';
                                             });
                                           },
@@ -545,6 +552,7 @@ class _ModiUserInfoWidgetState extends State<ModiUserInfoWidget> {
                                         child: LodingButtonWidget(
                                           onPressed: () {
                                             setState(() {
+                                              print('female');
                                               selectedGender = 'FEMALE';
                                             });
                                           },

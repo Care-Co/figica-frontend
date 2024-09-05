@@ -82,23 +82,21 @@ class _GetidWidgetState extends State<GetidWidget> {
 
       if (_inputType == 'email') {
         await UserController.validate(input, _inputType).then((validateData) async {
-          if (validateData != null) {
-            bool exists = validateData.expired;
+          bool isusing = validateData != null;
 
-            if (!exists) {
-              FocusScope.of(context).unfocus();
-              await DialogManager.showDialogByType(
-                  context: context,
-                  dialogType: _inputType + "sign",
-                  getupperButtonFunction: () {
-                    context.pushNamed('LandingScreen');
-                  },
-                  getlowerButtonFunction: () {
-                    context.safePop();
-                  }).then((value) => setState(() {}));
-            } else {
-              context.pushNamed('Set_pw', extra: input);
-            }
+          if (isusing) {
+            FocusScope.of(context).unfocus();
+            await DialogManager.showDialogByType(
+                context: context,
+                dialogType: _inputType + "sign",
+                getupperButtonFunction: () {
+                  context.pushNamed('LandingScreen');
+                },
+                getlowerButtonFunction: () {
+                  context.safePop();
+                }).then((value) => setState(() {}));
+          } else {
+            context.pushNamed('Set_pw', extra: input);
           }
         });
       } else if (_inputType == 'phone') {
@@ -106,60 +104,58 @@ class _GetidWidgetState extends State<GetidWidget> {
         setState(() {
           isLoading = true;
         }); // 로딩 상태를 true로 설정
-
         await UserController.validate(phoneNumberVal, _inputType).then((validateData) async {
-          if (validateData != null) {
-            bool exists = validateData.expired;
-            if (exists) {
-              FocusScope.of(context).unfocus();
-              await DialogManager.showDialogByType(
-                  context: context,
-                  dialogType: _inputType + "sign",
-                  getupperButtonFunction: () {
-                    context.pushNamed('LandingScreen');
-                  },
-                  getlowerButtonFunction: () {
-                    context.safePop();
-                  }).then((value) => setState(() {
-                    isLoading = false;
-                  }));
-            } else {
-              await FirebaseAuth.instance.verifyPhoneNumber(
-                phoneNumber: phoneNumberVal,
-                verificationCompleted: (PhoneAuthCredential credential) async {
-                  try {
-                    await FirebaseAuth.instance.signInWithCredential(credential);
-                    print("자동 인증 성공!");
-                    setState(() {
-                      isLoading = false;
-                    });
-                  } catch (e) {
-                    print('자동 인증 실패: $e');
-                    setState(() {
-                      isLoading = false;
-                    });
-                  }
+          bool isusing = validateData != null;
+
+          if (isusing) {
+            FocusScope.of(context).unfocus();
+            await DialogManager.showDialogByType(
+                context: context,
+                dialogType: _inputType + "sign",
+                getupperButtonFunction: () {
+                  context.pushNamed('LandingScreen');
                 },
-                verificationFailed: (FirebaseAuthException error) {
-                  print("인증 실패: ${error.message}");
+                getlowerButtonFunction: () {
+                  context.safePop();
+                }).then((value) => setState(() {
+                  isLoading = false;
+                }));
+          } else {
+            await FirebaseAuth.instance.verifyPhoneNumber(
+              phoneNumber: phoneNumberVal,
+              verificationCompleted: (PhoneAuthCredential credential) async {
+                try {
+                  await FirebaseAuth.instance.signInWithCredential(credential);
+                  print("자동 인증 성공!");
                   setState(() {
                     isLoading = false;
                   });
-                },
-                codeSent: (String verificationId, int? forceResendingToken) {
-                  print("SMS 코드가 성공적으로 전송되었습니다!");
-                  AppStateNotifier.instance.updateSignUpState(true);
-                  AppStateNotifier.instance.UpverificationId(verificationId);
-                  context.pushNamed('singup_smscode');
+                } catch (e) {
+                  print('자동 인증 실패: $e');
                   setState(() {
                     isLoading = false;
                   });
-                },
-                codeAutoRetrievalTimeout: (String verificationId) {
-                  print("자동 검색 시간 초과");
-                },
-              );
-            }
+                }
+              },
+              verificationFailed: (FirebaseAuthException error) {
+                print("인증 실패: ${error.message}");
+                setState(() {
+                  isLoading = false;
+                });
+              },
+              codeSent: (String verificationId, int? forceResendingToken) {
+                print("SMS 코드가 성공적으로 전송되었습니다!");
+                AppStateNotifier.instance.updateSignUpState(true);
+                AppStateNotifier.instance.UpverificationId(verificationId);
+                context.pushNamed('singup_smscode', extra: phoneNumberVal);
+                setState(() {
+                  isLoading = false;
+                });
+              },
+              codeAutoRetrievalTimeout: (String verificationId) {
+                print("자동 검색 시간 초과");
+              },
+            );
           }
         });
       }

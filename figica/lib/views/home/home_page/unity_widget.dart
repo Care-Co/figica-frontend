@@ -105,47 +105,8 @@ class _UnityWidgetWrapperState extends State<UnityWidgetWrapper> {
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              Positioned(
-                child: Container(
-                  height: widget.height,
-                  width: MediaQuery.of(context).size.width,
-                  alignment: Alignment.bottomCenter,
-                  child: Image.asset(
-                    'assets/images/footsheet.png',
-                  ),
-                ),
-              ),
-              UnityWidget(
-                onUnityCreated: onUnityCreated,
-                onUnityMessage: onUnityMessage,
-                onUnitySceneLoaded: onUnitySceneLoaded,
-                fullscreen: false,
-                runImmediately: false,
-                unloadOnDispose: true,
-              ),
-              GestureDetector(
-                onHorizontalDragStart: (details) {
-                  _startPosition = details.localPosition;
-                },
-                onHorizontalDragUpdate: (details) {
-                  // 드래그한 만큼의 이동을 계산합니다.
-                  double deltaX = details.delta.dx;
-
-                  // 현재 회전 값에 이동 값을 누적합니다.
-                  setState(() {
-                    _rotationValue = (_rotationValue - deltaX) % 360;
-                    if (_rotationValue < 0) {
-                      _rotationValue += 360;
-                    }
-                  });
-
-                  setRotationValue(_rotationValue);
-                },
-                onHorizontalDragEnd: (details) {
-                  // 드래그가 끝났을 때의 위치로 업데이트합니다.
-                  _startPosition = Offset.zero; // 초기화
-                },
-                child: UnityWidget(
+              if (hasFootdata) ...[
+                UnityWidget(
                   onUnityCreated: onUnityCreated,
                   onUnityMessage: onUnityMessage,
                   onUnitySceneLoaded: onUnitySceneLoaded,
@@ -153,26 +114,67 @@ class _UnityWidgetWrapperState extends State<UnityWidgetWrapper> {
                   runImmediately: false,
                   unloadOnDispose: true,
                 ),
-              ),
-              // Positioned(
-              //   right: 70,
-              //   top: 20,
-              //   bottom: 20,
-              //   child: RotatedBox(
-              //     quarterTurns: -1,
-              //     child: Slider(
-              //       value: _currentValue,
-              //       min: 0,
-              //       max: 1,
-              //       divisions: 100,
-              //       label: _currentValue.toStringAsFixed(2),
-              //       onChanged: (double value) {
-              //         sendTransparency(value);
-              //       },
-              //     ),
-              //   ),
-              // ),
-              if (!hasFootdata)
+                GestureDetector(
+                  onHorizontalDragStart: (details) {
+                    _startPosition = details.localPosition;
+                  },
+                  onHorizontalDragUpdate: (details) {
+                    // 드래그한 만큼의 이동을 계산합니다.
+                    double deltaX = details.delta.dx;
+
+                    // 현재 회전 값에 이동 값을 누적합니다.
+                    setState(() {
+                      _rotationValue = (_rotationValue - deltaX) % 360;
+                      if (_rotationValue < 0) {
+                        _rotationValue += 360;
+                      }
+                    });
+
+                    setRotationValue(_rotationValue);
+                  },
+                  onHorizontalDragEnd: (details) {
+                    // 드래그가 끝났을 때의 위치로 업데이트합니다.
+                    _startPosition = Offset.zero; // 초기화
+                  },
+                  child: UnityWidget(
+                    onUnityCreated: onUnityCreated,
+                    onUnityMessage: onUnityMessage,
+                    onUnitySceneLoaded: onUnitySceneLoaded,
+                    fullscreen: false,
+                    runImmediately: false,
+                    unloadOnDispose: true,
+                  ),
+                ),
+                // Positioned(
+                //   right: 70,
+                //   top: 20,
+                //   bottom: 20,
+                //   child: RotatedBox(
+                //     quarterTurns: -1,
+                //     child: Slider(
+                //       value: _currentValue,
+                //       min: 0,
+                //       max: 1,
+                //       divisions: 100,
+                //       label: _currentValue.toStringAsFixed(2),
+                //       onChanged: (double value) {
+                //         sendTransparency(value);
+                //       },
+                //     ),
+                //   ),
+                // ),
+              ],
+              if (!hasFootdata) ...[
+                Positioned(
+                  child: Container(
+                    height: widget.height,
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.bottomCenter,
+                    child: Image.asset(
+                      'assets/images/footsheet.png',
+                    ),
+                  ),
+                ),
                 Positioned(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 30.0),
@@ -186,6 +188,7 @@ class _UnityWidgetWrapperState extends State<UnityWidgetWrapper> {
                     ),
                   ),
                 ),
+              ]
             ],
           ),
         );

@@ -27,6 +27,7 @@ class _LandingScreenState extends State<LandingScreen> {
   String? dropDownValue;
   // dropDownValueController: 드롭다운 메뉴의 상태를 제어하는 컨트롤러
   FormFieldController<String>? dropDownValueController;
+  bool isLoading = false; // 로딩 상태 변수 추가
 
   @override
   void initState() {
@@ -65,69 +66,80 @@ class _LandingScreenState extends State<LandingScreen> {
         key: _scaffoldKey,
         resizeToAvoidBottomInset: false, // 키보드로 인해 화면 크기가 변경되는 것을 방지
         backgroundColor: AppColors.primaryBackground,
-        body: SafeArea(
-          top: true,
-          child: Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height,
-            padding: EdgeInsetsDirectional.fromSTEB(24.0, 30.0, 24.0, 24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildHeader(context),
-                // ID 입력 필드
-                CustomInputField(
-                  controller: _myController,
-                  onStatusChanged: _updateInputType,
-                  onSelected: (value) {
-                    selectedValue = value;
-                    print("Selected value: $selectedValue");
-                  },
-                  onSubmitted: (value) {
-                    print("Selected value: $selectedValue");
-                    _handleOnPressed;
-                  },
-                ),
-                // 언어 변경 드롭다운 메뉴
-                _buildLanguageDropDown(context),
-                SizedBox(
-                  height: 50,
-                ),
-                Column(
+        body: Stack(
+          children: [
+            SafeArea(
+              top: true,
+              child: Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height,
+                padding: EdgeInsetsDirectional.fromSTEB(24.0, 30.0, 24.0, 24.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // 로그인 버튼
-                    _buildLoginButton(context),
-                    // 전화번호 변경 버튼
-                    //_buildphoneButton(context),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Divider(
-                            color: AppColors.Gray200,
-                            thickness: 1.0,
-                          ),
+                    _buildHeader(context),
+                    // ID 입력 필드
+                    CustomInputField(
+                      controller: _myController,
+                      onStatusChanged: _updateInputType,
+                      onSelected: (value) {
+                        selectedValue = value;
+                        print("Selected value: $selectedValue");
+                      },
+                      onSubmitted: (value) {
+                        print("Selected value: $selectedValue");
+                        _handleOnPressed;
+                      },
+                    ),
+                    // 언어 변경 드롭다운 메뉴
+                    _buildLanguageDropDown(context),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Column(
+                      children: [
+                        // 로그인 버튼
+                        _buildLoginButton(context),
+                        // 전화번호 변경 버튼
+                        //_buildphoneButton(context),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Divider(
+                                color: AppColors.Gray200,
+                                thickness: 1.0,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: Text('OR', style: AppFont.r16.overrides(color: AppColors.Gray200, fontSize: 12)),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                color: AppColors.Gray200,
+                                thickness: 1.0,
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Text('OR', style: AppFont.r16.overrides(color: AppColors.Gray200, fontSize: 12)),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: AppColors.Gray200,
-                            thickness: 1.0,
-                          ),
-                        ),
+                        // 회원가입 버튼
+                        _buildSingupButton(context),
                       ],
                     ),
-                    // 회원가입 버튼
-                    _buildSingupButton(context),
                   ],
                 ),
-              ],
+              ),
             ),
-          ),
+            if (isLoading)
+              Container(
+                color: Colors.black.withOpacity(0.1),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+          ],
         ),
       ),
     );
@@ -143,6 +155,9 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   Future<void> _handleOnPressed() async {
+    setState(() {
+      isLoading = true;
+    }); // 로딩 상태를 true로 설정
     if (_inputType == 'none') return;
     String id = _inputType == 'phone' ? selectedValue + _myController.text.substring(1) : _myController.text;
     try {
@@ -153,13 +168,14 @@ class _LandingScreenState extends State<LandingScreen> {
 
           if (expired) {
             int? count = validateData.attemptsCount;
+            DateTime? expiredDate = validateData.expiredDate;
             String? expiredTime = validateData.expiredTime;
             DateTime now = DateTime.now();
             DateFormat timeFormat = DateFormat("HH:mm:ss");
             DateTime targetTime = DateTime(
-              now.year,
-              now.month,
-              now.day,
+              expiredDate!.year,
+              expiredDate.month,
+              expiredDate.day,
               timeFormat.parse(expiredTime!).hour,
               timeFormat.parse(expiredTime).minute,
               timeFormat.parse(expiredTime).second,
@@ -174,7 +190,9 @@ class _LandingScreenState extends State<LandingScreen> {
             if (exists) {
               String minutes = difference.inMinutes.toString();
               String seconds = difference.inSeconds.remainder(60).toString();
-
+              setState(() {
+                isLoading = false;
+              });
               await DialogManager.showDialogByType(
                 context: context,
                 dialogType: 'overhome',
@@ -197,6 +215,9 @@ class _LandingScreenState extends State<LandingScreen> {
                 AppStateNotifier.instance.updateloginState(true);
                 context.pushNamed('getPwScreen', extra: id);
                 FocusScope.of(context).unfocus();
+                setState(() {
+                  isLoading = false;
+                });
               }
             }
           } else {
@@ -210,9 +231,15 @@ class _LandingScreenState extends State<LandingScreen> {
               AppStateNotifier.instance.updateloginState(true);
               context.pushNamed('getPwScreen', extra: id);
               FocusScope.of(context).unfocus();
+              setState(() {
+                isLoading = false;
+              });
             }
           }
         } else {
+          setState(() {
+            isLoading = false;
+          });
           await DialogManager.showDialogByType(
               context: context,
               dialogType: _inputType,
@@ -228,6 +255,9 @@ class _LandingScreenState extends State<LandingScreen> {
         }
       });
     } on Exception catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       print(e);
       await DialogManager.showDialogByType(
           context: context,
@@ -252,6 +282,9 @@ class _LandingScreenState extends State<LandingScreen> {
         print("인증 실패: ${error.code}");
         print("인증 실패: ${error.message}");
         print("인증 실패: ${error.tenantId}");
+        setState(() {
+          isLoading = false;
+        });
         AppStateNotifier.instance.updateloginState(false);
       },
       codeSent: (verificationId, forceResendingToken) {
@@ -260,10 +293,16 @@ class _LandingScreenState extends State<LandingScreen> {
         AppStateNotifier.instance.updateloginState(true);
         AppStateNotifier.instance.UpverificationId(verificationId);
         // Navigator.push(context, MaterialPageRoute(builder: (context) => SmscodeWidget(verificationId: verificationId, isSingUp: true)));
-        context.pushNamed('smscode');
+        context.pushNamed('smscode', extra: id);
+        setState(() {
+          isLoading = false;
+        });
       },
       codeAutoRetrievalTimeout: (verificationId) {
         print("자동 검색 시간 초과");
+        setState(() {
+          isLoading = false;
+        });
       },
     );
   }

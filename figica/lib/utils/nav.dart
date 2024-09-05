@@ -59,7 +59,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   name: 'smscode',
                   path: 'smscode',
                   builder: (context, state) {
-                    return SmscodeWidget();
+                    final item = state.extra as String;
+
+                    return SmscodeWidget(
+                      phone: item,
+                    );
                   },
                 ),
                 GoRoute(
@@ -187,7 +191,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                                 name: 'singup_smscode',
                                 path: 'singup_smscode',
                                 builder: (context, state) {
-                                  return SmscodeWidget();
+                                  final item = state.extra as String;
+                                  return SmscodeWidget(phone: item);
                                 },
                                 routes: [
                                   GoRoute(

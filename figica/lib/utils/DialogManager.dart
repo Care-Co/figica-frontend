@@ -54,7 +54,7 @@ class DialogManager {
         upperButtonText = SetLocalizations.of(context).getText('popupErrorLoginButtonSignupLabel');
         upperButtonFunction = getupperButtonFunction;
         lowerButtonText = SetLocalizations.of(context).getText('popupErrorNetworkButtonConfirmLabel');
-        lowerButtonFunction = () => context.pushNamed('home');
+        lowerButtonFunction = getlowerButtonFunction;
         ;
         break;
       //1_Landing_Screen 이메일 사용중
@@ -82,8 +82,7 @@ class DialogManager {
         upperButtonText = SetLocalizations.of(context).getText('popupErrorSignupPhoneDuplicatedButtonReturnLabel');
         upperButtonFunction = getupperButtonFunction;
         lowerButtonText = SetLocalizations.of(context).getText('popupErrorSignupPhoneDuplicatedButtonConfirmLabel');
-        lowerButtonFunction = () => context.pushNamed('home');
-        ;
+        lowerButtonFunction = getlowerButtonFunction;
         break;
       //1.1.2 get_id 이메일 사용중
       case 'emailsign':

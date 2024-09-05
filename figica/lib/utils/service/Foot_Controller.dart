@@ -122,7 +122,7 @@ class FootprintApi {
     if (response.statusCode == 200) {
       // 응답 데이터 디코딩 및 null 체크
       List<dynamic> responseData = jsonDecode(response.body)['data'] ?? [];
-      loggerNoStack.i(responseData);
+      loggerNoStack.i(response.body);
 
       // 응답 데이터가 null이 아니고 비어있지 않은지 확인
       if (responseData.isNotEmpty) {
@@ -131,6 +131,8 @@ class FootprintApi {
         await AppStateNotifier.instance.sortfootdata('new');
       } else {
         // 응답 데이터가 비어있는 경우 처리
+        await AppStateNotifier.instance.delfoothistory();
+        print(AppStateNotifier.instance.footdata);
         loggerNoStack.i('응답 데이터가 비어있습니다.');
       }
     } else {
@@ -243,7 +245,7 @@ class FootprintApi {
     loggerNoStack.t({'Name': 'getweighthistory', 'url': url});
     if (response.statusCode == 200) {
       List<dynamic> responseData = jsonDecode(response.body)['data'];
-      loggerNoStack.i(responseData);
+      loggerNoStack.i(response.body);
       List<WeightData> WeightHistory = responseData.map((data) => WeightData.fromJson(data)).toList();
       calculateWeightChanges(WeightHistory);
       await AppStateNotifier.instance.UpWeightHistory(WeightHistory);

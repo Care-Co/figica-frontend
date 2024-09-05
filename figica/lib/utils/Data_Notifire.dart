@@ -64,7 +64,7 @@ class AppStateNotifier extends ChangeNotifier {
 
   UserData? get userdata => _userdata;
   List<FootData>? get footdata => _footdata;
-  bool get isfootempty => _footdata == null;
+  bool get isfootempty => _footdata == null || _footdata!.isEmpty;
   bool get isweightData => _WeightData == null || _WeightData!.isEmpty;
 
   List<WeightData>? get weightData => _WeightData;
@@ -383,7 +383,14 @@ class AppStateNotifier extends ChangeNotifier {
     _footdata = data;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('footdata', jsonEncode(data));
+    notifyListeners();
+  }
 
+  Future<void> delfoothistory() async {
+    loggerNoStack.i('Provider----------------------delfoothistory');
+    final prefs = await SharedPreferences.getInstance();
+    _footdata = null;
+    await prefs.remove('footdata');
     notifyListeners();
   }
 
