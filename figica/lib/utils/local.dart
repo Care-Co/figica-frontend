@@ -77,10 +77,19 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Reset your password',
     },
     //--------------------------
+    'rPwjdakwrla': {
+      'ko': '계정 비활성화',
+      'en': 'Account inactivity',
+    },
+    'rudrh': {
+      'ko': '{minutes}분 {seconds}초 후 다시 시도해주세요',
+      'en': 'Please try again in {minutes} minutes {seconds}.',
+    },
     'tkwlsgkdk': {
       'ko': 'Vision 분석용\n사진 촬영 완료',
       'en': 'For Vision Analytics\nPhoto taken',
     },
+
     'rlekfu': {
       'ko': '{name}님의 건강 정보를 담은\n디지털 - 트윈 아바타를 생성해 드릴게요.\n잠시만 기다려 주세요!',
       'en': '{name} with your health information\ndigital-twin avatar with your health information.\nPlease be patient!',
@@ -97,6 +106,19 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ko': '동영상 촬영',
       'en': 'Shooting video',
     },
+    'dudtkdtjsxor': {
+      'ko': '영상 선택',
+      'en': 'Select video',
+    },
+    'dudtkdjdqhfem': {
+      'ko': '영상 업로드 하기',
+      'en': 'Upload video',
+    },
+    'ok_Vision': {
+      'ko': '영상 업로드 성공',
+      'en': 'Video uploaded successfully',
+    },
+
     'titketset': {
       'ko': '데이터 수집 진행',
       'en': 'Proceed with data collection',
@@ -171,8 +193,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Send password reset email',
     },
     'changePasswordpopupScript': {
-      'ko': '비밀번호를 재설정할 수 있는 링크를 {name}님의 E-mail로 전송했어요.\n링크를 눌러 비밀번호 재설정을\n진행해 주세요!',
-      'en': 'We\'ve sent a link to reset your \npassword to {name}\'s email,\n please click the link to reset your password!',
+      'ko': '비밀번호를 재설정할 수 있는 링크를 회원님의 E-mail로 전송했어요.\n링크를 눌러 비밀번호 재설정을\n진행해 주세요!',
+      'en': 'We\'ve sent a link to reset your \n password to your email,\n please click the link to reset your password!',
     },
     'changePasswordButtonConfirmLabel': {
       'ko': '확인',
@@ -392,8 +414,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Complete',
     },
     'signupUserInfoSelectCountryLabel': {
-      'ko': '국가',
-      'en': 'Country',
+      'ko': '국가(언어)',
+      'en': 'Country(Language)',
     },
     'signupUserInfoButtonGenderLabel': {
       'ko': '성별',
@@ -417,8 +439,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Cannot log in',
     },
     'popupErrorLoginLabel6': {
-      'ko': '비밀번호를 5회 잘못 입력하셨습니다.\n비밀번호를 잊으셨다면 회원가입을 한 이메일을 통해 재설정할 수 있어요',
-      'en': 'You have entered your password incorrectly 5 times.\nIf you forgot your password, you can reset it via the email you signed up with',
+      'ko': '비밀번호를 잘못 입력하셨습니다.\n5분간 계정이 비활성화 됩니다.\n5분후 다시 시도해 주세요',
+      'en': 'You entered the wrong password.\nYour account will be disabled for 5 minutes.\nPlease try again in 5 minutes',
     },
     'popupErrorLoginPhoneDescription': {
       'ko': '전화번호를 확인할 수 없습니다',
@@ -766,6 +788,15 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'reportPlantarPressureDetailPainButtonRSideLabel': {
       'ko': '우측면',
       'en': 'Right side',
+    },
+    //-------------------------//
+    'checkimage': {
+      'ko': '이미지 확인',
+      'en': 'Check image',
+    },
+    'uploadimage': {
+      'ko': '이미지 업로드',
+      'en': 'Upload image',
     },
     'reportPlantarPressureDetailSymptomLabel': {
       'ko': '다음과 같은\n증상이 발생할 수 있어요',

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:fisica/main.dart';
 import 'package:fisica/models/UserData.dart';
+import 'package:fisica/models/validate_login.dart';
 import 'package:fisica/widgets/custom_dialog.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,22 +15,49 @@ class UserController {
   static String linkurl = mainurl;
 
   //유효성 검사
-  static Future<bool> validate(String text, String inputType) async {
-    var url = Uri.parse('$linkurl/validate');
+  static Future<ValidateData?> validate(String text, String inputType) async {
+    String encodedText = Uri.encodeComponent(text);
+    var url = inputType == 'phone' ? Uri.parse('$linkurl/validate?phoneNumber=$encodedText') : Uri.parse('$linkurl/validate?email=$text');
     var headers = {'accept': '*/*', 'Content-Type': 'application/json'};
-    var body = inputType == 'phone' ? jsonEncode({'phoneNumber': text}) : jsonEncode({'email': text});
+
     try {
-      loggerNoStack.t({'Name': 'validate', 'url': url, 'body': body});
-      var response = await http.post(url, headers: headers, body: body);
+      loggerNoStack.t({'Name': 'validate', 'url': url});
+      var response = await http.post(url, headers: headers);
+      print(response.body);
+      print(response.statusCode);
+
       if (response.statusCode == 200) {
-        loggerNoStack.i('계정 사용가능');
-        return true;
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        ValidateData validateData = ValidateData.fromJson(jsonResponse['data']);
+        return validateData;
       } else {
-        loggerNoStack.i('계정 존재');
-        return false;
+        print('null');
+        return null;
       }
     } catch (e) {
-      throw e;
+      return null;
+    }
+  }
+
+  //유효성 검사
+  static Future<ValidateData?> validateLogin(bool isSuccess, String email) async {
+    var url = Uri.parse('$linkurl/validete-login?inSuccess=$isSuccess&email=$email');
+    var headers = {'accept': '*/*', 'Content-Type': 'application/json'};
+
+    try {
+      loggerNoStack.t({'Name': 'validate_login', 'url': url});
+      var response = await http.post(url, headers: headers);
+      print(response.body);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        ValidateData validateData = ValidateData.fromJson(jsonResponse['data']);
+        return validateData;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      throw Exception('Failed to validate login: $e');
     }
   }
 
@@ -269,7 +297,11 @@ class UserController {
     }
   }
 
-  static Future<void> uploadProfileImage(File? image) async {
+  static Future<void> uploadProfileImage(bool isimage, File? image) async {
+    print('image');
+    print(isimage);
+    print(image);
+
     String? uid = AppStateNotifier.instance.userdata?.uid;
     final String? token = await AppStateNotifier.instance.getAccessToken();
 
@@ -279,15 +311,17 @@ class UserController {
 
     var request = http.MultipartRequest(
       'PUT',
-      Uri.parse('$linkurl/users/$uid/photo'),
+      Uri.parse('$linkurl/users/$uid/photo?upload=$isimage'),
     );
 
     request.headers.addAll(headers);
 
-    request.files.add(await http.MultipartFile.fromPath(
-      'file',
-      image?.path ?? '',
-    ));
+    isimage
+        ? request.files.add(await http.MultipartFile.fromPath(
+            'file',
+            image?.path ?? '',
+          ))
+        : null;
     loggerNoStack.t({'Name': 'uploadProfileImage', 'request': request, 'file': image?.path});
 
     try {
@@ -369,7 +403,7 @@ class UserController {
       if (detailedAddress != null && detailedAddress.isNotEmpty && detailedAddress != '') 'detailedAddress': detailedAddress,
     };
 
-    final uri = Uri.https('carencoinc.com', '/kr/service/test/users', queryParams);
+    final uri = Uri.https('carencoinc.com', '/it/service/test/users', queryParams);
 
     loggerNoStack.t({
       'Name': 'testGetAuth',
@@ -454,7 +488,7 @@ class UserController {
       "lastName": lastName,
     };
 
-    final uri = Uri.https('carencoinc.com', '/kr/service/test/users', queryParams);
+    final uri = Uri.https('carencoinc.com', '/it/service/test/users', queryParams);
 
     loggerNoStack.t({
       'Name': 'recoverGetAuth',

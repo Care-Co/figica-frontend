@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'index.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 var logger = Logger();
 
@@ -25,22 +25,21 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   usePathUrlStrategy();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    await FirebaseAppCheck.instance.activate(
+      //androidProvider: AndroidProvider.playIntegrity,
+      appleProvider: AppleProvider.deviceCheck,
+      androidProvider: AndroidProvider.playIntegrity,
+    );
     print('Firebase 초기화 성공');
   } catch (e) {
     print('Firebase 초기화 실패: $e');
   }
-  await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug,
-    appleProvider: AppleProvider.deviceCheck,
-  );
+
   await SetLocalizations.initialize();
 
   runApp(

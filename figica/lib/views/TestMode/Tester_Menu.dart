@@ -216,51 +216,51 @@ class _TesterMenuState extends State<TesterMenu> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-              // SizedBox(
-              //   height: 15,
-              // ),
-              // LodingButtonWidget(
-              //   text: SetLocalizations.of(context).getText('tkwlsckh'),
-              //   onPressed: () {
-              //     context.goNamed('testvisionScan', extra: 'test');
-              //   },
-              //   options: LodingButtonOptions(
-              //     height: 100.0,
-              //     width: double.infinity,
-              //     padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-              //     iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-              //     color: (AppStateNotifier.instance.cam) ? AppColors.Black : AppColors.Gray700,
-              //     textStyle: (AppStateNotifier.instance.cam)
-              //         ? AppFont.s18.overrides(fontSize: 16, color: AppColors.Gray500)
-              //         : AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
-              //     elevation: 0,
-              //     borderRadius: BorderRadius.circular(8.0),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 15,
-              // ),
-              // LodingButtonWidget(
-              //   text: SetLocalizations.of(context).getText('ehddutkd'),
-              //   onPressed: () {
-              //     context.goNamed('VideoUpload');
-              //   },
-              //   options: LodingButtonOptions(
-              //     height: 100.0,
-              //     width: double.infinity,
-              //     padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-              //     iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-              //     color: (AppStateNotifier.instance.vid) ? AppColors.Black : AppColors.Gray700,
-              //     textStyle: (AppStateNotifier.instance.vid)
-              //         ? AppFont.s18.overrides(fontSize: 16, color: AppColors.Gray500)
-              //         : AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
-              //     elevation: 0,
-              //     borderRadius: BorderRadius.circular(8.0),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 40,
-              // ),
+              SizedBox(
+                height: 15,
+              ),
+              LodingButtonWidget(
+                text: SetLocalizations.of(context).getText('tkwlsckh'),
+                onPressed: () {
+                  context.goNamed('testvisionScan', extra: 'test');
+                },
+                options: LodingButtonOptions(
+                  height: 100.0,
+                  width: double.infinity,
+                  padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                  iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                  color: (AppStateNotifier.instance.cam) ? AppColors.Black : AppColors.Gray700,
+                  textStyle: (AppStateNotifier.instance.cam)
+                      ? AppFont.s18.overrides(fontSize: 16, color: AppColors.Gray500)
+                      : AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                  elevation: 0,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              LodingButtonWidget(
+                text: SetLocalizations.of(context).getText('ehddutkd'),
+                onPressed: () {
+                  context.goNamed('VideoUpload');
+                },
+                options: LodingButtonOptions(
+                  height: 100.0,
+                  width: double.infinity,
+                  padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                  iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                  color: (AppStateNotifier.instance.vid) ? AppColors.Black : AppColors.Gray700,
+                  textStyle: (AppStateNotifier.instance.vid)
+                      ? AppFont.s18.overrides(fontSize: 16, color: AppColors.Gray500)
+                      : AppFont.s18.overrides(fontSize: 16, color: AppColors.primaryBackground),
+                  elevation: 0,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
               if (AppStateNotifier.instance.test2)
                 LodingButtonWidget(
                   text: SetLocalizations.of(context).getText('tnwlqdy'),

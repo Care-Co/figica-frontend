@@ -29,6 +29,25 @@ export 'views/TestMode/Tester_Menu.dart';
 export 'views/TestMode/Tester_Scan.dart';
 export 'views/TestMode/Tester_guide.dart';
 
+export 'views/auth/1_Landing_Screen.dart' show LandingScreen;
+export 'views/auth/1.1_singup/1.1.1_Agreement_Screen.dart' show AgreeTosWidget;
+export 'views/auth/1.1_singup/1.1.2_Get_Id_Screen.dart' show GetidWidget;
+export 'views/auth/1.1_singup/1.1.3_Set_Pw_Screen.dart' show SetPwWidget;
+export 'views/auth/1.1_singup/1.1.4_UserInfo_Screen.dart' show UserInfoWidget;
+export 'views/auth/1.2_logIn/1.2.1_Get_Pw_Screen.dart' show getPwScreen;
+export 'views/auth/1.2_logIn/1.2.2_smscode_Screen.dart' show SmscodeWidget;
+export 'views/auth/checkemail.dart' show checkemailWidget;
+//home page
+export 'views/home/home_page/home_page_view.dart' show HomePageWidget;
+export 'views/home/home_page/avata_widget.dart' show Avata;
+//mypage
+export 'views/home/mypage/3.1_myPage_Landing_Screen.dart' show MyPageLanding;
+export 'views/home/mypage/3.4.2_myPage_foot_Screen.dart' show Footreport;
+export 'views/home/mypage/3.2_myPage_Avata_Screen.dart' show Myavata;
+export 'views/home/mypage/3.4_myPage_histroy_Screen.dart' show HistoryWidget;
+export 'views/home/mypage/3.3_myPage_Modify_info_Screen.dart' show ModiUserInfoWidget;
+export 'views/home/mypage/3.5_myPage_Setting_Screen.dart' show MySetting;
+
 export 'views/home/group/No_group/CreateGroup/CreateGroup_CreateCode_view.dart' show CreateCodeWidget;
 export 'views/home/group/No_group/No_group_Screen.dart' show NogroupScreen;
 export 'views/home/group/Yes_group/Yes_group_Screen.dart' show YesgroupScreen;
@@ -51,16 +70,6 @@ export 'views/home/group/Yes_group/settings/NotificationSetting_screen.dart' sho
 export 'views/home/group/Yes_group/settings/PublicInfoSettings_screen.dart' show PublicInfoSettingsPage;
 export 'views/home/group/Yes_group/settings/Remove_member_screen.dart' show RemoveMemberPage;
 export 'views/home/group/Yes_group/settings/changeLeader_screen.dart' show ChangeLeaderPage;
-//home page
-export 'views/home/home_page/home_page_view.dart' show HomePageWidget;
-export 'views/home/home_page/avata_widget.dart' show Avata;
-//mypage
-export 'views/home/mypage/mypage_foot_view.dart' show Footreport;
-export 'views/home/mypage/mypage_avata_view.dart' show Myavata;
-export 'views/home/mypage/mypage_histroy_view.dart' show HistoryWidget;
-export 'views/home/mypage/mypage_main_view.dart' show MypageWidget;
-export 'views/home/mypage/mypage_modify_info_view.dart' show ModiUserInfoWidget;
-export 'views/home/mypage/mypage_setting_view.dart' show MySetting;
 
 export 'views/home/plan/createSchedule.dart';
 export 'views/home/plan/plan.dart' show planWidget;
@@ -68,15 +77,6 @@ export 'views/home/plan/plan.dart' show planWidget;
 export 'views/home/scan/Find_blue.dart';
 export 'views/home/scan/FootPrintScreen.dart';
 export 'views/home/scan/Foot_result.dart';
-
-export 'views/auth/1.2.1_Get_Pw_Screen.dart' show InputPwWidget;
-export 'views/auth/1_ Landing_Screen.dart' show LandingScreen;
-export 'views/auth/1.1.2_Get_Id_Screen.dart' show GetidWidget;
-export 'views/auth/1.1.4_UserInfo_Screen.dart' show UserInfoWidget;
-export 'views/auth/1.1.3_Set_Pw_Screen.dart' show SetPwWidget;
-export 'views/auth/1.1.1_Agreement_Screen.dart' show AgreeTosWidget;
-export 'views/auth/1.2.2_smscode_Screen.dart' show SmscodeWidget;
-export 'views/auth/checkemail.dart' show checkemailWidget;
 
 export 'widgets/App_icon_button.dart';
 export 'widgets/BotNav_widget.dart';

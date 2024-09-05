@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1018044330468-3b0efntd1rjsvkm6asadm0vcerrvjpkb.apps.googleusercontent.com",
+          "client_id": "1018044330468-hnjv6irb714occduf51c2bcacog2hovv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.carenco.fisica",
-            "certificate_hash": "d95d7d579af6642eee825e2764168c62f71ee38c"
+            "certificate_hash": "e9b4af6d5ae965384c16c6386ae69b2d9f14d173"
           }
         },
         {

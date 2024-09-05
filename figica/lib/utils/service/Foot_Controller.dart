@@ -59,17 +59,20 @@ class FootprintApi {
   static Future<bool?> testfootScan(List datalist) async {
     String date = printUTCTime();
     bool va = false;
-    final String? token = await AppStateNotifier.instance.getAccessToken();
+    String? token = AppStateNotifier.instance.apiToken;
 
     String? uid = AppStateNotifier.instance.testuid;
 
-    var url = Uri.parse('$linkurl/test/users/$uid/footprints');
+    //var url = Uri.parse('https://carencoinc.com/it/service/test/users/$uid/footprints');
+    final uri = Uri.https('carencoinc.com', '/it/service/test/users/$uid/footprints');
+
     var headers = {'accept': '*/*', 'Authorization': 'Bearer $token', 'Content-Type': 'application/json'};
     var body = json.encode(datalist);
-    loggerNoStack.t({'Name': 'testfootScan', 'mesured_time': date, 'count': body.length.toString()});
+    loggerNoStack.t({'Name': 'testfootScan', 'url': uri, 'mesured_time': date, 'count': body.length.toString()});
 
     try {
-      var response = await http.post(url, headers: headers, body: body);
+      // HTTP 요청에 타임아웃을 30초로 설정
+      var response = await http.post(uri, headers: headers, body: body).timeout(Duration(seconds: 30));
 
       if (response.statusCode == 200) {
         String decodedBody = utf8.decode(response.bodyBytes);
@@ -79,15 +82,25 @@ class FootprintApi {
         await AppStateNotifier.instance.UpScanData(jsonResponse['data'][0]).then((value) {
           va = true;
         });
-        //AppStateNotifier.instance.historyapi();
       } else {
         print('Request failed with status: ${response.statusCode}');
         print('Response body: ${response.body}');
         va = false;
       }
-    } on Exception catch (e) {
+    } on http.ClientException catch (e) {
+      // HTTP 클라이언트 예외 처리
       loggerNoStack.e(e);
+      va = false;
+    } on TimeoutException catch (e) {
+      // 타임아웃 예외 처리
+      loggerNoStack.e('Request timed out: $e');
+      va = false;
+    } on Exception catch (e) {
+      // 기타 예외 처리
+      loggerNoStack.e(e);
+      va = false;
     }
+
     return va;
   }
 
@@ -109,7 +122,7 @@ class FootprintApi {
     if (response.statusCode == 200) {
       // 응답 데이터 디코딩 및 null 체크
       List<dynamic> responseData = jsonDecode(response.body)['data'] ?? [];
-      loggerNoStack.i(responseData);
+      loggerNoStack.i(response.body);
 
       // 응답 데이터가 null이 아니고 비어있지 않은지 확인
       if (responseData.isNotEmpty) {
@@ -118,6 +131,8 @@ class FootprintApi {
         await AppStateNotifier.instance.sortfootdata('new');
       } else {
         // 응답 데이터가 비어있는 경우 처리
+        await AppStateNotifier.instance.delfoothistory();
+        print(AppStateNotifier.instance.footdata);
         loggerNoStack.i('응답 데이터가 비어있습니다.');
       }
     } else {
@@ -230,7 +245,7 @@ class FootprintApi {
     loggerNoStack.t({'Name': 'getweighthistory', 'url': url});
     if (response.statusCode == 200) {
       List<dynamic> responseData = jsonDecode(response.body)['data'];
-      loggerNoStack.i(responseData);
+      loggerNoStack.i(response.body);
       List<WeightData> WeightHistory = responseData.map((data) => WeightData.fromJson(data)).toList();
       calculateWeightChanges(WeightHistory);
       await AppStateNotifier.instance.UpWeightHistory(WeightHistory);

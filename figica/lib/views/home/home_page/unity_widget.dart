@@ -1,10 +1,7 @@
-import 'package:fisica/utils/Data_Notifire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:fisica/index.dart';
-import 'package:fisica/models/FootData.dart';
-import 'package:fisica/utils/TypeManager.dart';
 
 class UnityWidgetWrapper extends StatefulWidget {
   final double height;
@@ -29,13 +26,16 @@ class _UnityWidgetWrapperState extends State<UnityWidgetWrapper> {
   void onUnityCreated(controller) async {
     print("=================onUnityCreated");
     _unityWidgetController = controller;
-    await Future.delayed(Duration(seconds: 5));
-    print('=============11111111111==============');
-    int currentClassType = AppStateNotifier.instance.footdata!.first.classType;
-    await Future.delayed(Duration(seconds: 5));
-    print('=============222222222==============');
 
-    await sendObjectType(currentClassType);
+    //await Future.delayed(Duration(seconds: 5));
+
+    if (_unityWidgetController != null) {
+      int currentClassType = AppStateNotifier.instance.footdata!.first.classType;
+
+      await sendObjectType(currentClassType);
+    } else {
+      print("Unity controller is null after initialization delay.");
+    }
   }
 
   void onUnityMessage(message) {
@@ -43,39 +43,40 @@ class _UnityWidgetWrapperState extends State<UnityWidgetWrapper> {
     if (message.toString() == 'UnityInitialized') {}
   }
 
-  void sendTransparency(double alpha) {
-    setState(() {
-      _currentValue = alpha;
-    });
+  Future<void> sendObjectType(int type) async {
     if (_unityWidgetController != null) {
       _unityWidgetController!.postMessage(
-        'ObjectManager',
+        'GameObject',
+        'OnMessage',
+        '{"action": "type", "intValue": $type}',
+      );
+      print('ObjectManager' + 'OnMessage' + '{"action": "type", "intValue": $type}');
+    } else {
+      print("sendObjectType: Unity controller is null, message not sent.");
+    }
+  }
+
+  void sendTransparency(double alpha) {
+    if (_unityWidgetController != null) {
+      _unityWidgetController!.postMessage(
+        'GameObject',
         'OnMessage',
         '{"action": "setTransparency", "floatvalue": $alpha}',
       );
+    } else {
+      print("sendTransparency: Unity controller is null, message not sent.");
     }
   }
 
   void setRotationValue(double angle) {
-    setState(() {
-      _rotationValue = angle;
-    });
     if (_unityWidgetController != null) {
       _unityWidgetController!.postMessage(
-        'ObjectManager',
+        'GameObject',
         'OnMessage',
         '{"action": "angle", "floatvalue": $angle}',
       );
-    }
-  }
-
-  Future<void> sendObjectType(int type) async {
-    if (_unityWidgetController != null) {
-      _unityWidgetController!.postMessage(
-        'ObjectManager',
-        'OnMessage',
-        '{"action": "type", "intValue": $type}',
-      );
+    } else {
+      print("setRotationValue: Unity controller is null, message not sent.");
     }
   }
 
@@ -104,33 +105,8 @@ class _UnityWidgetWrapperState extends State<UnityWidgetWrapper> {
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              Positioned(
-                child: Container(
-                  height: widget.height,
-                  width: MediaQuery.of(context).size.width,
-                  alignment: Alignment.bottomCenter,
-                  child: Image.asset(
-                    'assets/images/footsheet.png',
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onHorizontalDragStart: (details) {
-                  _startPosition = details.localPosition;
-                },
-                onHorizontalDragUpdate: (details) {
-                  _currentPosition = details.localPosition;
-                  double deltaX = _startPosition.dx - _currentPosition.dx;
-                  double newRotationValue = _rotationValue + deltaX;
-                  if (newRotationValue < 0) {
-                    newRotationValue += 360;
-                  }
-                  newRotationValue %= 360;
-                  setRotationValue(newRotationValue);
-                  _startPosition = _currentPosition;
-                },
-                onHorizontalDragEnd: (details) {},
-                child: UnityWidget(
+              if (hasFootdata) ...[
+                UnityWidget(
                   onUnityCreated: onUnityCreated,
                   onUnityMessage: onUnityMessage,
                   onUnitySceneLoaded: onUnitySceneLoaded,
@@ -138,26 +114,67 @@ class _UnityWidgetWrapperState extends State<UnityWidgetWrapper> {
                   runImmediately: false,
                   unloadOnDispose: true,
                 ),
-              ),
-              Positioned(
-                right: 70,
-                top: 20,
-                bottom: 20,
-                child: RotatedBox(
-                  quarterTurns: -1,
-                  child: Slider(
-                    value: _currentValue,
-                    min: 0,
-                    max: 1,
-                    divisions: 100,
-                    label: _currentValue.toStringAsFixed(2),
-                    onChanged: (double value) {
-                      sendTransparency(value);
-                    },
+                GestureDetector(
+                  onHorizontalDragStart: (details) {
+                    _startPosition = details.localPosition;
+                  },
+                  onHorizontalDragUpdate: (details) {
+                    // 드래그한 만큼의 이동을 계산합니다.
+                    double deltaX = details.delta.dx;
+
+                    // 현재 회전 값에 이동 값을 누적합니다.
+                    setState(() {
+                      _rotationValue = (_rotationValue - deltaX) % 360;
+                      if (_rotationValue < 0) {
+                        _rotationValue += 360;
+                      }
+                    });
+
+                    setRotationValue(_rotationValue);
+                  },
+                  onHorizontalDragEnd: (details) {
+                    // 드래그가 끝났을 때의 위치로 업데이트합니다.
+                    _startPosition = Offset.zero; // 초기화
+                  },
+                  child: UnityWidget(
+                    onUnityCreated: onUnityCreated,
+                    onUnityMessage: onUnityMessage,
+                    onUnitySceneLoaded: onUnitySceneLoaded,
+                    fullscreen: false,
+                    runImmediately: false,
+                    unloadOnDispose: true,
                   ),
                 ),
-              ),
-              if (!hasFootdata)
+                // Positioned(
+                //   right: 70,
+                //   top: 20,
+                //   bottom: 20,
+                //   child: RotatedBox(
+                //     quarterTurns: -1,
+                //     child: Slider(
+                //       value: _currentValue,
+                //       min: 0,
+                //       max: 1,
+                //       divisions: 100,
+                //       label: _currentValue.toStringAsFixed(2),
+                //       onChanged: (double value) {
+                //         sendTransparency(value);
+                //       },
+                //     ),
+                //   ),
+                // ),
+              ],
+              if (!hasFootdata) ...[
+                Positioned(
+                  child: Container(
+                    height: widget.height,
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.bottomCenter,
+                    child: Image.asset(
+                      'assets/images/footsheet.png',
+                    ),
+                  ),
+                ),
                 Positioned(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 30.0),
@@ -171,6 +188,7 @@ class _UnityWidgetWrapperState extends State<UnityWidgetWrapper> {
                     ),
                   ),
                 ),
+              ]
             ],
           ),
         );

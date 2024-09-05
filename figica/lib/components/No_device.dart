@@ -69,6 +69,7 @@ class _NoDiviceState extends State<NoDivice> {
                       onPressed: () async {
                         Navigator.pop(context);
                         context.pushNamed('FindBlue', extra: 'main');
+                        //context.goNamed('visionScan', extra: 'main');
                       },
                       text: SetLocalizations.of(context).getText(
                         'scanNoDeviceButtonConfirmLabel' /* 확인 */,

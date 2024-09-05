@@ -25,7 +25,7 @@ class _VideoUploadState extends State<VideoUpload> {
   Future<void> _captureVideo() async {
     try {
       final pickedFile =
-          await _picker.pickVideo(source: ImageSource.gallery, preferredCameraDevice: CameraDevice.rear, maxDuration: const Duration(minutes: 5));
+          await _picker.pickVideo(source: ImageSource.camera, preferredCameraDevice: CameraDevice.rear, maxDuration: const Duration(minutes: 5));
 
       if (pickedFile != null) {
         final Directory tempDir = await getTemporaryDirectory();
@@ -52,6 +52,8 @@ class _VideoUploadState extends State<VideoUpload> {
   }
 
   Future<void> _uploadVideo() async {
+    print('_uploadVideo');
+
     if (_videoFile == null) return;
 
     // 파일 크기 검사
@@ -66,12 +68,10 @@ class _VideoUploadState extends State<VideoUpload> {
     String newPath = path.setExtension(_videoFile!.path, '.mp4');
     File mp4File = _videoFile!.renameSync(newPath);
 
-    String linkurl = mainurl;
-    String? testuid = AppStateNotifier.instance.testuid;
-
+    String? uid = AppStateNotifier.instance.testuid;
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://15.165.125.100:8080/kr/carenco-service/api/v1/test/users/$testuid/pose-estimation'),
+      Uri.parse('https://carencoinc.com/it/service/test/users/$uid/pose-estimation'),
     );
 
     request.files.add(await http.MultipartFile.fromPath(
@@ -80,6 +80,10 @@ class _VideoUploadState extends State<VideoUpload> {
     ));
 
     try {
+      loggerNoStack.t({
+        'Name': '_uploadVideo',
+        'url': request,
+      });
       var response = await request.send();
 
       if (response.statusCode == 200) {
@@ -100,7 +104,12 @@ class _VideoUploadState extends State<VideoUpload> {
         );
       } else {
         print('Request failed with status: ${response.statusCode}');
-        print('Response body: ${response.reasonPhrase}');
+        print('Response reason phrase: ${response.reasonPhrase}');
+        print('Response headers: ${response.headers}');
+
+        // 응답 본문(body)을 출력합니다.
+        final responseBody = await response.stream.bytesToString();
+        print('Response body: $responseBody');
       }
     } catch (e) {
       print('Upload failed with error: $e');
@@ -191,20 +200,20 @@ class _VideoUploadState extends State<VideoUpload> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.black,
-        title: Text('영상 업로드 하기', style: TextStyle(color: Colors.white)),
+        title: Text(SetLocalizations.of(context).getText('ehddutkd'), style: TextStyle(color: Colors.white)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             SizedBox(height: 20),
-            _buildCaptureButton('영상 선택'),
+            _buildCaptureButton(SetLocalizations.of(context).getText('dudtkdtjsxor')),
             SizedBox(height: 20),
-            if (_fileSizeString != null)
-              Text(
-                '파일 크기: $_fileSizeString',
-                style: TextStyle(color: Colors.white),
-              ),
+            // if (_fileSizeString != null)
+            //   Text(
+            //     '파일 크기: $_fileSizeString',
+            //     style: TextStyle(color: Colors.white),
+            //   ),
             SizedBox(height: 20),
             _videoFile != null ? _buildVideoPreview() : Container(),
             SizedBox(height: 20),
@@ -213,7 +222,7 @@ class _VideoUploadState extends State<VideoUpload> {
               height: 56.0,
               child: LodingButtonWidget(
                 onPressed: _videoFile != null ? _uploadVideo : null,
-                text: '영상 업로드 하기',
+                text: SetLocalizations.of(context).getText('dudtkdjdqhfem'),
                 options: LodingButtonOptions(
                   height: 40.0,
                   padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),

@@ -167,18 +167,74 @@ IL2CPP_EXTERN_C String_t* _stringLiteralE7D028CCE3B6E7B61AE2C752D7AE970DA04AB7C6
 IL2CPP_EXTERN_C String_t* _stringLiteralF82365E63B4829E3BB5F054E86FEF03FBB9807C3;
 IL2CPP_EXTERN_C String_t* _stringLiteralF8BD9A7F60F0A925FBA0FA74162E5EC956585C8D;
 IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_CreateDecryptor_mEF140D70C76BF0EBCD5B70270E590C87AC82691B_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_CreateDecryptor_mF13EB3E91096FD373E2FEAC578BD8E5A51D16289_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_CreateEncryptor_m5974B7BE1CBA7D7CEA83DA32396470FDA6F89817_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_CreateEncryptor_m6FBFBED01A28E05CB49165B5E5A73302B9FF99D1_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_Dispose_mA4070CD6F1FE6E6BDFE951DB89A5945E69E5C6F1_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_GenerateIV_mE464DEEC37B9CA36588D409C16AEF59E4B570239_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_GenerateKey_m1168A3D594466B39BFB601A670B444E05A1AA3D2_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider__ctor_m9D6C427427E5B697AE1C37D2BFCAEF0BECB6C198_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_get_FeedbackSize_mA75F139C56BE26803358D8F55F503C440CF60896_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_get_IV_m2FC301A6EB3295F1D815884C7DB9A6D250B5C748_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_get_KeySize_m1CA3AF07D7F43FD7E53501B4CC147FDE40105237_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_get_Key_mC5E58ADED610CDB91EC45DD8F5ED5C7100F57763_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_get_Mode_m2C4AF6018029680736D3CC1677844A5E07C2C8AC_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_get_Padding_m0970C4CE846AA57A6ED95AFAED915A2511188F8E_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_set_IV_m33319C5603EE9537BA68A62AEE48AB3971FFDED0_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_set_KeySize_mCA930D57B9D87A2FCDA3EA3F64C0BA6AFB9DD5FE_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_set_Key_mE9C9F3CADC14E6E6AAD77C7EAB16CD12BDD65A72_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_set_Mode_m8A46A629A129042D257241F376A5ADF7399E0E4D_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesCryptoServiceProvider_set_Padding_m4B055E68544EC094942F624AA7725B5DDE383994_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_CreateDecryptor_m3E4110743E227B1B7568B7D497573631E26C3246_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_CreateDecryptor_m68C406635252C68B27FBDB1356574A3B5DEE25DB_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_CreateEncryptor_mB200E46332CFFD19367E042932042F4A1DFFD5AF_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_CreateEncryptor_mBC3DC59E0DF5DC791B45806DE319EAF3DDB0E646_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_Dispose_m2C247F5F1B5CCB32C545F4DEE427295C801D7619_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_GenerateIV_m3B6E3EEFAA38CEF038DA0D5FF64B1B120343EBF4_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_GenerateKey_m6AC884BFD7DEA4A22DAD79479E69DF34BED96B33_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* AesManaged__ctor_mDE017C6ECB4AF587B6C2A7A4BCBB2E0FA3E81241_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_get_FeedbackSize_m64E5628557B4EF7068388EE50E431E102BA48CF9_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_get_IV_m3CF0BDF7CC0EA199B5EE57F2CBD97404842C0D0B_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_get_KeySize_mD9766E2E53FB15EA3761BF801D3ED2BC938A667F_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_get_Key_m2E60F74962BECA399636BDC297DF3AD2386D92DF_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_get_Mode_m3B58BE00374E135C8B9F27B1CD481B91E59993E5_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_get_Padding_mF366F82D52635E2A5DA750541D7903E5FF1659C2_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_set_IV_m7063E5F586634E8B2C1DB1FD9D8D745BFAFD57A7_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_set_KeySize_m2E4BE0748CCF8473E2AFE656DFBB143845FD1BE7_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_set_Key_m4FC5EDB90F6003EE726496D1A374AD0AD5B9911D_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_set_Mode_m154C8319F26FA466C54C7B2BDA602909EEA258C0_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesManaged_set_Padding_m9D52DA6A45835F49CC4385AC2767AA3A83C01BE3_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesTransform_Decrypt128_m816017B5640FB6B39593703AE4468166D52C88BE_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesTransform_ECB_mDDB23F9CE0C18DC39E4CDB8EB2B3BADE8720D9E4_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesTransform_Encrypt128_m13E7312EDC83EA276711B00930214389563B443D_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesTransform_SubByte_m60B33BA16B1E903228D4E1D617406447361AF4B9_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* AesTransform__cctor_m79025F31553E42B9E7035CCC3263B58528C69045_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* AesTransform__ctor_mE07BFBE72989989ACB3B6E9B8E9E721C9C506230_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* Enumerable_Max_mF33848068459BE74BF534D16F6B678BB677EE704_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* Enumerable_Min_m3D3C3E5CE25D27D94448CA832FB5AB9F702D5443_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* Enumerable_RangeIterator_mAD9E9F85AF2156C74E78C2EA554F0F32EA0E91C9_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* Enumerable_Range_m4FB9BBBA09BEF5177C13506DB385CF4467C15FD8_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* Error_ArgumentNull_m1141D2C9AF8AB6ACC45E7488789598C5283D4EEE_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* Error_ArgumentOutOfRange_m7B22062E664153625DA782374A7CB9CBD3B2C01D_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* Error_MoreThanOneElement_m79BD3B618AE791C0CE6B58D7D256B385BC5933DC_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* Error_MoreThanOneMatch_mE8ABBCC1C5FBA4D7BBE5B0647992D20F005F7A97_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* Error_NoElements_m49C996124733B026EA2FDBE9382AAD136CA22362_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* Error_NoMatch_mD5BC0E5ED29A185D01A63F3C17EA2C29E32C2BE4_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* Error_NotSupported_m7CFF74111E56246CAEA7BFD231BA01F7B097377A_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* RSACertificateExtensions_GetRSAPublicKey_m8DDF940D409724E136FD6E36146F4E481DC07B54_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* SR_GetString_m2213C501E26D6A1AE8D0644E9685AF8A4204CA7F_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* SymmetricAlgorithm_get_FeedbackSize_mCDBCAEF6719C9CA268BAFFC9FF31B0660223B8FF_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* SymmetricAlgorithm_get_KeySize_mB864E3EE0A893C107BA723824A96C1B1F4265569_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* SymmetricAlgorithm_get_Mode_m83E9F98E0C00F46C4383033150E4CD297D6F35C1_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* SymmetricAlgorithm_get_Padding_m28286B8E152DE51E2922CF0FD5C4652D64D2FD51_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* U3CRangeIteratorU3Ed__115_MoveNext_m4B882BD1A41035B16713BD5C47695ACEFF7A3B91_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* U3CRangeIteratorU3Ed__115_System_Collections_Generic_IEnumerableU3CSystem_Int32U3E_GetEnumerator_m712C614B8E578CF43876E5CE889386161DB2CAC9_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* U3CRangeIteratorU3Ed__115_System_Collections_Generic_IEnumeratorU3CSystem_Int32U3E_get_Current_mACDA0C0FD65D62D6CEB3DA9F761FFF589EC0AAB3_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* U3CRangeIteratorU3Ed__115_System_Collections_IEnumerable_GetEnumerator_m1F60B93D73E3A534079BE4AB93BD7E51F8741F34_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* U3CRangeIteratorU3Ed__115_System_Collections_IEnumerator_Reset_mC860C1DBCBFE98B50DC555187E266F145B5909FC_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* U3CRangeIteratorU3Ed__115_System_Collections_IEnumerator_get_Current_mC5886D606FB46765848339A4305F922494C093ED_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* U3CRangeIteratorU3Ed__115_System_IDisposable_Dispose_mACF95799F65FBE5A805C33ABD0ABBB8D90B865E9_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* U3CRangeIteratorU3Ed__115__ctor_m28402F68F863084357F710F6546910CC4417800C_RuntimeMethod_var;
 struct Exception_t_marshaled_com;
 struct Exception_t_marshaled_pinvoke;
 
@@ -719,6 +775,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CRangeIteratorU3Ed__115_Syst
 #endif
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* SR_GetString_m2213C501E26D6A1AE8D0644E9685AF8A4204CA7F (String_t* ___0_name, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&SR_GetString_m2213C501E26D6A1AE8D0644E9685AF8A4204CA7F_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, SR_GetString_m2213C501E26D6A1AE8D0644E9685AF8A4204CA7F_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		String_t* L_0 = ___0_name;
 		return L_0;
@@ -737,11 +801,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged__ctor_mDE017C6ECB4AF587B6C2A7
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged__ctor_mDE017C6ECB4AF587B6C2A7A4BCBB2E0FA3E81241_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Aes_tC72E711D7751C8AEAF59C51CA0E61A3857068047_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&CryptoConfig_t66E67DD67B2C3224C72C0CBD80A144E29EE016A5_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged__ctor_mDE017C6ECB4AF587B6C2A7A4BCBB2E0FA3E81241_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		il2cpp_codegen_runtime_class_init_inline(Aes_tC72E711D7751C8AEAF59C51CA0E61A3857068047_il2cpp_TypeInfo_var);
 		Aes__ctor_mF4A70CEEFAF2A086CF7A82D915BFFB7E250528EA(__this, NULL);
@@ -782,6 +849,14 @@ IL_001d:
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesManaged_get_FeedbackSize_m64E5628557B4EF7068388EE50E431E102BA48CF9 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_get_FeedbackSize_m64E5628557B4EF7068388EE50E431E102BA48CF9_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_get_FeedbackSize_m64E5628557B4EF7068388EE50E431E102BA48CF9_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		NullCheck(L_0);
@@ -792,6 +867,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesManaged_get_FeedbackSize_m64E56285
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* AesManaged_get_IV_m3CF0BDF7CC0EA199B5EE57F2CBD97404842C0D0B (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_get_IV_m3CF0BDF7CC0EA199B5EE57F2CBD97404842C0D0B_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_get_IV_m3CF0BDF7CC0EA199B5EE57F2CBD97404842C0D0B_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		NullCheck(L_0);
@@ -802,6 +885,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A8261
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_set_IV_m7063E5F586634E8B2C1DB1FD9D8D745BFAFD57A7 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* ___0_value, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_set_IV_m7063E5F586634E8B2C1DB1FD9D8D745BFAFD57A7_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_set_IV_m7063E5F586634E8B2C1DB1FD9D8D745BFAFD57A7_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_1 = ___0_value;
@@ -812,6 +903,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_set_IV_m7063E5F586634E8B2C1DB
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* AesManaged_get_Key_m2E60F74962BECA399636BDC297DF3AD2386D92DF (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_get_Key_m2E60F74962BECA399636BDC297DF3AD2386D92DF_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_get_Key_m2E60F74962BECA399636BDC297DF3AD2386D92DF_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		NullCheck(L_0);
@@ -822,6 +921,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A8261
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_set_Key_m4FC5EDB90F6003EE726496D1A374AD0AD5B9911D (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* ___0_value, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_set_Key_m4FC5EDB90F6003EE726496D1A374AD0AD5B9911D_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_set_Key_m4FC5EDB90F6003EE726496D1A374AD0AD5B9911D_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_1 = ___0_value;
@@ -832,6 +939,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_set_Key_m4FC5EDB90F6003EE7264
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesManaged_get_KeySize_mD9766E2E53FB15EA3761BF801D3ED2BC938A667F (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_get_KeySize_mD9766E2E53FB15EA3761BF801D3ED2BC938A667F_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_get_KeySize_mD9766E2E53FB15EA3761BF801D3ED2BC938A667F_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		NullCheck(L_0);
@@ -842,6 +957,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesManaged_get_KeySize_mD9766E2E53FB1
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_set_KeySize_m2E4BE0748CCF8473E2AFE656DFBB143845FD1BE7 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, int32_t ___0_value, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_set_KeySize_m2E4BE0748CCF8473E2AFE656DFBB143845FD1BE7_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_set_KeySize_m2E4BE0748CCF8473E2AFE656DFBB143845FD1BE7_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		int32_t L_1 = ___0_value;
@@ -852,6 +975,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_set_KeySize_m2E4BE0748CCF8473
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesManaged_get_Mode_m3B58BE00374E135C8B9F27B1CD481B91E59993E5 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_get_Mode_m3B58BE00374E135C8B9F27B1CD481B91E59993E5_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_get_Mode_m3B58BE00374E135C8B9F27B1CD481B91E59993E5_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		NullCheck(L_0);
@@ -862,6 +993,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesManaged_get_Mode_m3B58BE00374E135C
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_set_Mode_m154C8319F26FA466C54C7B2BDA602909EEA258C0 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, int32_t ___0_value, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_set_Mode_m154C8319F26FA466C54C7B2BDA602909EEA258C0_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_set_Mode_m154C8319F26FA466C54C7B2BDA602909EEA258C0_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = ___0_value;
 		if ((((int32_t)L_0) == ((int32_t)4)))
@@ -897,6 +1036,14 @@ IL_0018:
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesManaged_get_Padding_mF366F82D52635E2A5DA750541D7903E5FF1659C2 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_get_Padding_mF366F82D52635E2A5DA750541D7903E5FF1659C2_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_get_Padding_mF366F82D52635E2A5DA750541D7903E5FF1659C2_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		NullCheck(L_0);
@@ -907,6 +1054,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesManaged_get_Padding_mF366F82D52635
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_set_Padding_m9D52DA6A45835F49CC4385AC2767AA3A83C01BE3 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, int32_t ___0_value, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_set_Padding_m9D52DA6A45835F49CC4385AC2767AA3A83C01BE3_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_set_Padding_m9D52DA6A45835F49CC4385AC2767AA3A83C01BE3_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		int32_t L_1 = ___0_value;
@@ -917,6 +1072,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_set_Padding_m9D52DA6A45835F49
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesManaged_CreateDecryptor_m68C406635252C68B27FBDB1356574A3B5DEE25DB (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_CreateDecryptor_m68C406635252C68B27FBDB1356574A3B5DEE25DB_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_CreateDecryptor_m68C406635252C68B27FBDB1356574A3B5DEE25DB_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		NullCheck(L_0);
@@ -927,6 +1090,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesManaged_CreateDecryptor_m68
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesManaged_CreateDecryptor_m3E4110743E227B1B7568B7D497573631E26C3246 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* ___0_key, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* ___1_iv, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_CreateDecryptor_m3E4110743E227B1B7568B7D497573631E26C3246_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_CreateDecryptor_m3E4110743E227B1B7568B7D497573631E26C3246_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0 = ___0_key;
 		if (L_0)
@@ -997,6 +1168,14 @@ IL_0055:
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesManaged_CreateEncryptor_mBC3DC59E0DF5DC791B45806DE319EAF3DDB0E646 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_CreateEncryptor_mBC3DC59E0DF5DC791B45806DE319EAF3DDB0E646_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_CreateEncryptor_mBC3DC59E0DF5DC791B45806DE319EAF3DDB0E646_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		NullCheck(L_0);
@@ -1007,6 +1186,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesManaged_CreateEncryptor_mBC
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesManaged_CreateEncryptor_mB200E46332CFFD19367E042932042F4A1DFFD5AF (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* ___0_key, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* ___1_iv, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_CreateEncryptor_mB200E46332CFFD19367E042932042F4A1DFFD5AF_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_CreateEncryptor_mB200E46332CFFD19367E042932042F4A1DFFD5AF_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0 = ___0_key;
 		if (L_0)
@@ -1080,15 +1267,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_Dispose_m2C247F5F1B5CCB32C545
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_Dispose_m2C247F5F1B5CCB32C545F4DEE427295C801D7619_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&IDisposable_t030E0496B4E0E4E4F086825007979AF51F7248C5_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_Dispose_m2C247F5F1B5CCB32C545F4DEE427295C801D7619_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		auto __finallyBlock = il2cpp::utils::Finally([&]
 		{
 
 FINALLY_0010:
 			{
+				STORE_TRY_ID(methodExecutionContext, -1);
 				bool L_0 = ___0_disposing;
 				SymmetricAlgorithm_Dispose_mAD39DD1B9C484B29882FAE75359114F377958CE3(__this, L_0, NULL);
 				return;
@@ -1096,6 +1287,7 @@ FINALLY_0010:
 		});
 		try
 		{
+			STORE_TRY_ID(methodExecutionContext, 0);
 			{
 				bool L_1 = ___0_disposing;
 				if (!L_1)
@@ -1127,6 +1319,14 @@ IL_0018:
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_GenerateIV_m3B6E3EEFAA38CEF038DA0D5FF64B1B120343EBF4 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_GenerateIV_m3B6E3EEFAA38CEF038DA0D5FF64B1B120343EBF4_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_GenerateIV_m3B6E3EEFAA38CEF038DA0D5FF64B1B120343EBF4_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		NullCheck(L_0);
@@ -1136,6 +1336,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_GenerateIV_m3B6E3EEFAA38CEF03
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesManaged_GenerateKey_m6AC884BFD7DEA4A22DAD79479E69DF34BED96B33 (AesManaged_t153AF8C6AF037AF4614B15A04CAD48A7F7DA0819* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesManaged_GenerateKey_m6AC884BFD7DEA4A22DAD79479E69DF34BED96B33_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesManaged_GenerateKey_m6AC884BFD7DEA4A22DAD79479E69DF34BED96B33_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RijndaelManaged_t67DFB0E9542F21D9EED0227003A19D9F5ECF2E39* L_0 = __this->___m_rijndael;
 		NullCheck(L_0);
@@ -1156,9 +1364,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider__ctor_m9D6C4274
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider__ctor_m9D6C427427E5B697AE1C37D2BFCAEF0BECB6C198_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Aes_tC72E711D7751C8AEAF59C51CA0E61A3857068047_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider__ctor_m9D6C427427E5B697AE1C37D2BFCAEF0BECB6C198_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		il2cpp_codegen_runtime_class_init_inline(Aes_tC72E711D7751C8AEAF59C51CA0E61A3857068047_il2cpp_TypeInfo_var);
 		Aes__ctor_mF4A70CEEFAF2A086CF7A82D915BFFB7E250528EA(__this, NULL);
@@ -1168,6 +1379,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider__ctor_m9D6C4274
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_GenerateIV_mE464DEEC37B9CA36588D409C16AEF59E4B570239 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_GenerateIV_mE464DEEC37B9CA36588D409C16AEF59E4B570239_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_GenerateIV_mE464DEEC37B9CA36588D409C16AEF59E4B570239_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = ((SymmetricAlgorithm_t8C631E4E7B9073CCBD856F8D559A62EB5616BBE8*)__this)->___BlockSizeValue;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_1;
@@ -1179,6 +1398,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_GenerateIV_mE46
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_GenerateKey_m1168A3D594466B39BFB601A670B444E05A1AA3D2 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_GenerateKey_m1168A3D594466B39BFB601A670B444E05A1AA3D2_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_GenerateKey_m1168A3D594466B39BFB601A670B444E05A1AA3D2_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = ((SymmetricAlgorithm_t8C631E4E7B9073CCBD856F8D559A62EB5616BBE8*)__this)->___KeySizeValue;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_1;
@@ -1193,9 +1420,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesCryptoServiceProvider_Creat
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_CreateDecryptor_mEF140D70C76BF0EBCD5B70270E590C87AC82691B_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_t75E1635143488B5B0E0DD17538E2355E42A77AB5_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_CreateDecryptor_mEF140D70C76BF0EBCD5B70270E590C87AC82691B_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0;
 		L_0 = VirtualFuncInvoker0< int32_t >::Invoke(16, __this);
@@ -1232,9 +1462,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesCryptoServiceProvider_Creat
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_CreateEncryptor_m5974B7BE1CBA7D7CEA83DA32396470FDA6F89817_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_t75E1635143488B5B0E0DD17538E2355E42A77AB5_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_CreateEncryptor_m5974B7BE1CBA7D7CEA83DA32396470FDA6F89817_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0;
 		L_0 = VirtualFuncInvoker0< int32_t >::Invoke(16, __this);
@@ -1268,6 +1501,14 @@ IL_001e:
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* AesCryptoServiceProvider_get_IV_m2FC301A6EB3295F1D815884C7DB9A6D250B5C748 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_get_IV_m2FC301A6EB3295F1D815884C7DB9A6D250B5C748_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_get_IV_m2FC301A6EB3295F1D815884C7DB9A6D250B5C748_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0;
 		L_0 = SymmetricAlgorithm_get_IV_mD95733179F136C97EC28F59AB9AED83F75AC642E(__this, NULL);
@@ -1276,6 +1517,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A8261
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_set_IV_m33319C5603EE9537BA68A62AEE48AB3971FFDED0 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* ___0_value, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_set_IV_m33319C5603EE9537BA68A62AEE48AB3971FFDED0_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_set_IV_m33319C5603EE9537BA68A62AEE48AB3971FFDED0_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0 = ___0_value;
 		SymmetricAlgorithm_set_IV_mCA2345D3988B5AA5FF33E1FFFC30098227C6D69A(__this, L_0, NULL);
@@ -1284,6 +1533,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_set_IV_m33319C5
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* AesCryptoServiceProvider_get_Key_mC5E58ADED610CDB91EC45DD8F5ED5C7100F57763 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_get_Key_mC5E58ADED610CDB91EC45DD8F5ED5C7100F57763_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_get_Key_mC5E58ADED610CDB91EC45DD8F5ED5C7100F57763_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0;
 		L_0 = SymmetricAlgorithm_get_Key_mDE5E5D17527870DBB1254742B79A9E8A55567445(__this, NULL);
@@ -1292,6 +1549,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A8261
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_set_Key_mE9C9F3CADC14E6E6AAD77C7EAB16CD12BDD65A72 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* ___0_value, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_set_Key_mE9C9F3CADC14E6E6AAD77C7EAB16CD12BDD65A72_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_set_Key_mE9C9F3CADC14E6E6AAD77C7EAB16CD12BDD65A72_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0 = ___0_value;
 		SymmetricAlgorithm_set_Key_mA9515FAF6836092A27F4CD20CBF5B696EA59CF15(__this, L_0, NULL);
@@ -1300,6 +1565,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_set_Key_mE9C9F3
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesCryptoServiceProvider_get_KeySize_m1CA3AF07D7F43FD7E53501B4CC147FDE40105237 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_get_KeySize_m1CA3AF07D7F43FD7E53501B4CC147FDE40105237_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_get_KeySize_m1CA3AF07D7F43FD7E53501B4CC147FDE40105237_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0;
 		L_0 = SymmetricAlgorithm_get_KeySize_mB864E3EE0A893C107BA723824A96C1B1F4265569_inline(__this, NULL);
@@ -1308,6 +1581,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesCryptoServiceProvider_get_KeySize_
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_set_KeySize_mCA930D57B9D87A2FCDA3EA3F64C0BA6AFB9DD5FE (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, int32_t ___0_value, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_set_KeySize_mCA930D57B9D87A2FCDA3EA3F64C0BA6AFB9DD5FE_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_set_KeySize_mCA930D57B9D87A2FCDA3EA3F64C0BA6AFB9DD5FE_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = ___0_value;
 		SymmetricAlgorithm_set_KeySize_m2C9A68250B608A9B36DB5A9ED1DE887D9458BDF2(__this, L_0, NULL);
@@ -1316,6 +1597,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_set_KeySize_mCA
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesCryptoServiceProvider_get_FeedbackSize_mA75F139C56BE26803358D8F55F503C440CF60896 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_get_FeedbackSize_mA75F139C56BE26803358D8F55F503C440CF60896_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_get_FeedbackSize_mA75F139C56BE26803358D8F55F503C440CF60896_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0;
 		L_0 = SymmetricAlgorithm_get_FeedbackSize_mCDBCAEF6719C9CA268BAFFC9FF31B0660223B8FF_inline(__this, NULL);
@@ -1324,6 +1613,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesCryptoServiceProvider_get_Feedback
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesCryptoServiceProvider_get_Mode_m2C4AF6018029680736D3CC1677844A5E07C2C8AC (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_get_Mode_m2C4AF6018029680736D3CC1677844A5E07C2C8AC_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_get_Mode_m2C4AF6018029680736D3CC1677844A5E07C2C8AC_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0;
 		L_0 = SymmetricAlgorithm_get_Mode_m83E9F98E0C00F46C4383033150E4CD297D6F35C1_inline(__this, NULL);
@@ -1332,6 +1629,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesCryptoServiceProvider_get_Mode_m2C
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_set_Mode_m8A46A629A129042D257241F376A5ADF7399E0E4D (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, int32_t ___0_value, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_set_Mode_m8A46A629A129042D257241F376A5ADF7399E0E4D_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_set_Mode_m8A46A629A129042D257241F376A5ADF7399E0E4D_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = ___0_value;
 		if ((!(((uint32_t)L_0) == ((uint32_t)5))))
@@ -1354,6 +1659,14 @@ IL_000f:
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesCryptoServiceProvider_get_Padding_m0970C4CE846AA57A6ED95AFAED915A2511188F8E (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_get_Padding_m0970C4CE846AA57A6ED95AFAED915A2511188F8E_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_get_Padding_m0970C4CE846AA57A6ED95AFAED915A2511188F8E_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0;
 		L_0 = SymmetricAlgorithm_get_Padding_m28286B8E152DE51E2922CF0FD5C4652D64D2FD51_inline(__this, NULL);
@@ -1362,6 +1675,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t AesCryptoServiceProvider_get_Padding_
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_set_Padding_m4B055E68544EC094942F624AA7725B5DDE383994 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, int32_t ___0_value, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_set_Padding_m4B055E68544EC094942F624AA7725B5DDE383994_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_set_Padding_m4B055E68544EC094942F624AA7725B5DDE383994_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = ___0_value;
 		SymmetricAlgorithm_set_Padding_m2F303884F3F757E49FBD3CB8503D911DA983B7F7(__this, L_0, NULL);
@@ -1370,6 +1691,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_set_Padding_m4B
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesCryptoServiceProvider_CreateDecryptor_mF13EB3E91096FD373E2FEAC578BD8E5A51D16289 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_CreateDecryptor_mF13EB3E91096FD373E2FEAC578BD8E5A51D16289_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_CreateDecryptor_mF13EB3E91096FD373E2FEAC578BD8E5A51D16289_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0;
 		L_0 = VirtualFuncInvoker0< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* >::Invoke(11, __this);
@@ -1382,6 +1711,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesCryptoServiceProvider_Creat
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesCryptoServiceProvider_CreateEncryptor_m6FBFBED01A28E05CB49165B5E5A73302B9FF99D1 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_CreateEncryptor_m6FBFBED01A28E05CB49165B5E5A73302B9FF99D1_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_CreateEncryptor_m6FBFBED01A28E05CB49165B5E5A73302B9FF99D1_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0;
 		L_0 = VirtualFuncInvoker0< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* >::Invoke(11, __this);
@@ -1394,6 +1731,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* AesCryptoServiceProvider_Creat
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesCryptoServiceProvider_Dispose_mA4070CD6F1FE6E6BDFE951DB89A5945E69E5C6F1 (AesCryptoServiceProvider_t3D102EBDD7CD9BAE2B27F7A07524FBD15A4F6BD6* __this, bool ___0_disposing, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesCryptoServiceProvider_Dispose_mA4070CD6F1FE6E6BDFE951DB89A5945E69E5C6F1_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesCryptoServiceProvider_Dispose_mA4070CD6F1FE6E6BDFE951DB89A5945E69E5C6F1_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		bool L_0 = ___0_disposing;
 		SymmetricAlgorithm_Dispose_mAD39DD1B9C484B29882FAE75359114F377958CE3(__this, L_0, NULL);
@@ -1413,6 +1758,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesTransform__ctor_mE07BFBE72989989ACB3B
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform__ctor_mE07BFBE72989989ACB3B6E9B8E9E721C9C506230_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_t75E1635143488B5B0E0DD17538E2355E42A77AB5_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&UInt32U5BU5D_t02FBD658AD156A17574ECE6106CF1FBFCC9807FA_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
@@ -1431,6 +1777,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesTransform__ctor_mE07BFBE72989989ACB3B
 	int32_t V_11 = 0;
 	uint32_t V_12 = 0;
 	int32_t V_13 = 0;
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesTransform__ctor_mE07BFBE72989989ACB3B6E9B8E9E721C9C506230_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		Aes_tC72E711D7751C8AEAF59C51CA0E61A3857068047* L_0 = ___0_algo;
 		bool L_1 = ___1_encryption;
@@ -1603,6 +1951,7 @@ IL_00e7:
 
 IL_0100:
 	{
+		CHECK_PAUSE_POINT;
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_48 = ___2_key;
 		int32_t L_49 = V_3;
 		int32_t L_50 = L_49;
@@ -1664,6 +2013,7 @@ IL_0141:
 
 IL_0155:
 	{
+		CHECK_PAUSE_POINT;
 		UInt32U5BU5D_t02FBD658AD156A17574ECE6106CF1FBFCC9807FA* L_78 = V_2;
 		int32_t L_79 = V_6;
 		NullCheck(L_78);
@@ -1760,12 +2110,14 @@ IL_01cd:
 
 IL_01e2:
 	{
+		CHECK_PAUSE_POINT;
 		V_11 = 0;
 		goto IL_020d;
 	}
 
 IL_01e7:
 	{
+		CHECK_PAUSE_POINT;
 		UInt32U5BU5D_t02FBD658AD156A17574ECE6106CF1FBFCC9807FA* L_111 = V_2;
 		int32_t L_112 = V_9;
 		int32_t L_113 = V_11;
@@ -1825,6 +2177,7 @@ IL_021e:
 
 IL_0229:
 	{
+		CHECK_PAUSE_POINT;
 		UInt32U5BU5D_t02FBD658AD156A17574ECE6106CF1FBFCC9807FA* L_134 = V_2;
 		int32_t L_135 = V_13;
 		il2cpp_codegen_runtime_class_init_inline(AesTransform_t75E1635143488B5B0E0DD17538E2355E42A77AB5_il2cpp_TypeInfo_var);
@@ -1907,6 +2260,14 @@ IL_028a:
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesTransform_ECB_mDDB23F9CE0C18DC39E4CDB8EB2B3BADE8720D9E4 (AesTransform_t75E1635143488B5B0E0DD17538E2355E42A77AB5* __this, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* ___0_input, ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* ___1_output, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_ECB_mDDB23F9CE0C18DC39E4CDB8EB2B3BADE8720D9E4_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesTransform_ECB_mDDB23F9CE0C18DC39E4CDB8EB2B3BADE8720D9E4_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		bool L_0 = ((SymmetricTransform_tDD1D096506ADC83C468EE253DE76D1EB315DAC43*)__this)->___encrypt;
 		if (!L_0)
@@ -1936,10 +2297,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR uint32_t AesTransform_SubByte_m60B33BA16B1E90
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_SubByte_m60B33BA16B1E903228D4E1D617406447361AF4B9_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_t75E1635143488B5B0E0DD17538E2355E42A77AB5_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
 	uint32_t V_0 = 0;
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesTransform_SubByte_m60B33BA16B1E903228D4E1D617406447361AF4B9_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		uint32_t L_0 = ___0_a;
 		V_0 = ((int32_t)(((int32_t)255)&(int32_t)L_0));
@@ -1978,6 +2342,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesTransform_Encrypt128_m13E7312EDC83EA2
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_Encrypt128_m13E7312EDC83EA276711B00930214389563B443D_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_t75E1635143488B5B0E0DD17538E2355E42A77AB5_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
@@ -1990,6 +2355,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesTransform_Encrypt128_m13E7312EDC83EA2
 	uint32_t V_6 = 0;
 	uint32_t V_7 = 0;
 	int32_t V_8 = 0;
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesTransform_Encrypt128_m13E7312EDC83EA276711B00930214389563B443D_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		V_8 = ((int32_t)40);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0 = ___0_indata;
@@ -3624,6 +3991,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesTransform_Decrypt128_m816017B5640FB6B
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_Decrypt128_m816017B5640FB6B39593703AE4468166D52C88BE_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_t75E1635143488B5B0E0DD17538E2355E42A77AB5_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
@@ -3636,6 +4004,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesTransform_Decrypt128_m816017B5640FB6B
 	uint32_t V_6 = 0;
 	uint32_t V_7 = 0;
 	int32_t V_8 = 0;
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesTransform_Decrypt128_m816017B5640FB6B39593703AE4468166D52C88BE_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		V_8 = ((int32_t)40);
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0 = ___0_indata;
@@ -5270,6 +5640,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesTransform__cctor_m79025F31553E42B9E70
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform__cctor_m79025F31553E42B9E7035CCC3263B58528C69045_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AesTransform_t75E1635143488B5B0E0DD17538E2355E42A77AB5_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CPrivateImplementationDetailsU3E_t0985298E3928118182D9E60D8C7A51F84FE0D710____0270BFF41CB170C33C20788C368CB1B5A66B0FD0B98D638A827B783537583821_FieldInfo_var);
@@ -5286,6 +5657,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AesTransform__cctor_m79025F31553E42B9E70
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&UInt32U5BU5D_t02FBD658AD156A17574ECE6106CF1FBFCC9807FA_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, AesTransform__cctor_m79025F31553E42B9E7035CCC3263B58528C69045_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		UInt32U5BU5D_t02FBD658AD156A17574ECE6106CF1FBFCC9807FA* L_0 = (UInt32U5BU5D_t02FBD658AD156A17574ECE6106CF1FBFCC9807FA*)(UInt32U5BU5D_t02FBD658AD156A17574ECE6106CF1FBFCC9807FA*)SZArrayNew(UInt32U5BU5D_t02FBD658AD156A17574ECE6106CF1FBFCC9807FA_il2cpp_TypeInfo_var, (uint32_t)((int32_t)30));
 		UInt32U5BU5D_t02FBD658AD156A17574ECE6106CF1FBFCC9807FA* L_1 = L_0;
@@ -5369,9 +5742,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RSA_tDDE9BD4C9806074FA9B1C6A5C93523A97116F21A
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&RSACertificateExtensions_GetRSAPublicKey_m8DDF940D409724E136FD6E36146F4E481DC07B54_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&RSA_tDDE9BD4C9806074FA9B1C6A5C93523A97116F21A_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, RSACertificateExtensions_GetRSAPublicKey_m8DDF940D409724E136FD6E36146F4E481DC07B54_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		X509Certificate2_t2BEAEA485A3CEA81D191B12A341675DBC54CDD2D* L_0 = ___0_certificate;
 		if (L_0)
@@ -5411,8 +5787,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Exception_t* Error_ArgumentNull_m1141D2C9AF8A
 	if (!s_Il2CppMethodInitialized)
 	{
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&ArgumentNullException_t327031E412FAB2351B0022DD5DAD47E67E597129_il2cpp_TypeInfo_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Error_ArgumentNull_m1141D2C9AF8AB6ACC45E7488789598C5283D4EEE_RuntimeMethod_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Error_ArgumentNull_m1141D2C9AF8AB6ACC45E7488789598C5283D4EEE_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		String_t* L_0 = ___0_s;
 		ArgumentNullException_t327031E412FAB2351B0022DD5DAD47E67E597129* L_1 = (ArgumentNullException_t327031E412FAB2351B0022DD5DAD47E67E597129*)il2cpp_codegen_object_new(ArgumentNullException_t327031E412FAB2351B0022DD5DAD47E67E597129_il2cpp_TypeInfo_var);
@@ -5426,8 +5805,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Exception_t* Error_ArgumentOutOfRange_m7B2206
 	if (!s_Il2CppMethodInitialized)
 	{
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&ArgumentOutOfRangeException_tEA2822DAF62B10EEED00E0E3A341D4BAF78CF85F_il2cpp_TypeInfo_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Error_ArgumentOutOfRange_m7B22062E664153625DA782374A7CB9CBD3B2C01D_RuntimeMethod_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Error_ArgumentOutOfRange_m7B22062E664153625DA782374A7CB9CBD3B2C01D_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		String_t* L_0 = ___0_s;
 		ArgumentOutOfRangeException_tEA2822DAF62B10EEED00E0E3A341D4BAF78CF85F* L_1 = (ArgumentOutOfRangeException_tEA2822DAF62B10EEED00E0E3A341D4BAF78CF85F*)il2cpp_codegen_object_new(ArgumentOutOfRangeException_tEA2822DAF62B10EEED00E0E3A341D4BAF78CF85F_il2cpp_TypeInfo_var);
@@ -5440,10 +5822,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Exception_t* Error_MoreThanOneElement_m79BD3B
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Error_MoreThanOneElement_m79BD3B618AE791C0CE6B58D7D256B385BC5933DC_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral6BEBD9F607428C1FE4D2E28576D75E48DB2D961C);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Error_MoreThanOneElement_m79BD3B618AE791C0CE6B58D7D256B385BC5933DC_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB* L_0 = (InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB*)il2cpp_codegen_object_new(InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB_il2cpp_TypeInfo_var);
 		InvalidOperationException__ctor_mE4CB6F4712AB6D99A2358FBAE2E052B3EE976162(L_0, _stringLiteral6BEBD9F607428C1FE4D2E28576D75E48DB2D961C, NULL);
@@ -5455,10 +5840,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Exception_t* Error_MoreThanOneMatch_mE8ABBCC1
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Error_MoreThanOneMatch_mE8ABBCC1C5FBA4D7BBE5B0647992D20F005F7A97_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral9D0E978C2541B8A36DFB07E397656689CE9E713F);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Error_MoreThanOneMatch_mE8ABBCC1C5FBA4D7BBE5B0647992D20F005F7A97_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB* L_0 = (InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB*)il2cpp_codegen_object_new(InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB_il2cpp_TypeInfo_var);
 		InvalidOperationException__ctor_mE4CB6F4712AB6D99A2358FBAE2E052B3EE976162(L_0, _stringLiteral9D0E978C2541B8A36DFB07E397656689CE9E713F, NULL);
@@ -5470,10 +5858,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Exception_t* Error_NoElements_m49C996124733B0
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Error_NoElements_m49C996124733B026EA2FDBE9382AAD136CA22362_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralB7E78BE66617B9AE36B6A6E170E3545EE25C1D11);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Error_NoElements_m49C996124733B026EA2FDBE9382AAD136CA22362_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB* L_0 = (InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB*)il2cpp_codegen_object_new(InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB_il2cpp_TypeInfo_var);
 		InvalidOperationException__ctor_mE4CB6F4712AB6D99A2358FBAE2E052B3EE976162(L_0, _stringLiteralB7E78BE66617B9AE36B6A6E170E3545EE25C1D11, NULL);
@@ -5485,10 +5876,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Exception_t* Error_NoMatch_mD5BC0E5ED29A185D0
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Error_NoMatch_mD5BC0E5ED29A185D01A63F3C17EA2C29E32C2BE4_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralE68F97D6FE7BDE1580C3707638EA581299D01EDE);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Error_NoMatch_mD5BC0E5ED29A185D01A63F3C17EA2C29E32C2BE4_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB* L_0 = (InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB*)il2cpp_codegen_object_new(InvalidOperationException_t5DDE4D49B7405FAAB1E4576F4715A42A3FAD4BAB_il2cpp_TypeInfo_var);
 		InvalidOperationException__ctor_mE4CB6F4712AB6D99A2358FBAE2E052B3EE976162(L_0, _stringLiteralE68F97D6FE7BDE1580C3707638EA581299D01EDE, NULL);
@@ -5500,9 +5894,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Exception_t* Error_NotSupported_m7CFF74111E56
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Error_NotSupported_m7CFF74111E56246CAEA7BFD231BA01F7B097377A_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&NotSupportedException_t1429765983D409BD2986508963C98D214E4EBF4A_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Error_NotSupported_m7CFF74111E56246CAEA7BFD231BA01F7B097377A_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		NotSupportedException_t1429765983D409BD2986508963C98D214E4EBF4A* L_0 = (NotSupportedException_t1429765983D409BD2986508963C98D214E4EBF4A*)il2cpp_codegen_object_new(NotSupportedException_t1429765983D409BD2986508963C98D214E4EBF4A_il2cpp_TypeInfo_var);
 		NotSupportedException__ctor_m1398D0CDE19B36AA3DE9392879738C1EA2439CDF(L_0, NULL);
@@ -5519,7 +5916,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Exception_t* Error_NotSupported_m7CFF74111E56
 #endif
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* Enumerable_Range_m4FB9BBBA09BEF5177C13506DB385CF4467C15FD8 (int32_t ___0_start, int32_t ___1_count, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Enumerable_Range_m4FB9BBBA09BEF5177C13506DB385CF4467C15FD8_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
 	int64_t V_0 = 0;
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Enumerable_Range_m4FB9BBBA09BEF5177C13506DB385CF4467C15FD8_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = ___0_start;
 		int32_t L_1 = ___1_count;
@@ -5559,9 +5964,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* Enumerable_RangeIterator_mAD9E
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Enumerable_RangeIterator_mAD9E9F85AF2156C74E78C2EA554F0F32EA0E91C9_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Enumerable_RangeIterator_mAD9E9F85AF2156C74E78C2EA554F0F32EA0E91C9_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D* L_0 = (U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D*)il2cpp_codegen_object_new(U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D_il2cpp_TypeInfo_var);
 		U3CRangeIteratorU3Ed__115__ctor_m28402F68F863084357F710F6546910CC4417800C(L_0, ((int32_t)-2), NULL);
@@ -5581,6 +5989,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t Enumerable_Min_m3D3C3E5CE25D27D94448C
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Enumerable_Min_m3D3C3E5CE25D27D94448CA832FB5AB9F702D5443_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&IDisposable_t030E0496B4E0E4E4F086825007979AF51F7248C5_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&IEnumerable_1_tCE758D940790D6D0D56B457E522C195F8C413AF2_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&IEnumerator_1_tD6A90A7446DA8E6CF865EDFBBF18C1200BB6D452_il2cpp_TypeInfo_var);
@@ -5591,6 +6000,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t Enumerable_Min_m3D3C3E5CE25D27D94448C
 	bool V_1 = false;
 	RuntimeObject* V_2 = NULL;
 	int32_t V_3 = 0;
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Enumerable_Min_m3D3C3E5CE25D27D94448CA832FB5AB9F702D5443_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RuntimeObject* L_0 = ___0_source;
 		if (L_0)
@@ -5620,6 +6031,7 @@ IL_000e:
 
 FINALLY_003b:
 			{
+				STORE_TRY_ID(methodExecutionContext, -1);
 				{
 					RuntimeObject* L_4 = V_2;
 					if (!L_4)
@@ -5641,12 +6053,14 @@ IL_0044:
 		});
 		try
 		{
+			STORE_TRY_ID(methodExecutionContext, 0);
 			{
 				goto IL_0031_1;
 			}
 
 IL_001b_1:
 			{
+				CHECK_PAUSE_POINT;
 				RuntimeObject* L_6 = V_2;
 				NullCheck(L_6);
 				int32_t L_7;
@@ -5725,6 +6139,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t Enumerable_Max_mF33848068459BE74BF534
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Enumerable_Max_mF33848068459BE74BF534D16F6B678BB677EE704_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&IDisposable_t030E0496B4E0E4E4F086825007979AF51F7248C5_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&IEnumerable_1_tCE758D940790D6D0D56B457E522C195F8C413AF2_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&IEnumerator_1_tD6A90A7446DA8E6CF865EDFBBF18C1200BB6D452_il2cpp_TypeInfo_var);
@@ -5735,6 +6150,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t Enumerable_Max_mF33848068459BE74BF534
 	bool V_1 = false;
 	RuntimeObject* V_2 = NULL;
 	int32_t V_3 = 0;
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, Enumerable_Max_mF33848068459BE74BF534D16F6B678BB677EE704_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RuntimeObject* L_0 = ___0_source;
 		if (L_0)
@@ -5764,6 +6181,7 @@ IL_000e:
 
 FINALLY_003b:
 			{
+				STORE_TRY_ID(methodExecutionContext, -1);
 				{
 					RuntimeObject* L_4 = V_2;
 					if (!L_4)
@@ -5785,12 +6203,14 @@ IL_0044:
 		});
 		try
 		{
+			STORE_TRY_ID(methodExecutionContext, 0);
 			{
 				goto IL_0031_1;
 			}
 
 IL_001b_1:
 			{
+				CHECK_PAUSE_POINT;
 				RuntimeObject* L_6 = V_2;
 				NullCheck(L_6);
 				int32_t L_7;
@@ -5874,6 +6294,14 @@ IL_004a:
 #endif
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CRangeIteratorU3Ed__115__ctor_m28402F68F863084357F710F6546910CC4417800C (U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CRangeIteratorU3Ed__115__ctor_m28402F68F863084357F710F6546910CC4417800C_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, U3CRangeIteratorU3Ed__115__ctor_m28402F68F863084357F710F6546910CC4417800C_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2(__this, NULL);
 		int32_t L_0 = ___0_U3CU3E1__state;
@@ -5886,14 +6314,30 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CRangeIteratorU3Ed__115__ctor_m28402F6
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CRangeIteratorU3Ed__115_System_IDisposable_Dispose_mACF95799F65FBE5A805C33ABD0ABBB8D90B865E9 (U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CRangeIteratorU3Ed__115_System_IDisposable_Dispose_mACF95799F65FBE5A805C33ABD0ABBB8D90B865E9_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, U3CRangeIteratorU3Ed__115_System_IDisposable_Dispose_mACF95799F65FBE5A805C33ABD0ABBB8D90B865E9_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		return;
 	}
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CRangeIteratorU3Ed__115_MoveNext_m4B882BD1A41035B16713BD5C47695ACEFF7A3B91 (U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CRangeIteratorU3Ed__115_MoveNext_m4B882BD1A41035B16713BD5C47695ACEFF7A3B91_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
 	int32_t V_0 = 0;
 	int32_t V_1 = 0;
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, U3CRangeIteratorU3Ed__115_MoveNext_m4B882BD1A41035B16713BD5C47695ACEFF7A3B91_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = __this->___U3CU3E1__state;
 		V_0 = L_0;
@@ -5923,6 +6367,7 @@ IL_0010:
 
 IL_0020:
 	{
+		CHECK_PAUSE_POINT;
 		int32_t L_3 = __this->___start;
 		int32_t L_4 = __this->___U3CiU3E5__2;
 		__this->___U3CU3E2__current = ((int32_t)il2cpp_codegen_add(L_3, L_4));
@@ -5954,6 +6399,14 @@ IL_0053:
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t U3CRangeIteratorU3Ed__115_System_Collections_Generic_IEnumeratorU3CSystem_Int32U3E_get_Current_mACDA0C0FD65D62D6CEB3DA9F761FFF589EC0AAB3 (U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CRangeIteratorU3Ed__115_System_Collections_Generic_IEnumeratorU3CSystem_Int32U3E_get_Current_mACDA0C0FD65D62D6CEB3DA9F761FFF589EC0AAB3_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, U3CRangeIteratorU3Ed__115_System_Collections_Generic_IEnumeratorU3CSystem_Int32U3E_get_Current_mACDA0C0FD65D62D6CEB3DA9F761FFF589EC0AAB3_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = __this->___U3CU3E2__current;
 		return L_0;
@@ -5961,6 +6414,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t U3CRangeIteratorU3Ed__115_System_Coll
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CRangeIteratorU3Ed__115_System_Collections_IEnumerator_Reset_mC860C1DBCBFE98B50DC555187E266F145B5909FC (U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CRangeIteratorU3Ed__115_System_Collections_IEnumerator_Reset_mC860C1DBCBFE98B50DC555187E266F145B5909FC_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, U3CRangeIteratorU3Ed__115_System_Collections_IEnumerator_Reset_mC860C1DBCBFE98B50DC555187E266F145B5909FC_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		NotSupportedException_t1429765983D409BD2986508963C98D214E4EBF4A* L_0 = (NotSupportedException_t1429765983D409BD2986508963C98D214E4EBF4A*)il2cpp_codegen_object_new(((RuntimeClass*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&NotSupportedException_t1429765983D409BD2986508963C98D214E4EBF4A_il2cpp_TypeInfo_var)));
 		NotSupportedException__ctor_m1398D0CDE19B36AA3DE9392879738C1EA2439CDF(L_0, NULL);
@@ -5973,8 +6434,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CRangeIteratorU3Ed__115_Syst
 	if (!s_Il2CppMethodInitialized)
 	{
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Int32_t680FF22E76F6EFAD4375103CBBFFA0421349384C_il2cpp_TypeInfo_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CRangeIteratorU3Ed__115_System_Collections_IEnumerator_get_Current_mC5886D606FB46765848339A4305F922494C093ED_RuntimeMethod_var);
 		s_Il2CppMethodInitialized = true;
 	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, U3CRangeIteratorU3Ed__115_System_Collections_IEnumerator_get_Current_mC5886D606FB46765848339A4305F922494C093ED_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = __this->___U3CU3E2__current;
 		int32_t L_1 = L_0;
@@ -5987,10 +6451,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CRangeIteratorU3Ed__115_Syst
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CRangeIteratorU3Ed__115_System_Collections_Generic_IEnumerableU3CSystem_Int32U3E_GetEnumerator_m712C614B8E578CF43876E5CE889386161DB2CAC9_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
 	U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D* V_0 = NULL;
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, U3CRangeIteratorU3Ed__115_System_Collections_Generic_IEnumerableU3CSystem_Int32U3E_GetEnumerator_m712C614B8E578CF43876E5CE889386161DB2CAC9_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = __this->___U3CU3E1__state;
 		if ((!(((uint32_t)L_0) == ((uint32_t)((int32_t)-2)))))
@@ -6036,6 +6503,14 @@ IL_0029:
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CRangeIteratorU3Ed__115_System_Collections_IEnumerable_GetEnumerator_m1F60B93D73E3A534079BE4AB93BD7E51F8741F34 (U3CRangeIteratorU3Ed__115_tDB1D987AE1C673965E7ABCDA1D189AD36358F14D* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CRangeIteratorU3Ed__115_System_Collections_IEnumerable_GetEnumerator_m1F60B93D73E3A534079BE4AB93BD7E51F8741F34_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, U3CRangeIteratorU3Ed__115_System_Collections_IEnumerable_GetEnumerator_m1F60B93D73E3A534079BE4AB93BD7E51F8741F34_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		RuntimeObject* L_0;
 		L_0 = U3CRangeIteratorU3Ed__115_System_Collections_Generic_IEnumerableU3CSystem_Int32U3E_GetEnumerator_m712C614B8E578CF43876E5CE889386161DB2CAC9(__this, NULL);
@@ -6079,6 +6554,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CRangeIteratorU3Ed__115_Syst
 #endif
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t SymmetricAlgorithm_get_KeySize_mB864E3EE0A893C107BA723824A96C1B1F4265569_inline (SymmetricAlgorithm_t8C631E4E7B9073CCBD856F8D559A62EB5616BBE8* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&SymmetricAlgorithm_get_KeySize_mB864E3EE0A893C107BA723824A96C1B1F4265569_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, SymmetricAlgorithm_get_KeySize_mB864E3EE0A893C107BA723824A96C1B1F4265569_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = __this->___KeySizeValue;
 		return L_0;
@@ -6086,6 +6569,14 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t SymmetricAlgorithm_get_Ke
 }
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t SymmetricAlgorithm_get_FeedbackSize_mCDBCAEF6719C9CA268BAFFC9FF31B0660223B8FF_inline (SymmetricAlgorithm_t8C631E4E7B9073CCBD856F8D559A62EB5616BBE8* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&SymmetricAlgorithm_get_FeedbackSize_mCDBCAEF6719C9CA268BAFFC9FF31B0660223B8FF_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, SymmetricAlgorithm_get_FeedbackSize_mCDBCAEF6719C9CA268BAFFC9FF31B0660223B8FF_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = __this->___FeedbackSizeValue;
 		return L_0;
@@ -6093,6 +6584,14 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t SymmetricAlgorithm_get_Fe
 }
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t SymmetricAlgorithm_get_Mode_m83E9F98E0C00F46C4383033150E4CD297D6F35C1_inline (SymmetricAlgorithm_t8C631E4E7B9073CCBD856F8D559A62EB5616BBE8* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&SymmetricAlgorithm_get_Mode_m83E9F98E0C00F46C4383033150E4CD297D6F35C1_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, SymmetricAlgorithm_get_Mode_m83E9F98E0C00F46C4383033150E4CD297D6F35C1_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = __this->___ModeValue;
 		return L_0;
@@ -6100,6 +6599,14 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t SymmetricAlgorithm_get_Mo
 }
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t SymmetricAlgorithm_get_Padding_m28286B8E152DE51E2922CF0FD5C4652D64D2FD51_inline (SymmetricAlgorithm_t8C631E4E7B9073CCBD856F8D559A62EB5616BBE8* __this, const RuntimeMethod* method) 
 {
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&SymmetricAlgorithm_get_Padding_m28286B8E152DE51E2922CF0FD5C4652D64D2FD51_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	DECLARE_METHOD_EXEC_CTX(methodExecutionContext, SymmetricAlgorithm_get_Padding_m28286B8E152DE51E2922CF0FD5C4652D64D2FD51_RuntimeMethod_var, NULL, NULL, NULL);
+	CHECK_PAUSE_POINT;
 	{
 		int32_t L_0 = __this->___PaddingValue;
 		return L_0;

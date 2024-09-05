@@ -1,5 +1,7 @@
 import 'package:fisica/components/No_device.dart';
 import 'package:fisica/components/Yes_device.dart';
+import 'package:fisica/utils/service/webrtc/webrtc_controller.dart';
+import 'package:fisica/views/webrtc/role_selection_view.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../index.dart';
@@ -18,6 +20,7 @@ class _BotNavState extends State<BotNav> {
   @override
   void initState() {
     super.initState();
+
     _controller = PersistentTabController(initialIndex: 0);
   }
 
@@ -69,8 +72,8 @@ class _BotNavState extends State<BotNav> {
     HomePageWidget(),
     //GroupWidget(),
     Container(),
-    //planWidget(),
-    MypageWidget(),
+    //RoleSelectionView(),
+    MyPageLanding(),
   ];
 
   List<PersistentBottomNavBarItem> _navBarsItems() {

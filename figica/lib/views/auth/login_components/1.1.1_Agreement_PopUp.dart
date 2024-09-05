@@ -47,16 +47,16 @@ class _UptosWidgetState extends State<UptosWidget> {
   void loadTextFileContent(int index, String langt) async {
     switch (index) {
       case 1:
-        text = (langt == 'ko')
-            ? await rootBundle.loadString('assets/text/service_agreement.txt')
-            : await rootBundle.loadString('assets/text/service_agreement_en.txt');
+        text = (langt == 'en')
+            ? await rootBundle.loadString('assets/text/service_agreement_en.txt')
+            : await rootBundle.loadString('assets/text/service_agreement.txt');
         title = SetLocalizations.of(context).getText('signupHomeCheckboxTermsLabel' /* 이용 약관 동의 */
             );
         break;
       case 2:
-        text = (langt == 'ko')
-            ? await rootBundle.loadString('assets/text/info_agreement.txt')
-            : await rootBundle.loadString('assets/text/info_agreement_en.txt');
+        text = (langt == 'en')
+            ? await rootBundle.loadString('assets/text/info_agreement_en.txt')
+            : await rootBundle.loadString('assets/text/info_agreement.txt');
         title = SetLocalizations.of(context).getText('signupHomeCheckboxPrivacyLabel' /* 개인정보 수집 및 이용 동의*/
             );
 
